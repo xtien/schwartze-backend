@@ -1,0 +1,150 @@
+package nl.christine.schwartze.server.model;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+
+import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Table(name = "letters")
+@EnableJpaRepositories(
+        basePackages = "nl.christine.schwartze.server.dao",
+        transactionManagerRef = "transactionManager",
+        entityManagerFactoryRef = "defaultPU")
+public class Letter {
+
+    public static final String NUMBER = "number";
+    public static final String DATE = "date";
+    public static final String SENDER = "senders";
+    public static final String RECIPIENT = "recipients";
+    public static final String FROM_LOCATION = "sender_location";
+    public static final String TO_LOCATION = "recipient_location";
+    public static final String REMARKS = "remarks";
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    @Column(name = NUMBER)
+    @JsonProperty(NUMBER)
+    private int number;
+
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "letter_sender",
+            joinColumns = @JoinColumn(name = "letter_id"),
+            inverseJoinColumns = @JoinColumn(name = "sender_id")
+    )
+    @JsonProperty(SENDER)
+    private List<Person> senders = new ArrayList<>();
+
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "letter_recipient",
+            joinColumns = @JoinColumn(name = "letter_id"),
+            inverseJoinColumns = @JoinColumn(name = "recipient_id")
+    )
+    @JsonProperty(RECIPIENT)
+    private List<Person> recipients = new ArrayList<>();
+
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "letter_fromlocation",
+            joinColumns = @JoinColumn(name = "letter_id"),
+            inverseJoinColumns = @JoinColumn(name = "fromlocation_id")
+    )
+    @JsonProperty(FROM_LOCATION)
+    private List<MyLocation> fromLocations = new ArrayList<>();
+
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "letter_tolocation",
+            joinColumns = @JoinColumn(name = "letter_id"),
+            inverseJoinColumns = @JoinColumn(name = "tolocation_id")
+    )
+    @JsonProperty(TO_LOCATION)
+    private List<MyLocation> toLocations = new ArrayList<>();
+
+    @Column(name = DATE)
+    @JsonProperty(DATE)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    private LocalDate date;
+
+    @Column(name = "comment")
+    @JsonProperty(REMARKS)
+    private String remarks;
+
+    public Letter() {
+
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public Letter(int number) {
+        this.number = number;
+    }
+
+    public void setSender(Person fromPerson) {
+        senders.add(fromPerson);
+    }
+
+    public void setRecipient(Person toPerson) {
+        recipients.add(toPerson);
+    }
+
+    public void setFromLocation(MyLocation fromLocation) {
+        fromLocations.add(fromLocation);
+    }
+
+    public void setToLocation(MyLocation toLocation) {
+        toLocations.add(toLocation);
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public List<Person> getSenders() {
+        return senders;
+    }
+
+    public void setComment(String comment) {
+        this.remarks = comment;
+    }
+
+    public String toString() {
+        return number + " " + date + " " +
+                ((senders == null || senders.size() == 0) ? "none" : senders.get(0).getFirstName()) + " " +
+                ((recipients == null || recipients.size() == 0) ? "none" : recipients.get(0).getFirstName());
+    }
+
+    public void setDate(String dateString) {
+        if (dateString != null) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            try{
+                this.date = LocalDate.parse(dateString, formatter);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public String getComment() {
+        return remarks;
+    }
+}

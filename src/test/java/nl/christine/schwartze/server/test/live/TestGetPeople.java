@@ -1,0 +1,43 @@
+package nl.christine.schwartze.server.test.live;
+
+import nl.christine.schwartze.server.controller.GetPeopleController;
+import nl.christine.schwartze.server.controller.request.PeopleRequest;
+import nl.christine.schwartze.server.model.Person;
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * User: christine
+ * Date: 12/25/18 5:09 PM
+ */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"/applicationContext.xml"})
+public class TestGetPeople {
+
+    @Autowired
+    private GetPeopleController getPeopleController;
+
+    private List<Integer> ids = new ArrayList<>();
+
+    @Test
+    public void testGetPeople(){
+
+        ids.add(1);
+        ids.add(2);
+        PeopleRequest request = new PeopleRequest();
+        request.setIds(ids);
+
+        List<Person> people = getPeopleController.getPeople(request).getBody().getPeople();
+
+        Assert.assertNotNull(people);
+        Assert.assertEquals(2,people.size());
+        Assert.assertEquals("Cobi", people.get(1).getFirstName());
+    }
+}
