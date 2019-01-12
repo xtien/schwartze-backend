@@ -19,16 +19,9 @@ import java.util.List;
 @ImportResource("classpath:applicationContext.xml")
 public class Application {
 
+    public static final String UI_HOST = "http://pengo.christine.nl:3000";
+
     public static void main(String[] args) {
-
-        //SchwartzeProperties.init();
-
-//        ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-
-//        LetterDao dao = context.getBean(LetterDao.class);
-//        List<Letter> letters = dao.getLetters();
-
-
         SpringApplication.run(Application.class, args);
     }
 }

@@ -1,5 +1,6 @@
 package nl.christine.schwartze.server.controller;
 
+import nl.christine.schwartze.server.Application;
 import nl.christine.schwartze.server.controller.request.LetterRequest;
 import nl.christine.schwartze.server.controller.result.LetterResult;
 import nl.christine.schwartze.server.controller.result.LettersResult;
@@ -23,7 +24,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 @Controller
-@CrossOrigin(origins = "http://pengo.christine.nl:3000")
+@CrossOrigin(origins = Application.UI_HOST)
 public class GetLetterController {
 
     private final String lettersDirectory;
@@ -39,9 +40,8 @@ public class GetLetterController {
         textDocumentName = SchwartzeProperties.getProperty("text_document_name");
     }
 
-    @CrossOrigin(origins = "http://pengo.christine.nl:3000")
+    @CrossOrigin(origins = Application.UI_HOST)
     @RequestMapping(method = RequestMethod.POST, value = "/get_letter_details/")
-    @Transactional("transactionManager")
     public ResponseEntity<LetterResult> getLetter(@RequestBody LetterRequest request) throws IOException {
 
         LetterResult result = new LetterResult();

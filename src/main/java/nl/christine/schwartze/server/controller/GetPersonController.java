@@ -1,5 +1,6 @@
 package nl.christine.schwartze.server.controller;
 
+import nl.christine.schwartze.server.Application;
 import nl.christine.schwartze.server.controller.request.PersonRequest;
 import nl.christine.schwartze.server.controller.result.LettersResult;
 import nl.christine.schwartze.server.controller.result.PersonResult;
@@ -17,13 +18,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-@CrossOrigin(origins = "http://pengo.christine.nl:3000")
+@CrossOrigin(origins = Application.UI_HOST)
 public class GetPersonController {
 
     @Autowired
     private PersonService personService;
 
-    @CrossOrigin(origins = "http://pengo.christine.nl:3000")
+    @CrossOrigin(origins = Application.UI_HOST)
     @RequestMapping(method = RequestMethod.POST, value = "/get_person_details/")
     @Transactional("transactionManager")
     public ResponseEntity<PersonResult> getPerson(@RequestBody PersonRequest request) {

@@ -14,7 +14,6 @@ public class AddLetterController  {
 
     @CrossOrigin(origins = "http://pengo.christine.nl:3000")
     @RequestMapping(method = RequestMethod.POST, value = "/add_letter/")
-    @Transactional("transactionManager")
     public AddLetterResult addLetter(ImportLetter letter) {
         throw new IllegalStateException("not implemented");
     }

@@ -1,5 +1,6 @@
 package nl.christine.schwartze.server.controller;
 
+import nl.christine.schwartze.server.Application;
 import nl.christine.schwartze.server.controller.request.LocationRequest;
 import nl.christine.schwartze.server.controller.request.PersonRequest;
 import nl.christine.schwartze.server.controller.result.LocationResult;
@@ -23,13 +24,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * Date: 12/29/18 12:41 PM
  */
 @Controller
-@CrossOrigin(origins = "http://pengo.christine.nl:3000")
+@CrossOrigin(origins = Application.UI_HOST)
 public class UpdateLocationController {
 
     @Autowired
     private LocationService locationService;
 
-    @CrossOrigin(origins = "http://pengo.christine.nl:3000")
+    @CrossOrigin(origins = Application.UI_HOST)
     @RequestMapping(method = RequestMethod.POST, value = "/update_location_details/")
     @Transactional("transactionManager")
     public ResponseEntity<LocationResult> updateLocationComment(@RequestBody LocationRequest request) {

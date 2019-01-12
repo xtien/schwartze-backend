@@ -1,5 +1,6 @@
 package nl.christine.schwartze.server.controller;
 
+import nl.christine.schwartze.server.Application;
 import nl.christine.schwartze.server.controller.request.ImagesRequest;
 import nl.christine.schwartze.server.controller.request.LetterRequest;
 import nl.christine.schwartze.server.controller.result.ImagesResult;
@@ -26,7 +27,7 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 @Controller
-@CrossOrigin(origins = "http://pengo.christine.nl:3000")
+@CrossOrigin(origins = Application.UI_HOST)
 public class GetLetterImagesController {
 
     private final String lettersDirectory;
@@ -45,7 +46,7 @@ public class GetLetterImagesController {
         textDocumentName = SchwartzeProperties.getProperty("text_document_name");
     }
 
-    @CrossOrigin(origins = "http://pengo.christine.nl:3000")
+    @CrossOrigin(origins = Application.UI_HOST)
     @RequestMapping(method = RequestMethod.POST, value = "/get_letter_images/")
     @Transactional("transactionManager")
     public ResponseEntity<ImagesResult> getLetterImages(@RequestBody ImagesRequest request) throws IOException {

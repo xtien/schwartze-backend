@@ -25,7 +25,6 @@ public class GetAllLettersController {
 
     @CrossOrigin(origins = "http://pengo.christine.nl:3000")
     @RequestMapping(method = RequestMethod.POST, value = "/get_letters/")
-    @Transactional("transactionManager")
     public ResponseEntity<LettersResult> getLetters(@RequestBody LettersRequest request) {
 
         LettersResult result = new LettersResult();
