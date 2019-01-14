@@ -2,14 +2,11 @@ package nl.christine.schwartze.server.controller;
 
 import nl.christine.schwartze.server.Application;
 import nl.christine.schwartze.server.controller.request.ImagesRequest;
-import nl.christine.schwartze.server.controller.request.LetterRequest;
 import nl.christine.schwartze.server.controller.result.ImagesResult;
-import nl.christine.schwartze.server.controller.result.LetterResult;
-import nl.christine.schwartze.server.controller.result.LettersResult;
 import nl.christine.schwartze.server.dao.LetterDao;
 import nl.christine.schwartze.server.image.ImageService;
-import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.properties.SchwartzeProperties;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +26,8 @@ import java.util.List;
 @Controller
 @CrossOrigin(origins = Application.UI_HOST)
 public class GetLetterImagesController {
+
+    Logger logger = Logger.getLogger(GetLetterImagesController.class);
 
     private final String lettersDirectory;
     private final String textDocumentName;
@@ -71,17 +70,20 @@ public class GetLetterImagesController {
 
     private String getLetterText(int letterNumber) throws IOException {
 
-        String fileName = lettersDirectory + "/" + letterNumber + "/" + textDocumentName;
-        BufferedReader rd = new BufferedReader(new InputStreamReader(new FileInputStream(fileName)));
-
         String result = "";
-        String line = "";
-        while ((line = rd.readLine()) != null) {
-            result += "<br>" + line;
+        String fileName = lettersDirectory + "/" + letterNumber + "/" + textDocumentName;
+        try(BufferedReader rd = new BufferedReader(new InputStreamReader(new FileInputStream(fileName)))) {
+
+            String line = "";
+            while ((line = rd.readLine()) != null) {
+                result += "<br>" + line;
+            }
+            int i = 1;
+            result = result.replaceAll("    ", "&nbsp&nbsp&nbsp&nbsp;");
+            result = result.replaceAll("/", "<BR><BR><i>blad " + ++i + "</i><BR><BR>");
+        } catch(Exception e){
+            logger.error(e);
         }
-        int i = 1;
-        result = result.replaceAll("    ", "&nbsp&nbsp&nbsp&nbsp;");
-        result = result.replaceAll("/", "<BR><BR><i>blad " + ++i + "</i><BR><BR>");
 
         return result;
     }

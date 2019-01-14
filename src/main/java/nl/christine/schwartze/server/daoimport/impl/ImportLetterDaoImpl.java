@@ -13,10 +13,6 @@ public class ImportLetterDaoImpl implements ImportLetterDao {
     @PersistenceContext(unitName = "importPU")
     private EntityManager entityManager;
 
-    public ImportLetterDaoImpl() {
-
-    }
-
     @Override
     public List<ImportLetter> getLetters() {
 

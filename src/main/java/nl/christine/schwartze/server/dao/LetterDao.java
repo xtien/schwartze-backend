@@ -6,8 +6,6 @@ import java.util.List;
 
 public interface LetterDao {
 
-    int clearTables();
-
     List<Letter> getLetters();
 
     void create(Letter letter);

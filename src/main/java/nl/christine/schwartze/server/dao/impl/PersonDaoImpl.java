@@ -2,9 +2,7 @@ package nl.christine.schwartze.server.dao.impl;
 
 import nl.christine.schwartze.server.dao.PersonDao;
 import nl.christine.schwartze.server.model.Person;
-import nl.christine.schwartze.server.service.impl.LetterServiceImpl;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;

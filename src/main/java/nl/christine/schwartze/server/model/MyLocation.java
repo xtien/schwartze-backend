@@ -40,7 +40,7 @@ public class MyLocation {
 
     @Column(name = LINKS)
     @ElementCollection(targetClass = String.class)
-    private List<String> links = new ArrayList<String>();
+    private List<String> links = new ArrayList<>();
 
     @Column(name = COMMENT)
     @JsonProperty(COMMENT)

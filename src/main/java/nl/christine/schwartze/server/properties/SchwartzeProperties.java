@@ -10,8 +10,6 @@ import java.util.Date;
 import java.util.Properties;
 
 public class SchwartzeProperties {
-    public static final String RELOAD_NL = "reload_nl_motogymkhana";
-    public static final String RELOAD_EU = "reload_eu_motogymkhana";
 
     private static final Logger log = Logger.getLogger(SchwartzeProperties.class);
 
@@ -85,14 +83,8 @@ public class SchwartzeProperties {
 
     public static void save() {
 
-        try {
-
-            FileOutputStream fos = new FileOutputStream(new File(path));
-
+        try (FileOutputStream fos = new FileOutputStream(new File(path))) {
             properties.store(fos, "** " + dateFormat.format(new Date()));
-
-        } catch (FileNotFoundException e) {
-            log.error(e);
         } catch (IOException e) {
             log.error(e);
         }

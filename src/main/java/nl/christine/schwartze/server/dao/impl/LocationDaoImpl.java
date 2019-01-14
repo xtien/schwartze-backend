@@ -14,10 +14,6 @@ public class LocationDaoImpl implements LocationDao {
     @PersistenceContext(unitName = "defaultPU")
     private EntityManager entityManager;
 
-    public LocationDaoImpl() {
-
-    }
-
     @Override
     public List<MyLocation> getLocations() {
 

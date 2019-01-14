@@ -53,7 +53,7 @@ public class ImportLetter {
     private String comment;
 
     public ImportLetter() {
-
+        // used for deserialization
     }
 
     public String getSender() {

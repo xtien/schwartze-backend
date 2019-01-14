@@ -1,7 +1,6 @@
 package nl.christine.schwartze.server.controller.result;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import nl.christine.schwartze.server.model.Letter;
 
 import java.util.Collection;
 import java.util.List;

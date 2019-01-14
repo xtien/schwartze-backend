@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import org.apache.log4j.Logger;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -23,6 +24,8 @@ import java.util.List;
         transactionManagerRef = "transactionManager",
         entityManagerFactoryRef = "defaultPU")
 public class Letter {
+
+    Logger logger = Logger.getLogger(Letter.class);
 
     public static final String NUMBER = "number";
     public static final String DATE = "date";
@@ -129,17 +132,17 @@ public class Letter {
 
     public String toString() {
         return number + " " + date + " " +
-                ((senders == null || senders.size() == 0) ? "none" : senders.get(0).getFirstName()) + " " +
-                ((recipients == null || recipients.size() == 0) ? "none" : recipients.get(0).getFirstName());
+                ((senders == null || senders.isEmpty()) ? "none" : senders.get(0).getFirstName()) + " " +
+                ((recipients == null || recipients.isEmpty()) ? "none" : recipients.get(0).getFirstName());
     }
 
     public void setDate(String dateString) {
         if (dateString != null) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-            try{
+            try {
                 this.date = LocalDate.parse(dateString, formatter);
-            } catch (Exception e){
-                e.printStackTrace();
+            } catch (Exception e) {
+                logger.error(e);
             }
         }
     }

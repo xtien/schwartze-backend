@@ -49,10 +49,10 @@ public class Person {
 
     @Column(name = LINKS)
     @ElementCollection(targetClass = String.class)
-    private List<String> links = new ArrayList<String>();
+    private List<String> links = new ArrayList<>();
 
     public Person() {
-
+        // used for deserialization
     }
 
     public void setFirstName(String s) {

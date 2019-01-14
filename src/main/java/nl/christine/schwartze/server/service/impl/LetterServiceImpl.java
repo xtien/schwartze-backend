@@ -4,10 +4,10 @@ import nl.christine.schwartze.server.dao.LetterDao;
 import nl.christine.schwartze.server.dao.LocationDao;
 import nl.christine.schwartze.server.dao.PersonDao;
 import nl.christine.schwartze.server.daoimport.ImportLetterDao;
-import nl.christine.schwartze.server.modelimport.ImportLetter;
 import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.model.MyLocation;
 import nl.christine.schwartze.server.model.Person;
+import nl.christine.schwartze.server.modelimport.ImportLetter;
 import nl.christine.schwartze.server.service.LetterService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 public class LetterServiceImpl implements LetterService {
+
+    Logger logger = Logger.getLogger(LetterServiceImpl.class);
 
     @Autowired
     private LetterDao letterDao;
@@ -40,10 +42,9 @@ public class LetterServiceImpl implements LetterService {
     @Transactional("transactionManager")
     public int clearTables() {
         try {
-            //letterDao.deleteLetters(letterDao.getLetters());
             deleteLetters(getLetters());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e);
             return -1;
         }
         return 0;
@@ -137,7 +138,7 @@ public class LetterServiceImpl implements LetterService {
             Letter existingLetter = getLetterByNumber(letter.getNumber());
             existingLetter.setComment(letter.getComment());
             result = 0;
-        } catch (Exception e){
+        } catch (Exception e) {
             log.error(e);
         }
         return result;
@@ -187,11 +188,9 @@ public class LetterServiceImpl implements LetterService {
         if (str.length > 0) {
             person.setFirstName(str[0].trim());
             i = str[0].length();
-            if (str.length > 2) {
-                if (Character.isUpperCase(str[1].charAt(0))) {
-                    person.setMiddleName(str[1].trim());
-                    i += str[1].length() + 1;
-                }
+            if (str.length > 2 && Character.isUpperCase(str[1].charAt(0))) {
+                person.setMiddleName(str[1].trim());
+                i += str[1].length() + 1;
             }
             person.setLastName(importPerson.substring(i, importPerson.length()).trim());
         }

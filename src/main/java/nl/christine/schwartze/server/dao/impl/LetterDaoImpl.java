@@ -21,27 +21,6 @@ public class LetterDaoImpl implements LetterDao {
     @PersistenceContext(unitName = "defaultPU")
     private EntityManager em;
 
-    public LetterDaoImpl() {
-    }
-
-    @Override
-    public int clearTables() {
-
-        deletePeople = em.createQuery("DELETE from Person");
-        deleteLocations = em.createQuery("DELETE from MyLocation");
-        deleteLetters = em.createQuery("DELETE from Letter");
-
-        try {
-            deletePeople.executeUpdate();
-            deleteLocations.executeUpdate();
-            deleteLetters.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return -1;
-        }
-
-        return 0;
-    }
 
     @Override
     public List<Letter> getLetters() {
@@ -84,11 +63,10 @@ public class LetterDaoImpl implements LetterDao {
                 em.remove(letter);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e);
             return -1;
         }
 
         return 0;
-
     }
 }

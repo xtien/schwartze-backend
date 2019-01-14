@@ -2,22 +2,19 @@ package nl.christine.schwartze.server.controller;
 
 import nl.christine.schwartze.server.Application;
 import nl.christine.schwartze.server.controller.request.LocationRequest;
-import nl.christine.schwartze.server.controller.request.PersonRequest;
 import nl.christine.schwartze.server.controller.result.LocationResult;
 import nl.christine.schwartze.server.controller.result.PersonResult;
 import nl.christine.schwartze.server.model.MyLocation;
-import nl.christine.schwartze.server.model.Person;
 import nl.christine.schwartze.server.service.LocationService;
-import nl.christine.schwartze.server.service.PersonService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * User: christine
@@ -27,11 +24,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @CrossOrigin(origins = Application.UI_HOST)
 public class UpdateLocationController {
 
+    Logger logger = Logger.getLogger(UpdateLocationController.class);
+
     @Autowired
     private LocationService locationService;
 
     @CrossOrigin(origins = Application.UI_HOST)
-    @RequestMapping(method = RequestMethod.POST, value = "/update_location_details/")
+    @PostMapping(value = "/update_location_details/")
     @Transactional("transactionManager")
     public ResponseEntity<LocationResult> updateLocationComment(@RequestBody LocationRequest request) {
 
@@ -45,7 +44,7 @@ public class UpdateLocationController {
                 result.setResultCode(LocationResult.OK);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e);
         }
 
         return new ResponseEntity<>(result, HttpStatus.OK);
