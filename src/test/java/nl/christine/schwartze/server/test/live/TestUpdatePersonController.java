@@ -1,7 +1,8 @@
 package nl.christine.schwartze.server.test.live;
 
 import nl.christine.schwartze.server.controller.UpdatePersonController;
-import nl.christine.schwartze.server.controller.request.PersonRequest;
+import nl.christine.schwartze.server.controller.request.GetPersonRequest;
+import nl.christine.schwartze.server.controller.request.UpdatePersonRequest;
 import nl.christine.schwartze.server.controller.result.PersonResult;
 import nl.christine.schwartze.server.model.Person;
 import nl.christine.schwartze.server.service.PersonService;
@@ -33,14 +34,17 @@ public class TestUpdatePersonController {
     @Test
     public void testUpdatePerson() throws IOException {
 
-        PersonRequest request = new PersonRequest();
-        request.setComment("test comment");
+        Person p = new Person();
+        p.setId(2);
+        p.setComment("testing the comments");
+        UpdatePersonRequest request = new UpdatePersonRequest();
+        request.setPerson(p);
         request.setId(personId);
         PersonResult result = updatePersonController.updatePersonComment(request).getBody();
         Assert.assertNotNull(result);
 
         Person person = personService.getPerson(personId);
-        Assert.assertEquals(request.getComment(), person.getComment());
+        Assert.assertEquals(request.getPerson().getComment(), person.getComment());
     }
 
 }

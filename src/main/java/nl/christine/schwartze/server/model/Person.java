@@ -48,8 +48,7 @@ public class Person {
     private List<Letter> lettersReceived = new ArrayList<>();
 
     @Column(name = LINKS)
-    @ElementCollection(targetClass = String.class)
-    private List<String> links = new ArrayList<>();
+    private String links;
 
     public Person() {
         // used for deserialization
@@ -113,5 +112,13 @@ public class Person {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public String getLinks() {
+        return links;
+    }
+
+    public void setLinks(String links) {
+        this.links=links;
     }
 }

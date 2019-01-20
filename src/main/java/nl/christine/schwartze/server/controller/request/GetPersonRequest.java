@@ -1,6 +1,6 @@
 package nl.christine.schwartze.server.controller.request;
 
-public class PersonRequest {
+public class GetPersonRequest {
 
     private int id;
 

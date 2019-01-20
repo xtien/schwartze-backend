@@ -1,7 +1,7 @@
 package nl.christine.schwartze.server.controller;
 
 import nl.christine.schwartze.server.Application;
-import nl.christine.schwartze.server.controller.request.PersonRequest;
+import nl.christine.schwartze.server.controller.request.GetPersonRequest;
 import nl.christine.schwartze.server.controller.result.LettersResult;
 import nl.christine.schwartze.server.controller.result.PersonResult;
 import nl.christine.schwartze.server.model.Person;
@@ -28,7 +28,7 @@ public class GetPersonController {
     @CrossOrigin(origins = Application.UI_HOST)
     @PostMapping(value = "/get_person_details/")
     @Transactional("transactionManager")
-    public ResponseEntity<PersonResult> getPerson(@RequestBody PersonRequest request) {
+    public ResponseEntity<PersonResult> getPerson(@RequestBody GetPersonRequest request) {
 
         PersonResult result = new PersonResult();
         result.setResult(LettersResult.NOT_OK);

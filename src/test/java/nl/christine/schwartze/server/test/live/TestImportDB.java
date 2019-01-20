@@ -46,14 +46,14 @@ public class TestImportDB {
 
         List<Letter> letters = letterDao.getLetters();
         Assert.assertNotNull(letters);
-        Assert.assertEquals(259, letters.size());
+        Assert.assertEquals(336, letters.size());
 
         List<Person> people = personDao.getPersons();
         Assert.assertNotNull(people);
-        Assert.assertEquals(97, people.size());
+        Assert.assertEquals(141, people.size());
 
         List<MyLocation> locations = locationDao.getLocations();
         Assert.assertNotNull(locations);
-        Assert.assertEquals(96, locations.size());
+        Assert.assertEquals(106, locations.size());
     }
 }

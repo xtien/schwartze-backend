@@ -35,13 +35,12 @@ public class TestUpdateLocationController {
     public void testUpdateLocation() throws IOException {
 
         LocationRequest request = new LocationRequest();
-        request.setComment("test comment");
         request.setId(locationId);
         LocationResult result = updateLocationController.updateLocationComment(request).getBody();
         Assert.assertNotNull(result);
 
         Person person = personService.getPerson(locationId);
-        Assert.assertEquals(request.getComment(), person.getComment());
+        Assert.assertEquals(request.getId(), person.getComment());
     }
 
 }
