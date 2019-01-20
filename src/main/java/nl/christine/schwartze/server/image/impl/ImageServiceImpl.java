@@ -11,6 +11,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,25 +22,28 @@ import java.util.stream.Collectors;
 public class ImageServiceImpl implements ImageService {
 
     private final String imagesDirectory;
+    private final String imagesUrl;
 
     private Logger logger = Logger.getLogger(ImageServiceImpl.class);
 
     public ImageServiceImpl() {
         imagesDirectory = SchwartzeProperties.getProperty("images_directory");
+        imagesUrl = SchwartzeProperties.getProperty(("images_url"));
     }
 
     @Override
     public List<String> getImages(int letterNumber) {
 
-         return Arrays.stream(new File(imagesDirectory + "/" + letterNumber + "/").listFiles())
+        return Arrays.stream(new File(imagesDirectory + "/" + letterNumber + "/").listFiles())
+                .sorted(Comparator.comparing(File::getName))
                 .filter((file -> file.getName().toLowerCase().endsWith(".jpg")))
-                .map(file -> createBlob(file))
+                .map(file -> imagesUrl + letterNumber + File.separator + file.getName())
                 .collect(Collectors.toList());
     }
 
     private String createBlob(File imageFile) {
 
-       String resultBlob = "";
+        String resultBlob = "";
 
         try {
             resultBlob = new String(Base64.encodeBase64(IOUtils.toByteArray(new FileInputStream(imageFile))), "UTF-8");

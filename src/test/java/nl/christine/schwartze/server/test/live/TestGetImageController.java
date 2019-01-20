@@ -33,5 +33,5 @@ public class TestGetImageController {
 
         Assert.assertNotNull(result);
         Assert.assertEquals(2, result.getBody().getImages().size());
-    }
+     }
 }

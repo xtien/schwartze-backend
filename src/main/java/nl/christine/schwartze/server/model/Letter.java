@@ -25,6 +25,7 @@ import java.util.List;
         entityManagerFactoryRef = "defaultPU")
 public class Letter {
 
+    @Transient
     Logger logger = Logger.getLogger(Letter.class);
 
     public static final String NUMBER = "number";

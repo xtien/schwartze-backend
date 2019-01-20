@@ -39,7 +39,7 @@ public class TestImportDB {
 
         LettersRequest request = new LettersRequest();
 
-        LettersResult result = importDBController.importDB(request);
+        LettersResult result = importDBController.importDB();
 
         Assert.assertNotNull(result);
         Assert.assertEquals(0, result.getResultCode());
