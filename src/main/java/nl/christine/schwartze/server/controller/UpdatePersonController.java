@@ -29,19 +29,14 @@ public class UpdatePersonController {
 
     @CrossOrigin(origins = Application.UI_HOST)
     @PostMapping(value = "/update_person_details/")
-    public ResponseEntity<PersonResult> updatePersonComment(@RequestBody UpdatePersonRequest request) {
+    public ResponseEntity<PersonResult> updatePerson(@RequestBody UpdatePersonRequest request) {
 
         PersonResult result = new PersonResult();
         result.setResult(PersonResult.NOT_OK);
 
         try {
-            Person person = personService.getPerson(request.getId());
-            if (person != null) {
-                person.setComment(request.getPerson().getComment());
-                person.setLinks(request.getPerson().getLinks());
-                person.setComment(request.getPerson().getComment());
-                result.setResultCode(PersonResult.OK);
-            }
+            int updateResult = personService.updatePerson(request.getPerson());
+            result.setResult(updateResult);
         } catch (Exception e) {
             logger.error(e);
         }

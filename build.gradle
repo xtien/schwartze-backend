@@ -1,6 +1,7 @@
 plugins {
     id 'java'
-    id "org.sonarqube" version "2.6.2"
+    // https://docs.sonarqube.org/display/SCAN/Analyzing+with+SonarQube+Scanner+for+Gradle
+    id "org.sonarqube" version "2.7"
 }
 
 apply plugin: 'idea'

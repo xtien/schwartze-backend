@@ -26,6 +26,6 @@ public class TestGetLetters {
         ResponseEntity<LettersResult> result = getLettersResource.getLetters(request);
 
         Assert.assertNotNull(result);
-        Assert.assertEquals(259, result.getBody().getLetters().size());
+        Assert.assertEquals(336, result.getBody().getLetters().size());
     }
 }

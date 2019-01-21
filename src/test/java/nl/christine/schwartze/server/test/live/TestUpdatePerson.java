@@ -1,6 +1,5 @@
 package nl.christine.schwartze.server.test.live;
 
-import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.model.Person;
 import nl.christine.schwartze.server.service.PersonService;
 import org.junit.Assert;
@@ -31,7 +30,7 @@ public class TestUpdatePerson {
         String newComment = person.getComment() + " more";
         person.setComment(newComment);
 
-        personService.updatePersonComment(person);
+        personService.updatePerson(person);
 
         Person resultingPerson = personService.getPerson(12);
 

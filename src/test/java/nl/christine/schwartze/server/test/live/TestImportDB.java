@@ -10,6 +10,7 @@ import nl.christine.schwartze.server.controller.result.LettersResult;
 import nl.christine.schwartze.server.model.MyLocation;
 import nl.christine.schwartze.server.model.Person;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,7 @@ public class TestImportDB {
     LocationDao locationDao;
 
     @Test
+    @Ignore
     public void importDB() {
 
         LettersRequest request = new LettersRequest();

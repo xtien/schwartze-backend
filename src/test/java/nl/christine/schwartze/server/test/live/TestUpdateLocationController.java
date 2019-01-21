@@ -2,10 +2,10 @@ package nl.christine.schwartze.server.test.live;
 
 import nl.christine.schwartze.server.controller.UpdateLocationController;
 import nl.christine.schwartze.server.controller.request.LocationRequest;
+import nl.christine.schwartze.server.controller.request.UpdateLocationRequest;
 import nl.christine.schwartze.server.controller.result.LocationResult;
-import nl.christine.schwartze.server.controller.result.PersonResult;
-import nl.christine.schwartze.server.model.Person;
-import nl.christine.schwartze.server.service.PersonService;
+import nl.christine.schwartze.server.model.MyLocation;
+import nl.christine.schwartze.server.service.LocationService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,20 +27,28 @@ public class TestUpdateLocationController {
     private UpdateLocationController updateLocationController;
 
     @Autowired
-    private PersonService personService;
+    private LocationService locationService;
 
     private int locationId = 12;
+    private String locationName = "Hilversum";
+    private String testDescription = "just testing";
+    private String testComment = "just commenting";
 
     @Test
     public void testUpdateLocation() throws IOException {
 
-        LocationRequest request = new LocationRequest();
-        request.setId(locationId);
-        LocationResult result = updateLocationController.updateLocationComment(request).getBody();
+        UpdateLocationRequest request = new UpdateLocationRequest();
+        MyLocation myLocation = new MyLocation();
+        myLocation.setDescription(testDescription);
+        myLocation.setComment(testComment);
+        myLocation.setId(locationId);
+        request.setLocation(myLocation);
+        LocationResult result = updateLocationController.updateLocation(request).getBody();
         Assert.assertNotNull(result);
 
-        Person person = personService.getPerson(locationId);
-        Assert.assertEquals(request.getId(), person.getComment());
+        MyLocation location = locationService.getLocation(locationId);
+        Assert.assertEquals(testDescription, location.getDescription());
+        Assert.assertEquals(testComment, location.getComment());
     }
 
 }

@@ -80,4 +80,16 @@ public class MyLocation {
     public void setComment(String comment) {
         this.comment = comment;
     }
+
+    public void setName(String name) {
+        this.locationName = name;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getDescription() {
+        return description;
+    }
 }

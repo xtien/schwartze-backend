@@ -2,6 +2,7 @@ package nl.christine.schwartze.server.controller;
 
 import nl.christine.schwartze.server.Application;
 import nl.christine.schwartze.server.controller.request.LocationRequest;
+import nl.christine.schwartze.server.controller.request.UpdateLocationRequest;
 import nl.christine.schwartze.server.controller.result.LocationResult;
 import nl.christine.schwartze.server.controller.result.PersonResult;
 import nl.christine.schwartze.server.model.MyLocation;
@@ -32,15 +33,16 @@ public class UpdateLocationController {
     @CrossOrigin(origins = Application.UI_HOST)
     @PostMapping(value = "/update_location_details/")
     @Transactional("transactionManager")
-    public ResponseEntity<LocationResult> updateLocationComment(@RequestBody LocationRequest request) {
+    public ResponseEntity<LocationResult> updateLocation(@RequestBody UpdateLocationRequest request) {
 
         LocationResult result = new LocationResult();
         result.setResult(PersonResult.NOT_OK);
 
         try {
-            MyLocation location = locationService.getLocation(request.getId());
+            MyLocation location = locationService.getLocation(request.getLocation().getId());
             if (location != null) {
-                //location.setComment(request.getComment());
+                location.setComment(request.getLocation().getComment());
+                location.setDescription(request.getLocation().getDescription());
                 result.setResultCode(LocationResult.OK);
             }
         } catch (Exception e) {

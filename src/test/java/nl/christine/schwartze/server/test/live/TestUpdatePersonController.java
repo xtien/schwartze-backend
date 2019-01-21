@@ -1,7 +1,6 @@
 package nl.christine.schwartze.server.test.live;
 
 import nl.christine.schwartze.server.controller.UpdatePersonController;
-import nl.christine.schwartze.server.controller.request.GetPersonRequest;
 import nl.christine.schwartze.server.controller.request.UpdatePersonRequest;
 import nl.christine.schwartze.server.controller.result.PersonResult;
 import nl.christine.schwartze.server.model.Person;
@@ -14,6 +13,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.IOException;
+import java.util.Random;
 
 /**
  * User: christine
@@ -30,21 +30,23 @@ public class TestUpdatePersonController {
     private PersonService personService;
 
     private int personId = 12;
+    private String testComment = "just commenting ";
 
     @Test
     public void testUpdatePerson() throws IOException {
 
+        testComment += new Random().nextInt(999);
         Person p = new Person();
-        p.setId(2);
-        p.setComment("testing the comments");
+        p.setId(personId);
+        p.setComment(testComment);
         UpdatePersonRequest request = new UpdatePersonRequest();
         request.setPerson(p);
         request.setId(personId);
-        PersonResult result = updatePersonController.updatePersonComment(request).getBody();
+        PersonResult result = updatePersonController.updatePerson(request).getBody();
         Assert.assertNotNull(result);
 
         Person person = personService.getPerson(personId);
-        Assert.assertEquals(request.getPerson().getComment(), person.getComment());
+        Assert.assertEquals(testComment, person.getComment());
     }
 
 }
