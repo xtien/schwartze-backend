@@ -1,5 +1,13 @@
+/*
+ * Copyright (c) 2019, Zaphod Consulting BV, Christine Karman
+ * This project is free software: you can redistribute it and/or modify it under the terms of
+ * the Apache License, Version 2.0. You can find a copy of the license at
+ * http://www. apache.org/licenses/LICENSE-2.0.
+ */
+
 package nl.christine.schwartze.server.model;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -143,7 +151,7 @@ public class Letter {
             try {
                 this.date = LocalDate.parse(dateString, formatter);
             } catch (Exception e) {
-                logger.error(e);
+                logger.error("Error setting date",e);
             }
         }
     }

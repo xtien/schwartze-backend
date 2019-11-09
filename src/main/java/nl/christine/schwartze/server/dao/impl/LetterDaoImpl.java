@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2019, Zaphod Consulting BV, Christine Karman
+ * This project is free software: you can redistribute it and/or modify it under the terms of
+ * the Apache License, Version 2.0. You can find a copy of the license at
+ * http://www. apache.org/licenses/LICENSE-2.0.
+ */
+
 package nl.christine.schwartze.server.dao.impl;
 
 import nl.christine.schwartze.server.dao.LetterDao;
@@ -63,10 +70,31 @@ public class LetterDaoImpl implements LetterDao {
                 em.remove(letter);
             }
         } catch (Exception e) {
-            logger.error(e);
+            logger.error("Error deleting letters", e);
             return -1;
         }
 
         return 0;
+    }
+
+    @Override
+    public List<Letter> getLettersForPerson(Integer fromId, Integer toId) {
+
+        TypedQuery<Letter> query = em.createQuery(
+                "select a from " + Letter.class.getSimpleName()
+                        + " a where " + Letter.NUMBER + " = :number",
+                Letter.class);
+
+        try {
+            if (fromId != null) {
+                query.setParameter(Letter.SENDER, fromId);
+            }
+            if (toId != null) {
+                query.setParameter(Letter.SENDER, toId);
+            }
+            return query.getResultList();
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

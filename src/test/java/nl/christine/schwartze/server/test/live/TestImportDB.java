@@ -1,12 +1,11 @@
 package nl.christine.schwartze.server.test.live;
 
 import nl.christine.schwartze.server.controller.ImportDBController;
+import nl.christine.schwartze.server.controller.result.LettersResult;
 import nl.christine.schwartze.server.dao.LetterDao;
 import nl.christine.schwartze.server.dao.LocationDao;
 import nl.christine.schwartze.server.dao.PersonDao;
 import nl.christine.schwartze.server.model.Letter;
-import nl.christine.schwartze.server.controller.request.LettersRequest;
-import nl.christine.schwartze.server.controller.result.LettersResult;
 import nl.christine.schwartze.server.model.MyLocation;
 import nl.christine.schwartze.server.model.Person;
 import org.junit.Assert;
@@ -39,8 +38,6 @@ public class TestImportDB {
     @Ignore
     public void importDB() {
 
-        LettersRequest request = new LettersRequest();
-
         LettersResult result = importDBController.importDB();
 
         Assert.assertNotNull(result);
@@ -48,14 +45,14 @@ public class TestImportDB {
 
         List<Letter> letters = letterDao.getLetters();
         Assert.assertNotNull(letters);
-        Assert.assertEquals(336, letters.size());
+        Assert.assertEquals(566, letters.size());
 
         List<Person> people = personDao.getPersons();
         Assert.assertNotNull(people);
-        Assert.assertEquals(141, people.size());
+        Assert.assertEquals(267, people.size());
 
         List<MyLocation> locations = locationDao.getLocations();
         Assert.assertNotNull(locations);
-        Assert.assertEquals(106, locations.size());
+        Assert.assertEquals(161, locations.size());
     }
 }

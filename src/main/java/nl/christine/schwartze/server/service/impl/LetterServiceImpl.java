@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2019, Zaphod Consulting BV, Christine Karman
+ * This project is free software: you can redistribute it and/or modify it under the terms of
+ * the Apache License, Version 2.0. You can find a copy of the license at
+ * http://www. apache.org/licenses/LICENSE-2.0.
+ */
+
 package nl.christine.schwartze.server.service.impl;
 
 import nl.christine.schwartze.server.dao.LetterDao;
@@ -44,7 +51,7 @@ public class LetterServiceImpl implements LetterService {
         try {
             deleteLetters(getLetters());
         } catch (Exception e) {
-            logger.error(e);
+            logger.error("Error clearing tables", e);
             return -1;
         }
         return 0;
@@ -54,8 +61,19 @@ public class LetterServiceImpl implements LetterService {
         letterDao.deleteLetters(letters);
     }
 
-    List<Letter> getLetters() {
+    @Override
+    public List<Letter> getLetters() {
         return letterDao.getLetters();
+    }
+
+    @Override
+    public List<Letter> getLettersToPerson(int toId) {
+        return letterDao.getLettersForPerson(null, toId);
+    }
+
+    @Override
+    public List<Letter> getLettersFromPerson(int fromId) {
+        return letterDao.getLettersForPerson(fromId, null);
     }
 
     /**
@@ -139,7 +157,7 @@ public class LetterServiceImpl implements LetterService {
             existingLetter.setComment(letter.getComment());
             result = 0;
         } catch (Exception e) {
-            log.error(e);
+            logger.error("Error updating letter comments", e);
         }
         return result;
     }

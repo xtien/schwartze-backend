@@ -75,4 +75,7 @@ dependencies {
     compile group: 'commons-daemon', name: 'commons-daemon', version: '1.1.0'
 
     testCompile group: 'junit', name: 'junit', version: '4.12'
+    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: springBootVersion
+    testCompile group: 'org.hamcrest', name: 'hamcrest-all', version: '1.3'
+
 }
