@@ -8,6 +8,7 @@
 package nl.christine.schwartze.server.dao.impl;
 
 import nl.christine.schwartze.server.dao.PersonDao;
+import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.model.Person;
 import org.apache.log4j.Logger;
 
@@ -16,7 +17,9 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 public class PersonDaoImpl implements PersonDao {
 
@@ -81,5 +84,19 @@ public class PersonDaoImpl implements PersonDao {
             logger.error("Error getting people", e);
         }
         return people;
+    }
+
+    @Override
+    public List<Letter> getLettersForPerson(Optional<Integer> fromId, Optional<Integer> toId) {
+        List<Letter> letters = new LinkedList<>();
+        if(fromId.isPresent()){
+            Person fromPerson = getPerson(fromId.get());
+            letters.addAll(fromPerson.getLettersWritten());
+        }
+        if(toId.isPresent()){
+            Person toPerson = getPerson(toId.get());
+            letters.addAll(toPerson.getLettersWritten());
+        }
+        return letters;
     }
 }

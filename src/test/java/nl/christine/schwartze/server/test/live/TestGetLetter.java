@@ -18,7 +18,7 @@ import java.io.IOException;
 public class TestGetLetter {
 
     @Autowired
-    private GetLetterController getLetterResource;
+    private GetLetterController getLetterController;
 
     @Test
     public void testGetLetters() throws IOException {
@@ -26,7 +26,7 @@ public class TestGetLetter {
         LetterRequest request = new LetterRequest();
         request.setNumber(24);
 
-        ResponseEntity<LetterResult> response = getLetterResource.getLetter(request);
+        ResponseEntity<LetterResult> response = getLetterController.getLetter(request);
         LetterResult result = response.getBody();
 
         Assert.assertNotNull(result);

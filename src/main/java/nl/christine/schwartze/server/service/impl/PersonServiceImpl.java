@@ -7,6 +7,7 @@
 
 package nl.christine.schwartze.server.service.impl;
 
+import nl.christine.schwartze.server.controller.result.PersonResult;
 import nl.christine.schwartze.server.dao.PersonDao;
 import nl.christine.schwartze.server.model.Person;
 import nl.christine.schwartze.server.service.PersonService;
@@ -33,13 +34,13 @@ public class PersonServiceImpl implements PersonService {
     @Override
     @Transactional("transactionManager")
     public int updatePerson(Person person) {
-        int result = -1;
+        int result = PersonResult.NOT_OK;
         try {
             Person existingPerson = personDao.getPerson(person.getId());
             if (existingPerson != null) {
                 existingPerson.setComment(person.getComment());
                 existingPerson.setLinks(person.getLinks());
-                result = 0;
+                result = PersonResult.OK;
             }
         } catch (Exception e) {
             logger.error("Error updating person",e);

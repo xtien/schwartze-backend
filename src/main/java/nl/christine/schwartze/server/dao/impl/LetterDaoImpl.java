@@ -16,6 +16,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
+import java.util.Optional;
 
 public class LetterDaoImpl implements LetterDao {
 
@@ -75,26 +76,5 @@ public class LetterDaoImpl implements LetterDao {
         }
 
         return 0;
-    }
-
-    @Override
-    public List<Letter> getLettersForPerson(Integer fromId, Integer toId) {
-
-        TypedQuery<Letter> query = em.createQuery(
-                "select a from " + Letter.class.getSimpleName()
-                        + " a where " + Letter.NUMBER + " = :number",
-                Letter.class);
-
-        try {
-            if (fromId != null) {
-                query.setParameter(Letter.SENDER, fromId);
-            }
-            if (toId != null) {
-                query.setParameter(Letter.SENDER, toId);
-            }
-            return query.getResultList();
-        } catch (Exception e) {
-            return null;
-        }
     }
 }

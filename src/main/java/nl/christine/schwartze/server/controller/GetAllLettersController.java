@@ -48,6 +48,6 @@ public class GetAllLettersController {
             logger.error("get_letters exception ", e);
          }
 
-        return new ResponseEntity<LettersResult>(result, HttpStatus.OK);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

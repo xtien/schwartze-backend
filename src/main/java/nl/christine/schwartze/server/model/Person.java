@@ -9,6 +9,8 @@ package nl.christine.schwartze.server.model;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import javax.persistence.*;
@@ -128,5 +130,13 @@ public class Person {
 
     public void setLinks(String links) {
         this.links=links;
+    }
+
+    public List<Letter> getLettersWritten(){
+        return lettersWritten;
+    }
+
+    public List<Letter> getLettersReceived(){
+        return lettersReceived;
     }
 }

@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 public class LetterServiceImpl implements LetterService {
 
@@ -67,13 +68,15 @@ public class LetterServiceImpl implements LetterService {
     }
 
     @Override
+    @Transactional("transactionManager")
     public List<Letter> getLettersToPerson(int toId) {
-        return letterDao.getLettersForPerson(null, toId);
+        return personDao.getLettersForPerson(Optional.empty(), Optional.ofNullable(toId));
     }
 
     @Override
+    @Transactional("transactionManager")
     public List<Letter> getLettersFromPerson(int fromId) {
-        return letterDao.getLettersForPerson(fromId, null);
+        return personDao.getLettersForPerson(Optional.ofNullable(fromId), Optional.empty());
     }
 
     /**

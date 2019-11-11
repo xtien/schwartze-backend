@@ -16,12 +16,15 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
+@Controller
+@CrossOrigin(origins = Application.UI_HOST)
 public class GetPersonToLetters {
 
     Logger logger = Logger.getLogger(GetAllLettersController.class);
@@ -45,6 +48,6 @@ public class GetPersonToLetters {
             logger.error("get_letters exception ", e);
         }
 
-        return new ResponseEntity<LettersResult>(result, HttpStatus.OK);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

@@ -10,6 +10,7 @@ package nl.christine.schwartze.server.dao;
 import nl.christine.schwartze.server.model.Letter;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface LetterDao {
 
@@ -20,6 +21,4 @@ public interface LetterDao {
     Letter getLetter(int letterNumber);
 
     int deleteLetters(List<Letter> letters);
-
-    List<Letter> getLettersForPerson(Integer fromId, Integer toId);
 }

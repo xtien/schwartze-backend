@@ -7,9 +7,12 @@
 
 package nl.christine.schwartze.server.dao;
 
+import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.model.Person;
 
+import javax.swing.text.html.Option;
 import java.util.List;
+import java.util.Optional;
 
 public interface PersonDao {
 
@@ -22,4 +25,6 @@ public interface PersonDao {
     Person getPersonByName(Person person);
 
     List<Person> getPeople(List<Integer> ids);
+
+    List<Letter> getLettersForPerson(Optional<Integer> fromId, Optional<Integer> toId);
 }
