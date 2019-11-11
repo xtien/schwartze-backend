@@ -10,7 +10,6 @@ package nl.christine.schwartze.server.dao;
 import nl.christine.schwartze.server.model.Letter;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface LetterDao {
 

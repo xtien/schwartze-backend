@@ -7,7 +7,6 @@
 
 package nl.christine.schwartze.server.model;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
@@ -52,9 +51,11 @@ public class Person {
     private String comment;
 
     @ManyToMany(mappedBy = "senders", cascade = CascadeType.ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Letter> lettersWritten = new ArrayList<>();
 
     @ManyToMany(mappedBy = "recipients", cascade = CascadeType.ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Letter> lettersReceived = new ArrayList<>();
 
     @Column(name = LINKS)
