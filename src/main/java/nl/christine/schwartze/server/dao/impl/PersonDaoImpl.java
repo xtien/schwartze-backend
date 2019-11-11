@@ -95,7 +95,7 @@ public class PersonDaoImpl implements PersonDao {
         }
         if(toId.isPresent()){
             Person toPerson = getPerson(toId.get());
-            letters.addAll(toPerson.getLettersWritten());
+            letters.addAll(toPerson.getLettersReceived());
         }
         return letters;
     }
