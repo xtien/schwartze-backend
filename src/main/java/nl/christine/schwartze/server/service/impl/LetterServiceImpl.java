@@ -63,8 +63,10 @@ public class LetterServiceImpl implements LetterService {
     }
 
     @Override
+    @Transactional("transactionManager")
     public List<Letter> getLetters() {
-        return letterDao.getLetters();
+        List<Letter> letters = letterDao.getLetters();
+        return letters;
     }
 
     @Override

@@ -150,7 +150,7 @@ public class Letter {
             try {
                 this.date = LocalDate.parse(dateString, formatter);
             } catch (Exception e) {
-                logger.error("Error setting date",e);
+                logger.error("Error setting date", e);
             }
         }
     }
