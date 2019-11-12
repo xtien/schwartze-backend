@@ -30,8 +30,10 @@ public class Person {
     public static final String LAST_NAME = "last_name";
     public static final String COMMENT = "comment";
     public static final String LINKS = "links";
+    public static final String ID = "id";
 
     @Id
+    @JsonProperty(ID)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 

@@ -7,25 +7,13 @@
 
 package nl.christine.schwartze.server.controller.request;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import nl.christine.schwartze.server.model.Person;
 
 public class UpdatePersonRequest {
 
-    public UpdatePersonRequest() {
-
-    }
-
-    private int id;
-
+    @JsonProperty("person")
     private Person person;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public Person getPerson() {
         return person;
