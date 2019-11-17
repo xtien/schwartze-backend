@@ -17,5 +17,5 @@ public interface PersonService {
 
     Person getPerson(int id);
 
-    int updatePerson(Person person);
+    Person updatePerson(Person person);
 }

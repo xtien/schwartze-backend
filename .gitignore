@@ -4,6 +4,7 @@ src/main/resources/application.properties
 
 #keystores
 *.p12
+*.pem
 
 # hprof files
 *.hprof

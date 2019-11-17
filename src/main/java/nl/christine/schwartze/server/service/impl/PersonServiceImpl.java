@@ -33,18 +33,19 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     @Transactional("transactionManager")
-    public int updatePerson(Person person) {
-        int result = PersonResult.NOT_OK;
+    public Person updatePerson(Person person) {
         try {
             Person existingPerson = personDao.getPerson(person.getId());
             if (existingPerson != null) {
                 existingPerson.setComment(person.getComment());
                 existingPerson.setLinks(person.getLinks());
-                result = PersonResult.OK;
+                existingPerson.setFirstName(person.getFirstName());
+                existingPerson.setLastName(person.getLastName());
+                existingPerson.setMiddleName(person.getMiddleName());
             }
         } catch (Exception e) {
             logger.error("Error updating person",e);
         }
-        return result;
+        return person;
     }
 }

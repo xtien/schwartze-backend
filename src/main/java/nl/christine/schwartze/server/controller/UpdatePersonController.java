@@ -10,6 +10,7 @@ package nl.christine.schwartze.server.controller;
 import nl.christine.schwartze.server.Application;
 import nl.christine.schwartze.server.controller.request.UpdatePersonRequest;
 import nl.christine.schwartze.server.controller.result.PersonResult;
+import nl.christine.schwartze.server.model.Person;
 import nl.christine.schwartze.server.service.PersonService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,8 +42,9 @@ public class UpdatePersonController {
         result.setResult(PersonResult.NOT_OK);
 
         try {
-            int updateResult = personService.updatePerson(request.getPerson());
-            result.setResult(updateResult);
+            Person updatedPerson = personService.updatePerson(request.getPerson());
+            result.setResult(PersonResult.OK);
+            result.setPerson(updatedPerson);
         } catch (Exception e) {
             logger.error("Error updating person",e);
         }
