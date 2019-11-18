@@ -44,9 +44,9 @@ public class UpdateLetterController {
         result.setResult(LetterResult.NOT_OK);
 
         try {
-            Letter letter = letterService.getLetterByNumber(request.getLetterNumber());
+            Letter letter = letterService.updateLetterComment(request.getLetterNumber(), request.getComment());
             if (letter != null) {
-                letter.setComment(request.getComment());
+                result.setLetter(letter);
                 result.setResultCode(LetterResult.OK);
             }
         } catch (Exception e) {

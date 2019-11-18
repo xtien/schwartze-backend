@@ -155,16 +155,14 @@ public class LetterServiceImpl implements LetterService {
 
     @Override
     @Transactional("transactionManager")
-    public int updateLetterComments(Letter letter) {
-        int result = -1;
+    public Letter updateLetterComment(int letterNumber, String text) {
+        Letter letter = null;
         try {
-            Letter existingLetter = getLetterByNumber(letter.getNumber());
-            existingLetter.setComment(letter.getComment());
-            result = 0;
+           letter = letterDao.updateLetterComment(letterNumber, text);
         } catch (Exception e) {
             logger.error("Error updating letter comments", e);
         }
-        return result;
+        return letter;
     }
 
     private MyLocation doLocation(String location) {

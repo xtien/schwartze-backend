@@ -15,8 +15,6 @@ import java.util.Optional;
 
 public interface PersonDao {
 
-    void store(Person fromPerson);
-
     Person getPerson(int id);
 
     List<Person> getPersons();
@@ -26,4 +24,8 @@ public interface PersonDao {
     List<Person> getPeople(List<Integer> ids);
 
     List<Letter> getLettersForPerson(Optional<Integer> fromId, Optional<Integer> toId);
+
+    Person addNewPerson(Person person);
+
+    Person updatePerson(Person person);
 }

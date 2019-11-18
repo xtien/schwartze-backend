@@ -9,6 +9,7 @@ package nl.christine.schwartze.server.service;
 
 import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.modelimport.ImportLetter;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -18,13 +19,13 @@ public interface LetterService {
 
     int persist(ImportLetter importLetter);
 
+    Letter updateLetterComment(int letterNumber, String text);
+
     List<ImportLetter> getImportLetters();
 
     void persistIfNotPresent(ImportLetter importLetter);
 
     Letter getLetterByNumber(int i);
-
-    int updateLetterComments(Letter letter);
 
     List<Letter> getLetters();
 

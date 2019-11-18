@@ -15,6 +15,8 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.security.auth.callback.TextInputCallback;
+
 /**
  * User: christine
  * Date: 12/29/18 12:15 PM
@@ -34,18 +36,19 @@ public class PersonServiceImpl implements PersonService {
     @Override
     @Transactional("transactionManager")
     public Person updatePerson(Person person) {
+        Person existingPerson = null;
         try {
-            Person existingPerson = personDao.getPerson(person.getId());
-            if (existingPerson != null) {
-                existingPerson.setComment(person.getComment());
-                existingPerson.setLinks(person.getLinks());
-                existingPerson.setFirstName(person.getFirstName());
-                existingPerson.setLastName(person.getLastName());
-                existingPerson.setMiddleName(person.getMiddleName());
-            }
+            existingPerson = personDao.updatePerson(person);
         } catch (Exception e) {
-            logger.error("Error updating person",e);
+            logger.error("Error updating person", e);
         }
-        return person;
+        return existingPerson;
+    }
+
+    @Override
+    public Person addPerson(Person person) {
+
+        Person updatedPerson = personDao.addNewPerson(person);
+        return updatedPerson;
     }
 }

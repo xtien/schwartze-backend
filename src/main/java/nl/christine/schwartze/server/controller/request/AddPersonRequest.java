@@ -5,19 +5,21 @@
  * http://www. apache.org/licenses/LICENSE-2.0.
  */
 
-package nl.christine.schwartze.server.service;
+package nl.christine.schwartze.server.controller.request;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import nl.christine.schwartze.server.model.Person;
 
-/**
- * User: christine
- * Date: 12/29/18 12:14 PM
- */
-public interface PersonService {
+public class AddPersonRequest {
 
-    Person getPerson(int id);
+    @JsonProperty("person")
+    private Person person;
 
-    Person updatePerson(Person person);
+    public Person getPerson() {
+        return person;
+    }
 
-    Person addPerson(Person person);
+    public void setPerson(Person person) {
+        this.person = person;
+    }
 }

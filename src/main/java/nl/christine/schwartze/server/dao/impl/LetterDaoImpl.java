@@ -76,4 +76,11 @@ public class LetterDaoImpl implements LetterDao {
 
         return 0;
     }
+
+    @Override
+    public Letter updateLetterComment(int letterNumber, String text) {
+        Letter letter = getLetter(letterNumber);
+        letter.setComment(text);
+        return letter;
+    }
 }

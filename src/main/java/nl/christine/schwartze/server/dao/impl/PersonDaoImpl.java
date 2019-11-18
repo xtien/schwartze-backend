@@ -30,7 +30,7 @@ public class PersonDaoImpl implements PersonDao {
     org.apache.log4j.Logger logger = Logger.getLogger(PersonDaoImpl.class);
 
     @Override
-    public void store(Person person) {
+    public Person updatePerson(Person person) {
 
         Person existingPerson = getPersonByName(person);
         if (existingPerson == null) {
@@ -38,6 +38,8 @@ public class PersonDaoImpl implements PersonDao {
         } else {
             person.setId(existingPerson.getId());
         }
+
+        return person;
     }
 
     @Override
@@ -98,5 +100,11 @@ public class PersonDaoImpl implements PersonDao {
             letters.addAll(toPerson.getLettersReceived());
         }
         return letters;
+    }
+
+    @Override
+    public Person addNewPerson(Person person) {
+        entityManager.persist(person);
+        return person;
     }
 }
