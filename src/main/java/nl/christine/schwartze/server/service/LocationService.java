@@ -15,7 +15,7 @@ import nl.christine.schwartze.server.model.MyLocation;
  */
 public interface LocationService {
 
-    int updateLocationComment(MyLocation location);
+    MyLocation updateLocationComment(MyLocation location);
 
     MyLocation getLocation(int id);
 }

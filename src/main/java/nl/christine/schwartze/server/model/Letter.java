@@ -158,4 +158,8 @@ public class Letter {
     public String getComment() {
         return remarks;
     }
+
+    public void setNumber(int letterNumber) {
+        this.number = letterNumber;
+    }
 }

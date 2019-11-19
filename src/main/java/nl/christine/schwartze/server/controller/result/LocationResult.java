@@ -18,4 +18,8 @@ public class LocationResult extends ApiResult {
     public void setLocation(MyLocation location) {
         this.location = location;
     }
+
+    public MyLocation getLocation() {
+        return location;
+    }
 }

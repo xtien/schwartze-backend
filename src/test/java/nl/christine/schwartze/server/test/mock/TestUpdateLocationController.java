@@ -1,4 +1,11 @@
-package nl.christine.schwartze.server.test.live;
+/*
+ * Copyright (c) 2019, Zaphod Consulting BV, Christine Karman
+ * This project is free software: you can redistribute it and/or modify it under the terms of
+ * the Apache License, Version 2.0. You can find a copy of the license at
+ * http://www. apache.org/licenses/LICENSE-2.0.
+ */
+
+package nl.christine.schwartze.server.test.mock;
 
 import nl.christine.schwartze.server.controller.UpdateLocationController;
 import nl.christine.schwartze.server.controller.request.LocationRequest;
@@ -9,24 +16,27 @@ import nl.christine.schwartze.server.service.LocationService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.IOException;
 
+import static org.mockito.Mockito.when;
+
 /**
  * User: christine
  * Date: 12/29/18 12:17 PM
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"/applicationContext.xml"})
 public class TestUpdateLocationController {
 
-    @Autowired
+    @InjectMocks
     private UpdateLocationController updateLocationController;
 
-    @Autowired
+    @Mock
     private LocationService locationService;
 
     private int locationId = 12;
@@ -43,12 +53,15 @@ public class TestUpdateLocationController {
         myLocation.setComment(testComment);
         myLocation.setId(locationId);
         request.setLocation(myLocation);
+
+        when(locationService.updateLocationComment(myLocation)).thenReturn(myLocation);
+
         LocationResult result = updateLocationController.updateLocation(request).getBody();
+
         Assert.assertNotNull(result);
 
-        MyLocation location = locationService.getLocation(locationId);
-        Assert.assertEquals(testDescription, location.getDescription());
-        Assert.assertEquals(testComment, location.getComment());
+        Assert.assertEquals(testDescription, result.getLocation().getDescription());
+        Assert.assertEquals(testComment, result.getLocation().getComment());
     }
 
 }

@@ -33,7 +33,6 @@ public class TestGetPersonFromLetters {
 
         PersonLettersRequest request = new PersonLettersRequest();
         request.setFromId(3);
-// https://thoughts-on-java.org/5-ways-to-initialize-lazy-relations-and-when-to-use-them/
         ResponseEntity<LettersResult> result = getLetterController.getLetters(request);
 
         Assert.assertNotNull(result);

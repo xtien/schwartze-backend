@@ -45,12 +45,8 @@ public class UpdateLocationController {
         result.setResult(PersonResult.NOT_OK);
 
         try {
-            MyLocation location = locationService.getLocation(request.getLocation().getId());
-            if (location != null) {
-                location.setComment(request.getLocation().getComment());
-                location.setDescription(request.getLocation().getDescription());
-                result.setResultCode(LocationResult.OK);
-            }
+            MyLocation resultLocation  = locationService.updateLocationComment(request.getLocation());
+            result.setLocation(resultLocation);
         } catch (Exception e) {
             logger.error("Error updating location",e);
         }

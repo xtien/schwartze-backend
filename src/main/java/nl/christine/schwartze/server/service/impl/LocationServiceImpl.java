@@ -27,15 +27,17 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     @Transactional("transactionManager")
-    public int updateLocationComment(MyLocation location) {
-        int result = -1;
+    public MyLocation updateLocationComment(MyLocation location) {
+        MyLocation existingLocation = null;
+
         try {
-            MyLocation existingLocation = locationDao.getLocation(location.getId());
+            existingLocation = locationDao.getLocation(location.getId());
             existingLocation.setComment(location.getComment());
         } catch (Exception e) {
-            logger.error("Error updating location comment",e);
+            logger.error("Error updating location comment", e);
         }
-        return result;
+
+        return existingLocation;
     }
 
     @Override

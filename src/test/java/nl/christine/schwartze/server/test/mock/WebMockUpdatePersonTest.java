@@ -77,11 +77,10 @@ public class WebMockUpdatePersonTest {
     @Test
     public void greetingShouldReturnMessageFromService() throws Exception {
 
-        request.setId(3);
         request.setPerson(person);
         String json = objectMapper.writeValueAsString(request);
 
-        when(personService.updatePerson(person)).thenReturn(0);
+        when(personService.updatePerson(person)).thenReturn(person);
 
         this.mockMvc.perform(post("/update_person_details/")
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
