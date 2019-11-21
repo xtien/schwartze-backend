@@ -16,7 +16,7 @@ import org.springframework.context.annotation.ImportResource;
  * Date: 12/16/18 10:06 PM
  */
 @SpringBootApplication
-@ImportResource("classpath:applicationContext.xml")
+//@ImportResource("classpath:applicationContext.xml")
 public class Application {
 
     public static final String UI_HOST = "http://pengo.christine.nl:3000";

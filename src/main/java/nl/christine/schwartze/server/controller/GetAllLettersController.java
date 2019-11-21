@@ -13,24 +13,32 @@ import nl.christine.schwartze.server.controller.result.LettersResult;
 import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.service.LetterService;
 import org.apache.log4j.Logger;
+import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
+import static org.springframework.test.util.AssertionErrors.assertNotNull;
+
 @Controller
 @CrossOrigin(origins = Application.UI_HOST)
+@ActiveProfiles("test")
 public class GetAllLettersController {
 
     Logger logger = Logger.getLogger(GetAllLettersController.class);
 
     @Autowired
     private LetterService letterService;
+
+    @Autowired
+    ImportDBController importDBController;
 
     @CrossOrigin(origins = Application.UI_HOST)
     @PostMapping(value = "/get_letters/")

@@ -8,16 +8,11 @@
 package nl.christine.schwartze.server.modelimport;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "letters")
-@EnableJpaRepositories(
-        basePackages = "nl.christine.schwartze.server.daoimport",
-        transactionManagerRef = "importTransactionManager",
-        entityManagerFactoryRef = "importPU")
 public class ImportLetter {
     public static final String NUMBER = "number";
     public static final String DATE = "date";

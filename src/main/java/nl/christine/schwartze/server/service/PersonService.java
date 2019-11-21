@@ -7,6 +7,7 @@
 
 package nl.christine.schwartze.server.service;
 
+import nl.christine.schwartze.server.controller.result.CombinePersonResult;
 import nl.christine.schwartze.server.model.Person;
 
 /**
@@ -20,4 +21,8 @@ public interface PersonService {
     Person updatePerson(Person person);
 
     Person addPerson(Person person);
+
+    CombinePersonResult getCombinePersons(int id1, int id2);
+
+    CombinePersonResult putCombinePersons(int id1, int id2);
 }

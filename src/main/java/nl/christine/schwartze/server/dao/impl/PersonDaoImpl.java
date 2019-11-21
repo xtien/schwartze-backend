@@ -11,6 +11,7 @@ import nl.christine.schwartze.server.dao.PersonDao;
 import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.model.Person;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -21,6 +22,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
+@Component("personDao")
 public class PersonDaoImpl implements PersonDao {
 
     @PersistenceContext(unitName = "defaultPU")

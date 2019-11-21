@@ -10,6 +10,7 @@ package nl.christine.schwartze.server.dao.impl;
 import nl.christine.schwartze.server.dao.LetterDao;
 import nl.christine.schwartze.server.model.Letter;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -17,6 +18,7 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
+@Component("letterDao")
 public class LetterDaoImpl implements LetterDao {
 
     Query deletePeople;

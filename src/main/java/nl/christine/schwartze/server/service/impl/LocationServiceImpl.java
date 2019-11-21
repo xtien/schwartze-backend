@@ -12,12 +12,14 @@ import nl.christine.schwartze.server.model.MyLocation;
 import nl.christine.schwartze.server.service.LocationService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  * User: christine
  * Date: 12/29/18 12:26 PM
  */
+@Component("locationService")
 public class LocationServiceImpl implements LocationService {
 
     @Autowired

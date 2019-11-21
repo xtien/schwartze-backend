@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.annotation.PostConstruct;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -34,17 +35,20 @@ public class GetLetterController {
 
     Logger logger = Logger.getLogger(GetLetterController.class);
 
-    private final String lettersDirectory;
-    private final String textDocumentName;
+    private String lettersDirectory;
+    private String textDocumentName;
+
+    @Autowired
+    private SchwartzeProperties properties;
 
     @Autowired
     private LetterService letterService;
 
-    public GetLetterController() {
 
-        SchwartzeProperties.init();
-        lettersDirectory = SchwartzeProperties.getProperty("letters_directory");
-        textDocumentName = SchwartzeProperties.getProperty("text_document_name");
+    @PostConstruct
+    public void init() {
+        lettersDirectory = properties.getProperty("letters_directory");
+        textDocumentName = properties.getProperty("text_document_name");
     }
 
     @CrossOrigin(origins = Application.UI_HOST)

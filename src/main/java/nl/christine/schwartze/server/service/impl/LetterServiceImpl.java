@@ -18,11 +18,13 @@ import nl.christine.schwartze.server.modelimport.ImportLetter;
 import nl.christine.schwartze.server.service.LetterService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
+@Component("letterService")
 public class LetterServiceImpl implements LetterService {
 
     Logger logger = Logger.getLogger(LetterServiceImpl.class);

@@ -134,6 +134,10 @@ public class Letter {
         return senders;
     }
 
+    public List<Person> getRecipients() {
+        return recipients;
+    }
+
     public void setComment(String comment) {
         this.remarks = comment;
     }

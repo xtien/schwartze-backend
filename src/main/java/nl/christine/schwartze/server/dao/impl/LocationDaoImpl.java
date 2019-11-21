@@ -9,6 +9,7 @@ package nl.christine.schwartze.server.dao.impl;
 
 import nl.christine.schwartze.server.dao.LocationDao;
 import nl.christine.schwartze.server.model.MyLocation;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -16,6 +17,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
+@Component("locationDao")
 public class LocationDaoImpl implements LocationDao {
 
     @PersistenceContext(unitName = "defaultPU")

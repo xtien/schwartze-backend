@@ -9,12 +9,15 @@ package nl.christine.schwartze.server.daoimport.impl;
 
 import nl.christine.schwartze.server.daoimport.ImportLetterDao;
 import nl.christine.schwartze.server.modelimport.ImportLetter;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
+@Component("importLetterDao")
 public class ImportLetterDaoImpl implements ImportLetterDao {
 
     @PersistenceContext(unitName = "importPU")

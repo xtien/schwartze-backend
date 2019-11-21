@@ -1,25 +1,39 @@
 package nl.christine.schwartze.server.test.live;
 
 import nl.christine.schwartze.server.controller.GetAllLettersController;
+import nl.christine.schwartze.server.controller.ImportDBController;
 import nl.christine.schwartze.server.controller.request.LettersRequest;
 import nl.christine.schwartze.server.controller.result.LettersResult;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/applicationContext.xml"})
+@ActiveProfiles("test")
+@PropertySource("classpath:application-test.properties")
 public class TestGetLetters {
 
     @Autowired
     private GetAllLettersController getLetterController;
 
+    @Autowired
+    ImportDBController importDBController;
+
     @Test
     public void testGetLetters() {
+
+        LettersResult importResult = importDBController.importDB();
+
+        Assert.assertNotNull(importResult);
+        Assert.assertEquals(0, importResult.getResultCode());
+
 
         LettersRequest request = new LettersRequest();
 
