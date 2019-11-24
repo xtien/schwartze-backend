@@ -8,7 +8,6 @@
 package nl.christine.schwartze.server.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -16,10 +15,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "locations")
-@EnableJpaRepositories(
-        basePackages = "nl.christine.schwartze.server.dao",
-       transactionManagerRef = "transactionManager",
-        entityManagerFactoryRef = "defaultPU")
 public class MyLocation {
 
     public static final String LOCATION_NAME = "location_name";

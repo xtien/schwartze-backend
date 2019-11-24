@@ -16,7 +16,6 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import org.apache.log4j.Logger;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -26,10 +25,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "letters")
-@EnableJpaRepositories(
-        basePackages = "nl.christine.schwartze.server.dao",
-        transactionManagerRef = "transactionManager",
-        entityManagerFactoryRef = "defaultPU")
 public class Letter {
 
     @Transient

@@ -9,17 +9,12 @@ package nl.christine.schwartze.server.test.mock;
 
 import nl.christine.schwartze.server.dao.PersonDao;
 import nl.christine.schwartze.server.model.Person;
-import nl.christine.schwartze.server.service.PersonService;
 import nl.christine.schwartze.server.service.impl.PersonServiceImpl;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.IOException;

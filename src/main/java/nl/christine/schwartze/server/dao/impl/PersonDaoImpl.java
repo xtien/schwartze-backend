@@ -11,6 +11,7 @@ import nl.christine.schwartze.server.dao.PersonDao;
 import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.model.Person;
 import org.apache.log4j.Logger;
+import org.hibernate.annotations.QueryHints;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
@@ -22,6 +23,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
+@SuppressWarnings("JpaQlInspection")
 @Component("personDao")
 public class PersonDaoImpl implements PersonDao {
 
@@ -42,6 +44,20 @@ public class PersonDaoImpl implements PersonDao {
         }
 
         return person;
+    }
+
+    @Override
+    public List<Person> getAllPeople() {
+        TypedQuery<Person> query = entityManager.createQuery(
+                "select a from " + Person.class.getSimpleName()
+                        + " a order by a.lastName",
+                Person.class);
+        return query.getResultList();
+    }
+
+    @Override
+    public void deletePerson(Person person) {
+        entityManager.remove(person);
     }
 
     @Override
@@ -93,11 +109,11 @@ public class PersonDaoImpl implements PersonDao {
     @Override
     public List<Letter> getLettersForPerson(Optional<Integer> fromId, Optional<Integer> toId) {
         List<Letter> letters = new LinkedList<>();
-        if(fromId.isPresent()){
+        if (fromId.isPresent()) {
             Person fromPerson = getPerson(fromId.get());
             letters.addAll(fromPerson.getLettersWritten());
         }
-        if(toId.isPresent()){
+        if (toId.isPresent()) {
             Person toPerson = getPerson(toId.get());
             letters.addAll(toPerson.getLettersReceived());
         }

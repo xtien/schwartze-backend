@@ -8,7 +8,6 @@
 package nl.christine.schwartze.server.test.mock;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import nl.christine.schwartze.server.controller.GetPersonFromLetters;
 import nl.christine.schwartze.server.controller.GetPersonToLetters;
 import nl.christine.schwartze.server.controller.request.PersonLettersRequest;
 import nl.christine.schwartze.server.model.Letter;
@@ -53,7 +52,7 @@ public class WebMockLettersToTest {
 
     private PersonLettersRequest letterRequest = new PersonLettersRequest();
 
-    private String comment ="this my comment";
+    private String comment = "this my comment";
     private ObjectMapper objectMapper;
 
     @Before
@@ -66,18 +65,19 @@ public class WebMockLettersToTest {
         letters.add(letter1);
         letters.add(new Letter());
         objectMapper = new ObjectMapper();
-     }
+    }
 
     @Test
     public void greetingShouldReturnMessageFromService() throws Exception {
 
-       letterRequest.setToId(3);
-       String json = objectMapper.writeValueAsString(letterRequest);
+        letterRequest.setToId(3);
+        String json = objectMapper.writeValueAsString(letterRequest);
 
-       when(letterService.getLettersToPerson(3)).thenReturn(letters);
+        when(letterService.getLettersToPerson(3)).thenReturn(letters);
 
         this.mockMvc.perform(post("/get_letters_to_person/")
-                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8")
                 .content(json))
                 .andDo(print())
                 .andExpect(status().isOk())

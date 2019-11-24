@@ -9,10 +9,12 @@ package nl.christine.schwartze.server.test.live;
 
 import nl.christine.schwartze.server.controller.GetAllLettersController;
 import nl.christine.schwartze.server.controller.GetPersonFromLetters;
+import nl.christine.schwartze.server.controller.ImportDBController;
 import nl.christine.schwartze.server.controller.request.LettersRequest;
 import nl.christine.schwartze.server.controller.request.PersonLettersRequest;
 import nl.christine.schwartze.server.controller.result.LettersResult;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,16 @@ public class TestGetPersonFromLetters {
 
     @Autowired
     private GetPersonFromLetters getLetterController;
+
+    @Autowired
+    private ImportDBController importDBController;
+
+    private static LettersResult importResult;
+
+    @Before
+    public void before() {
+        importResult = importDBController.importDB();
+    }
 
     @Test
     public void testGetLetters() {

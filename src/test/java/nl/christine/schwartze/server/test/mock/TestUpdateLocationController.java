@@ -8,7 +8,6 @@
 package nl.christine.schwartze.server.test.mock;
 
 import nl.christine.schwartze.server.controller.UpdateLocationController;
-import nl.christine.schwartze.server.controller.request.LocationRequest;
 import nl.christine.schwartze.server.controller.request.UpdateLocationRequest;
 import nl.christine.schwartze.server.controller.result.LocationResult;
 import nl.christine.schwartze.server.model.MyLocation;
@@ -18,8 +17,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.IOException;

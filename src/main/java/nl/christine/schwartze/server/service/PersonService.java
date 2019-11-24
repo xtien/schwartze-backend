@@ -10,6 +10,8 @@ package nl.christine.schwartze.server.service;
 import nl.christine.schwartze.server.controller.result.CombinePersonResult;
 import nl.christine.schwartze.server.model.Person;
 
+import java.util.List;
+
 /**
  * User: christine
  * Date: 12/29/18 12:14 PM
@@ -25,4 +27,8 @@ public interface PersonService {
     CombinePersonResult getCombinePersons(int id1, int id2);
 
     CombinePersonResult putCombinePersons(int id1, int id2);
+
+    List<Person> getPeople(List<Integer> ids);
+
+    List<Person> getAllPeople();
 }

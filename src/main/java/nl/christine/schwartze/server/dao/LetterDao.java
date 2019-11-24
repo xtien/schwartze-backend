@@ -22,4 +22,6 @@ public interface LetterDao {
     int deleteLetters(List<Letter> letters);
 
     Letter updateLetterComment(int letterNumber, String text);
+
+    Letter addLetter(Letter letter);
 }

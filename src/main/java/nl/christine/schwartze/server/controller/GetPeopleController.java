@@ -13,6 +13,7 @@ import nl.christine.schwartze.server.controller.result.LettersResult;
 import nl.christine.schwartze.server.controller.result.PeopleResult;
 import nl.christine.schwartze.server.dao.PersonDao;
 import nl.christine.schwartze.server.model.Person;
+import nl.christine.schwartze.server.service.PersonService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,7 +33,7 @@ public class GetPeopleController {
     Logger logger = Logger.getLogger(GetPeopleController.class);
 
     @Autowired
-    private PersonDao dao;
+    private PersonService personService;
 
     @CrossOrigin(origins = Application.UI_HOST)
     @PostMapping(value = "/get_people_details/")
@@ -44,7 +45,7 @@ public class GetPeopleController {
 
         try {
 
-            List<Person> people = dao.getPeople(request.getIds());
+            List<Person> people = personService.getPeople(request.getIds());
             if (people != null) {
                 result.setPeople(people);
                 result.setResultCode(LettersResult.OK);

@@ -1,11 +1,8 @@
 package nl.christine.schwartze.server.test.live;
 
-import nl.christine.schwartze.server.controller.GetAllLettersController;
 import nl.christine.schwartze.server.controller.GetLetterImagesController;
 import nl.christine.schwartze.server.controller.request.ImagesRequest;
-import nl.christine.schwartze.server.controller.request.LettersRequest;
 import nl.christine.schwartze.server.controller.result.ImagesResult;
-import nl.christine.schwartze.server.controller.result.LettersResult;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,7 +15,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.IOException;
 
-@SpringBootTest
+@RunWith(SpringJUnit4ClassRunner.class)
 @ActiveProfiles("test")
 @ContextConfiguration(locations = {"/applicationContext.xml"})
 public class TestGetImageController {

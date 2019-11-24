@@ -5,6 +5,8 @@ import nl.christine.schwartze.server.controller.ImportDBController;
 import nl.christine.schwartze.server.controller.request.LettersRequest;
 import nl.christine.schwartze.server.controller.result.LettersResult;
 import org.junit.Assert;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +26,18 @@ public class TestGetLetters {
     private GetAllLettersController getLetterController;
 
     @Autowired
-    ImportDBController importDBController;
+    private ImportDBController importDBController;
+
+    private static LettersResult importResult;
+
+    @Before
+    public void before() {
+        importResult = importDBController.importDB();
+    }
 
     @Test
     public void testGetLetters() {
 
-        LettersResult importResult = importDBController.importDB();
 
         Assert.assertNotNull(importResult);
         Assert.assertEquals(0, importResult.getResultCode());

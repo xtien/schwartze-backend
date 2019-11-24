@@ -85,4 +85,15 @@ public class LetterDaoImpl implements LetterDao {
         letter.setComment(text);
         return letter;
     }
+
+    @Override
+    public Letter addLetter(Letter letter) {
+
+        if (letter.getNumber() > 0) {
+            return null;
+        }
+        em.persist(letter);
+
+        return letter;
+    }
 }

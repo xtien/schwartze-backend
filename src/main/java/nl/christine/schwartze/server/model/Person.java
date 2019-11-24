@@ -9,9 +9,10 @@ package nl.christine.schwartze.server.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -19,10 +20,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "people")
-@EnableJpaRepositories(
-        basePackages = "nl.christine.schwartze.server.dao",
-        transactionManagerRef = "transactionManager",
-        entityManagerFactoryRef = "defaultPU")
 public class Person {
 
     public static final String FIRST_NAME = "first_name";
@@ -133,14 +130,37 @@ public class Person {
     }
 
     public void setLinks(String links) {
-        this.links=links;
+        this.links = links;
     }
 
-    public List<Letter> getLettersWritten(){
+    public List<Letter> getLettersWritten() {
         return lettersWritten;
     }
 
-    public List<Letter> getLettersReceived(){
+    public List<Letter> getLettersReceived() {
         return lettersReceived;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
+        if (obj.getClass() != getClass()) {
+            return false;
+        }
+        Person rhs = (Person) obj;
+        return new EqualsBuilder()
+                .appendSuper(super.equals(obj))
+                .append(id, rhs.id)
+                .isEquals();
+    }
+
+    public int hashCode() {
+         return new HashCodeBuilder(17, 37).
+                append(id).
+                toHashCode();
     }
 }

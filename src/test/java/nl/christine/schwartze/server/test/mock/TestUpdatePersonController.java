@@ -7,6 +7,7 @@
 
 package nl.christine.schwartze.server.test.mock;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import nl.christine.schwartze.server.controller.UpdatePersonController;
 import nl.christine.schwartze.server.controller.request.UpdatePersonRequest;
 import nl.christine.schwartze.server.controller.result.PersonResult;
@@ -15,36 +16,49 @@ import nl.christine.schwartze.server.service.PersonService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
 
 import java.io.IOException;
 import java.util.Random;
 
+import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * User: christine
  * Date: 12/29/18 12:17 PM
  */
-@RunWith(SpringJUnit4ClassRunner.class)
+@RunWith(SpringRunner.class)
+@WebMvcTest(UpdatePersonController.class)
 public class TestUpdatePersonController {
 
-    @InjectMocks
-    private UpdatePersonController updatePersonController;
+    @Autowired
+    private MockMvc mockMvc;
 
-    @Mock
+    @MockBean
     private PersonService personService;
 
     private int personId = 12;
     private String testComment = "just commenting ";
 
     @Test
-    public void testUpdatePerson() throws IOException {
+    public void testUpdatePerson() throws Exception {
 
+        ObjectMapper objectMapper = new ObjectMapper();
         String updatedComment = "more commenting";
 
         Person p = new Person();
@@ -54,14 +68,23 @@ public class TestUpdatePersonController {
         updatedPerson.setId(personId);
         updatedPerson.setComment(updatedComment);
 
-        when(personService.updatePerson(p)).thenReturn(updatedPerson);
-        testComment += new Random().nextInt(999);
+        when(personService.updatePerson(any(Person.class))).thenReturn(updatedPerson);
         UpdatePersonRequest request = new UpdatePersonRequest();
         request.setPerson(p);
-        PersonResult result = updatePersonController.updatePerson(request).getBody();
-        Assert.assertNotNull(result);
 
-         Assert.assertEquals(updatedComment, result.getPerson().getComment());
+        String json = objectMapper.writeValueAsString(request);
+
+        this.mockMvc.perform(post("/update_person_details/")
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8")
+                .content(json))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.person.id").value(personId))
+                .andExpect(jsonPath("$.person.comment").value(updatedComment));
+
+        ArgumentCaptor<Person> personCaptor = ArgumentCaptor.forClass(Person.class);
+        verify(personService).updatePerson(personCaptor.capture());
+        assertEquals(testComment, personCaptor.getValue().getComment());
     }
-
 }

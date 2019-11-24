@@ -28,4 +28,8 @@ public interface PersonDao {
     Person addNewPerson(Person person);
 
     Person updatePerson(Person person);
+
+    List<Person> getAllPeople();
+
+    void deletePerson(Person person);
 }

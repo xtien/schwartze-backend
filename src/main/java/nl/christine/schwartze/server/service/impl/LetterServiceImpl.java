@@ -10,7 +10,6 @@ package nl.christine.schwartze.server.service.impl;
 import nl.christine.schwartze.server.dao.LetterDao;
 import nl.christine.schwartze.server.dao.LocationDao;
 import nl.christine.schwartze.server.dao.PersonDao;
-import nl.christine.schwartze.server.daoimport.ImportLetterDao;
 import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.model.MyLocation;
 import nl.christine.schwartze.server.model.Person;
@@ -33,36 +32,12 @@ public class LetterServiceImpl implements LetterService {
     private LetterDao letterDao;
 
     @Autowired
-    private ImportLetterDao importLetterDao;
-
-    @Autowired
     private PersonDao personDao;
 
     @Autowired
     private LocationDao locationDao;
 
     Logger log = Logger.getLogger(LetterServiceImpl.class);
-
-    /**
-     * Clearing db, not importdb, so use transactionManager
-     *
-     * @return
-     */
-    @Override
-    @Transactional("transactionManager")
-    public int clearTables() {
-        try {
-            deleteLetters(getLetters());
-        } catch (Exception e) {
-            logger.error("Error clearing tables", e);
-            return -1;
-        }
-        return 0;
-    }
-
-    void deleteLetters(List<Letter> letters) {
-        letterDao.deleteLetters(letters);
-    }
 
     @Override
     @Transactional("transactionManager")
@@ -81,6 +56,11 @@ public class LetterServiceImpl implements LetterService {
     @Transactional("transactionManager")
     public List<Letter> getLettersFromPerson(int fromId) {
         return personDao.getLettersForPerson(Optional.ofNullable(fromId), Optional.empty());
+    }
+
+    @Override
+    public Letter addLetter(Letter letter) {
+        return letterDao.addLetter(letter);
     }
 
     /**
@@ -183,17 +163,6 @@ public class LetterServiceImpl implements LetterService {
             existingPerson = fromPerson;
         }
         return existingPerson;
-    }
-
-    /**
-     * getting letters from import db, so use importTransactionManager
-     *
-     * @return
-     */
-    @Override
-    @Transactional("importTransactionManager")
-    public List<ImportLetter> getImportLetters() {
-        return importLetterDao.getLetters();
     }
 
     private MyLocation createLocation(String fromLocation) {

@@ -9,7 +9,9 @@ package nl.christine.schwartze.server.service.impl;
 
 import nl.christine.schwartze.server.controller.result.CombinePersonResult;
 import nl.christine.schwartze.server.controller.result.PersonResult;
+import nl.christine.schwartze.server.dao.LetterDao;
 import nl.christine.schwartze.server.dao.PersonDao;
+import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.model.Person;
 import nl.christine.schwartze.server.service.PersonService;
 import org.apache.commons.lang3.StringUtils;
@@ -19,6 +21,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.security.auth.callback.TextInputCallback;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -33,9 +37,16 @@ public class PersonServiceImpl implements PersonService {
 
     Logger logger = Logger.getLogger(PersonServiceImpl.class);
 
+    @Autowired
+    private LetterDao letterDao;
+
     @Override
+    @Transactional("transactionManager")
     public Person getPerson(int id) {
-        return personDao.getPerson(id);
+        Person resultPerson = personDao.getPerson(id);
+        List<Letter> lettersWritten = resultPerson.getLettersWritten();
+        resultPerson.getLettersReceived();
+        return resultPerson;
     }
 
     @Override
@@ -51,6 +62,7 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
+    @Transactional("transactionManager")
     public Person addPerson(Person person) {
 
         Person updatedPerson = personDao.addNewPerson(person);
@@ -76,16 +88,36 @@ public class PersonServiceImpl implements PersonService {
         return result;
     }
 
+    @Override
+    public List<Person> getPeople(List<Integer> ids) {
+        List<Person> people = new ArrayList<>();
+        try {
+            for (int id : ids) {
+                people.add(personDao.getPerson(id));
+            }
+        } catch (Exception e) {
+            logger.error("Error getting people", e);
+        }
+        return people;
+    }
+
+    @Override
+    public List<Person> getAllPeople() {
+        return personDao.getAllPeople();
+    }
+
     private Person merge(Person person1, Person person2) {
 
         person2.getLettersReceived().stream().forEach(x -> {
-            x.getRecipients().remove(person2);
-            x.getRecipients().add(person1);
+            person1.getLettersReceived().add(x);
+             x.getRecipients().add(person1);
+             x.getRecipients().remove(person2);
         });
 
         person2.getLettersWritten().stream().forEach(x -> {
-            x.getSenders().remove(person2);
+            person1.getLettersWritten().add(x);
             x.getSenders().add(person1);
+            x.getSenders().remove(person2);
         });
 
         if (StringUtils.isEmpty(person1.getFirstName())) {
@@ -103,6 +135,10 @@ public class PersonServiceImpl implements PersonService {
         if (StringUtils.isNotEmpty(person2.getLinks())) {
             person1.setLinks(person1.getLinks() + "\n" + person2.getLinks());
         }
+
+        person2.getLettersReceived().clear();
+        person2.getLettersWritten().clear();
+        personDao.deletePerson(person2);
 
         return person1;
     }

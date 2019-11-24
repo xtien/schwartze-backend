@@ -5,19 +5,16 @@
  * http://www. apache.org/licenses/LICENSE-2.0.
  */
 
-package nl.christine.schwartze.server.test.mock;
+package nl.christine.schwartze.server.test.service;
 
 import nl.christine.schwartze.server.dao.LetterDao;
 import nl.christine.schwartze.server.model.Letter;
-import nl.christine.schwartze.server.service.LetterService;
 import nl.christine.schwartze.server.service.impl.LetterServiceImpl;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.IOException;

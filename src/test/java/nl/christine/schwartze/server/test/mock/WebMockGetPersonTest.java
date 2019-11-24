@@ -77,7 +77,8 @@ public class WebMockGetPersonTest {
         when(personService.getPerson(3)).thenReturn(person);
 
         this.mockMvc.perform(post("/get_person_details/")
-                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8")
                 .content(json))
                 .andDo(print())
                 .andExpect(status().isOk())

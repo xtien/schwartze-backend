@@ -44,9 +44,6 @@ public class GetLetterImagesController {
     private SchwartzeProperties properties;
 
     @Autowired
-    private LetterDao letterDao;
-
-    @Autowired
     private ImageService imageService;
 
     @PostConstruct

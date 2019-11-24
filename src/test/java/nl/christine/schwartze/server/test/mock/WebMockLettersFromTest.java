@@ -30,7 +30,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * User: christine
@@ -51,7 +52,7 @@ public class WebMockLettersFromTest {
 
     private PersonLettersRequest letterRequest = new PersonLettersRequest();
 
-    private String comment ="this my comment";
+    private String comment = "this my comment";
     private ObjectMapper objectMapper;
 
     @Before
@@ -64,18 +65,19 @@ public class WebMockLettersFromTest {
         letters.add(letter1);
         letters.add(new Letter());
         objectMapper = new ObjectMapper();
-     }
+    }
 
     @Test
     public void greetingShouldReturnMessageFromService() throws Exception {
 
-       letterRequest.setFromId(3);
-       String json = objectMapper.writeValueAsString(letterRequest);
+        letterRequest.setFromId(3);
+        String json = objectMapper.writeValueAsString(letterRequest);
 
-       when(letterService.getLettersFromPerson(3)).thenReturn(letters);
+        when(letterService.getLettersFromPerson(3)).thenReturn(letters);
 
         this.mockMvc.perform(post("/get_letters_from_person/")
-                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8")
                 .content(json))
                 .andDo(print())
                 .andExpect(status().isOk())

@@ -8,28 +8,24 @@
 package nl.christine.schwartze.server.test.mock;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import nl.christine.schwartze.server.controller.GetPersonController;
-import nl.christine.schwartze.server.controller.UpdateLetterController;
-import nl.christine.schwartze.server.controller.request.LetterRequest;
-import nl.christine.schwartze.server.controller.result.LetterResult;
-import nl.christine.schwartze.server.model.Letter;
+import nl.christine.schwartze.server.controller.AddPersonController;
+import nl.christine.schwartze.server.controller.UpdatePersonController;
+import nl.christine.schwartze.server.controller.request.AddPersonRequest;
+import nl.christine.schwartze.server.controller.request.UpdatePersonRequest;
 import nl.christine.schwartze.server.model.Person;
-import nl.christine.schwartze.server.service.impl.LetterServiceImpl;
-import org.junit.Assert;
+import nl.christine.schwartze.server.service.PersonService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -42,42 +38,48 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Date: 12/29/18 12:17 PM
  */
 @RunWith(SpringRunner.class)
-@WebMvcTest(UpdateLetterController.class)
-public class TestUpdateLetterController {
+@WebMvcTest(AddPersonController.class)
+public class TestAddPersonController {
 
     @Autowired
     private MockMvc mockMvc;
 
-    @InjectMocks
-    private UpdateLetterController updateLetterController;
-
     @MockBean
-    private LetterServiceImpl letterService;
+    private PersonService personService;
 
-    private int letterNumber = 12;
-    private String comment = "testing";
+    private int personId = 12;
+    private String testComment = "just commenting ";
 
     @Test
-    public void testUpdateLetter() throws Exception {
+    public void testAddPerson() throws Exception {
 
         ObjectMapper objectMapper = new ObjectMapper();
-        Letter letter = new Letter();
-        letter.setNumber(letterNumber);
-        letter.setComment(comment);
+        String updatedComment = "more commenting";
 
-        when(letterService.updateLetterComment(letterNumber, comment)).thenReturn(letter);
+        Person p = new Person();
+        p.setId(personId);
+        p.setComment(testComment);
+        Person updatedPerson = new Person();
+        updatedPerson.setId(personId);
+        updatedPerson.setComment(updatedComment);
 
-        LetterRequest request = new LetterRequest();
-        request.setComment(comment);
-        request.setNumber(letterNumber);
+        when(personService.addPerson(any(Person.class))).thenReturn(updatedPerson);
+        AddPersonRequest request = new AddPersonRequest();
+        request.setPerson(p);
+
         String json = objectMapper.writeValueAsString(request);
 
-        this.mockMvc.perform(post("/update_letter_details/")
+        this.mockMvc.perform(post("/add_person/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
                 .content(json))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.letter.comment").value(comment));
+                .andExpect(jsonPath("$.person.id").value(personId))
+                .andExpect(jsonPath("$.person.comment").value(updatedComment));
+
+        ArgumentCaptor<Person> personCaptor = ArgumentCaptor.forClass(Person.class);
+        verify(personService).addPerson(personCaptor.capture());
+        assertEquals(testComment, personCaptor.getValue().getComment());
     }
 }

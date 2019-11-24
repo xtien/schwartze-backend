@@ -18,6 +18,7 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Component("importLetterDao")
+@Profile("test")
 public class ImportLetterDaoImpl implements ImportLetterDao {
 
     @PersistenceContext(unitName = "importPU")

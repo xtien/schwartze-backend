@@ -10,9 +10,11 @@ package nl.christine.schwartze.server.controller;
 import nl.christine.schwartze.server.Application;
 import nl.christine.schwartze.server.controller.result.LettersResult;
 import nl.christine.schwartze.server.modelimport.ImportLetter;
+import nl.christine.schwartze.server.service.ImportLetterService;
 import nl.christine.schwartze.server.service.LetterService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
@@ -20,10 +22,14 @@ import java.util.List;
 
 @Controller
 @CrossOrigin(origins = Application.UI_HOST)
+@Profile("test")
 public class ImportDBController {
 
     @Autowired
     private LetterService letterService;
+
+    @Autowired
+    private ImportLetterService importLetterService;
 
     private Logger logger = Logger.getLogger(ImportDBController.class);
 
@@ -35,7 +41,7 @@ public class ImportDBController {
 
         try {
 
-            importLetters = letterService.getImportLetters();
+            importLetters = importLetterService.getImportLetters();
 
         } catch (Exception e) {
             logger.error("Error importing letters ", e);

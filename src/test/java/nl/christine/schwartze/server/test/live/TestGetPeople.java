@@ -1,9 +1,12 @@
 package nl.christine.schwartze.server.test.live;
 
 import nl.christine.schwartze.server.controller.GetPeopleController;
+import nl.christine.schwartze.server.controller.ImportDBController;
 import nl.christine.schwartze.server.controller.request.PeopleRequest;
+import nl.christine.schwartze.server.controller.result.LettersResult;
 import nl.christine.schwartze.server.model.Person;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +32,16 @@ public class TestGetPeople {
     private GetPeopleController getPeopleController;
 
     private List<Integer> ids = new ArrayList<>();
+
+    @Autowired
+    private ImportDBController importDBController;
+
+    private static LettersResult importResult;
+
+    @Before
+    public void before() {
+        importResult = importDBController.importDB();
+    }
 
     @Test
     public void testGetPeople(){
