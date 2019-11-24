@@ -61,6 +61,14 @@ public class PersonDaoImpl implements PersonDao {
     }
 
     @Override
+    public void deletePerson(int id) {
+        Person person = getPerson(id);
+        if (person != null) {
+            entityManager.remove(person);
+        }
+    }
+
+    @Override
     public Person getPerson(int id) {
         return entityManager.find(Person.class, id);
     }

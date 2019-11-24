@@ -8,6 +8,7 @@
 package nl.christine.schwartze.server.dao.impl;
 
 import nl.christine.schwartze.server.dao.LocationDao;
+import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.model.MyLocation;
 import org.springframework.stereotype.Component;
 
@@ -53,6 +54,12 @@ public class LocationDaoImpl implements LocationDao {
     @Override
     public MyLocation getLocation(int id) {
         return entityManager.find(MyLocation.class, id);
+    }
+
+    @Override
+    public MyLocation addLocation(MyLocation location) {
+        entityManager.persist(location);
+        return location;
     }
 
 }

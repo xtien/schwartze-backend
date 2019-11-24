@@ -7,6 +7,7 @@
 
 package nl.christine.schwartze.server.service;
 
+import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.model.MyLocation;
 
 /**
@@ -18,4 +19,6 @@ public interface LocationService {
     MyLocation updateLocationComment(MyLocation location);
 
     MyLocation getLocation(int id);
+
+    MyLocation addLocation(MyLocation location);
 }

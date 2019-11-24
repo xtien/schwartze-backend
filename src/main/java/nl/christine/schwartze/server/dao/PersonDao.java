@@ -32,4 +32,6 @@ public interface PersonDao {
     List<Person> getAllPeople();
 
     void deletePerson(Person person);
+
+    void deletePerson(int id);
 }

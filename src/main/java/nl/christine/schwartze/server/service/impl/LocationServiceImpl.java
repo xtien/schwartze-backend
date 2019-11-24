@@ -8,6 +8,7 @@
 package nl.christine.schwartze.server.service.impl;
 
 import nl.christine.schwartze.server.dao.LocationDao;
+import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.model.MyLocation;
 import nl.christine.schwartze.server.service.LocationService;
 import org.apache.log4j.Logger;
@@ -45,6 +46,12 @@ public class LocationServiceImpl implements LocationService {
     @Override
     public MyLocation getLocation(int i) {
         return locationDao.getLocation(i);
+    }
+
+    @Override
+    public Letter addLocation(MyLocation location) {
+        return locationDao.addLocation(location);
+
     }
 
 }

@@ -7,6 +7,7 @@
 
 package nl.christine.schwartze.server.dao;
 
+import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.model.MyLocation;
 
 import java.util.List;
@@ -18,4 +19,6 @@ public interface LocationDao {
     MyLocation getLocationByName(MyLocation location);
 
     MyLocation getLocation(int id);
+
+    MyLocation addLocation(MyLocation location);
 }

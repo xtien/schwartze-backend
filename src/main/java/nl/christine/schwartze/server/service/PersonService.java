@@ -31,4 +31,6 @@ public interface PersonService {
     List<Person> getPeople(List<Integer> ids);
 
     List<Person> getAllPeople();
+
+    int deletePerson(int id);
 }

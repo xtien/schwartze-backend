@@ -25,6 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static org.springframework.util.CollectionUtils.isEmpty;
+
 /**
  * User: christine
  * Date: 12/29/18 12:15 PM
@@ -104,6 +106,15 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public List<Person> getAllPeople() {
         return personDao.getAllPeople();
+    }
+
+    @Override
+    public int deletePerson(int id) {
+        Person existingPerson = getPerson(id);
+        if(isEmpty(existingPerson.getLettersWritten()) && isEmpty(existingPerson.getLettersReceived())){
+            personDao.deletePerson(id);
+        }
+        return 0;
     }
 
     private Person merge(Person person1, Person person2) {
