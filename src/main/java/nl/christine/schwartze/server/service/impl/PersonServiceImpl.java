@@ -119,6 +119,9 @@ public class PersonServiceImpl implements PersonService {
 
     private Person merge(Person person1, Person person2) {
 
+        personDao.merge(person1);
+        personDao.merge(person2);
+
         person2.getLettersReceived().stream().forEach(x -> {
             person1.getLettersReceived().add(x);
              x.getRecipients().add(person1);

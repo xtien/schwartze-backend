@@ -49,7 +49,7 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
-    public Letter addLocation(MyLocation location) {
+    public MyLocation addLocation(MyLocation location) {
         return locationDao.addLocation(location);
 
     }

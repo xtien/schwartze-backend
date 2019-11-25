@@ -34,4 +34,6 @@ public interface PersonDao {
     void deletePerson(Person person);
 
     void deletePerson(int id);
+
+    void merge(Person person);
 }

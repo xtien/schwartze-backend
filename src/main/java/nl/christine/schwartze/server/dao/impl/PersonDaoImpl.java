@@ -69,6 +69,11 @@ public class PersonDaoImpl implements PersonDao {
     }
 
     @Override
+    public void merge(Person person) {
+        entityManager.merge(person);
+    }
+
+    @Override
     public Person getPerson(int id) {
         return entityManager.find(Person.class, id);
     }

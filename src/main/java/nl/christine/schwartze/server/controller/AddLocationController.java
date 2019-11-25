@@ -24,8 +24,8 @@ public class AddLocationController {
     private LocationService locationService;
 
     @CrossOrigin(origins = Application.UI_HOST)
-    @PostMapping(value = "/add_letter/")
-    public AddLocationResult addLetter(MyLocation location) {
+    @PostMapping(value = "/add_location/")
+    public AddLocationResult addLocation(MyLocation location) {
 
         AddLocationResult result = new AddLocationResult();
 
