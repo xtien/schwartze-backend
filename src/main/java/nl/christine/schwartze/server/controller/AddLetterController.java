@@ -11,7 +11,6 @@ import nl.christine.schwartze.server.Application;
 import nl.christine.schwartze.server.controller.request.AddLetterRequest;
 import nl.christine.schwartze.server.controller.result.AddLetterResult;
 import nl.christine.schwartze.server.model.Letter;
-import nl.christine.schwartze.server.modelimport.ImportLetter;
 import nl.christine.schwartze.server.service.LetterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

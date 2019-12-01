@@ -9,6 +9,7 @@ package nl.christine.schwartze.server.service;
 
 import nl.christine.schwartze.server.controller.result.CombinePersonResult;
 import nl.christine.schwartze.server.model.Person;
+import nl.christine.schwartze.server.model.Text;
 
 import java.util.List;
 
@@ -33,4 +34,6 @@ public interface PersonService {
     List<Person> getAllPeople();
 
     int deletePerson(int id);
+
+    Text getText(int id);
 }

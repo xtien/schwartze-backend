@@ -7,12 +7,9 @@
 
 package nl.christine.schwartze.server.service.impl;
 
-import nl.christine.schwartze.server.dao.LocationDao;
-import nl.christine.schwartze.server.dao.PersonDao;
 import nl.christine.schwartze.server.daoimport.ImportLetterDao;
 import nl.christine.schwartze.server.modelimport.ImportLetter;
 import nl.christine.schwartze.server.service.ImportLetterService;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;

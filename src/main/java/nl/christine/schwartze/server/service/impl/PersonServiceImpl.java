@@ -8,11 +8,12 @@
 package nl.christine.schwartze.server.service.impl;
 
 import nl.christine.schwartze.server.controller.result.CombinePersonResult;
-import nl.christine.schwartze.server.controller.result.PersonResult;
 import nl.christine.schwartze.server.dao.LetterDao;
 import nl.christine.schwartze.server.dao.PersonDao;
+import nl.christine.schwartze.server.dao.TextDao;
 import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.model.Person;
+import nl.christine.schwartze.server.model.Text;
 import nl.christine.schwartze.server.service.PersonService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -20,10 +21,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.security.auth.callback.TextInputCallback;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.springframework.util.CollectionUtils.isEmpty;
 
@@ -41,6 +40,9 @@ public class PersonServiceImpl implements PersonService {
 
     @Autowired
     private LetterDao letterDao;
+
+    @Autowired
+    private TextDao textDao;
 
     @Override
     @Transactional("transactionManager")
@@ -91,6 +93,7 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
+    @Transactional("transactionManager")
     public List<Person> getPeople(List<Integer> ids) {
         List<Person> people = new ArrayList<>();
         try {
@@ -104,17 +107,25 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
+    @Transactional("transactionManager")
     public List<Person> getAllPeople() {
         return personDao.getAllPeople();
     }
 
     @Override
+    @Transactional("transactionManager")
     public int deletePerson(int id) {
         Person existingPerson = getPerson(id);
         if(isEmpty(existingPerson.getLettersWritten()) && isEmpty(existingPerson.getLettersReceived())){
             personDao.deletePerson(id);
         }
         return 0;
+    }
+
+    @Override
+    @Transactional("transactionManager")
+    public Text getText(int id) {
+        return getPerson(id).getText();
     }
 
     private Person merge(Person person1, Person person2) {

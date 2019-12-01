@@ -8,50 +8,55 @@
 package nl.christine.schwartze.server.controller;
 
 import nl.christine.schwartze.server.Application;
-import nl.christine.schwartze.server.controller.request.UpdateLocationRequest;
-import nl.christine.schwartze.server.controller.result.LocationResult;
-import nl.christine.schwartze.server.controller.result.PersonResult;
-import nl.christine.schwartze.server.model.MyLocation;
+import nl.christine.schwartze.server.controller.request.TextRequest;
+import nl.christine.schwartze.server.controller.result.TextResult;
+import nl.christine.schwartze.server.model.Text;
 import nl.christine.schwartze.server.service.LocationService;
+import nl.christine.schwartze.server.service.PersonService;
+import nl.christine.schwartze.server.service.TextService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-/**
- * User: christine
- * Date: 12/29/18 12:41 PM
- */
 @Controller
 @CrossOrigin(origins = Application.UI_HOST)
-public class UpdateLocationController {
+public class AddTextController {
 
-    Logger logger = Logger.getLogger(UpdateLocationController.class);
+    Logger logger = Logger.getLogger(AddTextController.class);
+
+    @Autowired
+    private PersonService personService;
 
     @Autowired
     private LocationService locationService;
 
-    @CrossOrigin(origins = Application.UI_HOST)
-    @PostMapping(value = "/update_location_details/")
-    @Transactional("transactionManager")
-    public ResponseEntity<LocationResult> updateLocation(@RequestBody UpdateLocationRequest request) {
+    @Autowired
+    private TextService textService;
 
-        LocationResult result = new LocationResult();
-        result.setResult(PersonResult.NOT_OK);
+    @CrossOrigin(origins = Application.UI_HOST)
+    @GetMapping(value = "/add_text/")
+    public ResponseEntity<TextResult> addPersonText() {
+
+        TextResult result = new TextResult();
+        HttpStatus status = HttpStatus.OK;
 
         try {
-            MyLocation resultLocation  = locationService.updateLocationComment(request.getLocation());
-            result.setLocation(resultLocation);
+             Text text = textService.addText();
+            if (text != null) {
+                result.setText(text);
+            } else {
+                status = HttpStatus.NOT_FOUND;
+            }
         } catch (Exception e) {
-            logger.error("Error updating location",e);
+            logger.error("get_text exception ", e);
         }
 
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return new ResponseEntity<>(result, status);
     }
-
 }

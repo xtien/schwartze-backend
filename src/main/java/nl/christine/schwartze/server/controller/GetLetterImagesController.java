@@ -10,7 +10,6 @@ package nl.christine.schwartze.server.controller;
 import nl.christine.schwartze.server.Application;
 import nl.christine.schwartze.server.controller.request.ImagesRequest;
 import nl.christine.schwartze.server.controller.result.ImagesResult;
-import nl.christine.schwartze.server.dao.LetterDao;
 import nl.christine.schwartze.server.image.ImageService;
 import nl.christine.schwartze.server.properties.SchwartzeProperties;
 import org.apache.log4j.Logger;

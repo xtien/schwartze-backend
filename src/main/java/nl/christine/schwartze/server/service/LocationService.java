@@ -8,8 +8,8 @@
 package nl.christine.schwartze.server.service;
 
 import nl.christine.schwartze.server.exception.LocationNotFoundException;
-import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.model.MyLocation;
+import nl.christine.schwartze.server.model.Text;
 
 /**
  * User: christine
@@ -24,4 +24,6 @@ public interface LocationService {
     MyLocation addLocation(MyLocation location);
 
     void deleteLocation(int id) throws LocationNotFoundException;
+
+    Text getText(int id);
 }

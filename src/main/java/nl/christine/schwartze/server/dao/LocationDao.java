@@ -8,7 +8,6 @@
 package nl.christine.schwartze.server.dao;
 
 import nl.christine.schwartze.server.exception.LocationNotFoundException;
-import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.model.MyLocation;
 
 import java.util.List;

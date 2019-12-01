@@ -97,4 +97,8 @@ public class MyLocation {
     public String getDescription() {
         return description;
     }
+
+    public Text getText() {
+        return text;
+    }
 }

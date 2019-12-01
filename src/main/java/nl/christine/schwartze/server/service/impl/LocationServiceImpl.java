@@ -8,9 +8,10 @@
 package nl.christine.schwartze.server.service.impl;
 
 import nl.christine.schwartze.server.dao.LocationDao;
+import nl.christine.schwartze.server.dao.TextDao;
 import nl.christine.schwartze.server.exception.LocationNotFoundException;
-import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.model.MyLocation;
+import nl.christine.schwartze.server.model.Text;
 import nl.christine.schwartze.server.service.LocationService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,9 @@ public class LocationServiceImpl implements LocationService {
     private LocationDao locationDao;
 
     Logger logger = Logger.getLogger(LocationServiceImpl.class);
+
+    @Autowired
+    private TextDao textDao;
 
     @Override
     @Transactional("transactionManager")
@@ -61,4 +65,8 @@ public class LocationServiceImpl implements LocationService {
         locationDao.deleteLocation(id);
     }
 
+    @Override
+    public Text getText(int id) {
+        return getLocation(id).getText();
+    }
 }

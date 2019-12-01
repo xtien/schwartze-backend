@@ -5,30 +5,32 @@
  * http://www. apache.org/licenses/LICENSE-2.0.
  */
 
-package nl.christine.schwartze.server.model;
+package nl.christine.schwartze.server.controller.request;
 
-import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import nl.christine.schwartze.server.model.Text;
 
-@Entity
-@Table(name = "text")
-public class Text {
+public class TextRequest {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty("id")
     private int id;
 
-    @Lob
-    private String text;
+    @JsonProperty("text")
+    private Text text;
 
     public int getId() {
         return id;
     }
 
-    public String getText() {
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Text getText() {
         return text;
     }
 
-    public void setText(String text) {
+    public void setText(Text text) {
         this.text = text;
     }
 }

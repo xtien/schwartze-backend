@@ -11,7 +11,6 @@ import nl.christine.schwartze.server.Application;
 import nl.christine.schwartze.server.controller.request.PeopleRequest;
 import nl.christine.schwartze.server.controller.result.LettersResult;
 import nl.christine.schwartze.server.controller.result.PeopleResult;
-import nl.christine.schwartze.server.dao.PersonDao;
 import nl.christine.schwartze.server.model.Person;
 import nl.christine.schwartze.server.service.PersonService;
 import org.apache.log4j.Logger;

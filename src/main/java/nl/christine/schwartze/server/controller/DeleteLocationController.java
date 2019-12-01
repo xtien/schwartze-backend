@@ -9,18 +9,14 @@ package nl.christine.schwartze.server.controller;
 
 import nl.christine.schwartze.server.Application;
 import nl.christine.schwartze.server.controller.request.DeleteLocationRequest;
-import nl.christine.schwartze.server.controller.request.DeletePersonRequest;
 import nl.christine.schwartze.server.controller.result.DeleteLocationResult;
-import nl.christine.schwartze.server.controller.result.PersonResult;
 import nl.christine.schwartze.server.exception.LocationNotFoundException;
 import nl.christine.schwartze.server.service.LocationService;
-import nl.christine.schwartze.server.service.PersonService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

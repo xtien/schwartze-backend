@@ -11,7 +11,6 @@ import nl.christine.schwartze.server.dao.PersonDao;
 import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.model.Person;
 import org.apache.log4j.Logger;
-import org.hibernate.annotations.QueryHints;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;

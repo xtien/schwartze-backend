@@ -5,13 +5,15 @@
  * http://www. apache.org/licenses/LICENSE-2.0.
  */
 
-package nl.christine.schwartze.server.daoimport;
+package nl.christine.schwartze.server.dao;
 
-import nl.christine.schwartze.server.modelimport.ImportLetter;
+import nl.christine.schwartze.server.model.Text;
 
-import java.util.List;
+public interface TextDao {
 
-public interface ImportLetterDao {
+    Text addText();
 
-    List<ImportLetter> getLetters();
+    Text getText(int id);
+
+    Text updateText(Text text);
 }
