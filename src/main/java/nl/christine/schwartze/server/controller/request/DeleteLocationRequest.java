@@ -8,21 +8,19 @@
 package nl.christine.schwartze.server.controller.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import nl.christine.schwartze.server.model.Person;
+import nl.christine.schwartze.server.model.Letter;
+import nl.christine.schwartze.server.model.MyLocation;
 
-import javax.validation.constraints.NotNull;
+public class DeleteLocationRequest {
 
-public class AddPersonRequest {
+    @JsonProperty("location")
+    private MyLocation location;
 
-    @JsonProperty("person")
-    @NotNull
-    private Person person;
-
-    public Person getPerson() {
-        return person;
+    public MyLocation getLocation() {
+        return location;
     }
 
-    public void setPerson(Person person) {
-        this.person = person;
+    public void setLocation(MyLocation location) {
+        this.location = location;
     }
 }

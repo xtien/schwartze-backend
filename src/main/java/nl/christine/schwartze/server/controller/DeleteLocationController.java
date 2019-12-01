@@ -8,11 +8,12 @@
 package nl.christine.schwartze.server.controller;
 
 import nl.christine.schwartze.server.Application;
+import nl.christine.schwartze.server.controller.request.DeleteLocationRequest;
 import nl.christine.schwartze.server.controller.request.DeletePersonRequest;
-import nl.christine.schwartze.server.controller.request.GetPersonRequest;
-import nl.christine.schwartze.server.controller.result.LettersResult;
+import nl.christine.schwartze.server.controller.result.DeleteLocationResult;
 import nl.christine.schwartze.server.controller.result.PersonResult;
-import nl.christine.schwartze.server.model.Person;
+import nl.christine.schwartze.server.exception.LocationNotFoundException;
+import nl.christine.schwartze.server.service.LocationService;
 import nl.christine.schwartze.server.service.PersonService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,28 +27,27 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 @CrossOrigin(origins = Application.UI_HOST)
-public class DeletePersonController {
+public class DeleteLocationController {
 
-    Logger logger = Logger.getLogger(DeletePersonController.class);
+    Logger logger = Logger.getLogger(DeleteLocationController.class);
 
     @Autowired
-    private PersonService personService;
+    private LocationService locationService;
 
     @CrossOrigin(origins = Application.UI_HOST)
-    @PostMapping(value = "/delete_person/")
-    @Transactional("transactionManager")
-    public ResponseEntity<PersonResult> getPerson(@RequestBody DeletePersonRequest request) {
+    @PostMapping(value = "/delete_location/")
+    public ResponseEntity<DeleteLocationResult> getPerson(@RequestBody DeleteLocationRequest request) {
 
-        PersonResult result = new PersonResult();
+        DeleteLocationResult result = new DeleteLocationResult();
         HttpStatus status = HttpStatus.OK;
 
         try {
-            int i = personService.deletePerson(request.getPerson().getId());
-            result.setResultCode(i);
-        } catch (Exception e) {
+            locationService.deleteLocation(request.getLocation().getId());
+        } catch (LocationNotFoundException e) {
             logger.error("Error getting person", e);
-            result.setResultCode(-1);
             status = HttpStatus.NOT_FOUND;
+        } catch(Exception e){
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
 
         return new ResponseEntity<>(result, status);

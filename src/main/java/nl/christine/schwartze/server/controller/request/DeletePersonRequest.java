@@ -10,12 +10,9 @@ package nl.christine.schwartze.server.controller.request;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import nl.christine.schwartze.server.model.Person;
 
-import javax.validation.constraints.NotNull;
-
-public class AddPersonRequest {
+public class DeletePersonRequest {
 
     @JsonProperty("person")
-    @NotNull
     private Person person;
 
     public Person getPerson() {

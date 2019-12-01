@@ -8,6 +8,7 @@
 package nl.christine.schwartze.server.service.impl;
 
 import nl.christine.schwartze.server.dao.LocationDao;
+import nl.christine.schwartze.server.exception.LocationNotFoundException;
 import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.model.MyLocation;
 import nl.christine.schwartze.server.service.LocationService;
@@ -49,9 +50,15 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
+    @Transactional("transactionManager")
     public MyLocation addLocation(MyLocation location) {
         return locationDao.addLocation(location);
+    }
 
+    @Override
+    @Transactional("transactionManager")
+    public void deleteLocation(int id) throws LocationNotFoundException {
+        locationDao.deleteLocation(id);
     }
 
 }

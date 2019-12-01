@@ -47,7 +47,7 @@ public class TestUpdateLetter {
         newLetter.setNumber(12);
         newLetter.setComment(newComment);
 
-        when(letterDao.getLetter(letter.getNumber())).thenReturn(letter);
+        when(letterDao.getLetterForNumber(letter.getNumber())).thenReturn(letter);
         when(letterDao.updateLetterComment(letter.getNumber(), newComment)).thenReturn(newLetter);
 
         Letter resultingLetter =   letterService.updateLetterComment(12, newComment);

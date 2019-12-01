@@ -8,6 +8,7 @@
 package nl.christine.schwartze.server.dao.impl;
 
 import nl.christine.schwartze.server.dao.LocationDao;
+import nl.christine.schwartze.server.exception.LocationNotFoundException;
 import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.model.MyLocation;
 import org.springframework.stereotype.Component;
@@ -60,6 +61,17 @@ public class LocationDaoImpl implements LocationDao {
     public MyLocation addLocation(MyLocation location) {
         entityManager.persist(location);
         return location;
+    }
+
+    @Override
+    public void deleteLocation(int id) throws LocationNotFoundException {
+        MyLocation existingLocation = entityManager.find(MyLocation.class, id);
+        if(existingLocation !=null){
+            entityManager.remove(existingLocation);
+        } else {
+            throw new LocationNotFoundException();
+        }
+
     }
 
 }

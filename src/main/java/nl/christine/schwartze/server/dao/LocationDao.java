@@ -7,6 +7,7 @@
 
 package nl.christine.schwartze.server.dao;
 
+import nl.christine.schwartze.server.exception.LocationNotFoundException;
 import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.model.MyLocation;
 
@@ -21,4 +22,6 @@ public interface LocationDao {
     MyLocation getLocation(int id);
 
     MyLocation addLocation(MyLocation location);
+
+    void deleteLocation(int id) throws LocationNotFoundException;
 }

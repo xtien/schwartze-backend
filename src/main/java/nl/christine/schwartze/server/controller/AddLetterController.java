@@ -8,14 +8,18 @@
 package nl.christine.schwartze.server.controller;
 
 import nl.christine.schwartze.server.Application;
+import nl.christine.schwartze.server.controller.request.AddLetterRequest;
 import nl.christine.schwartze.server.controller.result.AddLetterResult;
 import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.modelimport.ImportLetter;
 import nl.christine.schwartze.server.service.LetterService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 @CrossOrigin(origins = Application.UI_HOST)
@@ -26,16 +30,16 @@ public class AddLetterController {
 
     @CrossOrigin(origins = Application.UI_HOST)
     @PostMapping(value = "/add_letter/")
-    public AddLetterResult addLetter(Letter letter) {
+    public ResponseEntity<AddLetterResult> addLetter(@RequestBody AddLetterRequest request) {
         AddLetterResult result = new AddLetterResult();
 
-        if (letter.getNumber() > 0) {
+        if (request.getLetter().getNumber() > 0) {
             result.setErrorText("letter exists");
         } else {
-            Letter resultLetter = letterService.addLetter(letter);
+            Letter resultLetter = letterService.addLetter(request.getLetter());
             result.setLetter(resultLetter);
         }
 
-        return result;
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

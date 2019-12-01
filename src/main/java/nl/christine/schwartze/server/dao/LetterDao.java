@@ -7,6 +7,7 @@
 
 package nl.christine.schwartze.server.dao;
 
+import nl.christine.schwartze.server.exception.LetterNotFoundException;
 import nl.christine.schwartze.server.model.Letter;
 
 import java.util.List;
@@ -17,11 +18,13 @@ public interface LetterDao {
 
     void create(Letter letter);
 
-    Letter getLetter(int letterNumber);
+    Letter getLetterForNumber(int letterNumber);
 
     int deleteLetters(List<Letter> letters);
 
     Letter updateLetterComment(int letterNumber, String text);
 
     Letter addLetter(Letter letter);
+
+    void deleteLetter(Letter letter) throws LetterNotFoundException;
 }

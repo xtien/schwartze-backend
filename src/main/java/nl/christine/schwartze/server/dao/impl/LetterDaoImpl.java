@@ -8,9 +8,11 @@
 package nl.christine.schwartze.server.dao.impl;
 
 import nl.christine.schwartze.server.dao.LetterDao;
+import nl.christine.schwartze.server.exception.LetterNotFoundException;
 import nl.christine.schwartze.server.model.Letter;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -49,7 +51,7 @@ public class LetterDaoImpl implements LetterDao {
     }
 
     @Override
-    public Letter getLetter(int letterNumber) {
+    public Letter getLetterForNumber(int letterNumber) {
 
         TypedQuery<Letter> query = em.createQuery(
                 "select a from " + Letter.class.getSimpleName()
@@ -61,6 +63,10 @@ public class LetterDaoImpl implements LetterDao {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    private Letter getLetterForId(int id) {
+        return em.find(Letter.class, id);
     }
 
     @Override
@@ -81,7 +87,7 @@ public class LetterDaoImpl implements LetterDao {
 
     @Override
     public Letter updateLetterComment(int letterNumber, String text) {
-        Letter letter = getLetter(letterNumber);
+        Letter letter = getLetterForNumber(letterNumber);
         letter.setComment(text);
         return letter;
     }
@@ -95,5 +101,15 @@ public class LetterDaoImpl implements LetterDao {
         em.persist(letter);
 
         return letter;
+    }
+
+    @Override
+    public void deleteLetter(Letter letter) throws LetterNotFoundException {
+        Letter existingLetter = getLetterForId(letter.getId());
+        if (existingLetter != null) {
+            em.remove(existingLetter);
+        } else {
+            throw new LetterNotFoundException();
+        }
     }
 }

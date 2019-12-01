@@ -66,8 +66,8 @@ dependencies {
     compile group: 'org.hibernate', name: 'hibernate-core', version: hibernateVersion
     compile group: 'org.postgresql', name: 'postgresql', version: '42.2.5'
 
-    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.9.5'
-    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.5'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.10.1'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.10.1'
 
     compile group: 'commons-daemon', name: 'commons-daemon', version: '1.1.0'
     compile 'junit:junit:4.12'

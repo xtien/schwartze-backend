@@ -8,10 +8,10 @@
 package nl.christine.schwartze.server.controller;
 
 import nl.christine.schwartze.server.Application;
-import nl.christine.schwartze.server.controller.request.AddLocationRequest;
-import nl.christine.schwartze.server.controller.result.AddLocationResult;
-import nl.christine.schwartze.server.model.MyLocation;
-import nl.christine.schwartze.server.service.LocationService;
+import nl.christine.schwartze.server.controller.request.DeleteLetterRequest;
+import nl.christine.schwartze.server.controller.result.DeleteLetterResult;
+import nl.christine.schwartze.server.exception.LetterNotFoundException;
+import nl.christine.schwartze.server.service.LetterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,24 +22,24 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 @CrossOrigin(origins = Application.UI_HOST)
-public class AddLocationController {
+public class DeleteLetterController {
 
     @Autowired
-    private LocationService locationService;
+    private LetterService letterService;
 
     @CrossOrigin(origins = Application.UI_HOST)
-    @PostMapping(value = "/add_location/")
-    public ResponseEntity<AddLocationResult> addLocation(@RequestBody AddLocationRequest request) {
+    @PostMapping(value = "/delete_letter/")
+    public ResponseEntity<DeleteLetterResult> addLetter(@RequestBody DeleteLetterRequest request) {
+        DeleteLetterResult result = new DeleteLetterResult();
+        HttpStatus status = HttpStatus.OK;
 
-        AddLocationResult result = new AddLocationResult();
-
-        if (request.getLocation().getId() > 0) {
-            result.setText("location exists");
-        } else {
-            MyLocation resultLocation = locationService.addLocation(request.getLocation());
-            result.setLocation(resultLocation);
+        try {
+            letterService.deleteLetter(request.getLetter());
+        } catch (LetterNotFoundException e) {
+            status = HttpStatus.NOT_FOUND;
         }
 
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return new ResponseEntity<>(result, status);
     }
+
 }

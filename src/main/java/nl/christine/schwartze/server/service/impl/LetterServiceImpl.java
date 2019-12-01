@@ -10,6 +10,7 @@ package nl.christine.schwartze.server.service.impl;
 import nl.christine.schwartze.server.dao.LetterDao;
 import nl.christine.schwartze.server.dao.LocationDao;
 import nl.christine.schwartze.server.dao.PersonDao;
+import nl.christine.schwartze.server.exception.LetterNotFoundException;
 import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.model.MyLocation;
 import nl.christine.schwartze.server.model.Person;
@@ -59,9 +60,24 @@ public class LetterServiceImpl implements LetterService {
     }
 
     @Override
+    @Transactional("transactionManager")
     public Letter addLetter(Letter letter) {
-        return letterDao.addLetter(letter);
+
+        Letter resultLetter =  letterDao.addLetter(letter);
+        Letter existingLetterForNumber = letterDao.getLetterForNumber(resultLetter.getId());
+        if(existingLetterForNumber == null){
+            letter.setNumber(letter.getId());
+        }
+
+        return letter;
     }
+
+    @Override
+    @Transactional("transactionManager")
+    public void deleteLetter(Letter letter) throws LetterNotFoundException {
+        letterDao.deleteLetter(letter);
+    }
+
 
     /**
      * Use transactionManager because we are going to save the letters in the db, not in the import-db
@@ -123,7 +139,7 @@ public class LetterServiceImpl implements LetterService {
     @Transactional("transactionManager")
     public void persistIfNotPresent(ImportLetter importLetter) {
 
-        Letter existingLetter = letterDao.getLetter(importLetter.getNumber());
+        Letter existingLetter = letterDao.getLetterForNumber(importLetter.getNumber());
         if (existingLetter == null) {
             persist(importLetter);
         }
@@ -132,7 +148,7 @@ public class LetterServiceImpl implements LetterService {
     @Override
     @Transactional("transactionManager")
     public Letter getLetterByNumber(int letterNumber) {
-        return letterDao.getLetter(letterNumber);
+        return letterDao.getLetterForNumber(letterNumber);
     }
 
     @Override

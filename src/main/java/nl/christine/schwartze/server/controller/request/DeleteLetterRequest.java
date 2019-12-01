@@ -8,21 +8,18 @@
 package nl.christine.schwartze.server.controller.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import nl.christine.schwartze.server.model.Person;
+import nl.christine.schwartze.server.model.Letter;
 
-import javax.validation.constraints.NotNull;
+public class DeleteLetterRequest {
 
-public class AddPersonRequest {
+    @JsonProperty("letter")
+    private Letter letter;
 
-    @JsonProperty("person")
-    @NotNull
-    private Person person;
-
-    public Person getPerson() {
-        return person;
+    public Letter getLetter() {
+        return letter;
     }
 
-    public void setPerson(Person person) {
-        this.person = person;
+    public void setLetter(Letter letter) {
+        this.letter = letter;
     }
 }

@@ -28,6 +28,7 @@ public class Person {
     public static final String COMMENT = "comment";
     public static final String LINKS = "links";
     public static final String ID = "id";
+    private static final String TEXT = "text";
 
     @Id
     @JsonProperty(ID)
@@ -60,6 +61,10 @@ public class Person {
 
     @Column(name = LINKS)
     private String links;
+
+    @OneToOne
+    @JsonProperty("text")
+    private Text text;
 
     public Person() {
         // used for deserialization

@@ -47,6 +47,9 @@ public class MyLocation {
     @Column(name = COMMENT)
     @JsonProperty(COMMENT)
     private String comment;
+    @OneToOne
+    @JsonProperty("text")
+    private Text text;
 
     public MyLocation() {
     }

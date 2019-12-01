@@ -7,6 +7,7 @@
 
 package nl.christine.schwartze.server.service;
 
+import nl.christine.schwartze.server.exception.LetterNotFoundException;
 import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.modelimport.ImportLetter;
 
@@ -29,4 +30,6 @@ public interface LetterService {
     List<Letter> getLettersFromPerson(int fromId);
 
     Letter addLetter(Letter letter);
+
+    void deleteLetter(Letter letter) throws LetterNotFoundException;
 }
