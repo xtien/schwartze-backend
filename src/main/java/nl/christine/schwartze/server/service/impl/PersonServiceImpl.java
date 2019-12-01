@@ -20,6 +20,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -157,8 +158,8 @@ public class PersonServiceImpl implements PersonService {
         if (StringUtils.isNotEmpty(person2.getComment())) {
             person1.setComment(person1.getComment() + "\n" + person2.getComment());
         }
-        if (StringUtils.isNotEmpty(person2.getLinks())) {
-            person1.setLinks(person1.getLinks() + "\n" + person2.getLinks());
+        if (!CollectionUtils.isEmpty(person2.getLinks())) {
+            person1.addLinks(person2.getLinks());
         }
 
         person2.getLettersReceived().clear();

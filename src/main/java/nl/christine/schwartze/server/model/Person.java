@@ -57,11 +57,12 @@ public class Person {
     @ManyToMany(mappedBy = "recipients", cascade = CascadeType.ALL)
     private List<Letter> lettersReceived = new ArrayList<>();
 
-    @Column(name = LINKS)
-    private String links;
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JsonProperty(LINKS)
+    private List<Link> links = new ArrayList<>();
 
     @OneToOne
-    @JsonProperty("text")
+    @JsonProperty(TEXT)
     private Text text;
 
     public Person() {
@@ -128,14 +129,6 @@ public class Person {
         this.comment = comment;
     }
 
-    public String getLinks() {
-        return links;
-    }
-
-    public void setLinks(String links) {
-        this.links = links;
-    }
-
     public List<Letter> getLettersWritten() {
         return lettersWritten;
     }
@@ -169,5 +162,18 @@ public class Person {
 
     public Text getText() {
         return text;
+    }
+
+    public List<Link> getLinks() {
+        return links;
+    }
+
+    public void setLinks(List<Link> links) {
+        this.links = links;
+    }
+
+    @JsonIgnore
+    public void addLinks(List<Link> links) {
+        this.links.addAll(links);
     }
 }

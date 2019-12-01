@@ -21,6 +21,7 @@ public class MyLocation {
     public static final String DESCRIPTION = "description";
     public static final String LINKS = "links";
     public static final String COMMENT = "comment";
+    private static final String TEXT = "text";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,14 +42,16 @@ public class MyLocation {
     private List<Letter> lettersTo = new ArrayList<>();
 
     @Column(name = LINKS)
-    @ElementCollection(targetClass = String.class)
-    private List<String> links = new ArrayList<>();
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JsonProperty(LINKS)
+    private List<Link> links = new ArrayList<>();
 
     @Column(name = COMMENT)
     @JsonProperty(COMMENT)
     private String comment;
+
     @OneToOne
-    @JsonProperty("text")
+    @JsonProperty(TEXT)
     private Text text;
 
     public MyLocation() {
@@ -100,5 +103,17 @@ public class MyLocation {
 
     public Text getText() {
         return text;
+    }
+
+    public List<Link> getLinks() {
+        return links;
+    }
+
+    public void setLinks(List<Link> links) {
+        this.links = links;
+    }
+
+    public void setText(Text text) {
+        this.text = text;
     }
 }
