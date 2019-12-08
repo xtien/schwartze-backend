@@ -17,6 +17,7 @@ import java.util.List;
 @Table(name = "locations")
 public class MyLocation {
 
+    public static final String ID = "id";
     public static final String LOCATION_NAME = "location_name";
     public static final String DESCRIPTION = "description";
     public static final String LINKS = "links";
@@ -25,6 +26,7 @@ public class MyLocation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty(ID)
     private int id;
 
     @Column(name = LOCATION_NAME)

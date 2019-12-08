@@ -7,6 +7,8 @@
 
 package nl.christine.schwartze.server.service;
 
+import nl.christine.schwartze.server.controller.request.EditLinkRequest;
+import nl.christine.schwartze.server.controller.result.EditLinkResult;
 import nl.christine.schwartze.server.exception.LocationNotFoundException;
 import nl.christine.schwartze.server.model.MyLocation;
 import nl.christine.schwartze.server.model.Text;
@@ -26,4 +28,6 @@ public interface LocationService {
     void deleteLocation(int id) throws LocationNotFoundException;
 
     Text getText(int id);
+
+    EditLinkResult editLink(EditLinkRequest request);
 }

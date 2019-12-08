@@ -7,9 +7,12 @@
 
 package nl.christine.schwartze.server.service.impl;
 
+import nl.christine.schwartze.server.controller.request.EditLinkRequest;
+import nl.christine.schwartze.server.controller.result.EditLinkResult;
 import nl.christine.schwartze.server.dao.LocationDao;
 import nl.christine.schwartze.server.dao.TextDao;
 import nl.christine.schwartze.server.exception.LocationNotFoundException;
+import nl.christine.schwartze.server.model.Link;
 import nl.christine.schwartze.server.model.MyLocation;
 import nl.christine.schwartze.server.model.Text;
 import nl.christine.schwartze.server.service.LocationService;
@@ -68,5 +71,30 @@ public class LocationServiceImpl implements LocationService {
     @Override
     public Text getText(int id) {
         return getLocation(id).getText();
+    }
+
+    @Override
+    @Transactional("transactionManager")
+    public EditLinkResult editLink(EditLinkRequest request) {
+
+        EditLinkResult result = new EditLinkResult();
+        MyLocation location = getLocation(request.getLocationId());
+
+        if(location == null){
+            return result;
+        }
+
+        if(request.getLinkId() == null){
+            location.getLinks().add(new Link(request.getLinkName(), request.getLinkUrl()));
+        } else {
+            location.getLinks().stream().filter(x -> x.getId() == request.getLinkId()).map( x -> {
+                x.setLinkName(request.getLinkName());
+                x.setLinkUrl(request.getLinkUrl());
+                return x;
+            });
+        }
+
+        result.setLocation(location);
+        return result;
     }
 }

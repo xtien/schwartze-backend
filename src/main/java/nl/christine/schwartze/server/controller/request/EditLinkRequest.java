@@ -5,39 +5,49 @@
  * http://www. apache.org/licenses/LICENSE-2.0.
  */
 
-package nl.christine.schwartze.server.model;
+package nl.christine.schwartze.server.controller.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.persistence.*;
+public class EditLinkRequest {
 
-@Entity
-@Table(name = "links")
-public class Link {
+    @JsonProperty("location_id")
+    private Integer locationId;
 
-    @JsonProperty("id")
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @JsonProperty("person_id")
+    private Integer personId;
+
+    @JsonProperty("link_id")
+    private Integer linkId;
 
     @JsonProperty("link_name")
-    @Column(name = "linkname")
     private String linkName;
 
     @JsonProperty("link_url")
-    @Column(name = "linkUrl")
     private String linkUrl;
 
-    public Link() {
+    public Integer getLocationId() {
+        return locationId;
     }
 
-    public Link(String linkName, String linkUrl) {
-        this.linkName = linkName;
-        this.linkUrl = linkUrl;
+    public void setLocationId(Integer locationId) {
+        this.locationId = locationId;
     }
 
-    public int getId() {
-        return id;
+    public Integer getPersonId() {
+        return personId;
+    }
+
+    public void setPersonId(Integer personId) {
+        this.personId = personId;
+    }
+
+    public Integer getLinkId() {
+        return linkId;
+    }
+
+    public void setLinkId(Integer linkId) {
+        this.linkId = linkId;
     }
 
     public String getLinkName() {
