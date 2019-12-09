@@ -40,6 +40,5 @@ public interface PersonService {
 
     Text getText(int id);
 
-    @Transactional("transactionManager")
     EditLinkResult editLink(EditLinkRequest request);
 }

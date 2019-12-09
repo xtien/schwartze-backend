@@ -49,7 +49,7 @@ public class PersonServiceImpl implements PersonService {
     @Transactional("transactionManager")
     public Person getPerson(int id) {
         Person resultPerson = personDao.getPerson(id);
-        List<Letter> lettersWritten = resultPerson.getLettersWritten();
+        resultPerson.getLettersWritten();
         resultPerson.getLettersReceived();
         return resultPerson;
     }
