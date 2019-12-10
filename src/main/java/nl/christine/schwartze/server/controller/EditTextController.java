@@ -20,35 +20,34 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 @CrossOrigin(origins = Application.UI_HOST)
-public class AddTextController {
+public class EditTextController {
 
-    Logger logger = Logger.getLogger(AddTextController.class);
+    Logger logger = Logger.getLogger(EditTextController.class);
 
     @Autowired
     private TextService textService;
 
     @CrossOrigin(origins = Application.UI_HOST)
-    @PostMapping(value = "/add_person_text/")
-    public ResponseEntity<TextResult> addPersonText(@RequestBody TextRequest request) {
+    @PostMapping(value = "/edit_text/")
+    public ResponseEntity<TextResult> editText(@RequestBody TextRequest request) {
 
         TextResult result = new TextResult();
         HttpStatus status = HttpStatus.OK;
 
         try {
-             Text text = textService.addText();
+             Text text = textService.updateText(request);
             if (text != null) {
                 result.setText(text);
             } else {
                 status = HttpStatus.NOT_FOUND;
             }
         } catch (Exception e) {
-            logger.error("get_text exception ", e);
+            logger.error("edit_text exception ", e);
         }
 
         return new ResponseEntity<>(result, status);

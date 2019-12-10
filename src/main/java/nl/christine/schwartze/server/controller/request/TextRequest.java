@@ -18,6 +18,12 @@ public class TextRequest {
     @JsonProperty("text")
     private Text text;
 
+    @JsonProperty("person_id")
+    private Integer personId;
+
+    @JsonProperty("location_id")
+    private Integer locationId;
+
     public int getId() {
         return id;
     }
@@ -32,5 +38,21 @@ public class TextRequest {
 
     public void setText(Text text) {
         this.text = text;
+    }
+
+    public Integer getPersonId() {
+        return personId;
+    }
+
+    public void setPersonId(Integer personId) {
+        this.personId = personId;
+    }
+
+    public Integer getLocationId() {
+        return locationId;
+    }
+
+    public void setLocationId(Integer locationId) {
+        this.locationId = locationId;
     }
 }

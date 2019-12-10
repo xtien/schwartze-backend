@@ -24,7 +24,7 @@ public class Text {
         return id;
     }
 
-    public String getText() {
+    public String getTextString() {
         return text;
     }
 

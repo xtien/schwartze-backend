@@ -7,11 +7,12 @@
 
 package nl.christine.schwartze.server.service;
 
+import nl.christine.schwartze.server.controller.request.TextRequest;
 import nl.christine.schwartze.server.model.Text;
 
 public interface TextService {
 
     public Text addText();
 
-    Text updateText(Text text);
+    Text updateText(TextRequest request);
 }

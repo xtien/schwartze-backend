@@ -168,10 +168,6 @@ public class Person {
         return links;
     }
 
-    public void setLinks(List<Link> links) {
-        this.links = links;
-    }
-
     @JsonIgnore
     public void addLinks(List<Link> links) {
         this.links.addAll(links);
