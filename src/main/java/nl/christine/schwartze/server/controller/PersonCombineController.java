@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 @CrossOrigin(origins = Application.UI_HOST)
-public class CombinePersonController {
+public class PersonCombineController {
 
     @Autowired
     private PersonService personService;

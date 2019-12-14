@@ -34,26 +34,34 @@ public class TextServiceImpl implements TextService {
 
     @Override
     @Transactional("transactionManager")
-    public Text addText() {
-        return textDao.addText();
-    }
-
-    @Override
-    @Transactional("transactionManager")
     public Text updateText(TextRequest request) {
 
-        if (request.getPersonId()!=null) {
+        if (request.getId() != null) {
+            return textDao.updateText(request.getText());
+        } else if (request.getPersonId() != null) {
             Person person = personDao.getPerson(request.getPersonId());
+            if (person.getText() == null) {
+                person.setText(new Text());
+                textDao.persist(person.getText());
+            }
             person.getText().setText(request.getText().getTextString());
             return person.getText();
-        }
-
-        if (request.getLocationId() != null) {
+        } else if (request.getLocationId() != null) {
             MyLocation location = locationDao.getLocation(request.getLocationId());
+            if (location.getText() == null) {
+                location.setText(new Text());
+                textDao.persist(location.getText());
+            }
             location.getText().setText(request.getText().getTextString());
             return location.getText();
         }
 
         return null;
+    }
+
+    @Override
+    @Transactional("transactionManager")
+    public Text getText(Integer id) {
+        return textDao.getText(id);
     }
 }

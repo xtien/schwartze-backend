@@ -33,9 +33,6 @@ public class LocationServiceImpl implements LocationService {
 
     Logger logger = Logger.getLogger(LocationServiceImpl.class);
 
-    @Autowired
-    private TextDao textDao;
-
     @Override
     @Transactional("transactionManager")
     public MyLocation updateLocationComment(MyLocation location) {
@@ -52,6 +49,7 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
+    @Transactional("transactionManager")
     public MyLocation getLocation(int i) {
         return locationDao.getLocation(i);
     }
@@ -69,8 +67,14 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
+    @Transactional("transactionManager")
     public Text getText(int id) {
-        return getLocation(id).getText();
+        Text text =  getLocation(id).getText();
+        if(text == null){
+            text = new Text();
+            getLocation(id).setText(text);
+        }
+        return text;
     }
 
     @Override

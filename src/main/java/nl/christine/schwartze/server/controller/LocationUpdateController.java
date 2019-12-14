@@ -8,10 +8,11 @@
 package nl.christine.schwartze.server.controller;
 
 import nl.christine.schwartze.server.Application;
-import nl.christine.schwartze.server.controller.request.LetterRequest;
-import nl.christine.schwartze.server.controller.result.LetterResult;
-import nl.christine.schwartze.server.model.Letter;
-import nl.christine.schwartze.server.service.LetterService;
+import nl.christine.schwartze.server.controller.request.UpdateLocationRequest;
+import nl.christine.schwartze.server.controller.result.LocationResult;
+import nl.christine.schwartze.server.controller.result.PersonResult;
+import nl.christine.schwartze.server.model.MyLocation;
+import nl.christine.schwartze.server.service.LocationService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,31 +29,29 @@ import org.springframework.web.bind.annotation.RequestBody;
  */
 @Controller
 @CrossOrigin(origins = Application.UI_HOST)
-public class UpdateLetterController {
+public class LocationUpdateController {
 
-    Logger logger = Logger.getLogger(UpdateLetterController.class);
+    Logger logger = Logger.getLogger(LocationUpdateController.class);
 
     @Autowired
-    private LetterService letterService;
+    private LocationService locationService;
 
     @CrossOrigin(origins = Application.UI_HOST)
-    @PostMapping(value = "/update_letter_details/")
+    @PostMapping(value = "/update_location_details/")
     @Transactional("transactionManager")
-    public ResponseEntity<LetterResult> updateLetterComment(@RequestBody LetterRequest request) {
+    public ResponseEntity<LocationResult> updateLocation(@RequestBody UpdateLocationRequest request) {
 
-        LetterResult result = new LetterResult();
-        result.setResult(LetterResult.NOT_OK);
+        LocationResult result = new LocationResult();
+        result.setResult(PersonResult.NOT_OK);
 
         try {
-            Letter letter = letterService.updateLetterComment(request.getLetterNumber(), request.getComment());
-            if (letter != null) {
-                result.setLetter(letter);
-                result.setResultCode(LetterResult.OK);
-            }
+            MyLocation resultLocation  = locationService.updateLocationComment(request.getLocation());
+            result.setLocation(resultLocation);
         } catch (Exception e) {
-            logger.error("Error updating letter comment",e);
+            logger.error("Error updating location",e);
         }
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
+
 }

@@ -8,9 +8,9 @@
 package nl.christine.schwartze.server.controller;
 
 import nl.christine.schwartze.server.Application;
-import nl.christine.schwartze.server.controller.request.DeleteLetterRequest;
-import nl.christine.schwartze.server.controller.result.DeleteLetterResult;
-import nl.christine.schwartze.server.exception.LetterNotFoundException;
+import nl.christine.schwartze.server.controller.request.AddLetterRequest;
+import nl.christine.schwartze.server.controller.result.AddLetterResult;
+import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.service.LetterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,24 +22,23 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 @CrossOrigin(origins = Application.UI_HOST)
-public class DeleteLetterController {
+public class LetterAddController {
 
     @Autowired
     private LetterService letterService;
 
     @CrossOrigin(origins = Application.UI_HOST)
-    @PostMapping(value = "/delete_letter/")
-    public ResponseEntity<DeleteLetterResult> addLetter(@RequestBody DeleteLetterRequest request) {
-        DeleteLetterResult result = new DeleteLetterResult();
-        HttpStatus status = HttpStatus.OK;
+    @PostMapping(value = "/add_letter/")
+    public ResponseEntity<AddLetterResult> addLetter(@RequestBody AddLetterRequest request) {
+        AddLetterResult result = new AddLetterResult();
 
-        try {
-            letterService.deleteLetter(request.getLetter());
-        } catch (LetterNotFoundException e) {
-            status = HttpStatus.NOT_FOUND;
+        if (request.getLetter().getNumber() > 0) {
+            result.setErrorText("letter exists");
+        } else {
+            Letter resultLetter = letterService.addLetter(request.getLetter());
+            result.setLetter(resultLetter);
         }
 
-        return new ResponseEntity<>(result, status);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
-
 }

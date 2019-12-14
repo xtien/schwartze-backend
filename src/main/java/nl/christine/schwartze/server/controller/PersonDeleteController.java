@@ -8,46 +8,43 @@
 package nl.christine.schwartze.server.controller;
 
 import nl.christine.schwartze.server.Application;
-import nl.christine.schwartze.server.controller.request.TextRequest;
-import nl.christine.schwartze.server.controller.result.TextResult;
-import nl.christine.schwartze.server.model.Text;
-import nl.christine.schwartze.server.service.LocationService;
+import nl.christine.schwartze.server.controller.request.DeletePersonRequest;
+import nl.christine.schwartze.server.controller.result.PersonResult;
 import nl.christine.schwartze.server.service.PersonService;
-import nl.christine.schwartze.server.service.TextService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 @CrossOrigin(origins = Application.UI_HOST)
-public class EditTextController {
+public class PersonDeleteController {
 
-    Logger logger = Logger.getLogger(EditTextController.class);
+    Logger logger = Logger.getLogger(PersonDeleteController.class);
 
     @Autowired
-    private TextService textService;
+    private PersonService personService;
 
     @CrossOrigin(origins = Application.UI_HOST)
-    @PostMapping(value = "/edit_text/")
-    public ResponseEntity<TextResult> editText(@RequestBody TextRequest request) {
+    @PostMapping(value = "/delete_person/")
+    @Transactional("transactionManager")
+    public ResponseEntity<PersonResult> getPerson(@RequestBody DeletePersonRequest request) {
 
-        TextResult result = new TextResult();
+        PersonResult result = new PersonResult();
         HttpStatus status = HttpStatus.OK;
 
         try {
-             Text text = textService.updateText(request);
-            if (text != null) {
-                result.setText(text);
-            } else {
-                status = HttpStatus.NOT_FOUND;
-            }
+            int i = personService.deletePerson(request.getPerson().getId());
+            result.setResultCode(i);
         } catch (Exception e) {
-            logger.error("edit_text exception ", e);
+            logger.error("Error getting person", e);
+            result.setResultCode(-1);
+            status = HttpStatus.NOT_FOUND;
         }
 
         return new ResponseEntity<>(result, status);

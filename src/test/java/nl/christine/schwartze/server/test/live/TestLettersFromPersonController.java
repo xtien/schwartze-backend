@@ -7,10 +7,8 @@
 
 package nl.christine.schwartze.server.test.live;
 
-import nl.christine.schwartze.server.controller.GetAllLettersController;
-import nl.christine.schwartze.server.controller.GetPersonFromLetters;
+import nl.christine.schwartze.server.controller.LettersFromPersonController;
 import nl.christine.schwartze.server.controller.ImportDBController;
-import nl.christine.schwartze.server.controller.request.LettersRequest;
 import nl.christine.schwartze.server.controller.request.PersonLettersRequest;
 import nl.christine.schwartze.server.controller.result.LettersResult;
 import org.junit.Assert;
@@ -18,7 +16,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
@@ -29,10 +26,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration(locations = {"/applicationContext.xml"})
 @ActiveProfiles("test")
 @PropertySource("classpath:application-test.properties")
-public class TestGetPersonFromLetters {
+public class TestLettersFromPersonController {
 
     @Autowired
-    private GetPersonFromLetters getLetterController;
+    private LettersFromPersonController getLetterController;
 
     @Autowired
     private ImportDBController importDBController;

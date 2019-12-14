@@ -1,6 +1,6 @@
 package nl.christine.schwartze.server.test.live;
 
-import nl.christine.schwartze.server.controller.GetPeopleController;
+import nl.christine.schwartze.server.controller.PeopleGetController;
 import nl.christine.schwartze.server.controller.ImportDBController;
 import nl.christine.schwartze.server.controller.request.PeopleRequest;
 import nl.christine.schwartze.server.controller.result.LettersResult;
@@ -29,7 +29,7 @@ import java.util.List;
 public class TestGetPeople {
 
     @Autowired
-    private GetPeopleController getPeopleController;
+    private PeopleGetController peopleGetController;
 
     private List<Integer> ids = new ArrayList<>();
 
@@ -51,7 +51,7 @@ public class TestGetPeople {
         PeopleRequest request = new PeopleRequest();
         request.setIds(ids);
 
-        List<Person> people = getPeopleController.getPeople(request).getBody().getPeople();
+        List<Person> people = peopleGetController.getPeople(request).getBody().getPeople();
 
         Assert.assertNotNull(people);
         Assert.assertEquals(2,people.size());

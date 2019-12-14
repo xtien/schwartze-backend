@@ -1,6 +1,6 @@
 package nl.christine.schwartze.server.test.mock;
 
-import nl.christine.schwartze.server.controller.GetAllLettersController;
+import nl.christine.schwartze.server.controller.LetterGetAllController;
 import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.service.LetterService;
 import org.junit.Before;
@@ -29,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Date: 1/21/19 2:32 PM
  */
 @RunWith(SpringRunner.class)
-@WebMvcTest(GetAllLettersController.class)
+@WebMvcTest(LetterGetAllController.class)
 public class WebMockTest {
 
     @Autowired

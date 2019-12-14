@@ -23,9 +23,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 @CrossOrigin(origins = Application.UI_HOST)
-public class DeleteLocationController {
+public class LocationDeleteController {
 
-    Logger logger = Logger.getLogger(DeleteLocationController.class);
+    Logger logger = Logger.getLogger(LocationDeleteController.class);
 
     @Autowired
     private LocationService locationService;

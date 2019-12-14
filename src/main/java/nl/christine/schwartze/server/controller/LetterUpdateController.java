@@ -8,9 +8,10 @@
 package nl.christine.schwartze.server.controller;
 
 import nl.christine.schwartze.server.Application;
-import nl.christine.schwartze.server.controller.request.DeletePersonRequest;
-import nl.christine.schwartze.server.controller.result.PersonResult;
-import nl.christine.schwartze.server.service.PersonService;
+import nl.christine.schwartze.server.controller.request.LetterRequest;
+import nl.christine.schwartze.server.controller.result.LetterResult;
+import nl.christine.schwartze.server.model.Letter;
+import nl.christine.schwartze.server.service.LetterService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,32 +22,37 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+/**
+ * User: christine
+ * Date: 12/29/18 12:41 PM
+ */
 @Controller
 @CrossOrigin(origins = Application.UI_HOST)
-public class DeletePersonController {
+public class LetterUpdateController {
 
-    Logger logger = Logger.getLogger(DeletePersonController.class);
+    Logger logger = Logger.getLogger(LetterUpdateController.class);
 
     @Autowired
-    private PersonService personService;
+    private LetterService letterService;
 
     @CrossOrigin(origins = Application.UI_HOST)
-    @PostMapping(value = "/delete_person/")
+    @PostMapping(value = "/update_letter_details/")
     @Transactional("transactionManager")
-    public ResponseEntity<PersonResult> getPerson(@RequestBody DeletePersonRequest request) {
+    public ResponseEntity<LetterResult> updateLetterComment(@RequestBody LetterRequest request) {
 
-        PersonResult result = new PersonResult();
-        HttpStatus status = HttpStatus.OK;
+        LetterResult result = new LetterResult();
+        result.setResult(LetterResult.NOT_OK);
 
         try {
-            int i = personService.deletePerson(request.getPerson().getId());
-            result.setResultCode(i);
+            Letter letter = letterService.updateLetterComment(request.getLetterNumber(), request.getComment());
+            if (letter != null) {
+                result.setLetter(letter);
+                result.setResultCode(LetterResult.OK);
+            }
         } catch (Exception e) {
-            logger.error("Error getting person", e);
-            result.setResultCode(-1);
-            status = HttpStatus.NOT_FOUND;
+            logger.error("Error updating letter comment",e);
         }
 
-        return new ResponseEntity<>(result, status);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

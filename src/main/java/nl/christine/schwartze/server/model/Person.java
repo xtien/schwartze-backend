@@ -164,6 +164,10 @@ public class Person {
         return text;
     }
 
+    public void setText(Text text){
+        this.text = text;
+    }
+
     public List<Link> getLinks() {
         return links;
     }
@@ -171,5 +175,9 @@ public class Person {
     @JsonIgnore
     public void addLinks(List<Link> links) {
         this.links.addAll(links);
+    }
+
+    public void setLinks(List<Link> links) {
+        this.links = links;
     }
 }

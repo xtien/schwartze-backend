@@ -1,13 +1,12 @@
 package nl.christine.schwartze.server.test.live;
 
-import nl.christine.schwartze.server.controller.GetLetterImagesController;
+import nl.christine.schwartze.server.controller.ImagesController;
 import nl.christine.schwartze.server.controller.request.ImagesRequest;
 import nl.christine.schwartze.server.controller.result.ImagesResult;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
@@ -21,7 +20,7 @@ import java.io.IOException;
 public class TestGetImageController {
 
     @Autowired
-    private GetLetterImagesController getLetterImagesController;
+    private ImagesController getLetterImagesController;
 
     @Test
     public void testGetLetters() throws IOException {

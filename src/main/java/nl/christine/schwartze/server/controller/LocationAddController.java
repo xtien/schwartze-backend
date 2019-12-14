@@ -8,10 +8,10 @@
 package nl.christine.schwartze.server.controller;
 
 import nl.christine.schwartze.server.Application;
-import nl.christine.schwartze.server.controller.request.AddLetterRequest;
-import nl.christine.schwartze.server.controller.result.AddLetterResult;
-import nl.christine.schwartze.server.model.Letter;
-import nl.christine.schwartze.server.service.LetterService;
+import nl.christine.schwartze.server.controller.request.AddLocationRequest;
+import nl.christine.schwartze.server.controller.result.AddLocationResult;
+import nl.christine.schwartze.server.model.MyLocation;
+import nl.christine.schwartze.server.service.LocationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,21 +22,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 @CrossOrigin(origins = Application.UI_HOST)
-public class AddLetterController {
+public class LocationAddController {
 
     @Autowired
-    private LetterService letterService;
+    private LocationService locationService;
 
     @CrossOrigin(origins = Application.UI_HOST)
-    @PostMapping(value = "/add_letter/")
-    public ResponseEntity<AddLetterResult> addLetter(@RequestBody AddLetterRequest request) {
-        AddLetterResult result = new AddLetterResult();
+    @PostMapping(value = "/add_location/")
+    public ResponseEntity<AddLocationResult> addLocation(@RequestBody AddLocationRequest request) {
 
-        if (request.getLetter().getNumber() > 0) {
-            result.setErrorText("letter exists");
+        AddLocationResult result = new AddLocationResult();
+
+        if (request.getLocation().getId() > 0) {
+            result.setText("location exists");
         } else {
-            Letter resultLetter = letterService.addLetter(request.getLetter());
-            result.setLetter(resultLetter);
+            MyLocation resultLocation = locationService.addLocation(request.getLocation());
+            result.setLocation(resultLocation);
         }
 
         return new ResponseEntity<>(result, HttpStatus.OK);

@@ -8,7 +8,7 @@
 package nl.christine.schwartze.server.controller;
 
 import nl.christine.schwartze.server.Application;
-import nl.christine.schwartze.server.controller.request.PersonLettersRequest;
+import nl.christine.schwartze.server.controller.request.LettersRequest;
 import nl.christine.schwartze.server.controller.result.LettersResult;
 import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.service.LetterService;
@@ -25,22 +25,22 @@ import java.util.List;
 
 @Controller
 @CrossOrigin(origins = Application.UI_HOST)
-public class GetPersonFromLetters {
+public class LettersToPersonController {
 
-    Logger logger = Logger.getLogger(GetPersonFromLetters.class);
+    Logger logger = Logger.getLogger(LetterGetAllController.class);
 
     @Autowired
     private LetterService letterService;
 
     @CrossOrigin(origins = Application.UI_HOST)
-    @PostMapping(value = "/get_letters_from_person/")
-    public ResponseEntity<LettersResult> getLetters(@RequestBody PersonLettersRequest request) {
+    @PostMapping(value = "/get_letters_to_person/")
+    public ResponseEntity<LettersResult> getLetters(@RequestBody LettersRequest request) {
 
         LettersResult result = new LettersResult();
 
         try {
 
-            List<Letter> letters = letterService.getLettersFromPerson(request.getFromId());
+            List<Letter> letters = letterService.getLettersToPerson(request.toId);
             result.setLetters(letters);
             result.setResult(LettersResult.OK);
 

@@ -10,9 +10,10 @@ package nl.christine.schwartze.server.controller;
 import nl.christine.schwartze.server.Application;
 import nl.christine.schwartze.server.controller.request.TextRequest;
 import nl.christine.schwartze.server.controller.result.TextResult;
+import nl.christine.schwartze.server.dao.LocationDao;
+import nl.christine.schwartze.server.dao.PersonDao;
 import nl.christine.schwartze.server.model.Text;
-import nl.christine.schwartze.server.service.LocationService;
-import nl.christine.schwartze.server.service.PersonService;
+import nl.christine.schwartze.server.service.TextService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,53 +25,42 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 @CrossOrigin(origins = Application.UI_HOST)
-public class GetTextController {
+public class TextUpdateController {
 
-    Logger logger = Logger.getLogger(GetTextController.class);
-
-    @Autowired
-    private PersonService personService;
+    Logger logger = Logger.getLogger(TextUpdateController.class);
 
     @Autowired
-    private LocationService locationService;
+    private TextService textService;
+
+    @Autowired
+    private PersonDao personDao;
+
+    @Autowired
+    private LocationDao locationDao;
 
     @CrossOrigin(origins = Application.UI_HOST)
-    @PostMapping(value = "/get_person_text/")
-    public ResponseEntity<TextResult> getPersonText(@RequestBody TextRequest request) {
+    @PostMapping(value = "/update_text/")
+    public ResponseEntity<TextResult> updateText(@RequestBody TextRequest request) {
 
         TextResult result = new TextResult();
         HttpStatus status = HttpStatus.OK;
 
         try {
-            Text text = personService.getText(request.getId());
+            Text text = textService.updateText(request);
             if (text != null) {
                 result.setText(text);
             } else {
                 status = HttpStatus.NOT_FOUND;
             }
-        } catch (Exception e) {
-            logger.error("get_text exception ", e);
-        }
-
-        return new ResponseEntity<>(result, status);
-    }
-
-    @CrossOrigin(origins = Application.UI_HOST)
-    @PostMapping(value = "/get_location_text/")
-    public ResponseEntity<TextResult> getLocationText(@RequestBody TextRequest request) {
-
-        TextResult result = new TextResult();
-        HttpStatus status = HttpStatus.OK;
-
-        try {
-            Text text = locationService.getText(request.getId());
-            if (text != null) {
-                result.setText(text);
-            } else {
-                status = HttpStatus.NOT_FOUND;
+            if (request.getPersonId() != null) {
+                result.setPerson(personDao.getPerson(request.getPersonId()));
             }
+            if (request.getLocationId() != null) {
+                result.setLocation(locationDao.getLocation(request.getLocationId()));
+            }
+
         } catch (Exception e) {
-            logger.error("get_text exception ", e);
+            logger.error("edit_text exception ", e);
         }
 
         return new ResponseEntity<>(result, status);

@@ -20,14 +20,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 @CrossOrigin(origins = Application.UI_HOST)
-public class UpdateTextController {
+public class TextGetController {
 
-    Logger logger = Logger.getLogger(UpdateTextController.class);
+    Logger logger = Logger.getLogger(TextGetController.class);
 
     @Autowired
     private PersonService personService;
@@ -39,21 +39,25 @@ public class UpdateTextController {
     private TextService textService;
 
     @CrossOrigin(origins = Application.UI_HOST)
-    @GetMapping(value = "/update_text/")
-    public ResponseEntity<TextResult> updateText(@RequestBody TextRequest request) {
+    @PostMapping(value = "/get_text/")
+    public ResponseEntity<TextResult> getText(@RequestBody TextRequest request) {
 
         TextResult result = new TextResult();
         HttpStatus status = HttpStatus.OK;
 
         try {
-             Text text = textService.updateText(request.getText());
-            if (text != null) {
-                result.setText(text);
-            } else {
-                status = HttpStatus.NOT_FOUND;
+            if (request.getPersonId() != null) {
+                result.setText(personService.getText(request.getPersonId()));
+                result.setPerson(personService.getPerson(request.getPersonId()));
+            } else if (request.getLocationId() != null) {
+                result.setText(locationService.getText(request.getLocationId()));
+                result.setLocation(locationService.getLocation(request.getLocationId()));
+            } else if (request.getId() !=null){
+                result.setText(textService.getText(request.getId()));
             }
         } catch (Exception e) {
-            logger.error("get_text exception ", e);
+            logger.error("create_text exception ", e);
+            result.setErrorText(e.getClass().getCanonicalName());
         }
 
         return new ResponseEntity<>(result, status);

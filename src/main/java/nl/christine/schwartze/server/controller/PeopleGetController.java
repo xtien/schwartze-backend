@@ -8,8 +8,9 @@
 package nl.christine.schwartze.server.controller;
 
 import nl.christine.schwartze.server.Application;
-import nl.christine.schwartze.server.controller.request.AddPersonRequest;
-import nl.christine.schwartze.server.controller.result.PersonResult;
+import nl.christine.schwartze.server.controller.request.PeopleRequest;
+import nl.christine.schwartze.server.controller.result.LettersResult;
+import nl.christine.schwartze.server.controller.result.PeopleResult;
 import nl.christine.schwartze.server.model.Person;
 import nl.christine.schwartze.server.service.PersonService;
 import org.apache.log4j.Logger;
@@ -17,36 +18,39 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-/**
- * User: christine
- * Date: 11/18/19 19:21 PM
- */
+import java.util.List;
+
 @Controller
 @CrossOrigin(origins = Application.UI_HOST)
-public class AddPersonController {
+public class PeopleGetController {
 
-    Logger logger = Logger.getLogger(AddPersonController.class);
+    Logger logger = Logger.getLogger(PeopleGetController.class);
 
     @Autowired
     private PersonService personService;
 
     @CrossOrigin(origins = Application.UI_HOST)
-    @PostMapping(value = "/add_person/")
-    public ResponseEntity<PersonResult> updatePerson(@RequestBody AddPersonRequest request) {
+    @PostMapping(value = "/get_people_details/")
+    @Transactional("transactionManager")
+    public ResponseEntity<PeopleResult> getPeople(@RequestBody PeopleRequest request) {
 
-        PersonResult result = new PersonResult();
-        result.setResult(PersonResult.NOT_OK);
+        PeopleResult result = new PeopleResult();
+        result.setResult(LettersResult.NOT_OK);
 
         try {
-            Person updatedPerson = personService.addPerson(request.getPerson());
-            result.setResult(PersonResult.OK);
-            result.setPerson(updatedPerson);
+
+            List<Person> people = personService.getPeople(request.getIds());
+            if (people != null) {
+                result.setPeople(people);
+                result.setResultCode(LettersResult.OK);
+            }
         } catch (Exception e) {
-            logger.error("Error updating person", e);
+            logger.error("get_people_details exception", e);
         }
 
         return new ResponseEntity<>(result, HttpStatus.OK);

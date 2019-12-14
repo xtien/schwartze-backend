@@ -8,49 +8,48 @@
 package nl.christine.schwartze.server.controller;
 
 import nl.christine.schwartze.server.Application;
-import nl.christine.schwartze.server.controller.request.TextRequest;
-import nl.christine.schwartze.server.controller.result.TextResult;
-import nl.christine.schwartze.server.model.Text;
-import nl.christine.schwartze.server.service.LocationService;
+import nl.christine.schwartze.server.controller.request.UpdatePersonRequest;
+import nl.christine.schwartze.server.controller.result.PersonResult;
+import nl.christine.schwartze.server.model.Person;
 import nl.christine.schwartze.server.service.PersonService;
-import nl.christine.schwartze.server.service.TextService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+/**
+ * User: christine
+ * Date: 12/29/18 12:41 PM
+ */
 @Controller
 @CrossOrigin(origins = Application.UI_HOST)
-public class AddTextController {
+public class PersonUpdateController {
 
-    Logger logger = Logger.getLogger(AddTextController.class);
+    Logger logger = Logger.getLogger(PersonUpdateController.class);
 
     @Autowired
-    private TextService textService;
+    private PersonService personService;
 
     @CrossOrigin(origins = Application.UI_HOST)
-    @PostMapping(value = "/add_person_text/")
-    public ResponseEntity<TextResult> addPersonText(@RequestBody TextRequest request) {
+    @PostMapping(value = "/update_person_details/")
+    public ResponseEntity<PersonResult> updatePerson(@RequestBody UpdatePersonRequest request) {
 
-        TextResult result = new TextResult();
-        HttpStatus status = HttpStatus.OK;
+        PersonResult result = new PersonResult();
+        result.setResult(PersonResult.NOT_OK);
 
         try {
-             Text text = textService.addText();
-            if (text != null) {
-                result.setText(text);
-            } else {
-                status = HttpStatus.NOT_FOUND;
-            }
+            Person updatedPerson = personService.updatePerson(request.getPerson());
+            result.setResult(PersonResult.OK);
+            result.setPerson(updatedPerson);
         } catch (Exception e) {
-            logger.error("get_text exception ", e);
+            logger.error("Error updating person",e);
         }
 
-        return new ResponseEntity<>(result, status);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
+
 }

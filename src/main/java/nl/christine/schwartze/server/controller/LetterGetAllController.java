@@ -25,9 +25,9 @@ import java.util.List;
 
 @Controller
 @CrossOrigin(origins = Application.UI_HOST)
-public class GetAllLettersController {
+public class LetterGetAllController {
 
-    Logger logger = Logger.getLogger(GetAllLettersController.class);
+    Logger logger = Logger.getLogger(LetterGetAllController.class);
 
     @Autowired
     private LetterService letterService;

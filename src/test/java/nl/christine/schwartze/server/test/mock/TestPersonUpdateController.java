@@ -8,26 +8,19 @@
 package nl.christine.schwartze.server.test.mock;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import nl.christine.schwartze.server.controller.UpdatePersonController;
+import nl.christine.schwartze.server.controller.PersonUpdateController;
 import nl.christine.schwartze.server.controller.request.UpdatePersonRequest;
-import nl.christine.schwartze.server.controller.result.PersonResult;
 import nl.christine.schwartze.server.model.Person;
 import nl.christine.schwartze.server.service.PersonService;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-
-import java.io.IOException;
-import java.util.Random;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -43,8 +36,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Date: 12/29/18 12:17 PM
  */
 @RunWith(SpringRunner.class)
-@WebMvcTest(UpdatePersonController.class)
-public class TestUpdatePersonController {
+@WebMvcTest(PersonUpdateController.class)
+public class TestPersonUpdateController {
 
     @Autowired
     private MockMvc mockMvc;

@@ -8,7 +8,7 @@
 package nl.christine.schwartze.server.test.mock;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import nl.christine.schwartze.server.controller.GetPersonToLetters;
+import nl.christine.schwartze.server.controller.LettersToPersonController;
 import nl.christine.schwartze.server.controller.request.PersonLettersRequest;
 import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.model.Person;
@@ -38,7 +38,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Date: 1/21/19 2:32 PM
  */
 @RunWith(SpringRunner.class)
-@WebMvcTest(GetPersonToLetters.class)
+@WebMvcTest(LettersToPersonController.class)
 public class WebMockLettersToTest {
 
     @Autowired

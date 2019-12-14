@@ -39,12 +39,6 @@ public class PersonServiceImpl implements PersonService {
 
     Logger logger = Logger.getLogger(PersonServiceImpl.class);
 
-    @Autowired
-    private LetterDao letterDao;
-
-    @Autowired
-    private TextDao textDao;
-
     @Override
     @Transactional("transactionManager")
     public Person getPerson(int id) {
@@ -126,7 +120,12 @@ public class PersonServiceImpl implements PersonService {
     @Override
     @Transactional("transactionManager")
     public Text getText(int id) {
-        return getPerson(id).getText();
+        Text text =  getPerson(id).getText();
+        if(text == null){
+            text = new Text();
+            getPerson(id).setText(text);
+        }
+        return text;
     }
 
     private Person merge(Person person1, Person person2) {

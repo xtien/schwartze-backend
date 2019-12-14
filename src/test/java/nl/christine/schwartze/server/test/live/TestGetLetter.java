@@ -1,6 +1,6 @@
 package nl.christine.schwartze.server.test.live;
 
-import nl.christine.schwartze.server.controller.GetLetterController;
+import nl.christine.schwartze.server.controller.LetterGetController;
 import nl.christine.schwartze.server.controller.ImportDBController;
 import nl.christine.schwartze.server.controller.request.LetterRequest;
 import nl.christine.schwartze.server.controller.result.LetterResult;
@@ -21,7 +21,7 @@ import java.io.IOException;
 public class TestGetLetter {
 
     @Autowired
-    private GetLetterController getLetterController;
+    private LetterGetController getLetterController;
 
     @Autowired
     private ImportDBController importDBController;

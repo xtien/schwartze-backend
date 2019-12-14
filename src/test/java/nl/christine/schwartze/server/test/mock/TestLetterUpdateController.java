@@ -8,24 +8,17 @@
 package nl.christine.schwartze.server.test.mock;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import nl.christine.schwartze.server.controller.GetPersonController;
-import nl.christine.schwartze.server.controller.UpdateLetterController;
+import nl.christine.schwartze.server.controller.LetterUpdateController;
 import nl.christine.schwartze.server.controller.request.LetterRequest;
-import nl.christine.schwartze.server.controller.result.LetterResult;
 import nl.christine.schwartze.server.model.Letter;
-import nl.christine.schwartze.server.model.Person;
 import nl.christine.schwartze.server.service.impl.LetterServiceImpl;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -42,14 +35,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Date: 12/29/18 12:17 PM
  */
 @RunWith(SpringRunner.class)
-@WebMvcTest(UpdateLetterController.class)
-public class TestUpdateLetterController {
+@WebMvcTest(LetterUpdateController.class)
+public class TestLetterUpdateController {
 
     @Autowired
     private MockMvc mockMvc;
 
     @InjectMocks
-    private UpdateLetterController updateLetterController;
+    private LetterUpdateController letterUpdateController;
 
     @MockBean
     private LetterServiceImpl letterService;

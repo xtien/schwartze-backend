@@ -38,4 +38,9 @@ public class TextDaoImpl implements TextDao {
         existingText.setText(text.getTextString());
         return existingText;
     }
+
+    @Override
+    public void persist(Text text) {
+        entityManager.persist(text);
+    }
 }

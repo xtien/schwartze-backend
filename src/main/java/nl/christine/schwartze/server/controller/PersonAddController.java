@@ -8,15 +8,11 @@
 package nl.christine.schwartze.server.controller;
 
 import nl.christine.schwartze.server.Application;
-import nl.christine.schwartze.server.controller.request.AddLetterRequest;
-import nl.christine.schwartze.server.controller.request.EditLinkRequest;
-import nl.christine.schwartze.server.controller.result.AddLetterResult;
-import nl.christine.schwartze.server.controller.result.EditLinkResult;
-import nl.christine.schwartze.server.model.Letter;
-import nl.christine.schwartze.server.service.LetterService;
-import nl.christine.schwartze.server.service.LocationService;
+import nl.christine.schwartze.server.controller.request.AddPersonRequest;
+import nl.christine.schwartze.server.controller.result.PersonResult;
+import nl.christine.schwartze.server.model.Person;
 import nl.christine.schwartze.server.service.PersonService;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,30 +21,32 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+/**
+ * User: christine
+ * Date: 11/18/19 19:21 PM
+ */
 @Controller
 @CrossOrigin(origins = Application.UI_HOST)
-public class EditLinkController {
+public class PersonAddController {
 
-    @Autowired
-    private LetterService letterService;
-
-    @Autowired
-    private LocationService locationService;
+    Logger logger = Logger.getLogger(PersonAddController.class);
 
     @Autowired
     private PersonService personService;
 
     @CrossOrigin(origins = Application.UI_HOST)
-    @PostMapping(value = "/edit_link/")
-    public ResponseEntity<EditLinkResult> addLetter(@RequestBody EditLinkRequest request) {
-        EditLinkResult result = new EditLinkResult();
+    @PostMapping(value = "/add_person/")
+    public ResponseEntity<PersonResult> updatePerson(@RequestBody AddPersonRequest request) {
 
-        if(request.getLocationId() !=null){
-            result = locationService.editLink(request);
-        }
+        PersonResult result = new PersonResult();
+        result.setResult(PersonResult.NOT_OK);
 
-        if(request.getPersonId() !=null){
-            result = personService.editLink(request);
+        try {
+            Person updatedPerson = personService.addPerson(request.getPerson());
+            result.setResult(PersonResult.OK);
+            result.setPerson(updatedPerson);
+        } catch (Exception e) {
+            logger.error("Error updating person", e);
         }
 
         return new ResponseEntity<>(result, HttpStatus.OK);

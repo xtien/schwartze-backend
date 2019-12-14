@@ -7,7 +7,7 @@
 
 package nl.christine.schwartze.server.test.mock;
 
-import nl.christine.schwartze.server.controller.UpdateLocationController;
+import nl.christine.schwartze.server.controller.LocationUpdateController;
 import nl.christine.schwartze.server.controller.request.UpdateLocationRequest;
 import nl.christine.schwartze.server.controller.result.LocationResult;
 import nl.christine.schwartze.server.model.MyLocation;
@@ -28,10 +28,10 @@ import static org.mockito.Mockito.when;
  * Date: 12/29/18 12:17 PM
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-public class TestUpdateLocationController {
+public class TestLocationUpdateController {
 
     @InjectMocks
-    private UpdateLocationController updateLocationController;
+    private LocationUpdateController locationUpdateController;
 
     @Mock
     private LocationService locationService;
@@ -53,7 +53,7 @@ public class TestUpdateLocationController {
 
         when(locationService.updateLocationComment(myLocation)).thenReturn(myLocation);
 
-        LocationResult result = updateLocationController.updateLocation(request).getBody();
+        LocationResult result = locationUpdateController.updateLocation(request).getBody();
 
         Assert.assertNotNull(result);
 

@@ -8,11 +8,10 @@
 package nl.christine.schwartze.server.controller;
 
 import nl.christine.schwartze.server.Application;
-import nl.christine.schwartze.server.controller.request.LettersRequest;
-import nl.christine.schwartze.server.controller.result.LettersResult;
-import nl.christine.schwartze.server.model.Letter;
+import nl.christine.schwartze.server.controller.request.DeleteLetterRequest;
+import nl.christine.schwartze.server.controller.result.DeleteLetterResult;
+import nl.christine.schwartze.server.exception.LetterNotFoundException;
 import nl.christine.schwartze.server.service.LetterService;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,33 +20,26 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import java.util.List;
-
 @Controller
 @CrossOrigin(origins = Application.UI_HOST)
-public class GetPersonToLetters {
-
-    Logger logger = Logger.getLogger(GetAllLettersController.class);
+public class LetterDeleteController {
 
     @Autowired
     private LetterService letterService;
 
     @CrossOrigin(origins = Application.UI_HOST)
-    @PostMapping(value = "/get_letters_to_person/")
-    public ResponseEntity<LettersResult> getLetters(@RequestBody LettersRequest request) {
-
-        LettersResult result = new LettersResult();
+    @PostMapping(value = "/delete_letter/")
+    public ResponseEntity<DeleteLetterResult> addLetter(@RequestBody DeleteLetterRequest request) {
+        DeleteLetterResult result = new DeleteLetterResult();
+        HttpStatus status = HttpStatus.OK;
 
         try {
-
-            List<Letter> letters = letterService.getLettersToPerson(request.toId);
-            result.setLetters(letters);
-            result.setResult(LettersResult.OK);
-
-        } catch (Exception e) {
-            logger.error("get_letters exception ", e);
+            letterService.deleteLetter(request.getLetter());
+        } catch (LetterNotFoundException e) {
+            status = HttpStatus.NOT_FOUND;
         }
 
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return new ResponseEntity<>(result, status);
     }
+
 }

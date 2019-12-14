@@ -16,4 +16,6 @@ public interface TextDao {
     Text getText(int id);
 
     Text updateText(Text text);
+
+    void persist(Text text);
 }

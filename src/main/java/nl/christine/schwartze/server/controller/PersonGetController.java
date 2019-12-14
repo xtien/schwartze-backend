@@ -8,11 +8,11 @@
 package nl.christine.schwartze.server.controller;
 
 import nl.christine.schwartze.server.Application;
-import nl.christine.schwartze.server.controller.request.UpdateLocationRequest;
-import nl.christine.schwartze.server.controller.result.LocationResult;
+import nl.christine.schwartze.server.controller.request.GetPersonRequest;
+import nl.christine.schwartze.server.controller.result.LettersResult;
 import nl.christine.schwartze.server.controller.result.PersonResult;
-import nl.christine.schwartze.server.model.MyLocation;
-import nl.christine.schwartze.server.service.LocationService;
+import nl.christine.schwartze.server.model.Person;
+import nl.christine.schwartze.server.service.PersonService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,35 +23,34 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-/**
- * User: christine
- * Date: 12/29/18 12:41 PM
- */
 @Controller
 @CrossOrigin(origins = Application.UI_HOST)
-public class UpdateLocationController {
+public class PersonGetController {
 
-    Logger logger = Logger.getLogger(UpdateLocationController.class);
+    Logger logger = Logger.getLogger(PersonGetController.class);
 
     @Autowired
-    private LocationService locationService;
+    private PersonService personService;
 
     @CrossOrigin(origins = Application.UI_HOST)
-    @PostMapping(value = "/update_location_details/")
+    @PostMapping(value = "/get_person_details/")
     @Transactional("transactionManager")
-    public ResponseEntity<LocationResult> updateLocation(@RequestBody UpdateLocationRequest request) {
+    public ResponseEntity<PersonResult> getPerson(@RequestBody GetPersonRequest request) {
 
-        LocationResult result = new LocationResult();
-        result.setResult(PersonResult.NOT_OK);
+        PersonResult result = new PersonResult();
+        result.setResult(LettersResult.NOT_OK);
 
         try {
-            MyLocation resultLocation  = locationService.updateLocationComment(request.getLocation());
-            result.setLocation(resultLocation);
+
+            Person person = personService.getPerson(request.getId());
+            if (person != null) {
+                result.setPerson(person);
+                result.setResultCode(LettersResult.OK);
+            }
         } catch (Exception e) {
-            logger.error("Error updating location",e);
+            logger.error("Error getting person",e);
         }
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
-
 }

@@ -8,10 +8,10 @@
 package nl.christine.schwartze.server.controller;
 
 import nl.christine.schwartze.server.Application;
-import nl.christine.schwartze.server.controller.request.AddLocationRequest;
-import nl.christine.schwartze.server.controller.result.AddLocationResult;
-import nl.christine.schwartze.server.model.MyLocation;
+import nl.christine.schwartze.server.controller.request.EditLinkRequest;
+import nl.christine.schwartze.server.controller.result.EditLinkResult;
 import nl.christine.schwartze.server.service.LocationService;
+import nl.christine.schwartze.server.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,22 +22,25 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 @CrossOrigin(origins = Application.UI_HOST)
-public class AddLocationController {
+public class LinkEditController {
 
     @Autowired
     private LocationService locationService;
 
+    @Autowired
+    private PersonService personService;
+
     @CrossOrigin(origins = Application.UI_HOST)
-    @PostMapping(value = "/add_location/")
-    public ResponseEntity<AddLocationResult> addLocation(@RequestBody AddLocationRequest request) {
+    @PostMapping(value = "/edit_link/")
+    public ResponseEntity<EditLinkResult> editLink(@RequestBody EditLinkRequest request) {
+        EditLinkResult result = new EditLinkResult();
 
-        AddLocationResult result = new AddLocationResult();
+        if (request.getLocationId() != null) {
+            result = locationService.editLink(request);
+        }
 
-        if (request.getLocation().getId() > 0) {
-            result.setText("location exists");
-        } else {
-            MyLocation resultLocation = locationService.addLocation(request.getLocation());
-            result.setLocation(resultLocation);
+        if (request.getPersonId() != null) {
+            result = personService.editLink(request);
         }
 
         return new ResponseEntity<>(result, HttpStatus.OK);

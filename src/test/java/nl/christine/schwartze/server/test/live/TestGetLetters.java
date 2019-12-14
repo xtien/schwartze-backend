@@ -1,12 +1,11 @@
 package nl.christine.schwartze.server.test.live;
 
-import nl.christine.schwartze.server.controller.GetAllLettersController;
+import nl.christine.schwartze.server.controller.LetterGetAllController;
 import nl.christine.schwartze.server.controller.ImportDBController;
 import nl.christine.schwartze.server.controller.request.LettersRequest;
 import nl.christine.schwartze.server.controller.result.LettersResult;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class TestGetLetters {
 
     @Autowired
-    private GetAllLettersController getLetterController;
+    private LetterGetAllController getLetterController;
 
     @Autowired
     private ImportDBController importDBController;

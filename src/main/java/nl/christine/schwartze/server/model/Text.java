@@ -7,6 +7,9 @@
 
 package nl.christine.schwartze.server.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
 
 @Entity
@@ -18,10 +21,15 @@ public class Text {
     private int id;
 
     @Lob
+    @Type(type = "org.hibernate.type.TextType")
     private String text;
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id){
+        this.id = id;
     }
 
     public String getTextString() {

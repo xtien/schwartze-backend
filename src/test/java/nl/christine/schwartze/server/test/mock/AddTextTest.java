@@ -8,13 +8,14 @@
 package nl.christine.schwartze.server.test.mock;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import nl.christine.schwartze.server.controller.PersonAddController;
-import nl.christine.schwartze.server.controller.request.AddPersonRequest;
-import nl.christine.schwartze.server.model.Person;
+import nl.christine.schwartze.server.controller.TextGetController;
+import nl.christine.schwartze.server.controller.request.TextRequest;
+import nl.christine.schwartze.server.model.Text;
+import nl.christine.schwartze.server.service.LocationService;
 import nl.christine.schwartze.server.service.PersonService;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -31,13 +32,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-/**
- * User: christine
- * Date: 12/29/18 12:17 PM
- */
 @RunWith(SpringRunner.class)
-@WebMvcTest(PersonAddController.class)
-public class TestAddPersonController {
+@WebMvcTest(TextGetController.class)
+public class AddTextTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -45,39 +42,62 @@ public class TestAddPersonController {
     @MockBean
     private PersonService personService;
 
-    private int personId = 12;
-    private String testComment = "just commenting ";
+    @MockBean
+    private LocationService locationService;
+    private int personId = 123;
+    private Text text;
+    private int textId = 3;
+    private Integer locationId = 4;
+
+    @Before
+    public void setup() {
+        text = new Text();
+        text.setId(textId);
+    }
 
     @Test
-    public void testAddPerson() throws Exception {
+    public void testGetPersonText() throws Exception {
 
         ObjectMapper objectMapper = new ObjectMapper();
-        String updatedComment = "more commenting";
 
-        Person p = new Person();
-        p.setId(personId);
-        p.setComment(testComment);
-        Person updatedPerson = new Person();
-        updatedPerson.setId(personId);
-        updatedPerson.setComment(updatedComment);
+        TextRequest textRequest = new TextRequest();
+        textRequest.setPersonId(personId);
 
-        when(personService.addPerson(any(Person.class))).thenReturn(updatedPerson);
-        AddPersonRequest request = new AddPersonRequest();
-        request.setPerson(p);
+        String json = objectMapper.writeValueAsString(textRequest);
 
-        String json = objectMapper.writeValueAsString(request);
+        when(personService.getText(personId)).thenReturn(text);
 
-        this.mockMvc.perform(post("/add_person/")
+        this.mockMvc.perform(post("/get_text/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
                 .content(json))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.person.id").value(personId))
-                .andExpect(jsonPath("$.person.comment").value(updatedComment));
+                .andExpect(jsonPath("$.text.id").value(textId));
 
-        ArgumentCaptor<Person> personCaptor = ArgumentCaptor.forClass(Person.class);
-        verify(personService).addPerson(personCaptor.capture());
-        assertEquals(testComment, personCaptor.getValue().getComment());
+        verify(personService).getText(personId);
+    }
+
+    @Test
+    public void testGetLocationText() throws Exception {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        TextRequest textRequest = new TextRequest();
+        textRequest.setLocationId(locationId);
+
+        String json = objectMapper.writeValueAsString(textRequest);
+
+        when(locationService.getText(locationId)).thenReturn(text);
+
+        this.mockMvc.perform(post("/get_text/")
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8")
+                .content(json))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.text.id").value(textId));
+
+        verify(locationService).getText(locationId);
     }
 }

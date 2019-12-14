@@ -12,7 +12,7 @@ import nl.christine.schwartze.server.model.Text;
 
 public interface TextService {
 
-    public Text addText();
-
     Text updateText(TextRequest request);
+
+    Text getText(Integer id);
 }
