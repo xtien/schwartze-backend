@@ -57,7 +57,7 @@ public class UpdateTextTest {
     public void setup() {
         text = new Text();
         text.setId(textId);
-        text.setText(textString);
+        text.setTextString(textString);
     }
 
     @Test

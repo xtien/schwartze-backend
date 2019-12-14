@@ -69,12 +69,7 @@ public class LocationServiceImpl implements LocationService {
     @Override
     @Transactional("transactionManager")
     public Text getText(int id) {
-        Text text =  getLocation(id).getText();
-        if(text == null){
-            text = new Text();
-            getLocation(id).setText(text);
-        }
-        return text;
+        return locationDao.getLocationText(id);
     }
 
     @Override

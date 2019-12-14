@@ -120,13 +120,8 @@ public class PersonServiceImpl implements PersonService {
     @Override
     @Transactional("transactionManager")
     public Text getText(int id) {
-        Text text =  getPerson(id).getText();
-        if(text == null){
-            text = new Text();
-            getPerson(id).setText(text);
-        }
-        return text;
-    }
+        return  personDao.getPersonText(id);
+     }
 
     private Person merge(Person person1, Person person2) {
 

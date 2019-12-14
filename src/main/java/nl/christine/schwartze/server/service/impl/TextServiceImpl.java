@@ -15,7 +15,6 @@ import nl.christine.schwartze.server.model.MyLocation;
 import nl.christine.schwartze.server.model.Person;
 import nl.christine.schwartze.server.model.Text;
 import nl.christine.schwartze.server.service.TextService;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,7 +43,7 @@ public class TextServiceImpl implements TextService {
                 person.setText(new Text());
                 textDao.persist(person.getText());
             }
-            person.getText().setText(request.getText().getTextString());
+            person.getText().setTextString(request.getText().getTextString());
             return person.getText();
         } else if (request.getLocationId() != null) {
             MyLocation location = locationDao.getLocation(request.getLocationId());
@@ -52,7 +51,7 @@ public class TextServiceImpl implements TextService {
                 location.setText(new Text());
                 textDao.persist(location.getText());
             }
-            location.getText().setText(request.getText().getTextString());
+            location.getText().setTextString(request.getText().getTextString());
             return location.getText();
         }
 

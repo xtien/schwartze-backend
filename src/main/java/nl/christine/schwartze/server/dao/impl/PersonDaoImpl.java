@@ -10,6 +10,7 @@ package nl.christine.schwartze.server.dao.impl;
 import nl.christine.schwartze.server.dao.PersonDao;
 import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.model.Person;
+import nl.christine.schwartze.server.model.Text;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
@@ -70,6 +71,17 @@ public class PersonDaoImpl implements PersonDao {
     @Override
     public void merge(Person person) {
         entityManager.merge(person);
+    }
+
+    @Override
+    public Text getPersonText(int id) {
+        Person person = getPerson(id);
+        if(person.getText() == null){
+            Text text = new Text();
+            entityManager.persist(text);
+            person.setText(text);
+        }
+        return person.getText();
     }
 
     @Override

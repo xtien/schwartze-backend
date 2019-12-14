@@ -53,7 +53,7 @@ public class TextGetController {
                 result.setText(locationService.getText(request.getLocationId()));
                 result.setLocation(locationService.getLocation(request.getLocationId()));
             } else if (request.getId() !=null){
-                result.setText(textService.getText(request.getId()));
+                result.setText(personService.getText(request.getId()));
             }
         } catch (Exception e) {
             logger.error("create_text exception ", e);

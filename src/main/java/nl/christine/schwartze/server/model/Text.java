@@ -20,9 +20,10 @@ public class Text {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @JsonProperty("text_string")
     @Lob
     @Type(type = "org.hibernate.type.TextType")
-    private String text;
+    private String textString;
 
     public int getId() {
         return id;
@@ -33,10 +34,10 @@ public class Text {
     }
 
     public String getTextString() {
-        return text;
+        return textString;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setTextString(String text) {
+        this.textString = text;
     }
 }
