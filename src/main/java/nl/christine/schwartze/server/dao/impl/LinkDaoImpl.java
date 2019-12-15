@@ -9,8 +9,6 @@ package nl.christine.schwartze.server.dao.impl;
 
 import nl.christine.schwartze.server.dao.LinkDao;
 import nl.christine.schwartze.server.model.Link;
-import nl.christine.schwartze.server.model.MyLocation;
-import nl.christine.schwartze.server.model.Person;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
