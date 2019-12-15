@@ -10,7 +10,6 @@ package nl.christine.schwartze.server.service.impl;
 import nl.christine.schwartze.server.controller.request.EditLinkRequest;
 import nl.christine.schwartze.server.controller.result.EditLinkResult;
 import nl.christine.schwartze.server.dao.LocationDao;
-import nl.christine.schwartze.server.dao.TextDao;
 import nl.christine.schwartze.server.exception.LocationNotFoundException;
 import nl.christine.schwartze.server.model.Link;
 import nl.christine.schwartze.server.model.MyLocation;
@@ -20,6 +19,8 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 /**
  * User: christine
@@ -79,18 +80,20 @@ public class LocationServiceImpl implements LocationService {
         EditLinkResult result = new EditLinkResult();
         MyLocation location = getLocation(request.getLocationId());
 
-        if(location == null){
+        if (location == null) {
             return result;
         }
 
-        if(request.getLinkId() == null){
-            location.getLinks().add(new Link(request.getLinkName(), request.getLinkUrl()));
+        if (request.getLinkId() == null) {
+            Link link = new Link(request.getLinkName(), request.getLinkUrl());
+            link.setLocation(location);
+            location.getLinks().add(link);
         } else {
-            location.getLinks().stream().filter(x -> x.getId() == request.getLinkId()).map( x -> {
-                x.setLinkName(request.getLinkName());
-                x.setLinkUrl(request.getLinkUrl());
-                return x;
-            });
+            Optional<Link> link = location.getLinks().stream().filter(x -> x.getId() == request.getLinkId()).findFirst();
+            if (link.isPresent()) {
+                link.get().setLinkName(request.getLinkName());
+                link.get().setLinkUrl(request.getLinkUrl());
+            }
         }
 
         result.setLocation(location);

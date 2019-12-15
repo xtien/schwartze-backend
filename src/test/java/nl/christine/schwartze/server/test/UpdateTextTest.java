@@ -65,7 +65,7 @@ public class UpdateTextTest {
 
         ObjectMapper objectMapper = new ObjectMapper();
 
-        TextRequest textRequest = new TextRequest();
+        TextRequest textRequest = new TextRequest(textString);
         textRequest.setText(text);
 
         String json = objectMapper.writeValueAsString(textRequest);

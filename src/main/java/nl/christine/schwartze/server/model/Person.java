@@ -57,7 +57,7 @@ public class Person {
     @ManyToMany(mappedBy = "recipients", cascade = CascadeType.ALL)
     private List<Letter> lettersReceived = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "person")
     @JsonProperty(LINKS)
     private List<Link> links = new ArrayList<>();
 

@@ -23,10 +23,10 @@ public class LinkDaoImpl implements LinkDao {
     @Override
     public void deleteLink(Integer linkId) {
         Link link = em.find(Link.class, linkId);
-        if(link.getLocation() !=null){
+        if (link.getLocation() != null) {
             link.getLocation().getLinks().remove(link);
         }
-        if(link.getPerson() !=null){
+        if (link.getPerson() != null) {
             link.getPerson().getLinks().remove(link);
         }
         if (link != null) {

@@ -60,7 +60,7 @@ public class AddTextTest {
 
         ObjectMapper objectMapper = new ObjectMapper();
 
-        TextRequest textRequest = new TextRequest();
+        TextRequest textRequest = new TextRequest(textString);
         textRequest.setPersonId(personId);
 
         String json = objectMapper.writeValueAsString(textRequest);
@@ -83,7 +83,7 @@ public class AddTextTest {
 
         ObjectMapper objectMapper = new ObjectMapper();
 
-        TextRequest textRequest = new TextRequest();
+        TextRequest textRequest = new TextRequest(textString);
         textRequest.setLocationId(locationId);
 
         String json = objectMapper.writeValueAsString(textRequest);
