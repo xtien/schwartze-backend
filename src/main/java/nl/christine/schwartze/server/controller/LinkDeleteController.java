@@ -5,8 +5,9 @@
  * http://www. apache.org/licenses/LICENSE-2.0.
  */
 
-package nl.christine.schwartze.server;
+package nl.christine.schwartze.server.controller;
 
+import nl.christine.schwartze.server.Application;
 import nl.christine.schwartze.server.controller.request.EditLinkRequest;
 import nl.christine.schwartze.server.controller.result.EditLinkResult;
 import nl.christine.schwartze.server.service.LetterService;
@@ -23,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 @CrossOrigin(origins = Application.UI_HOST)
-public class DeleteLinkController {
+public class LinkDeleteController {
 
     @Autowired
     private LinkService linkService;
@@ -33,11 +34,10 @@ public class DeleteLinkController {
 
     @CrossOrigin(origins = Application.UI_HOST)
     @PostMapping(value = "/delete_link/")
-    public ResponseEntity<EditLinkResult> addLetter(@RequestBody EditLinkRequest request) {
+    public ResponseEntity<EditLinkResult> deleteLink(@RequestBody EditLinkRequest request) {
+
         EditLinkResult result = new EditLinkResult();
-
-            linkService.deleteLink(request);
-
+        linkService.deleteLink(request);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

@@ -7,7 +7,10 @@
 
 package nl.christine.schwartze.server.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.*;
 
@@ -27,6 +30,14 @@ public class Link {
     @JsonProperty("link_url")
     @Column(name = "linkUrl")
     private String linkUrl;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Person person;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    private MyLocation location;
 
     public Link() {
     }
@@ -55,4 +66,44 @@ public class Link {
     public void setLinkUrl(String linkUrl) {
         this.linkUrl = linkUrl;
     }
+
+    public Person getPerson() {
+        return person;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
+    }
+
+    public MyLocation getLocation() {
+        return location;
+    }
+
+    public void setLocation(MyLocation location) {
+        this.location = location;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
+        if (obj.getClass() != getClass()) {
+            return false;
+        }
+        Link rhs = (Link) obj;
+        return new EqualsBuilder()
+                .appendSuper(super.equals(obj))
+                .append(id, rhs.id)
+                .isEquals();
+    }
+
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37).
+                append(id).
+                toHashCode();
+    }
+
 }

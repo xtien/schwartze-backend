@@ -137,29 +137,6 @@ public class Person {
         return lettersReceived;
     }
 
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        if (obj.getClass() != getClass()) {
-            return false;
-        }
-        Person rhs = (Person) obj;
-        return new EqualsBuilder()
-                .appendSuper(super.equals(obj))
-                .append(id, rhs.id)
-                .isEquals();
-    }
-
-    public int hashCode() {
-         return new HashCodeBuilder(17, 37).
-                append(id).
-                toHashCode();
-    }
-
     public Text getText() {
         return text;
     }
@@ -179,5 +156,28 @@ public class Person {
 
     public void setLinks(List<Link> links) {
         this.links = links;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
+        if (obj.getClass() != getClass()) {
+            return false;
+        }
+        Person rhs = (Person) obj;
+        return new EqualsBuilder()
+                .appendSuper(super.equals(obj))
+                .append(id, rhs.id)
+                .isEquals();
+    }
+
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37).
+                append(id).
+                toHashCode();
     }
 }

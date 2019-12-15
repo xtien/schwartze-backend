@@ -9,6 +9,8 @@ package nl.christine.schwartze.server.dao.impl;
 
 import nl.christine.schwartze.server.dao.LinkDao;
 import nl.christine.schwartze.server.model.Link;
+import nl.christine.schwartze.server.model.MyLocation;
+import nl.christine.schwartze.server.model.Person;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
@@ -23,6 +25,12 @@ public class LinkDaoImpl implements LinkDao {
     @Override
     public void deleteLink(Integer linkId) {
         Link link = em.find(Link.class, linkId);
+        if(link.getLocation() !=null){
+            link.getLocation().getLinks().remove(link);
+        }
+        if(link.getPerson() !=null){
+            link.getPerson().getLinks().remove(link);
+        }
         if (link != null) {
             em.remove(link);
         }
