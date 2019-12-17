@@ -1,10 +1,11 @@
 package nl.christine.schwartze.server.controller.security;
 
-import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 public class SignupForm {
+
     @NotEmpty
     @Size(min=5, max=30)
     private String username = "";

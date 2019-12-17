@@ -11,36 +11,37 @@ import nl.christine.schwartze.server.properties.SchwartzeProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.jdbc.DataSourceBuilder;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.*;
 
 import javax.sql.DataSource;
 
 @Configuration
-public class IMportDbConfig {
+@PropertySource({"application.properties", "local.properties"})
+@Profile("!test")
+@DependsOn("schwartzeProperties")
+public class UserDbConfig {
 
+    @Value("${spring.userdatasource.url}")
+    private String url;
 
-    @Value("${spring.importdatasource.url}")
-    private String importUrl;
+   private String userName;
 
-    private String userName;
-    private String password;
+   private String password;
 
     @Value("${spring.datasource.driver-class-name}")
     private String driverClass;
 
     @Autowired
-    public IMportDbConfig(SchwartzeProperties properties){
-        password = properties.getProperty("importdbpassword");
-        userName = properties.getProperty("importdbusername");
+    public UserDbConfig(SchwartzeProperties properties){
+        password = properties.getProperty("userdbpassword");
+        userName = properties.getProperty("userdbusername");
     }
 
-    @Bean(name = "importDatasource")
-    public DataSource importDatasource() {
+    @Bean(name = "userdatasource")
+    public DataSource dataSource() {
         return DataSourceBuilder.create()
                 .driverClassName(driverClass)
-                .url(importUrl)
+                .url(url)
                 .username(userName)
                 .password(password)
                 .build();

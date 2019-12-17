@@ -44,15 +44,18 @@ public class AddTextTest {
 
     @MockBean
     private LocationService locationService;
+
     private int personId = 123;
     private Text text;
     private int textId = 3;
     private Integer locationId = 4;
+    private String textString = "string text string";
 
     @Before
     public void setup() {
         text = new Text();
         text.setId(textId);
+        text.setTextString(textString);
     }
 
     @Test
@@ -60,7 +63,7 @@ public class AddTextTest {
 
         ObjectMapper objectMapper = new ObjectMapper();
 
-        TextRequest textRequest = new TextRequest(textString);
+        TextRequest textRequest = new TextRequest();
         textRequest.setPersonId(personId);
 
         String json = objectMapper.writeValueAsString(textRequest);
@@ -83,7 +86,7 @@ public class AddTextTest {
 
         ObjectMapper objectMapper = new ObjectMapper();
 
-        TextRequest textRequest = new TextRequest(textString);
+        TextRequest textRequest = new TextRequest();
         textRequest.setLocationId(locationId);
 
         String json = objectMapper.writeValueAsString(textRequest);

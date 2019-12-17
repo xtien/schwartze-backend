@@ -1,66 +1,64 @@
 package nl.christine.schwartze.server.controller.security;
 
 import nl.christine.schwartze.server.Application;
+import nl.christine.schwartze.server.controller.LetterGetAllController;
 import nl.christine.schwartze.server.controller.request.LoginRequest;
-import nl.christine.schwartze.server.controller.result.AddLetterResult;
 import nl.christine.schwartze.server.controller.result.LoginResult;
-import nl.christine.schwartze.server.model.User;
-import nl.christine.schwartze.server.security.UserRepository;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+import javax.servlet.http.HttpSession;
+
+import static org.springframework.security.web.context.HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY;
 
 @Controller
 @CrossOrigin(origins = Application.UI_HOST)
 public class UserController {
 
+    Logger logger = Logger.getLogger(UserController.class);
+
     @Autowired
-    private UserRepository repository;
+    private UserDetailsService userDetailsService;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     @PostMapping(value = "/login/")
     public ResponseEntity<LoginResult> login(@RequestBody LoginRequest loginRequest) {
 
-        HttpStatus status;
+        HttpStatus status = HttpStatus.BAD_REQUEST;
         LoginResult loginResult = new LoginResult();
-        User user = repository.findByUsername(loginRequest.getUserName());
-        String pwd = loginRequest.getPw();
-        BCryptPasswordEncoder bc = new BCryptPasswordEncoder();
-        String hashPwd = bc.encode(pwd);
-        if (hashPwd != null && hashPwd.equals(pwd)) {
-            loginResult.setToken("token");
-            status = HttpStatus.OK;
-        } else {
-            status = HttpStatus.FORBIDDEN;
+
+        try{
+
+            UsernamePasswordAuthenticationToken authReq
+                    = new UsernamePasswordAuthenticationToken(loginRequest.getUserName(), loginRequest.getPw());
+            Authentication auth = authenticationManager.authenticate(authReq);
+
+            SecurityContext sc = SecurityContextHolder.getContext();
+            sc.setAuthentication(auth);
+
+            if(auth.isAuthenticated()){
+                loginResult.setAuthorities(auth.getAuthorities());
+                status = HttpStatus.OK;
+            }
+
+         } catch(UsernameNotFoundException ex){
+            status = HttpStatus.UNAUTHORIZED;
         }
-        return new ResponseEntity<>(loginResult, status);
+         return new ResponseEntity<>(loginResult, status);
     }
-
-    @PostMapping(value = "/signup/")
-    public ResponseEntity<LoginResult> signup(@RequestBody LoginRequest signupRequest) {
-
-        HttpStatus status;
-        LoginResult loginResult = new LoginResult();
-        String pwd = signupRequest.getPw();
-        BCryptPasswordEncoder bc = new BCryptPasswordEncoder();
-        String hashPwd = bc.encode(pwd);
-        User newUser = new User();
-        newUser.setPasswordHash(hashPwd);
-        newUser.setUsername(signupRequest.getUserName());
-        newUser.setRole("USER");
-        if (repository.findByUsername(signupRequest.getUserName()) == null) {
-            repository.save(newUser);
-            status = HttpStatus.OK;
-        } else {
-            status = HttpStatus.FORBIDDEN;
-        }
-        return new ResponseEntity<>(loginResult, status);
-    }
-
 }

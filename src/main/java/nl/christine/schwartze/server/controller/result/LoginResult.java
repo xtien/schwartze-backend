@@ -7,6 +7,10 @@
 
 package nl.christine.schwartze.server.controller.result;
 
+import org.springframework.security.core.GrantedAuthority;
+
+import java.util.Collection;
+
 public class LoginResult {
 
     private String token;
@@ -17,5 +21,9 @@ public class LoginResult {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
+
     }
 }

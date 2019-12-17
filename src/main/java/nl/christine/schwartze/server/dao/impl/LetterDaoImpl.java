@@ -22,10 +22,6 @@ import java.util.List;
 @Component("letterDao")
 public class LetterDaoImpl implements LetterDao {
 
-    Query deletePeople;
-    Query deleteLocations;
-    Query deleteLetters;
-
     Logger logger = Logger.getLogger(LetterDaoImpl.class);
 
     @PersistenceContext(unitName = "defaultPU")

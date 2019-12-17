@@ -7,34 +7,75 @@
 
 package nl.christine.schwartze.server.security;
 
-import nl.christine.schwartze.server.model.User;
+import nl.christine.schwartze.server.properties.SchwartzeProperties;
+import nl.christine.schwartze.server.security.dao.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.BeanIds;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-@Service
+import javax.annotation.PostConstruct;
+import javax.persistence.NoResultException;
+
+/**
+ * https://www.baeldung.com/spring-security-authentication-with-a-database
+ * https://www.baeldung.com/manually-set-user-authentication-spring-security
+ */
+@Service("userDetailsService")
+@DependsOn({"schwartzeProperties"})
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private final UserRepository repository;
+    private final UserDao userDao;
+    private final AuthenticationManager authenticationManager;
+
+    private String defaultUser;
+    private String defaultPassword;
 
     @Autowired
-    public UserDetailsServiceImpl(UserRepository repository) {
-        this.repository = repository;
+    public UserDetailsServiceImpl(UserDao userDao, AuthenticationManager authenticationManager, SchwartzeProperties properties) {
+        this.userDao = userDao;
+        this.authenticationManager = authenticationManager;
+        defaultUser = properties.getProperty("defaultUser");
+        defaultPassword = properties.getProperty("defaultPassword");
+    }
+
+    @PostConstruct
+    public void init() {
+
+//        try {
+//            UserDetails user = loadUserByUsername("christine");
+//        } catch (UsernameNotFoundException e) {
+//
+//            UsernamePasswordAuthenticationToken authReq
+//                    = new UsernamePasswordAuthenticationToken(defaultUser, defaultPassword);
+//            Authentication auth = authenticationManager.authenticate(authReq);
+//            SecurityContextHolder.getContext().setAuthentication(auth);
+//        }
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
-    {
-        User curruser = repository.findByUsername(username);
+    @Transactional("userTransactionManager")
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        UserDetails user = new org.springframework.security.core.userdetails.User(username, curruser.getPasswordHash(), true,
-                true, true, true, AuthorityUtils.createAuthorityList(curruser.getRole()));
+        try{
+            User curruser = userDao.findByUsername(username);
+            UserDetails user = new org.springframework.security.core.userdetails.User(username, curruser.getPasswordHash(), true,
+                    true, true, true, AuthorityUtils.createAuthorityList(curruser.getRole()));
+            System.out.println("ROLE: " + curruser.getRole());
+            return user;
 
-        System.out.println("ROLE: " + curruser.getRole());
-        return user;
-    }
-
+        } catch (NoResultException nre){
+            throw new UsernameNotFoundException("user not found");
+        }
+     }
 }
