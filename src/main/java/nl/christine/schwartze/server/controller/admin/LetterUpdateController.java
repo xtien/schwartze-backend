@@ -2,10 +2,10 @@
  * Copyright (c) 2019, Zaphod Consulting BV, Christine Karman
  * This project is free software: you can redistribute it and/or modify it under the terms of
  * the Apache License, Version 2.0. You can find a copy of the license at
- * http://www. apache.org/licenses/LICENSE-2.0.
+ * http://www.apache.org/licenses/LICENSE-2.0.
  */
 
-package nl.christine.schwartze.server.controller;
+package nl.christine.schwartze.server.controller.admin;
 
 import nl.christine.schwartze.server.Application;
 import nl.christine.schwartze.server.controller.request.LetterRequest;
@@ -36,7 +36,7 @@ public class LetterUpdateController {
     private LetterService letterService;
 
     @CrossOrigin(origins = Application.UI_HOST)
-    @PostMapping(value = "/update_letter_details/")
+    @PostMapping(value = "/admin/update_letter_details/")
     @Transactional("transactionManager")
     public ResponseEntity<LetterResult> updateLetterComment(@RequestBody LetterRequest request) {
 

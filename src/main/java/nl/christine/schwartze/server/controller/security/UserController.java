@@ -17,7 +17,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFilter;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -37,6 +39,7 @@ public class UserController {
     private AuthenticationManager authenticationManager;
 
     @PostMapping(value = "/login/")
+    @Transactional("userTransactionManager")
     public ResponseEntity<LoginResult> login(@RequestBody LoginRequest loginRequest) {
 
         HttpStatus status = HttpStatus.BAD_REQUEST;

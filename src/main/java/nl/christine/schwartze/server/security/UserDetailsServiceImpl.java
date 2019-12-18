@@ -2,80 +2,82 @@
  * Copyright (c) 2019, Zaphod Consulting BV, Christine Karman
  * This project is free software: you can redistribute it and/or modify it under the terms of
  * the Apache License, Version 2.0. You can find a copy of the license at
- * http://www. apache.org/licenses/LICENSE-2.0.
+ * http://www.apache.org/licenses/LICENSE-2.0.
  */
 
 package nl.christine.schwartze.server.security;
 
-import nl.christine.schwartze.server.properties.SchwartzeProperties;
+import nl.christine.schwartze.server.security.dao.RoleDao;
 import nl.christine.schwartze.server.security.dao.UserDao;
+import nl.christine.schwartze.server.security.model.Privilege;
+import nl.christine.schwartze.server.security.model.Role;
+import nl.christine.schwartze.server.security.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.DependsOn;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.config.BeanIds;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.PostConstruct;
-import javax.persistence.NoResultException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * https://www.baeldung.com/spring-security-authentication-with-a-database
  * https://www.baeldung.com/manually-set-user-authentication-spring-security
  */
 @Service("userDetailsService")
-@DependsOn({"schwartzeProperties"})
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private final UserDao userDao;
-    private final AuthenticationManager authenticationManager;
-
-    private String defaultUser;
-    private String defaultPassword;
-
     @Autowired
-    public UserDetailsServiceImpl(UserDao userDao, AuthenticationManager authenticationManager, SchwartzeProperties properties) {
-        this.userDao = userDao;
-        this.authenticationManager = authenticationManager;
-        defaultUser = properties.getProperty("defaultUser");
-        defaultPassword = properties.getProperty("defaultPassword");
-    }
-
-    @PostConstruct
-    public void init() {
-
-//        try {
-//            UserDetails user = loadUserByUsername("christine");
-//        } catch (UsernameNotFoundException e) {
-//
-//            UsernamePasswordAuthenticationToken authReq
-//                    = new UsernamePasswordAuthenticationToken(defaultUser, defaultPassword);
-//            Authentication auth = authenticationManager.authenticate(authReq);
-//            SecurityContextHolder.getContext().setAuthentication(auth);
-//        }
-    }
+    private  UserDao userDao;
+    @Autowired
+    private  RoleDao roleDao;
 
     @Override
-    @Transactional("userTransactionManager")
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String userName)
+            throws UsernameNotFoundException {
 
-        try{
-            User curruser = userDao.findByUsername(username);
-            UserDetails user = new org.springframework.security.core.userdetails.User(username, curruser.getPasswordHash(), true,
-                    true, true, true, AuthorityUtils.createAuthorityList(curruser.getRole()));
-            System.out.println("ROLE: " + curruser.getRole());
-            return user;
-
-        } catch (NoResultException nre){
-            throw new UsernameNotFoundException("user not found");
+        User user = userDao.findByName(userName);
+        if (user == null) {
+            return new org.springframework.security.core.userdetails.User(
+                    " ", " ", true, true, true, true,
+                    getAuthorities(Arrays.asList(
+                            roleDao.findByName("ROLE_USER"))));
         }
-     }
+
+        return new org.springframework.security.core.userdetails.User(
+                user.getEmail(), user.getPassword(), user.isEnabled(), true, true,
+                true, getAuthorities(user.getRoles()));
+    }
+
+    private Collection<? extends GrantedAuthority> getAuthorities(
+            Collection<Role> roles) {
+
+        return getGrantedAuthorities(getPrivileges(roles));
+    }
+
+    private List<String> getPrivileges(Collection<Role> roles) {
+
+        List<String> privileges = new ArrayList<>();
+        List<Privilege> collection = new ArrayList<>();
+        for (Role role : roles) {
+            collection.addAll(role.getPrivileges());
+        }
+        for (Privilege item : collection) {
+            privileges.add(item.getName());
+        }
+        return privileges;
+    }
+
+    private List<GrantedAuthority> getGrantedAuthorities(List<String> privileges) {
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        for (String privilege : privileges) {
+            authorities.add(new SimpleGrantedAuthority(privilege));
+        }
+        return authorities;
+    }
 }

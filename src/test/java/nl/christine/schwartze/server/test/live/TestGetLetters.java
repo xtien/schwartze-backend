@@ -1,7 +1,7 @@
 package nl.christine.schwartze.server.test.live;
 
 import nl.christine.schwartze.server.controller.LetterGetAllController;
-import nl.christine.schwartze.server.controller.ImportDBController;
+import nl.christine.schwartze.server.controller.admin.ImportDBController;
 import nl.christine.schwartze.server.controller.request.LettersRequest;
 import nl.christine.schwartze.server.controller.result.LettersResult;
 import org.junit.Assert;

@@ -2,16 +2,16 @@
  * Copyright (c) 2019, Zaphod Consulting BV, Christine Karman
  * This project is free software: you can redistribute it and/or modify it under the terms of
  * the Apache License, Version 2.0. You can find a copy of the license at
- * http://www. apache.org/licenses/LICENSE-2.0.
+ * http://www.apache.org/licenses/LICENSE-2.0.
  */
 
-package nl.christine.schwartze.server.controller;
+package nl.christine.schwartze.server.controller.admin;
 
 import nl.christine.schwartze.server.Application;
-import nl.christine.schwartze.server.controller.request.EditLinkRequest;
-import nl.christine.schwartze.server.controller.result.EditLinkResult;
+import nl.christine.schwartze.server.controller.request.AddLocationRequest;
+import nl.christine.schwartze.server.controller.result.AddLocationResult;
+import nl.christine.schwartze.server.model.MyLocation;
 import nl.christine.schwartze.server.service.LocationService;
-import nl.christine.schwartze.server.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,25 +22,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 @CrossOrigin(origins = Application.UI_HOST)
-public class LinkEditController {
+public class LocationAddController {
 
     @Autowired
     private LocationService locationService;
 
-    @Autowired
-    private PersonService personService;
-
     @CrossOrigin(origins = Application.UI_HOST)
-    @PostMapping(value = "/edit_link/")
-    public ResponseEntity<EditLinkResult> editLink(@RequestBody EditLinkRequest request) {
-        EditLinkResult result = new EditLinkResult();
+    @PostMapping(value = "/admin/add_location/")
+    public ResponseEntity<AddLocationResult> addLocation(@RequestBody AddLocationRequest request) {
 
-        if (request.getLocationId() != null) {
-            result = locationService.editLink(request);
-        }
+        AddLocationResult result = new AddLocationResult();
 
-        if (request.getPersonId() != null) {
-            result = personService.editLink(request);
+        if (request.getLocation().getId() > 0) {
+            result.setText("location exists");
+        } else {
+            MyLocation resultLocation = locationService.addLocation(request.getLocation());
+            result.setLocation(resultLocation);
         }
 
         return new ResponseEntity<>(result, HttpStatus.OK);
