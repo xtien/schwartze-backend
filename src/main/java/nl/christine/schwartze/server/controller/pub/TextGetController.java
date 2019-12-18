@@ -5,12 +5,11 @@
  * http://www.apache.org/licenses/LICENSE-2.0.
  */
 
-package nl.christine.schwartze.server.controller;
+package nl.christine.schwartze.server.controller.pub;
 
 import nl.christine.schwartze.server.Application;
 import nl.christine.schwartze.server.controller.request.TextRequest;
 import nl.christine.schwartze.server.controller.result.TextResult;
-import nl.christine.schwartze.server.model.Text;
 import nl.christine.schwartze.server.service.LocationService;
 import nl.christine.schwartze.server.service.PersonService;
 import nl.christine.schwartze.server.service.TextService;
@@ -22,8 +21,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequestMapping("/pub")
 @CrossOrigin(origins = Application.UI_HOST)
 public class TextGetController {
 

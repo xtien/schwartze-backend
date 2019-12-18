@@ -18,8 +18,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequestMapping("/admin")
 @CrossOrigin(origins = Application.UI_HOST)
 public class PersonCombineController {
 
@@ -27,13 +29,13 @@ public class PersonCombineController {
     private PersonService personService;
 
     @CrossOrigin(origins = Application.UI_HOST)
-    @PostMapping(value = "/admin/get_combine_person/")
+    @PostMapping(value = "/get_combine_person/")
     public ResponseEntity<CombinePersonResult> getCombinePerson(@RequestBody CombinePersonRequest request) {
         return new ResponseEntity<>(personService.getCombinePersons(request.getId1(), request.getId2()), HttpStatus.OK);
     }
 
     @CrossOrigin(origins = Application.UI_HOST)
-    @PostMapping(value = "/admin/put_combine_person/")
+    @PostMapping(value = "/put_combine_person/")
     public ResponseEntity<CombinePersonResult> putCombinePerson(@RequestBody CombinePersonRequest request) {
         return new ResponseEntity<>(personService.putCombinePersons(request.getId1(), request.getId2()), HttpStatus.OK);
     }

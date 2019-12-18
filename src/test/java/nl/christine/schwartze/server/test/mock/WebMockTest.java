@@ -1,6 +1,6 @@
 package nl.christine.schwartze.server.test.mock;
 
-import nl.christine.schwartze.server.controller.LetterGetAllController;
+import nl.christine.schwartze.server.controller.pub.LetterGetAllController;
 import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.service.LetterService;
 import org.junit.Before;

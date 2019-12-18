@@ -8,7 +8,7 @@
 package nl.christine.schwartze.server.test.mock;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import nl.christine.schwartze.server.controller.TextGetController;
+import nl.christine.schwartze.server.controller.pub.TextGetController;
 import nl.christine.schwartze.server.controller.request.TextRequest;
 import nl.christine.schwartze.server.model.Text;
 import nl.christine.schwartze.server.service.LocationService;

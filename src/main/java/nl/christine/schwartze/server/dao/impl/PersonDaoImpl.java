@@ -36,7 +36,7 @@ public class PersonDaoImpl implements PersonDao {
     @Override
     public Person updatePerson(Person person) {
 
-        Person existingPerson = getPersonByName(person);
+        Person existingPerson = getPerson(person.getId());
         if (existingPerson == null) {
             entityManager.persist(person);
         } else {
@@ -76,7 +76,7 @@ public class PersonDaoImpl implements PersonDao {
     @Override
     public Text getPersonText(int id) {
         Person person = getPerson(id);
-        if(person.getText() == null){
+        if (person.getText() == null) {
             Text text = new Text();
             entityManager.persist(text);
             person.setText(text);

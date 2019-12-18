@@ -22,8 +22,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequestMapping("/admin")
 @CrossOrigin(origins = Application.UI_HOST)
 public class TextUpdateController {
 
@@ -39,7 +41,7 @@ public class TextUpdateController {
     private LocationDao locationDao;
 
     @CrossOrigin(origins = Application.UI_HOST)
-    @PostMapping(value = "/admin/update_text/")
+    @PostMapping(value = "/update_text/")
     public ResponseEntity<TextResult> updateText(@RequestBody TextRequest request) {
 
         TextResult result = new TextResult();

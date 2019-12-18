@@ -20,12 +20,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * User: christine
  * Date: 11/18/19 19:21 PM
  */
 @Controller
+@RequestMapping("/admin")
 @CrossOrigin(origins = Application.UI_HOST)
 public class PersonAddController {
 
@@ -35,7 +37,7 @@ public class PersonAddController {
     private PersonService personService;
 
     @CrossOrigin(origins = Application.UI_HOST)
-    @PostMapping(value = "/admin/add_person/")
+    @PostMapping(value = "/add_person/")
     public ResponseEntity<PersonResult> updatePerson(@RequestBody AddPersonRequest request) {
 
         PersonResult result = new PersonResult();

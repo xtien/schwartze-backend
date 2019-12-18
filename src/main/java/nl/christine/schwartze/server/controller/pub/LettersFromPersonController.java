@@ -5,14 +5,13 @@
  * http://www.apache.org/licenses/LICENSE-2.0.
  */
 
-package nl.christine.schwartze.server.controller;
+package nl.christine.schwartze.server.controller.pub;
 
 import nl.christine.schwartze.server.Application;
-import nl.christine.schwartze.server.controller.request.LocationRequest;
+import nl.christine.schwartze.server.controller.request.PersonLettersRequest;
 import nl.christine.schwartze.server.controller.result.LettersResult;
-import nl.christine.schwartze.server.controller.result.LocationResult;
-import nl.christine.schwartze.server.model.MyLocation;
-import nl.christine.schwartze.server.service.LocationService;
+import nl.christine.schwartze.server.model.Letter;
+import nl.christine.schwartze.server.service.LetterService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,38 +20,34 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.io.IOException;
+import java.util.List;
 
-/**
- * User: christine
- * Date: 1/20/19 6:21 PM
- */
 @Controller
+@RequestMapping("/pub")
 @CrossOrigin(origins = Application.UI_HOST)
-public class LocationGetController {
-    Logger logger = Logger.getLogger(LocationGetController.class);
+public class LettersFromPersonController {
+
+    Logger logger = Logger.getLogger(LettersFromPersonController.class);
 
     @Autowired
-    private LocationService locationService;
-
-    public LocationGetController() {
-    }
+    private LetterService letterService;
 
     @CrossOrigin(origins = Application.UI_HOST)
-    @PostMapping(value = "/get_location/")
-    public ResponseEntity<LocationResult> getLocation(@RequestBody LocationRequest request) throws IOException {
+    @PostMapping(value = "/get_letters_from_person/")
+    public ResponseEntity<LettersResult> getLetters(@RequestBody PersonLettersRequest request) {
 
-        LocationResult result = new LocationResult();
+        LettersResult result = new LettersResult();
 
         try {
 
-            MyLocation location = locationService.getLocation(request.getId());
-            result.setLocation(location);
+            List<Letter> letters = letterService.getLettersFromPerson(request.getFromId());
+            result.setLetters(letters);
             result.setResult(LettersResult.OK);
 
         } catch (Exception e) {
-            logger.error("Error getting location",e);
+            logger.error("get_letters exception ", e);
         }
 
         return new ResponseEntity<>(result, HttpStatus.OK);

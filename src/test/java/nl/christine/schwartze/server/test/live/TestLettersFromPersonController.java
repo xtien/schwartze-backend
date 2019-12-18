@@ -7,7 +7,7 @@
 
 package nl.christine.schwartze.server.test.live;
 
-import nl.christine.schwartze.server.controller.LettersFromPersonController;
+import nl.christine.schwartze.server.controller.pub.LettersFromPersonController;
 import nl.christine.schwartze.server.controller.admin.ImportDBController;
 import nl.christine.schwartze.server.controller.request.PersonLettersRequest;
 import nl.christine.schwartze.server.controller.result.LettersResult;

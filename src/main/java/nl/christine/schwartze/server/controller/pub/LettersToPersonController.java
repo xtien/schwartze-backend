@@ -5,7 +5,7 @@
  * http://www.apache.org/licenses/LICENSE-2.0.
  */
 
-package nl.christine.schwartze.server.controller;
+package nl.christine.schwartze.server.controller.pub;
 
 import nl.christine.schwartze.server.Application;
 import nl.christine.schwartze.server.controller.request.LettersRequest;
@@ -20,12 +20,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
 @Controller
+@RequestMapping("/pub")
 @CrossOrigin(origins = Application.UI_HOST)
-public class LetterGetAllController {
+public class LettersToPersonController {
 
     Logger logger = Logger.getLogger(LetterGetAllController.class);
 
@@ -33,20 +35,20 @@ public class LetterGetAllController {
     private LetterService letterService;
 
     @CrossOrigin(origins = Application.UI_HOST)
-    @PostMapping(value = "/get_letters/")
+    @PostMapping(value = "/get_letters_to_person/")
     public ResponseEntity<LettersResult> getLetters(@RequestBody LettersRequest request) {
 
         LettersResult result = new LettersResult();
 
         try {
 
-            List<Letter> letters = letterService.getLetters();
+            List<Letter> letters = letterService.getLettersToPerson(request.toId);
             result.setLetters(letters);
             result.setResult(LettersResult.OK);
 
         } catch (Exception e) {
             logger.error("get_letters exception ", e);
-         }
+        }
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }

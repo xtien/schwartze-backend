@@ -5,7 +5,7 @@
  * http://www.apache.org/licenses/LICENSE-2.0.
  */
 
-package nl.christine.schwartze.server.controller;
+package nl.christine.schwartze.server.controller.pub;
 
 import nl.christine.schwartze.server.Application;
 import nl.christine.schwartze.server.controller.request.GetPersonRequest;
@@ -22,8 +22,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequestMapping("/pub")
 @CrossOrigin(origins = Application.UI_HOST)
 public class PersonGetController {
 

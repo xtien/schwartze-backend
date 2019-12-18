@@ -20,8 +20,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequestMapping("/admin")
 @CrossOrigin(origins = Application.UI_HOST)
 public class LocationDeleteController {
 
@@ -31,7 +33,7 @@ public class LocationDeleteController {
     private LocationService locationService;
 
     @CrossOrigin(origins = Application.UI_HOST)
-    @PostMapping(value = "/admin/delete_location/")
+    @PostMapping(value = "/delete_location/")
     public ResponseEntity<DeleteLocationResult> getPerson(@RequestBody DeleteLocationRequest request) {
 
         DeleteLocationResult result = new DeleteLocationResult();

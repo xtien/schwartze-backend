@@ -1,6 +1,6 @@
 package nl.christine.schwartze.server.test.live;
 
-import nl.christine.schwartze.server.controller.ImagesController;
+import nl.christine.schwartze.server.controller.pub.ImagesController;
 import nl.christine.schwartze.server.controller.request.ImagesRequest;
 import nl.christine.schwartze.server.controller.result.ImagesResult;
 import org.junit.Assert;

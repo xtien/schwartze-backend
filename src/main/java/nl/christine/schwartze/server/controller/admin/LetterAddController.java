@@ -19,8 +19,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequestMapping("/admin")
 @CrossOrigin(origins = Application.UI_HOST)
 public class LetterAddController {
 
@@ -28,7 +30,7 @@ public class LetterAddController {
     private LetterService letterService;
 
     @CrossOrigin(origins = Application.UI_HOST)
-    @PostMapping(value = "/admin/add_letter/")
+    @PostMapping(value = "/add_letter/")
     public ResponseEntity<AddLetterResult> addLetter(@RequestBody AddLetterRequest request) {
         AddLetterResult result = new AddLetterResult();
 

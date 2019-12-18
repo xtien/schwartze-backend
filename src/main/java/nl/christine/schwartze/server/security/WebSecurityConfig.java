@@ -34,14 +34,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        //  11.4 in https://docs.spring.io/spring-security/site/docs/current/reference/htmlsingle/
 
         http
-                .authorizeRequests()
-                .antMatchers("/admin/*").hasRole("ADMIN")
-                .antMatchers("/*").permitAll()
-                .and().httpBasic()
-                .and().csrf().disable() //Disable CSRF
+                .authorizeRequests(authorizeRequests ->
+                        authorizeRequests
+                                .antMatchers("/login", "/get_letters").permitAll()
+                                .antMatchers("/admin/**").hasRole("ADMIN")
+                                .anyRequest().permitAll()
+                )
+                .csrf().disable()
         ;
     }
-
 }

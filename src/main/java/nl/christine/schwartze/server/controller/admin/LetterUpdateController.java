@@ -21,12 +21,14 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * User: christine
  * Date: 12/29/18 12:41 PM
  */
 @Controller
+@RequestMapping("/admin")
 @CrossOrigin(origins = Application.UI_HOST)
 public class LetterUpdateController {
 
@@ -36,7 +38,7 @@ public class LetterUpdateController {
     private LetterService letterService;
 
     @CrossOrigin(origins = Application.UI_HOST)
-    @PostMapping(value = "/admin/update_letter_details/")
+    @PostMapping(value = "/update_letter_details/")
     @Transactional("transactionManager")
     public ResponseEntity<LetterResult> updateLetterComment(@RequestBody LetterRequest request) {
 

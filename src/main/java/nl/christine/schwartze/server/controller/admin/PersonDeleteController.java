@@ -20,8 +20,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequestMapping("/admin")
 @CrossOrigin(origins = Application.UI_HOST)
 public class PersonDeleteController {
 
@@ -31,7 +33,7 @@ public class PersonDeleteController {
     private PersonService personService;
 
     @CrossOrigin(origins = Application.UI_HOST)
-    @PostMapping(value = "/admin/delete_person/")
+    @PostMapping(value = "/delete_person/")
     @Transactional("transactionManager")
     public ResponseEntity<PersonResult> getPerson(@RequestBody DeletePersonRequest request) {
 

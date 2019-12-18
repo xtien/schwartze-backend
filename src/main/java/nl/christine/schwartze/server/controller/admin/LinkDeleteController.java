@@ -21,8 +21,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequestMapping("/admin")
 @CrossOrigin(origins = Application.UI_HOST)
 public class LinkDeleteController {
 
@@ -33,7 +35,7 @@ public class LinkDeleteController {
     private PersonService personService;
 
     @CrossOrigin(origins = Application.UI_HOST)
-    @PostMapping(value = "/admin/delete_link/")
+    @PostMapping(value = "/delete_link/")
     public ResponseEntity<EditLinkResult> deleteLink(@RequestBody EditLinkRequest request) {
 
         EditLinkResult result = new EditLinkResult();

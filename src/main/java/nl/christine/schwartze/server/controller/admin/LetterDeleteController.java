@@ -19,8 +19,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequestMapping("/admin")
 @CrossOrigin(origins = Application.UI_HOST)
 public class LetterDeleteController {
 
@@ -28,7 +30,7 @@ public class LetterDeleteController {
     private LetterService letterService;
 
     @CrossOrigin(origins = Application.UI_HOST)
-    @PostMapping(value = "/admin/delete_letter/")
+    @PostMapping(value = "/delete_letter/")
     public ResponseEntity<DeleteLetterResult> addLetter(@RequestBody DeleteLetterRequest request) {
         DeleteLetterResult result = new DeleteLetterResult();
         HttpStatus status = HttpStatus.OK;

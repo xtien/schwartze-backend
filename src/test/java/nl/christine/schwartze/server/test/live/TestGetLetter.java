@@ -1,6 +1,6 @@
 package nl.christine.schwartze.server.test.live;
 
-import nl.christine.schwartze.server.controller.LetterGetController;
+import nl.christine.schwartze.server.controller.pub.LetterGetController;
 import nl.christine.schwartze.server.controller.admin.ImportDBController;
 import nl.christine.schwartze.server.controller.request.LetterRequest;
 import nl.christine.schwartze.server.controller.result.LetterResult;

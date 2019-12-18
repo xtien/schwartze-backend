@@ -19,8 +19,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequestMapping("/admin")
 @CrossOrigin(origins = Application.UI_HOST)
 public class LinkEditController {
 
@@ -31,7 +33,7 @@ public class LinkEditController {
     private PersonService personService;
 
     @CrossOrigin(origins = Application.UI_HOST)
-    @PostMapping(value = "/admin/edit_link/")
+    @PostMapping(value = "/edit_link/")
     public ResponseEntity<EditLinkResult> editLink(@RequestBody EditLinkRequest request) {
         EditLinkResult result = new EditLinkResult();
 
