@@ -7,6 +7,7 @@
 
 package nl.christine.schwartze.server.service.impl;
 
+import jdk.javadoc.doclet.Taglet;
 import nl.christine.schwartze.server.controller.request.EditLinkRequest;
 import nl.christine.schwartze.server.controller.result.EditLinkResult;
 import nl.christine.schwartze.server.dao.LocationDao;
@@ -20,7 +21,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * User: christine
@@ -98,5 +102,10 @@ public class LocationServiceImpl implements LocationService {
 
         result.setLocation(location);
         return result;
+    }
+
+    @Override
+    public List<MyLocation> getAllLocations() {
+        return locationDao.getLocations().stream().sorted(Comparator.comparing(MyLocation::getName)).collect(Collectors.toList());
     }
 }

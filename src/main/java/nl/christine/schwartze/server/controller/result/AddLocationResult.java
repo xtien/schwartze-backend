@@ -12,7 +12,7 @@ import nl.christine.schwartze.server.model.MyLocation;
 
 public class AddLocationResult {
 
-    @JsonProperty("letter")
+    @JsonProperty("location")
     private MyLocation location;
 
     @JsonProperty("text")

@@ -8,18 +8,20 @@
 package nl.christine.schwartze.server.controller.result;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import nl.christine.schwartze.server.model.Person;
+import nl.christine.schwartze.server.model.MyLocation;
 
-public class PersonResult extends ApiResult {
+import java.util.List;
 
-    @JsonProperty("person")
-    private Person person;
+public class LocationsResult {
 
-    public Person getPerson() {
-        return person;
+    @JsonProperty("locations")
+    private List<MyLocation> locations;
+
+    public void setLocations(List<MyLocation> locations) {
+        this.locations = locations;
     }
 
-    public void setPerson(Person person) {
-        this.person = person;
+    public List<MyLocation> getLocations() {
+        return locations;
     }
 }

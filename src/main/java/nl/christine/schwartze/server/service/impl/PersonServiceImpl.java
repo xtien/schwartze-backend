@@ -21,8 +21,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static org.springframework.util.CollectionUtils.isEmpty;
 
@@ -33,10 +35,17 @@ import static org.springframework.util.CollectionUtils.isEmpty;
 @Component("personService")
 public class PersonServiceImpl implements PersonService {
 
+    private final Comparator<Person> compareByName;
     @Autowired
     private PersonDao personDao;
 
     Logger logger = Logger.getLogger(PersonServiceImpl.class);
+
+    public PersonServiceImpl(){
+        compareByName = Comparator
+                .comparing(Person::getFirstName)
+                .thenComparing(Person::getLastName);
+    }
 
     @Override
     @Transactional("transactionManager")
@@ -103,7 +112,7 @@ public class PersonServiceImpl implements PersonService {
     @Override
     @Transactional("transactionManager")
     public List<Person> getAllPeople() {
-        return personDao.getAllPeople();
+        return personDao.getAllPeople().stream().sorted(compareByName).collect(Collectors.toList());
     }
 
     @Override

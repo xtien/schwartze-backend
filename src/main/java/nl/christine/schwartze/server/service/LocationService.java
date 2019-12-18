@@ -13,6 +13,8 @@ import nl.christine.schwartze.server.exception.LocationNotFoundException;
 import nl.christine.schwartze.server.model.MyLocation;
 import nl.christine.schwartze.server.model.Text;
 
+import java.util.List;
+
 /**
  * User: christine
  * Date: 12/29/18 12:26 PM
@@ -30,4 +32,6 @@ public interface LocationService {
     Text getText(int id);
 
     EditLinkResult editLink(EditLinkRequest request);
+
+    List<MyLocation> getAllLocations();
 }
