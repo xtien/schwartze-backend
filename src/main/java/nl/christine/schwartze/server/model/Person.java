@@ -180,4 +180,8 @@ public class Person {
                 append(id).
                 toHashCode();
     }
+
+    public String toString(){
+        return firstName + " " + lastName;
+    }
 }

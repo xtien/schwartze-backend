@@ -9,6 +9,7 @@ package nl.christine.schwartze.server.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -23,6 +24,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean(name = BeanIds.AUTHENTICATION_MANAGER)
     @Override
+    @Profile("!test")
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
@@ -39,7 +41,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests
-                                .antMatchers("/login", "/get_letters").permitAll()
                                 .antMatchers("/admin/**").hasRole("ADMIN")
                                 .anyRequest().permitAll()
                 )

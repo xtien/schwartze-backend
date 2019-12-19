@@ -1,11 +1,12 @@
 package nl.christine.schwartze.server.test.live;
 
-import nl.christine.schwartze.server.controller.pub.LetterGetAllController;
+import nl.christine.schwartze.server.controller.LetterGetAllController;
 import nl.christine.schwartze.server.controller.admin.ImportDBController;
 import nl.christine.schwartze.server.controller.request.LettersRequest;
 import nl.christine.schwartze.server.controller.result.LettersResult;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,7 @@ public class TestGetLetters {
     }
 
     @Test
+    @Ignore
     public void testGetLetters() {
 
 

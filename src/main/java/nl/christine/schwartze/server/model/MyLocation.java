@@ -7,7 +7,10 @@
 
 package nl.christine.schwartze.server.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -37,9 +40,11 @@ public class MyLocation {
     @JsonProperty(DESCRIPTION)
     private String description;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "fromLocations", cascade = CascadeType.ALL)
     private List<Letter> lettersFrom = new ArrayList<>();
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "toLocations", cascade = CascadeType.ALL)
     private List<Letter> lettersTo = new ArrayList<>();
 
@@ -75,12 +80,20 @@ public class MyLocation {
         return locationName;
     }
 
-    public void setLetterFrom(Letter letter) {
+    public void addLetterFrom(Letter letter) {
         lettersFrom.add(letter);
     }
 
-    public void setLetterTo(Letter letter) {
+    public List<Letter> getLettersFrom() {
+        return lettersFrom;
+    }
+
+    public void addLetterTo(Letter letter) {
         lettersTo.add(letter);
+    }
+
+    public List<Letter> getLettersTo() {
+        return lettersTo;
     }
 
     public String getComment() {
@@ -118,4 +131,32 @@ public class MyLocation {
     public void setText(Text text) {
         this.text = text;
     }
+
+    public void addLinks(List<Link> list) {
+        this.links.addAll(list);
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
+        if (obj.getClass() != getClass()) {
+            return false;
+        }
+        MyLocation rhs = (MyLocation) obj;
+        return new EqualsBuilder()
+                .appendSuper(super.equals(obj))
+                .append(id, rhs.id)
+                .isEquals();
+    }
+
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37).
+                append(id).
+                toHashCode();
+    }
+
 }

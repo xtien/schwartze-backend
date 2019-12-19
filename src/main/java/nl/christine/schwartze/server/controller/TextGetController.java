@@ -5,7 +5,7 @@
  * http://www.apache.org/licenses/LICENSE-2.0.
  */
 
-package nl.christine.schwartze.server.controller.pub;
+package nl.christine.schwartze.server.controller;
 
 import nl.christine.schwartze.server.Application;
 import nl.christine.schwartze.server.controller.request.TextRequest;
@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/pub")
 @CrossOrigin(origins = Application.UI_HOST)
 public class TextGetController {
 
@@ -35,9 +34,6 @@ public class TextGetController {
 
     @Autowired
     private LocationService locationService;
-
-    @Autowired
-    private TextService textService;
 
     @CrossOrigin(origins = Application.UI_HOST)
     @PostMapping(value = "/get_text/")

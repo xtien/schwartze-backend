@@ -9,6 +9,7 @@ package nl.christine.schwartze.server.dao.impl;
 
 import nl.christine.schwartze.server.dao.LocationDao;
 import nl.christine.schwartze.server.exception.LocationNotFoundException;
+import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.model.MyLocation;
 import nl.christine.schwartze.server.model.Text;
 import org.springframework.stereotype.Component;
@@ -17,7 +18,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 @Component("locationDao")
 public class LocationDaoImpl implements LocationDao {
@@ -37,7 +40,7 @@ public class LocationDaoImpl implements LocationDao {
     }
 
     @Override
-    public  MyLocation getLocationByName(MyLocation location) {
+    public MyLocation getLocationByName(MyLocation location) {
 
         MyLocation existingLocation;
 
@@ -58,7 +61,7 @@ public class LocationDaoImpl implements LocationDao {
     }
 
     @Override
-    public MyLocation addLocation(MyLocation location) {
+    public MyLocation addNewLocation(MyLocation location) {
         entityManager.persist(location);
         return location;
     }
@@ -66,23 +69,46 @@ public class LocationDaoImpl implements LocationDao {
     @Override
     public void deleteLocation(int id) throws LocationNotFoundException {
         MyLocation existingLocation = entityManager.find(MyLocation.class, id);
-        if(existingLocation !=null){
+        if (existingLocation != null) {
             entityManager.remove(existingLocation);
         } else {
             throw new LocationNotFoundException();
         }
-
     }
 
     @Override
     public Text getLocationText(int id) {
         MyLocation location = getLocation(id);
-        if(location.getText() == null){
+        if (location.getText() == null) {
             Text text = new Text();
             entityManager.persist(text);
             location.setText(text);
         }
         return location.getText();
+    }
+
+    @Override
+    public void merge(MyLocation location) {
+        entityManager.merge(location);
+    }
+
+    @Override
+    public void deleteLocation(MyLocation location) {
+        entityManager.remove(location);
+    }
+
+    @Override
+    public List<Letter> getLettersForLocation(Optional<Integer> fromId, Optional<Integer> toId) {
+        List<Letter> letters = new LinkedList<>();
+        if (fromId.isPresent()) {
+            MyLocation fromLocation = getLocation(fromId.get());
+            letters.addAll(fromLocation.getLettersFrom());
+        }
+        if (toId.isPresent()) {
+            MyLocation toLocation = getLocation(toId.get());
+            letters.addAll(toLocation.getLettersTo());
+        }
+        return letters;
     }
 
 }

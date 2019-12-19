@@ -25,7 +25,7 @@ import static org.junit.Assert.assertEquals;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ActiveProfiles("test")
 @ContextConfiguration(locations = {"/applicationContext.xml"})
-public class TestAddPerson {
+public class TestGetAllPeople {
 
     @Autowired
     private PersonService personService;
@@ -34,32 +34,45 @@ public class TestAddPerson {
     private LetterService letterservice;
 
     @Test
-    public void testGetPerson() {
+    public void testGetPeople() {
 
-        Person person = new Person();
-        person.setFirstName("Lizzy");
+        Person person1 = new Person();
+        person1.setFirstName("Lizzy");
+        Person person2 = new Person();
+        person2.setFirstName("Therese");
+        person2.setLastName("Schwartze");
+        Person person3 = new Person();
+        person3.setLastName("Moes");
 
         Letter letter1 = new Letter();
         letter1.setComment("comment 1");
-        letter1.getSenders().add(person);
+        letter1.getSenders().add(person1);
         Letter letter2 = new Letter();
         letter2.setComment("comment 2");
-        letter2.getSenders().add(person);
+        letter2.getSenders().add(person1);
         Letter letter3 = new Letter();
         letter3.setComment("comment 3");
-        letter3.getSenders().add(person);
+        letter3.getSenders().add(person1);
         Letter letter4 = new Letter();
         letter4.setComment("comment 4");
-        letter4.getSenders().add(person);
+        letter4.getSenders().add(person1);
 
-        person.addLetterWritten(letter1);
-        person.addLetterWritten(letter2);
-        person.addLetterWritten(letter3);
-        person.addLetterWritten(letter4);
+        person1.addLetterWritten(letter1);
+        person1.addLetterWritten(letter2);
+        person1.addLetterWritten(letter3);
+        person1.addLetterWritten(letter4);
 
-        int id1 = personService.addPerson(person).getId();
-        List<Letter> lettersFrom = letterservice.getLettersFromPerson(id1);
-        assertEquals(4, lettersFrom.size());
+        int id1 =  personService.addPerson(person1).getId();
+        int id2 =  personService.addPerson(person2).getId();
+        int id3 =  personService.addPerson(person3).getId();
+
+        List<Person> people = personService.getAllPeople();
+
+        assertEquals(3, people.size());
+        assertEquals("Moes", people.get(0).getLastName());
+
         personService.deletePersonCascading(id1);
+        personService.deletePersonCascading(id2);
+        personService.deletePersonCascading(id3);
     }
 }

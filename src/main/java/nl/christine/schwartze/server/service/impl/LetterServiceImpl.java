@@ -58,6 +58,11 @@ public class LetterServiceImpl implements LetterService {
     public List<Letter> getLettersFromPerson(int fromId) {
         return personDao.getLettersForPerson(Optional.ofNullable(fromId), Optional.empty());
     }
+    @Override
+    @Transactional("transactionManager")
+    public List<Letter> getLettersFromLocation(int fromId) {
+        return locationDao.getLettersForLocation(Optional.ofNullable(fromId), Optional.empty());
+    }
 
     @Override
     @Transactional("transactionManager")
@@ -77,7 +82,6 @@ public class LetterServiceImpl implements LetterService {
     public void deleteLetter(Letter letter) throws LetterNotFoundException {
         letterDao.deleteLetter(letter);
     }
-
 
     /**
      * Use transactionManager because we are going to save the letters in the db, not in the import-db
@@ -116,14 +120,14 @@ public class LetterServiceImpl implements LetterService {
 
         if (importLetter.hasFromLocation()) {
             MyLocation fromLocation = doLocation(importLetter.getFromLocation());
-            fromLocation.setLetterFrom(letter);
-            letter.setFromLocation(fromLocation);
+            fromLocation.addLetterFrom(letter);
+            letter.addFromLocation(fromLocation);
         }
 
         if (importLetter.hasToLocation()) {
             MyLocation toLocation = doLocation(importLetter.getToLocation());
-            toLocation.setLetterTo(letter);
-            letter.setToLocation(toLocation);
+            toLocation.addLetterTo(letter);
+            letter.addToLocation(toLocation);
         }
 
         /*

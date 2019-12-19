@@ -9,7 +9,7 @@ package nl.christine.schwartze.server.controller.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class CombinePersonRequest {
+public class CombineLocationRequest {
 
     @JsonProperty("id1")
     private int id1;
@@ -32,4 +32,5 @@ public class CombinePersonRequest {
     public void setId2(int id2) {
         this.id2 = id2;
     }
+
 }

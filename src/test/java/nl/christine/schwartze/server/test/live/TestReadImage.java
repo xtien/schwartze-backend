@@ -2,6 +2,7 @@ package nl.christine.schwartze.server.test.live;
 
 import nl.christine.schwartze.server.image.ImageService;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ public class TestReadImage {
     private ImageService imageService;
 
     @Test
+    @Ignore
     public void testReadImage() {
 
         List<String> result = imageService.getImages(12);

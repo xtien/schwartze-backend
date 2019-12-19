@@ -17,6 +17,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.IOException;
@@ -42,6 +43,7 @@ public class TestLocationUpdateController {
     private String testComment = "just commenting";
 
     @Test
+    @WithMockUser(username = "user1", password = "pwd", roles = "ADMIN")
     public void testUpdateLocation() throws IOException {
 
         UpdateLocationRequest request = new UpdateLocationRequest();

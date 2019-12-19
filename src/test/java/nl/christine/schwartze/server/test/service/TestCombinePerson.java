@@ -14,7 +14,6 @@ import nl.christine.schwartze.server.service.LetterService;
 import nl.christine.schwartze.server.service.PersonService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
@@ -35,7 +34,6 @@ public class TestCombinePerson {
 
     @Autowired
     private LetterService letterservice;
-
 
     @Test
     public void testCombine() {
@@ -73,10 +71,9 @@ public class TestCombinePerson {
         int id2 = personService.addPerson(person2).getId();
 
         Person person3 = new Person();
-        person3.setFirstName("Anna2");
-        person3.setLastName(("van Gogh"));
-        int id3 = personService.addPerson(person3).getId();
-        List<Person> allPeople = personService.getAllPeople();
+        person3.setFirstName("Lizzy");
+        person3.setLastName(("Ansingh"));
+        personService.addPerson(person3);
 
         CombinePersonResult result = personService.getCombinePersons(id1, id2);
 
@@ -88,7 +85,7 @@ public class TestCombinePerson {
         assertEquals("Anna1", result2.getPerson1().getFirstName());
         assertNull(result2.getPerson2());
 
-        allPeople = personService.getAllPeople();
+        List<Person> allPeople = personService.getAllPeople();
         assertEquals(2, allPeople.size());
 
         List<Letter> lettersFrom = letterservice.getLettersFromPerson(id1);

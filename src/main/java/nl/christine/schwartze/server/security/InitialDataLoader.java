@@ -17,6 +17,7 @@ import nl.christine.schwartze.server.security.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -29,6 +30,7 @@ import java.util.List;
 
 @Component
 @DependsOn({"schwartzeProperties"})
+@Profile("!test")
 public class InitialDataLoader implements
         ApplicationListener<ContextRefreshedEvent> {
 

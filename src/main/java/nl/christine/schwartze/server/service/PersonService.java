@@ -36,7 +36,10 @@ public interface PersonService {
 
     List<Person> getAllPeople();
 
-    int deletePerson(int id);
+    int deletePersonIfNoChildren(int id);
+
+    @Transactional("transactionManager")
+    int deletePersonCascading(int id);
 
     Text getText(int id);
 

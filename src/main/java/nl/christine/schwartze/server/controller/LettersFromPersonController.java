@@ -5,10 +5,10 @@
  * http://www.apache.org/licenses/LICENSE-2.0.
  */
 
-package nl.christine.schwartze.server.controller.pub;
+package nl.christine.schwartze.server.controller;
 
 import nl.christine.schwartze.server.Application;
-import nl.christine.schwartze.server.controller.request.LettersRequest;
+import nl.christine.schwartze.server.controller.request.PersonLettersRequest;
 import nl.christine.schwartze.server.controller.result.LettersResult;
 import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.service.LetterService;
@@ -25,24 +25,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 @Controller
-@RequestMapping("/pub")
 @CrossOrigin(origins = Application.UI_HOST)
-public class LettersToPersonController {
+public class LettersFromPersonController {
 
-    Logger logger = Logger.getLogger(LetterGetAllController.class);
+    Logger logger = Logger.getLogger(LettersFromPersonController.class);
 
     @Autowired
     private LetterService letterService;
 
     @CrossOrigin(origins = Application.UI_HOST)
-    @PostMapping(value = "/get_letters_to_person/")
-    public ResponseEntity<LettersResult> getLetters(@RequestBody LettersRequest request) {
+    @PostMapping(value = "/get_letters_from_person/")
+    public ResponseEntity<LettersResult> getLetters(@RequestBody PersonLettersRequest request) {
 
         LettersResult result = new LettersResult();
 
         try {
 
-            List<Letter> letters = letterService.getLettersToPerson(request.toId);
+            List<Letter> letters = letterService.getLettersFromPerson(request.getFromId());
             result.setLetters(letters);
             result.setResult(LettersResult.OK);
 

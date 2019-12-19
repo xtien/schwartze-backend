@@ -12,6 +12,7 @@ import nl.christine.schwartze.server.security.dao.UserDao;
 import nl.christine.schwartze.server.security.model.Privilege;
 import nl.christine.schwartze.server.security.model.Role;
 import nl.christine.schwartze.server.security.model.User;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
@@ -19,6 +20,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 @Component("roleDao")
+@Profile("!test")
 public class RoleDaoImpl implements RoleDao {
 
     @PersistenceContext(unitName = "userPU")

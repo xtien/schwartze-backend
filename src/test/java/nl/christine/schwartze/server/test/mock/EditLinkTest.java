@@ -23,6 +23,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -30,7 +32,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -39,6 +40,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(LinkEditController.class)
+@ActiveProfiles("test")
 public class EditLinkTest {
 
     @Autowired
@@ -67,6 +69,7 @@ public class EditLinkTest {
     }
 
     @Test
+    @WithMockUser(username = "user1", password = "pwd", roles = "ADMIN")
     public void testAddPersonLink() throws Exception {
 
         ObjectMapper objectMapper = new ObjectMapper();
@@ -83,7 +86,7 @@ public class EditLinkTest {
         editLinkResult.setPerson(person);
         when(personService.editLink(any(EditLinkRequest.class))).thenReturn(editLinkResult);
 
-        this.mockMvc.perform(post("/edit_link/")
+        this.mockMvc.perform(post("/admin/edit_link/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
                 .content(json))
@@ -93,6 +96,7 @@ public class EditLinkTest {
     }
 
     @Test
+    @WithMockUser(username = "user1", password = "pwd", roles = "ADMIN")
     public void testAddLocationLink() throws Exception {
 
         ObjectMapper objectMapper = new ObjectMapper();
@@ -109,7 +113,7 @@ public class EditLinkTest {
         editLinkResult.setLocation(location);
         when(locationService.editLink(any(EditLinkRequest.class))).thenReturn(editLinkResult);
 
-        this.mockMvc.perform(post("/edit_link/")
+        this.mockMvc.perform(post("/admin/edit_link/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
                 .content(json))

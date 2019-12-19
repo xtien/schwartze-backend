@@ -1,12 +1,13 @@
 package nl.christine.schwartze.server.test.live;
 
-import nl.christine.schwartze.server.controller.pub.PeopleGetController;
+import nl.christine.schwartze.server.controller.PeopleGetController;
 import nl.christine.schwartze.server.controller.admin.ImportDBController;
 import nl.christine.schwartze.server.controller.request.PeopleRequest;
 import nl.christine.schwartze.server.controller.result.LettersResult;
 import nl.christine.schwartze.server.model.Person;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,7 @@ public class TestGetPeople {
     }
 
     @Test
+    @Ignore
     public void testGetPeople(){
 
         ids.add(1);

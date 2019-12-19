@@ -41,7 +41,7 @@ public class PersonDeleteController {
         HttpStatus status = HttpStatus.OK;
 
         try {
-            int i = personService.deletePerson(request.getPerson().getId());
+            int i = personService.deletePersonIfNoChildren(request.getPerson().getId());
             result.setResultCode(i);
         } catch (Exception e) {
             logger.error("Error getting person", e);

@@ -32,4 +32,6 @@ public interface LetterService {
     Letter addLetter(Letter letter);
 
     void deleteLetter(Letter letter) throws LetterNotFoundException;
+
+    List<Letter> getLettersFromLocation(int id);
 }

@@ -5,37 +5,36 @@
  * http://www.apache.org/licenses/LICENSE-2.0.
  */
 
-package nl.christine.schwartze.server.controller.pub;
+package nl.christine.schwartze.server.controller;
 
 import nl.christine.schwartze.server.Application;
-import nl.christine.schwartze.server.controller.request.ImagesRequest;
-import nl.christine.schwartze.server.controller.result.ImagesResult;
-import nl.christine.schwartze.server.image.ImageService;
+import nl.christine.schwartze.server.controller.request.LetterRequest;
+import nl.christine.schwartze.server.controller.result.LetterResult;
+import nl.christine.schwartze.server.controller.result.LettersResult;
+import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.properties.SchwartzeProperties;
+import nl.christine.schwartze.server.service.LetterService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.annotation.PostConstruct;
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.List;
+import java.nio.file.Paths;
 
 @Controller
-@RequestMapping("/pub")
 @CrossOrigin(origins = Application.UI_HOST)
-public class ImagesController {
+public class LetterGetController {
 
-    Logger logger = Logger.getLogger(ImagesController.class);
+    Logger logger = Logger.getLogger(LetterGetController.class);
 
     private String lettersDirectory;
     private String textDocumentName;
@@ -44,7 +43,8 @@ public class ImagesController {
     private SchwartzeProperties properties;
 
     @Autowired
-    private ImageService imageService;
+    private LetterService letterService;
+
 
     @PostConstruct
     public void init() {
@@ -53,34 +53,32 @@ public class ImagesController {
     }
 
     @CrossOrigin(origins = Application.UI_HOST)
-    @RequestMapping(method = RequestMethod.POST, value = "/get_letter_images/")
-    @Transactional("transactionManager")
-    public ResponseEntity<ImagesResult> getLetterImages(@RequestBody ImagesRequest request) throws IOException {
+    @PostMapping(value = "/get_letter_details/")
+    public ResponseEntity<LetterResult> getLetter(@RequestBody LetterRequest request) throws IOException {
 
-        ImagesResult result = new ImagesResult();
+        LetterResult result = new LetterResult();
 
         try {
 
-            List<String> images = imageService.getImages(request.getLetterNumber());
-            if (images.size() < 1) {
-                return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
-            }
-            result.setImages(images);
+            Letter letter = letterService.getLetterByNumber(request.getLetterNumber());
+            result.setLetter(letter);
+            result.setResult(LettersResult.OK);
 
         } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
+            logger.error("Error getting Letters", e);
         }
+
+        result.setLetterText(getLetterText(request.getLetterNumber()));
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     private String getLetterText(int letterNumber) throws IOException {
 
-        String result = "";
         String fileName = lettersDirectory + "/" + letterNumber + "/" + textDocumentName;
-        try (BufferedReader rd = new BufferedReader(new InputStreamReader(new FileInputStream(fileName)))) {
+        String result = "";
 
+        try (BufferedReader rd = new BufferedReader(new InputStreamReader(java.nio.file.Files.newInputStream(Paths.get(fileName))))) {
             String line = "";
             while ((line = rd.readLine()) != null) {
                 result += "<br>" + line;
@@ -90,6 +88,7 @@ public class ImagesController {
             result = result.replaceAll("/", "<BR><BR><i>blad " + ++i + "</i><BR><BR>");
         } catch (Exception e) {
             logger.error("Error getting letter text", e);
+
         }
 
         return result;

@@ -8,7 +8,7 @@
 package nl.christine.schwartze.server.test.mock;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import nl.christine.schwartze.server.controller.pub.PersonGetController;
+import nl.christine.schwartze.server.controller.PersonGetController;
 import nl.christine.schwartze.server.controller.request.GetPersonRequest;
 import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.model.Person;
@@ -20,6 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -39,6 +41,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @RunWith(SpringRunner.class)
 @WebMvcTest(PersonGetController.class)
+@ActiveProfiles("test")
 public class WebMockGetPersonTest {
 
     @Autowired
@@ -69,6 +72,7 @@ public class WebMockGetPersonTest {
     }
 
     @Test
+    @WithMockUser(username = "user1", password = "pwd", roles = "ADMIN")
     public void greetingShouldReturnMessageFromService() throws Exception {
 
         request.setId(3);

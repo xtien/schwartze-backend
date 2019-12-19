@@ -7,8 +7,8 @@
 
 package nl.christine.schwartze.server.service.impl;
 
-import jdk.javadoc.doclet.Taglet;
 import nl.christine.schwartze.server.controller.request.EditLinkRequest;
+import nl.christine.schwartze.server.controller.result.CombineLocationResult;
 import nl.christine.schwartze.server.controller.result.EditLinkResult;
 import nl.christine.schwartze.server.dao.LocationDao;
 import nl.christine.schwartze.server.exception.LocationNotFoundException;
@@ -16,14 +16,14 @@ import nl.christine.schwartze.server.model.Link;
 import nl.christine.schwartze.server.model.MyLocation;
 import nl.christine.schwartze.server.model.Text;
 import nl.christine.schwartze.server.service.LocationService;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -62,7 +62,7 @@ public class LocationServiceImpl implements LocationService {
     @Override
     @Transactional("transactionManager")
     public MyLocation addLocation(MyLocation location) {
-        return locationDao.addLocation(location);
+        return locationDao.addNewLocation(location);
     }
 
     @Override
@@ -102,6 +102,72 @@ public class LocationServiceImpl implements LocationService {
 
         result.setLocation(location);
         return result;
+    }
+    @Override
+    @Transactional("transactionManager")
+    public CombineLocationResult getCombineLocations(int id1, int id2) {
+
+        CombineLocationResult result = new CombineLocationResult();
+        result.setLocation1(getLocation(id1));
+        result.setLocation2(getLocation(id2));
+        return result;
+    }
+
+    @Override
+    @Transactional("transactionManager")
+    public CombineLocationResult putCombineLocations(int id1, int id2) {
+
+        CombineLocationResult result = new CombineLocationResult();
+        result.setLocation1(merge(getLocation(id1), getLocation(id2)));
+        return result;
+    }
+
+    private MyLocation merge(MyLocation location1, MyLocation location2) {
+
+        locationDao.merge(location1);
+        locationDao.merge(location2);
+
+        location2.getLettersFrom().stream().forEach(x -> {
+            location1.getLettersFrom().add(x);
+            x.addFromLocation(location1);
+            x.removeFromLocation(location2);
+        });
+
+        location2.getLettersTo().stream().forEach(x -> {
+            location1.getLettersTo().add(x);
+            x.addToLocation(location1);
+        });
+
+        if(location2.getText() !=null && StringUtils.isNotEmpty(location2.getText().getTextString())){
+            if(location1.getText() == null){
+                location1.setText(location2.getText());
+            } else {
+                location1.getText().setTextString(location1.getText().getTextString() + " " + location2.getText().getTextString());
+            }
+        }
+        if(StringUtils.isNotEmpty(location2.getComment())){
+            location1.setComment(location1.getComment() + " " + location2.getComment());
+        }
+
+        if(StringUtils.isNotEmpty(location2.getDescription())){
+            location1.setDescription(location1.getDescription() + " " + location2.getDescription());
+        }
+
+        if(!CollectionUtils.isEmpty(location2.getLinks())){
+            if(location1.getLinks() == null){
+                location1.setLinks(new ArrayList<>());
+            }
+            if(location2.getLinks() !=null){
+                location1.getLinks().addAll(location2.getLinks());
+            }
+        }
+
+        location2.getLinks().clear();
+        location2.getLettersFrom().clear();
+        location2.getLettersTo().clear();
+        locationDao.deleteLocation(location2);
+
+        return location1;
     }
 
     @Override

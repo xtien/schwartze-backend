@@ -19,11 +19,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -36,6 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @RunWith(SpringRunner.class)
 @WebMvcTest(LetterUpdateController.class)
+@ActiveProfiles("test")
 public class TestLetterUpdateController {
 
     @Autowired
@@ -51,6 +52,7 @@ public class TestLetterUpdateController {
     private String comment = "testing";
 
     @Test
+    @WithMockUser(username = "user1", password = "pwd", roles = "ADMIN")
     public void testUpdateLetter() throws Exception {
 
         ObjectMapper objectMapper = new ObjectMapper();
@@ -65,7 +67,7 @@ public class TestLetterUpdateController {
         request.setNumber(letterNumber);
         String json = objectMapper.writeValueAsString(request);
 
-        this.mockMvc.perform(post("/update_letter_details/")
+        this.mockMvc.perform(post("/admin/update_letter_details/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
                 .content(json))

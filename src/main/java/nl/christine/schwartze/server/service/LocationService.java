@@ -8,6 +8,7 @@
 package nl.christine.schwartze.server.service;
 
 import nl.christine.schwartze.server.controller.request.EditLinkRequest;
+import nl.christine.schwartze.server.controller.result.CombineLocationResult;
 import nl.christine.schwartze.server.controller.result.EditLinkResult;
 import nl.christine.schwartze.server.exception.LocationNotFoundException;
 import nl.christine.schwartze.server.model.MyLocation;
@@ -34,4 +35,8 @@ public interface LocationService {
     EditLinkResult editLink(EditLinkRequest request);
 
     List<MyLocation> getAllLocations();
+
+    CombineLocationResult getCombineLocations(int id1, int id2);
+
+    CombineLocationResult putCombineLocations(int id1, int id2);
 }

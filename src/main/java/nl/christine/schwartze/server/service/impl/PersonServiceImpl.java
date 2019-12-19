@@ -36,15 +36,16 @@ import static org.springframework.util.CollectionUtils.isEmpty;
 public class PersonServiceImpl implements PersonService {
 
     private final Comparator<Person> compareByName;
+
     @Autowired
     private PersonDao personDao;
 
     Logger logger = Logger.getLogger(PersonServiceImpl.class);
 
-    public PersonServiceImpl(){
+    public PersonServiceImpl() {
         compareByName = Comparator
-                .comparing(Person::getFirstName)
-                .thenComparing(Person::getLastName);
+                .comparing(Person::getFirstName, Comparator.nullsFirst(Comparator.naturalOrder()))
+                .thenComparing(Person::getLastName, Comparator.nullsFirst(Comparator.naturalOrder()));
     }
 
     @Override
@@ -117,9 +118,9 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     @Transactional("transactionManager")
-    public int deletePerson(int id) {
+    public int deletePersonIfNoChildren(int id) {
         Person existingPerson = getPerson(id);
-        if(isEmpty(existingPerson.getLettersWritten()) && isEmpty(existingPerson.getLettersReceived())){
+        if (isEmpty(existingPerson.getLettersWritten()) && isEmpty(existingPerson.getLettersReceived())) {
             personDao.deletePerson(id);
         }
         return 0;
@@ -127,9 +128,17 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     @Transactional("transactionManager")
+    public int deletePersonCascading(int id) {
+        Person existingPerson = getPerson(id);
+        personDao.deletePerson(existingPerson);
+        return 0;
+    }
+
+    @Override
+    @Transactional("transactionManager")
     public Text getText(int id) {
-        return  personDao.getPersonText(id);
-     }
+        return personDao.getPersonText(id);
+    }
 
     private Person merge(Person person1, Person person2) {
 
@@ -138,8 +147,8 @@ public class PersonServiceImpl implements PersonService {
 
         person2.getLettersReceived().stream().forEach(x -> {
             person1.getLettersReceived().add(x);
-             x.getRecipients().add(person1);
-             x.getRecipients().remove(person2);
+            x.getRecipients().add(person1);
+            x.getRecipients().remove(person2);
         });
 
         person2.getLettersWritten().stream().forEach(x -> {
@@ -161,11 +170,15 @@ public class PersonServiceImpl implements PersonService {
             person1.setComment(person1.getComment() + "\n" + person2.getComment());
         }
         if (!CollectionUtils.isEmpty(person2.getLinks())) {
+            if (person1.getLinks() == null) {
+                person1.setLinks(new ArrayList<>());
+            }
             person1.addLinks(person2.getLinks());
         }
 
         person2.getLettersReceived().clear();
         person2.getLettersWritten().clear();
+        person2.getLinks().clear();
         personDao.deletePerson(person2);
 
         return person1;
@@ -179,11 +192,11 @@ public class PersonServiceImpl implements PersonService {
         EditLinkResult result = new EditLinkResult();
         Person person = getPerson(request.getPersonId());
 
-        if(person == null){
+        if (person == null) {
             return result;
         }
 
-        if(request.getLinkId() == null){
+        if (request.getLinkId() == null) {
             Link link = new Link(request.getLinkName(), request.getLinkUrl());
             link.setPerson(person);
             person.getLinks().add(link);

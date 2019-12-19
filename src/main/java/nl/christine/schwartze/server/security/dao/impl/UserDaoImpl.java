@@ -9,6 +9,7 @@ package nl.christine.schwartze.server.security.dao.impl;
 
 import nl.christine.schwartze.server.security.model.User;
 import nl.christine.schwartze.server.security.dao.UserDao;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
@@ -16,6 +17,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 @Component("userDao")
+@Profile("!test")
 public class UserDaoImpl implements UserDao {
 
     @PersistenceContext(unitName = "userPU")

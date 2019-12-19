@@ -8,10 +8,12 @@
 package nl.christine.schwartze.server.dao;
 
 import nl.christine.schwartze.server.exception.LocationNotFoundException;
+import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.model.MyLocation;
 import nl.christine.schwartze.server.model.Text;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface LocationDao {
 
@@ -21,9 +23,15 @@ public interface LocationDao {
 
     MyLocation getLocation(int id);
 
-    MyLocation addLocation(MyLocation location);
+    MyLocation addNewLocation(MyLocation location);
 
     void deleteLocation(int id) throws LocationNotFoundException;
 
     Text getLocationText(int id);
+
+    void merge(MyLocation location);
+
+    void deleteLocation(MyLocation location);
+
+    List<Letter> getLettersForLocation(Optional<Integer> fromId, Optional<Integer> toId);
 }

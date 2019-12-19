@@ -1,9 +1,10 @@
 package nl.christine.schwartze.server.test.live;
 
-import nl.christine.schwartze.server.controller.pub.ImagesController;
+import nl.christine.schwartze.server.controller.ImagesController;
 import nl.christine.schwartze.server.controller.request.ImagesRequest;
 import nl.christine.schwartze.server.controller.result.ImagesResult;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ public class TestGetImageController {
     private ImagesController getLetterImagesController;
 
     @Test
+    @Ignore
     public void testGetLetters() throws IOException {
 
         ImagesRequest request = new ImagesRequest();
