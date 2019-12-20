@@ -10,6 +10,7 @@ package nl.christine.schwartze.server.security;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -39,12 +40,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         //  11.4 in https://docs.spring.io/spring-security/site/docs/current/reference/htmlsingle/
 
         http
-                .authorizeRequests(authorizeRequests ->
-                        authorizeRequests
-                                .antMatchers("/admin/**").hasRole("ADMIN")
-                                .anyRequest().permitAll()
-                )
-                .csrf().disable()
-        ;
+                .authorizeRequests()
+                .antMatchers(HttpMethod.OPTIONS,"/**").permitAll()
+                .antMatchers("/admin/**").authenticated()
+                .antMatchers("/**").permitAll()
+                .anyRequest().permitAll()
+                .and()
+                .httpBasic()
+                .and()
+                .csrf().disable();
     }
 }
