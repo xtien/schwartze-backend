@@ -12,14 +12,14 @@ import nl.christine.schwartze.server.model.MyLocation;
 
 public class DeleteLocationRequest {
 
-    @JsonProperty("location")
-    private MyLocation location;
+    @JsonProperty("id")
+    private int id;
 
-    public MyLocation getLocation() {
-        return location;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setLocation(MyLocation location) {
-        this.location = location;
+    public int getId(){
+        return id;
     }
 }

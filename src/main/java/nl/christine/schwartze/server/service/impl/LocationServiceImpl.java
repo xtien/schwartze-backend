@@ -103,6 +103,7 @@ public class LocationServiceImpl implements LocationService {
         result.setLocation(location);
         return result;
     }
+
     @Override
     @Transactional("transactionManager")
     public CombineLocationResult getCombineLocations(int id1, int id2) {
@@ -136,28 +137,37 @@ public class LocationServiceImpl implements LocationService {
         location2.getLettersTo().stream().forEach(x -> {
             location1.getLettersTo().add(x);
             x.addToLocation(location1);
+            x.removeToLocation(location2);
         });
 
-        if(location2.getText() !=null && StringUtils.isNotEmpty(location2.getText().getTextString())){
-            if(location1.getText() == null){
+        if (location2.getText() != null && StringUtils.isNotEmpty(location2.getText().getTextString())) {
+            if (location1.getText() == null) {
                 location1.setText(location2.getText());
             } else {
                 location1.getText().setTextString(location1.getText().getTextString() + " " + location2.getText().getTextString());
             }
         }
-        if(StringUtils.isNotEmpty(location2.getComment())){
+        if (StringUtils.isNotEmpty(location2.getComment())) {
             location1.setComment(location1.getComment() + " " + location2.getComment());
         }
 
-        if(StringUtils.isNotEmpty(location2.getDescription())){
+        if (StringUtils.isNotEmpty(location2.getDescription())) {
             location1.setDescription(location1.getDescription() + " " + location2.getDescription());
         }
 
-        if(!CollectionUtils.isEmpty(location2.getLinks())){
-            if(location1.getLinks() == null){
+        if (location2.getText() != null && StringUtils.isNotEmpty(location2.getText().getTextString())) {
+            if (location1.getText() == null || StringUtils.isEmpty(location1.getText().getTextString())) {
+                location1.setText(location2.getText());
+            } else {
+                location1.getText().setTextString(location1.getText().getTextString() + " " + location2.getText().getTextString());
+            }
+        }
+
+        if (location2.getLinks() != null && location2.getLinks().size() > 0){
+            if (location1.getLinks() == null) {
                 location1.setLinks(new ArrayList<>());
             }
-            if(location2.getLinks() !=null){
+            if (location2.getLinks() != null) {
                 location1.getLinks().addAll(location2.getLinks());
             }
         }
@@ -165,6 +175,8 @@ public class LocationServiceImpl implements LocationService {
         location2.getLinks().clear();
         location2.getLettersFrom().clear();
         location2.getLettersTo().clear();
+        location2.setText(null);
+
         locationDao.deleteLocation(location2);
 
         return location1;

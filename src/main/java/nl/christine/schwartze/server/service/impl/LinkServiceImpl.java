@@ -9,6 +9,11 @@ package nl.christine.schwartze.server.service.impl;
 
 import nl.christine.schwartze.server.controller.request.EditLinkRequest;
 import nl.christine.schwartze.server.dao.LinkDao;
+import nl.christine.schwartze.server.dao.LocationDao;
+import nl.christine.schwartze.server.dao.PersonDao;
+import nl.christine.schwartze.server.model.Link;
+import nl.christine.schwartze.server.model.MyLocation;
+import nl.christine.schwartze.server.model.Person;
 import nl.christine.schwartze.server.service.LinkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,9 +25,38 @@ public class LinkServiceImpl implements LinkService {
     @Autowired
     private LinkDao linkDao;
 
+    @Autowired
+    LocationDao locationDao;
+
+    @Autowired
+    PersonDao personDao;
+
     @Override
     @Transactional("transactionManager")
-    public void deleteLink(EditLinkRequest request) {
-        linkDao.deleteLink(request.getLinkId());
+    public MyLocation deleteLocationLink(EditLinkRequest request) {
+
+        MyLocation location = null;
+
+        if (request.getLocationId() != null) {
+            location = locationDao.getLocation(request.getLocationId());
+            location.getLinks().stream().filter(x -> x.getId() != request.getLinkId());
+            linkDao.deleteLink(request.getLinkId());
+        }
+        return location;
+    }
+
+    @Override
+    @Transactional("transactionManager")
+    public Person deletePersonLink(EditLinkRequest request) {
+
+        Person person = null;
+
+        if (request.getPersonId() != null) {
+            person = personDao.getPerson(request.getPersonId());
+            person.getLinks().stream().filter(x -> x.getId() != request.getLinkId());
+            linkDao.deleteLink(request.getLinkId());
+        }
+        return person;
+
     }
 }

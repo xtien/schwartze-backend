@@ -39,7 +39,13 @@ public class LinkDeleteController {
     public ResponseEntity<EditLinkResult> deleteLink(@RequestBody EditLinkRequest request) {
 
         EditLinkResult result = new EditLinkResult();
-        linkService.deleteLink(request);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+
+        if(request.getPersonId() !=null){
+            result.setLocation(linkService.deleteLocationLink(request));
+        } else if (request.getLocationId() !=null){
+            result.setPerson(linkService.deletePersonLink(request));
+        }
+
+         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

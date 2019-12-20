@@ -40,7 +40,7 @@ public class LocationDeleteController {
         HttpStatus status = HttpStatus.OK;
 
         try {
-            locationService.deleteLocation(request.getLocation().getId());
+            locationService.deleteLocation(request.getId());
         } catch (LocationNotFoundException e) {
             logger.error("Error getting person", e);
             status = HttpStatus.NOT_FOUND;

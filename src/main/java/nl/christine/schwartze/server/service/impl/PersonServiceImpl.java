@@ -176,6 +176,14 @@ public class PersonServiceImpl implements PersonService {
             person1.addLinks(person2.getLinks());
         }
 
+        if (person2.getText() != null && StringUtils.isNotEmpty(person2.getText().getTextString())) {
+            if (person1.getText() == null || StringUtils.isEmpty(person1.getText().getTextString())) {
+                person1.setText(person2.getText());
+            } else {
+                person1.getText().setTextString(person1.getText().getTextString() + " " + person2.getText().getTextString());
+            }
+        }
+
         person2.getLettersReceived().clear();
         person2.getLettersWritten().clear();
         person2.getLinks().clear();

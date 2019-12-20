@@ -49,7 +49,7 @@ public class MyLocation {
     private List<Letter> lettersTo = new ArrayList<>();
 
     @Column(name = LINKS)
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "location")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonProperty(LINKS)
     private List<Link> links = new ArrayList<>();
 
@@ -159,4 +159,7 @@ public class MyLocation {
                 toHashCode();
     }
 
+    public String toString(){
+        return id + " " + locationName + " " +comment;
+    }
 }
