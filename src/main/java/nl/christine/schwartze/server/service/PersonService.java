@@ -38,9 +38,6 @@ public interface PersonService {
 
     int deletePersonIfNoChildren(int id);
 
-    @Transactional("transactionManager")
-    int deletePersonCascading(int id);
-
     Text getText(int id);
 
     EditLinkResult editLink(EditLinkRequest request);

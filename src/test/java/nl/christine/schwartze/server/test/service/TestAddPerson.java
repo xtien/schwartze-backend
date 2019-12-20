@@ -38,6 +38,7 @@ public class TestAddPerson {
 
         Person person = new Person();
         person.setFirstName("Lizzy");
+        person.setLastName("testGetPerson");
 
         Letter letter1 = new Letter();
         letter1.setComment("comment 1");
@@ -60,6 +61,5 @@ public class TestAddPerson {
         int id1 = personService.addPerson(person).getId();
         List<Letter> lettersFrom = letterservice.getLettersFromPerson(id1);
         assertEquals(4, lettersFrom.size());
-        personService.deletePersonCascading(id1);
     }
 }

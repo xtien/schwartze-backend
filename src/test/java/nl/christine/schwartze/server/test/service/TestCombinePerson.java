@@ -38,6 +38,8 @@ public class TestCombinePerson {
     @Test
     public void testCombine() {
 
+        List<Person> list = personService.getAllPeople();
+
         Person person1 = new Person();
         person1.setFirstName("Anna1");
         person1.setLastName(("van Gogh"));
@@ -86,7 +88,7 @@ public class TestCombinePerson {
         assertNull(result2.getPerson2());
 
         List<Person> allPeople = personService.getAllPeople();
-        assertEquals(2, allPeople.size());
+        assertEquals(2+list.size(), allPeople.size());
 
         List<Letter> lettersFrom = letterservice.getLettersFromPerson(id1);
         assertEquals(3, lettersFrom.size());

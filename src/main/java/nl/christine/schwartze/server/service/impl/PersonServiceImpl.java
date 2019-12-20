@@ -128,14 +128,6 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     @Transactional("transactionManager")
-    public int deletePersonCascading(int id) {
-        Person existingPerson = getPerson(id);
-        personDao.deletePerson(existingPerson);
-        return 0;
-    }
-
-    @Override
-    @Transactional("transactionManager")
     public Text getText(int id) {
         return personDao.getPersonText(id);
     }

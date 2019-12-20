@@ -36,6 +36,8 @@ public class TestGetAllPeople {
     @Test
     public void testGetPeople() {
 
+        List<Person> list = personService.getAllPeople();
+
         Person person1 = new Person();
         person1.setFirstName("Lizzy");
         Person person2 = new Person();
@@ -68,11 +70,7 @@ public class TestGetAllPeople {
 
         List<Person> people = personService.getAllPeople();
 
-        assertEquals(3, people.size());
+        assertEquals(3+list.size(), people.size());
         assertEquals("Moes", people.get(0).getLastName());
-
-        personService.deletePersonCascading(id1);
-        personService.deletePersonCascading(id2);
-        personService.deletePersonCascading(id3);
     }
 }
