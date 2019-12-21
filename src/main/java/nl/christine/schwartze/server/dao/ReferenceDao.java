@@ -7,11 +7,13 @@
 
 package nl.christine.schwartze.server.dao;
 
-import nl.christine.schwartze.server.model.Link;
+import nl.christine.schwartze.server.model.References;
 
-public interface LinkDao {
+import java.util.List;
 
-    void deleteLink(Integer linkId);
+public interface ReferenceDao {
 
-    void remove(Link link);
+    References getReferences(String type);
+
+    References updateReferences(References references);
 }

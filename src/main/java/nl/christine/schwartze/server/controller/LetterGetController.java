@@ -88,7 +88,7 @@ public class LetterGetController {
             result = result.replaceAll("/", "<BR><BR><i>blad " + ++i + "</i><BR><BR>");
         } catch (Exception e) {
             logger.error("Error getting letter text", e);
-
+            result = "text file not found";
         }
 
         return result;

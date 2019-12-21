@@ -30,8 +30,7 @@ public class PersonDaoImpl implements PersonDao {
     @PersistenceContext(unitName = "defaultPU")
     private EntityManager entityManager;
 
-
-    org.apache.log4j.Logger logger = Logger.getLogger(PersonDaoImpl.class);
+    Logger logger = Logger.getLogger(PersonDaoImpl.class);
 
     @Override
     public Person updatePerson(Person person) {
@@ -40,8 +39,11 @@ public class PersonDaoImpl implements PersonDao {
         if (existingPerson == null) {
             entityManager.persist(person);
         } else {
-            person.setId(existingPerson.getId());
-        }
+            existingPerson.setLastName(person.getLastName());
+            existingPerson.setFirstName(person.getFirstName());
+            existingPerson.setMiddleName(person.getMiddleName());
+            existingPerson.setComment(person.getComment());
+         }
 
         return person;
     }
