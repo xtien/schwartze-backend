@@ -59,10 +59,11 @@ public class ReferenceServiceImpl implements ReferenceService {
         if (link == null) {
             link = new Link();
             linkDao.persist(link);
+            references.getLinks().add(link);
         }
         link.setLinkName(request.getLinkName());
         link.setLinkUrl(request.getLinkUrl());
-        references.getLinks().add(link);
+
         return references;
     }
 }

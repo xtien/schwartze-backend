@@ -7,6 +7,7 @@
 
 package nl.christine.schwartze.server.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -23,12 +24,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Bean(name = BeanIds.AUTHENTICATION_MANAGER)
-    @Override
-    @Profile("!test")
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
+    @Autowired
+    RestAuthenticationEntryPoint restAuthenticationEntryPoint;
+
+    @Autowired
+    MySuccessHandler mySuccessHandler;
+
+    @Autowired
+    MyFailureHandler myFailureHandler;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -40,14 +43,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         //  11.4 in https://docs.spring.io/spring-security/site/docs/current/reference/htmlsingle/
 
         http
+                .csrf().disable()
+                .exceptionHandling()
+                .authenticationEntryPoint(restAuthenticationEntryPoint)
+                .and()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS,"/**").permitAll()
-               // .antMatchers("/admin/**").authenticated()
+                .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/**").permitAll()
                 .anyRequest().permitAll()
                 .and()
                 .httpBasic()
-                .and()
-                .csrf().disable();
+        ;
     }
 }

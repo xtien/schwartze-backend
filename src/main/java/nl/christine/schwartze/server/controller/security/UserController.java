@@ -1,8 +1,16 @@
+/*
+ * Copyright (c) 2019, Zaphod Consulting BV, Christine Karman
+ * This project is free software: you can redistribute it and/or modify it under the terms of
+ * the Apache License, Version 2.0. You can find a copy of the license at
+ * http://www.apache.org/licenses/LICENSE-2.0.
+ */
+
 package nl.christine.schwartze.server.controller.security;
 
 import nl.christine.schwartze.server.Application;
 import nl.christine.schwartze.server.controller.request.LoginRequest;
 import nl.christine.schwartze.server.controller.result.LoginResult;
+import nl.christine.schwartze.server.security.model.User;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
@@ -13,6 +21,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
@@ -29,33 +38,18 @@ public class UserController {
     @Autowired
     private UserDetailsService userDetailsService;
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    @PostMapping(value = "/login")
+    public ResponseEntity<LoginResult> login() {
 
-    @PostMapping(value = "/login/")
-    @Transactional("userTransactionManager")
-    public ResponseEntity<LoginResult> login(@RequestBody LoginRequest loginRequest) {
-
-        HttpStatus status = HttpStatus.BAD_REQUEST;
+        HttpStatus status = HttpStatus.OK;
         LoginResult loginResult = new LoginResult();
 
-        try{
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
 
-            UsernamePasswordAuthenticationToken authReq
-                    = new UsernamePasswordAuthenticationToken(loginRequest.getUserName(), loginRequest.getPw());
-            Authentication auth = authenticationManager.authenticate(authReq);
+        UserDetails user = userDetailsService.loadUserByUsername(currentPrincipalName);
+        loginResult.setAuthorities(user.getAuthorities());
 
-            SecurityContext sc = SecurityContextHolder.getContext();
-            sc.setAuthentication(auth);
-
-            if(auth.isAuthenticated()){
-                loginResult.setAuthorities(auth.getAuthorities());
-                status = HttpStatus.OK;
-            }
-
-         } catch(UsernameNotFoundException ex){
-            status = HttpStatus.UNAUTHORIZED;
-        }
          return new ResponseEntity<>(loginResult, status);
     }
 }
