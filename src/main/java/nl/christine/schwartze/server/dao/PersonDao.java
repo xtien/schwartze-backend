@@ -2,20 +2,19 @@
  * Copyright (c) 2019, Zaphod Consulting BV, Christine Karman
  * This project is free software: you can redistribute it and/or modify it under the terms of
  * the Apache License, Version 2.0. You can find a copy of the license at
- * http://www. apache.org/licenses/LICENSE-2.0.
+ * http://www.apache.org/licenses/LICENSE-2.0.
  */
 
 package nl.christine.schwartze.server.dao;
 
 import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.model.Person;
+import nl.christine.schwartze.server.model.Text;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface PersonDao {
-
-    void store(Person fromPerson);
 
     Person getPerson(int id);
 
@@ -26,4 +25,18 @@ public interface PersonDao {
     List<Person> getPeople(List<Integer> ids);
 
     List<Letter> getLettersForPerson(Optional<Integer> fromId, Optional<Integer> toId);
+
+    Person addNewPerson(Person person);
+
+    Person updatePerson(Person person);
+
+    List<Person> getAllPeople();
+
+    void deletePerson(Person person);
+
+    void deletePerson(int id);
+
+    void merge(Person person);
+
+    Text getPersonText(int id);
 }

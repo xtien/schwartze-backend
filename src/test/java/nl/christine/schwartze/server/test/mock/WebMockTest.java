@@ -1,18 +1,17 @@
 package nl.christine.schwartze.server.test.mock;
 
-import nl.christine.schwartze.server.controller.GetAllLettersController;
-import nl.christine.schwartze.server.controller.GetLetterController;
+import nl.christine.schwartze.server.controller.LetterGetAllController;
 import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.service.LetterService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -20,8 +19,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static org.hamcrest.Matchers.containsString;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -31,7 +31,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Date: 1/21/19 2:32 PM
  */
 @RunWith(SpringRunner.class)
-@WebMvcTest(GetAllLettersController.class)
+@WebMvcTest(LetterGetAllController.class)
+@ActiveProfiles("test")
 public class WebMockTest {
 
     @Autowired
@@ -54,10 +55,12 @@ public class WebMockTest {
      }
 
     @Test
+    @WithMockUser(username = "user1", password = "pwd", roles = "ADMIN")
     public void greetingShouldReturnMessageFromService() throws Exception {
         when(service.getLetters()).thenReturn(letters);
         this.mockMvc.perform(post("/get_letters/")
-                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8")
                 .content(json))
                 .andDo(print())
                 .andExpect(status().isOk())

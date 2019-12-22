@@ -2,19 +2,23 @@
  * Copyright (c) 2019, Zaphod Consulting BV, Christine Karman
  * This project is free software: you can redistribute it and/or modify it under the terms of
  * the Apache License, Version 2.0. You can find a copy of the license at
- * http://www. apache.org/licenses/LICENSE-2.0.
+ * http://www.apache.org/licenses/LICENSE-2.0.
  */
 
 package nl.christine.schwartze.server.daoimport.impl;
 
 import nl.christine.schwartze.server.daoimport.ImportLetterDao;
 import nl.christine.schwartze.server.modelimport.ImportLetter;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
+@Component("importLetterDao")
+@Profile("test")
 public class ImportLetterDaoImpl implements ImportLetterDao {
 
     @PersistenceContext(unitName = "importPU")

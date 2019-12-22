@@ -2,13 +2,13 @@
  * Copyright (c) 2019, Zaphod Consulting BV, Christine Karman
  * This project is free software: you can redistribute it and/or modify it under the terms of
  * the Apache License, Version 2.0. You can find a copy of the license at
- * http://www. apache.org/licenses/LICENSE-2.0.
+ * http://www.apache.org/licenses/LICENSE-2.0.
  */
 
 package nl.christine.schwartze.server.test.mock;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import nl.christine.schwartze.server.controller.GetPersonController;
+import nl.christine.schwartze.server.controller.PersonGetController;
 import nl.christine.schwartze.server.controller.request.GetPersonRequest;
 import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.model.Person;
@@ -20,6 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -38,7 +40,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Date: 1/21/19 2:32 PM
  */
 @RunWith(SpringRunner.class)
-@WebMvcTest(GetPersonController.class)
+@WebMvcTest(PersonGetController.class)
+@ActiveProfiles("test")
 public class WebMockGetPersonTest {
 
     @Autowired
@@ -69,6 +72,7 @@ public class WebMockGetPersonTest {
     }
 
     @Test
+    @WithMockUser(username = "user1", password = "pwd", roles = "ADMIN")
     public void greetingShouldReturnMessageFromService() throws Exception {
 
         request.setId(3);
@@ -77,7 +81,8 @@ public class WebMockGetPersonTest {
         when(personService.getPerson(3)).thenReturn(person);
 
         this.mockMvc.perform(post("/get_person_details/")
-                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8")
                 .content(json))
                 .andDo(print())
                 .andExpect(status().isOk())

@@ -2,22 +2,17 @@
  * Copyright (c) 2019, Zaphod Consulting BV, Christine Karman
  * This project is free software: you can redistribute it and/or modify it under the terms of
  * the Apache License, Version 2.0. You can find a copy of the license at
- * http://www. apache.org/licenses/LICENSE-2.0.
+ * http://www.apache.org/licenses/LICENSE-2.0.
  */
 
 package nl.christine.schwartze.server.modelimport;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "letters")
-@EnableJpaRepositories(
-        basePackages = "nl.christine.schwartze.server.daoimport",
-        transactionManagerRef = "importTransactionManager",
-        entityManagerFactoryRef = "importPU")
 public class ImportLetter {
     public static final String NUMBER = "number";
     public static final String DATE = "date";

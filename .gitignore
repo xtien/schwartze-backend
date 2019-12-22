@@ -1,9 +1,9 @@
 src/main/resources/META-INF/database.properties
 .DS_Store
-src/main/resources/application.properties
 
 #keystores
 *.p12
+*.pem
 
 # hprof files
 *.hprof

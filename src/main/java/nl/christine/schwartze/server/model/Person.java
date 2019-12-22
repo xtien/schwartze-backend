@@ -2,16 +2,15 @@
  * Copyright (c) 2019, Zaphod Consulting BV, Christine Karman
  * This project is free software: you can redistribute it and/or modify it under the terms of
  * the Apache License, Version 2.0. You can find a copy of the license at
- * http://www. apache.org/licenses/LICENSE-2.0.
+ * http://www.apache.org/licenses/LICENSE-2.0.
  */
 
 package nl.christine.schwartze.server.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -19,10 +18,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "people")
-@EnableJpaRepositories(
-        basePackages = "nl.christine.schwartze.server.dao",
-        transactionManagerRef = "transactionManager",
-        entityManagerFactoryRef = "defaultPU")
 public class Person {
 
     public static final String FIRST_NAME = "first_name";
@@ -30,8 +25,11 @@ public class Person {
     public static final String LAST_NAME = "last_name";
     public static final String COMMENT = "comment";
     public static final String LINKS = "links";
+    public static final String ID = "id";
+    private static final String TEXT = "text";
 
     @Id
+    @JsonProperty(ID)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
@@ -59,8 +57,13 @@ public class Person {
     @ManyToMany(mappedBy = "recipients", cascade = CascadeType.ALL)
     private List<Letter> lettersReceived = new ArrayList<>();
 
-    @Column(name = LINKS)
-    private String links;
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "person")
+    @JsonProperty(LINKS)
+    private List<Link> links = new ArrayList<>();
+
+    @OneToOne
+    @JsonProperty(TEXT)
+    private Text text;
 
     public Person() {
         // used for deserialization
@@ -126,19 +129,59 @@ public class Person {
         this.comment = comment;
     }
 
-    public String getLinks() {
-        return links;
-    }
-
-    public void setLinks(String links) {
-        this.links=links;
-    }
-
-    public List<Letter> getLettersWritten(){
+    public List<Letter> getLettersWritten() {
         return lettersWritten;
     }
 
-    public List<Letter> getLettersReceived(){
+    public List<Letter> getLettersReceived() {
         return lettersReceived;
+    }
+
+    public Text getText() {
+        return text;
+    }
+
+    public void setText(Text text){
+        this.text = text;
+    }
+
+    public List<Link> getLinks() {
+        return links;
+    }
+
+    @JsonIgnore
+    public void addLinks(List<Link> links) {
+        this.links.addAll(links);
+    }
+
+    public void setLinks(List<Link> links) {
+        this.links = links;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
+        if (obj.getClass() != getClass()) {
+            return false;
+        }
+        Person rhs = (Person) obj;
+        return new EqualsBuilder()
+                .appendSuper(super.equals(obj))
+                .append(id, rhs.id)
+                .isEquals();
+    }
+
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37).
+                append(id).
+                toHashCode();
+    }
+
+    public String toString(){
+        return firstName + " " + lastName;
     }
 }

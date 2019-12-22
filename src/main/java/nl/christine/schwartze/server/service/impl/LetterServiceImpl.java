@@ -2,7 +2,7 @@
  * Copyright (c) 2019, Zaphod Consulting BV, Christine Karman
  * This project is free software: you can redistribute it and/or modify it under the terms of
  * the Apache License, Version 2.0. You can find a copy of the license at
- * http://www. apache.org/licenses/LICENSE-2.0.
+ * http://www.apache.org/licenses/LICENSE-2.0.
  */
 
 package nl.christine.schwartze.server.service.impl;
@@ -10,7 +10,7 @@ package nl.christine.schwartze.server.service.impl;
 import nl.christine.schwartze.server.dao.LetterDao;
 import nl.christine.schwartze.server.dao.LocationDao;
 import nl.christine.schwartze.server.dao.PersonDao;
-import nl.christine.schwartze.server.daoimport.ImportLetterDao;
+import nl.christine.schwartze.server.exception.LetterNotFoundException;
 import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.model.MyLocation;
 import nl.christine.schwartze.server.model.Person;
@@ -18,11 +18,13 @@ import nl.christine.schwartze.server.modelimport.ImportLetter;
 import nl.christine.schwartze.server.service.LetterService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
+@Component("letterService")
 public class LetterServiceImpl implements LetterService {
 
     Logger logger = Logger.getLogger(LetterServiceImpl.class);
@@ -31,36 +33,12 @@ public class LetterServiceImpl implements LetterService {
     private LetterDao letterDao;
 
     @Autowired
-    private ImportLetterDao importLetterDao;
-
-    @Autowired
     private PersonDao personDao;
 
     @Autowired
     private LocationDao locationDao;
 
     Logger log = Logger.getLogger(LetterServiceImpl.class);
-
-    /**
-     * Clearing db, not importdb, so use transactionManager
-     *
-     * @return
-     */
-    @Override
-    @Transactional("transactionManager")
-    public int clearTables() {
-        try {
-            deleteLetters(getLetters());
-        } catch (Exception e) {
-            logger.error("Error clearing tables", e);
-            return -1;
-        }
-        return 0;
-    }
-
-    void deleteLetters(List<Letter> letters) {
-        letterDao.deleteLetters(letters);
-    }
 
     @Override
     @Transactional("transactionManager")
@@ -79,6 +57,30 @@ public class LetterServiceImpl implements LetterService {
     @Transactional("transactionManager")
     public List<Letter> getLettersFromPerson(int fromId) {
         return personDao.getLettersForPerson(Optional.ofNullable(fromId), Optional.empty());
+    }
+    @Override
+    @Transactional("transactionManager")
+    public List<Letter> getLettersFromLocation(int fromId) {
+        return locationDao.getLettersForLocation(Optional.ofNullable(fromId), Optional.empty());
+    }
+
+    @Override
+    @Transactional("transactionManager")
+    public Letter addLetter(Letter letter) {
+
+        Letter resultLetter =  letterDao.addLetter(letter);
+        Letter existingLetterForNumber = letterDao.getLetterForNumber(resultLetter.getId());
+        if(existingLetterForNumber == null){
+            letter.setNumber(letter.getId());
+        }
+
+        return letter;
+    }
+
+    @Override
+    @Transactional("transactionManager")
+    public void deleteLetter(Letter letter) throws LetterNotFoundException {
+        letterDao.deleteLetter(letter);
     }
 
     /**
@@ -118,14 +120,14 @@ public class LetterServiceImpl implements LetterService {
 
         if (importLetter.hasFromLocation()) {
             MyLocation fromLocation = doLocation(importLetter.getFromLocation());
-            fromLocation.setLetterFrom(letter);
-            letter.setFromLocation(fromLocation);
+            fromLocation.addLetterFrom(letter);
+            letter.addFromLocation(fromLocation);
         }
 
         if (importLetter.hasToLocation()) {
             MyLocation toLocation = doLocation(importLetter.getToLocation());
-            toLocation.setLetterTo(letter);
-            letter.setToLocation(toLocation);
+            toLocation.addLetterTo(letter);
+            letter.addToLocation(toLocation);
         }
 
         /*
@@ -141,7 +143,7 @@ public class LetterServiceImpl implements LetterService {
     @Transactional("transactionManager")
     public void persistIfNotPresent(ImportLetter importLetter) {
 
-        Letter existingLetter = letterDao.getLetter(importLetter.getNumber());
+        Letter existingLetter = letterDao.getLetterForNumber(importLetter.getNumber());
         if (existingLetter == null) {
             persist(importLetter);
         }
@@ -150,21 +152,19 @@ public class LetterServiceImpl implements LetterService {
     @Override
     @Transactional("transactionManager")
     public Letter getLetterByNumber(int letterNumber) {
-        return letterDao.getLetter(letterNumber);
+        return letterDao.getLetterForNumber(letterNumber);
     }
 
     @Override
     @Transactional("transactionManager")
-    public int updateLetterComments(Letter letter) {
-        int result = -1;
+    public Letter updateLetterComment(int letterNumber, String text) {
+        Letter letter = null;
         try {
-            Letter existingLetter = getLetterByNumber(letter.getNumber());
-            existingLetter.setComment(letter.getComment());
-            result = 0;
+           letter = letterDao.updateLetterComment(letterNumber, text);
         } catch (Exception e) {
             logger.error("Error updating letter comments", e);
         }
-        return result;
+        return letter;
     }
 
     private MyLocation doLocation(String location) {
@@ -183,17 +183,6 @@ public class LetterServiceImpl implements LetterService {
             existingPerson = fromPerson;
         }
         return existingPerson;
-    }
-
-    /**
-     * getting letters from import db, so use importTransactionManager
-     *
-     * @return
-     */
-    @Override
-    @Transactional("importTransactionManager")
-    public List<ImportLetter> getImportLetters() {
-        return importLetterDao.getLetters();
     }
 
     private MyLocation createLocation(String fromLocation) {

@@ -2,18 +2,17 @@
  * Copyright (c) 2019, Zaphod Consulting BV, Christine Karman
  * This project is free software: you can redistribute it and/or modify it under the terms of
  * the Apache License, Version 2.0. You can find a copy of the license at
- * http://www. apache.org/licenses/LICENSE-2.0.
+ * http://www.apache.org/licenses/LICENSE-2.0.
  */
 
 package nl.christine.schwartze.server.test.mock;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import nl.christine.schwartze.server.controller.UpdatePersonController;
+import nl.christine.schwartze.server.controller.admin.PersonUpdateController;
 import nl.christine.schwartze.server.controller.request.UpdatePersonRequest;
 import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.model.Person;
 import nl.christine.schwartze.server.service.PersonService;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,10 +21,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.time.ZonedDateTime;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -44,7 +44,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Date: 1/21/19 2:32 PM
  */
 @RunWith(SpringRunner.class)
-@WebMvcTest(UpdatePersonController.class)
+@WebMvcTest(PersonUpdateController.class)
+@ActiveProfiles("test")
 public class WebMockUpdatePersonTest {
 
     @Autowired
@@ -75,16 +76,17 @@ public class WebMockUpdatePersonTest {
     }
 
     @Test
+    @WithMockUser(username = "user1", password = "pwd", roles = "ADMIN")
     public void greetingShouldReturnMessageFromService() throws Exception {
 
-        request.setId(3);
         request.setPerson(person);
         String json = objectMapper.writeValueAsString(request);
 
-        when(personService.updatePerson(person)).thenReturn(0);
+        when(personService.updatePerson(person)).thenReturn(person);
 
-        this.mockMvc.perform(post("/update_person_details/")
-                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+        this.mockMvc.perform(post("/admin/update_person_details/")
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8")
                 .content(json))
                 .andDo(print())
                 .andExpect(status().isOk())

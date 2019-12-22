@@ -1,0 +1,25 @@
+{
+  "letter": {
+    "senders": [
+      {
+        "first_name": "Lizzy"
+      }
+    ],
+    "recipients": [
+      {
+        "first_name": "Georgine"
+      }
+    ],
+    "sender_location": [
+      {
+        "location_name": "Amsterdam"
+      }
+    ],
+    "recipient_location": [
+      {
+        "location_name": "Rotterdam"
+      }
+    ],
+    "comment": "testing 456"
+  }
+}

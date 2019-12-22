@@ -2,7 +2,7 @@
  * Copyright (c) 2019, Zaphod Consulting BV, Christine Karman
  * This project is free software: you can redistribute it and/or modify it under the terms of
  * the Apache License, Version 2.0. You can find a copy of the license at
- * http://www. apache.org/licenses/LICENSE-2.0.
+ * http://www.apache.org/licenses/LICENSE-2.0.
  */
 
 package nl.christine.schwartze.server.dao.impl;
@@ -10,7 +10,9 @@ package nl.christine.schwartze.server.dao.impl;
 import nl.christine.schwartze.server.dao.PersonDao;
 import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.model.Person;
+import nl.christine.schwartze.server.model.Text;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -21,23 +23,67 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
+@SuppressWarnings("JpaQlInspection")
+@Component("personDao")
 public class PersonDaoImpl implements PersonDao {
 
     @PersistenceContext(unitName = "defaultPU")
     private EntityManager entityManager;
 
-
-    org.apache.log4j.Logger logger = Logger.getLogger(PersonDaoImpl.class);
+    Logger logger = Logger.getLogger(PersonDaoImpl.class);
 
     @Override
-    public void store(Person person) {
+    public Person updatePerson(Person person) {
 
-        Person existingPerson = getPersonByName(person);
+        Person existingPerson = getPerson(person.getId());
         if (existingPerson == null) {
             entityManager.persist(person);
         } else {
-            person.setId(existingPerson.getId());
+            existingPerson.setLastName(person.getLastName());
+            existingPerson.setFirstName(person.getFirstName());
+            existingPerson.setMiddleName(person.getMiddleName());
+            existingPerson.setComment(person.getComment());
+         }
+
+        return person;
+    }
+
+    @Override
+    public List<Person> getAllPeople() {
+        TypedQuery<Person> query = entityManager.createQuery(
+                "select a from " + Person.class.getSimpleName()
+                        + " a order by a.lastName",
+                Person.class);
+        return query.getResultList();
+    }
+
+    @Override
+    public void deletePerson(Person person) {
+        entityManager.remove(person);
+    }
+
+    @Override
+    public void deletePerson(int id) {
+        Person person = getPerson(id);
+        if (person != null) {
+            entityManager.remove(person);
         }
+    }
+
+    @Override
+    public void merge(Person person) {
+        entityManager.merge(person);
+    }
+
+    @Override
+    public Text getPersonText(int id) {
+        Person person = getPerson(id);
+        if (person.getText() == null) {
+            Text text = new Text();
+            entityManager.persist(text);
+            person.setText(text);
+        }
+        return person.getText();
     }
 
     @Override
@@ -89,14 +135,20 @@ public class PersonDaoImpl implements PersonDao {
     @Override
     public List<Letter> getLettersForPerson(Optional<Integer> fromId, Optional<Integer> toId) {
         List<Letter> letters = new LinkedList<>();
-        if(fromId.isPresent()){
+        if (fromId.isPresent()) {
             Person fromPerson = getPerson(fromId.get());
             letters.addAll(fromPerson.getLettersWritten());
         }
-        if(toId.isPresent()){
+        if (toId.isPresent()) {
             Person toPerson = getPerson(toId.get());
-            letters.addAll(toPerson.getLettersWritten());
+            letters.addAll(toPerson.getLettersReceived());
         }
         return letters;
+    }
+
+    @Override
+    public Person addNewPerson(Person person) {
+        entityManager.persist(person);
+        return person;
     }
 }

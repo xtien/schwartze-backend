@@ -2,7 +2,7 @@
  * Copyright (c) 2019, Zaphod Consulting BV, Christine Karman
  * This project is free software: you can redistribute it and/or modify it under the terms of
  * the Apache License, Version 2.0. You can find a copy of the license at
- * http://www. apache.org/licenses/LICENSE-2.0.
+ * http://www.apache.org/licenses/LICENSE-2.0.
  */
 
 package nl.christine.schwartze.server.model;
@@ -16,7 +16,6 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import org.apache.log4j.Logger;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -26,10 +25,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "letters")
-@EnableJpaRepositories(
-        basePackages = "nl.christine.schwartze.server.dao",
-        transactionManagerRef = "transactionManager",
-        entityManagerFactoryRef = "defaultPU")
 public class Letter {
 
     @Transient
@@ -118,12 +113,20 @@ public class Letter {
         recipients.add(toPerson);
     }
 
-    public void setFromLocation(MyLocation fromLocation) {
+    public void addFromLocation(MyLocation fromLocation) {
         fromLocations.add(fromLocation);
     }
 
-    public void setToLocation(MyLocation toLocation) {
+    public void removeFromLocation(MyLocation fromLocation) {
+        fromLocations.remove(fromLocation);
+    }
+
+    public void addToLocation(MyLocation toLocation) {
         toLocations.add(toLocation);
+    }
+
+    public void removeToLocation(MyLocation toLocation) {
+        toLocations.remove(toLocation);
     }
 
     public int getNumber() {
@@ -134,6 +137,10 @@ public class Letter {
         return senders;
     }
 
+    public List<Person> getRecipients() {
+        return recipients;
+    }
+
     public void setComment(String comment) {
         this.remarks = comment;
     }
@@ -141,7 +148,9 @@ public class Letter {
     public String toString() {
         return number + " " + date + " " +
                 ((senders == null || senders.isEmpty()) ? "none" : senders.get(0).getFirstName()) + " " +
-                ((recipients == null || recipients.isEmpty()) ? "none" : recipients.get(0).getFirstName());
+                ((recipients == null || recipients.isEmpty()) ? "none" : recipients.get(0).getFirstName()) + " " +
+                ((fromLocations == null || fromLocations.isEmpty()) ? "none" : fromLocations.get(0).getName()) + " " +
+                ((toLocations == null || toLocations.isEmpty()) ? "none" : toLocations.get(0).getName());
     }
 
     public void setDate(String dateString) {
@@ -157,5 +166,9 @@ public class Letter {
 
     public String getComment() {
         return remarks;
+    }
+
+    public void setNumber(int letterNumber) {
+        this.number = letterNumber;
     }
 }

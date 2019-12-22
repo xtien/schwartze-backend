@@ -2,13 +2,13 @@
  * Copyright (c) 2019, Zaphod Consulting BV, Christine Karman
  * This project is free software: you can redistribute it and/or modify it under the terms of
  * the Apache License, Version 2.0. You can find a copy of the license at
- * http://www. apache.org/licenses/LICENSE-2.0.
+ * http://www.apache.org/licenses/LICENSE-2.0.
  */
 
 package nl.christine.schwartze.server.test.mock;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import nl.christine.schwartze.server.controller.GetPersonFromLetters;
+import nl.christine.schwartze.server.controller.LettersFromPersonController;
 import nl.christine.schwartze.server.controller.request.PersonLettersRequest;
 import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.model.Person;
@@ -20,6 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -30,14 +32,16 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * User: christine
  * Date: 1/21/19 2:32 PM
  */
 @RunWith(SpringRunner.class)
-@WebMvcTest(GetPersonFromLetters.class)
+@WebMvcTest(LettersFromPersonController.class)
+@ActiveProfiles("test")
 public class WebMockLettersFromTest {
 
     @Autowired
@@ -51,7 +55,7 @@ public class WebMockLettersFromTest {
 
     private PersonLettersRequest letterRequest = new PersonLettersRequest();
 
-    private String comment ="this my comment";
+    private String comment = "this my comment";
     private ObjectMapper objectMapper;
 
     @Before
@@ -64,18 +68,20 @@ public class WebMockLettersFromTest {
         letters.add(letter1);
         letters.add(new Letter());
         objectMapper = new ObjectMapper();
-     }
+    }
 
     @Test
+    @WithMockUser(username = "user1", password = "pwd", roles = "ADMIN")
     public void greetingShouldReturnMessageFromService() throws Exception {
 
-       letterRequest.setFromId(3);
-       String json = objectMapper.writeValueAsString(letterRequest);
+        letterRequest.setFromId(3);
+        String json = objectMapper.writeValueAsString(letterRequest);
 
-       when(letterService.getLettersFromPerson(3)).thenReturn(letters);
+        when(letterService.getLettersFromPerson(3)).thenReturn(letters);
 
         this.mockMvc.perform(post("/get_letters_from_person/")
-                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8")
                 .content(json))
                 .andDo(print())
                 .andExpect(status().isOk())
