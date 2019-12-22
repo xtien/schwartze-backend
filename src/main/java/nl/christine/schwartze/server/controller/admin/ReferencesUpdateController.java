@@ -8,6 +8,7 @@
 package nl.christine.schwartze.server.controller.admin;
 
 import nl.christine.schwartze.server.Application;
+import nl.christine.schwartze.server.controller.request.EditReferenceLinkRequest;
 import nl.christine.schwartze.server.controller.request.RemoveReferenceLinkRequest;
 import nl.christine.schwartze.server.controller.request.UpdateReferencesRequest;
 import nl.christine.schwartze.server.controller.result.UpdateReferencesResult;
@@ -47,6 +48,17 @@ public class ReferencesUpdateController {
         UpdateReferencesResult result = new UpdateReferencesResult();
 
         References references = referenceService.removeReferenceLink(request);
+        result.setReferences(references);
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = Application.UI_HOST)
+    @PostMapping(value = "/edit_reference_link/")
+    public ResponseEntity<UpdateReferencesResult> editLink(@RequestBody EditReferenceLinkRequest request) {
+        UpdateReferencesResult result = new UpdateReferencesResult();
+
+        References references = referenceService.editLink(request);
         result.setReferences(references);
 
         return new ResponseEntity<>(result, HttpStatus.OK);

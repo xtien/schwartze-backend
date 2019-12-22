@@ -7,6 +7,7 @@
 
 package nl.christine.schwartze.server.service.impl;
 
+import nl.christine.schwartze.server.controller.request.EditReferenceLinkRequest;
 import nl.christine.schwartze.server.controller.request.RemoveReferenceLinkRequest;
 import nl.christine.schwartze.server.dao.LinkDao;
 import nl.christine.schwartze.server.dao.ReferenceDao;
@@ -48,5 +49,20 @@ public class ReferenceServiceImpl implements ReferenceService {
             linkDao.remove(link);
         }
         return existingReferences;
+    }
+
+    @Override
+    @Transactional("transactionManager")
+    public References editLink(EditReferenceLinkRequest request) {
+        References references = referenceDao.getReferences(request.getType());
+        Link link = references.getLinks().stream().filter((x -> x.getId() == request.getLinkId())).findFirst().orElse(null);
+        if (link == null) {
+            link = new Link();
+            linkDao.persist(link);
+        }
+        link.setLinkName(request.getLinkName());
+        link.setLinkUrl(request.getLinkUrl());
+        references.getLinks().add(link);
+        return references;
     }
 }

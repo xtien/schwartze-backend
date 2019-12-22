@@ -38,4 +38,9 @@ public class LinkDaoImpl implements LinkDao {
     public void remove(Link link) {
         em.remove(link);
     }
+
+    @Override
+    public void persist(Link link) {
+        em.persist(link);
+    }
 }

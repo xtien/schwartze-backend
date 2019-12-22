@@ -106,4 +106,7 @@ public class Link {
                 toHashCode();
     }
 
+    public String toString(){
+        return Integer.toString(id) + " " + linkName;
+    }
 }

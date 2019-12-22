@@ -14,4 +14,6 @@ public interface LinkDao {
     void deleteLink(Integer linkId);
 
     void remove(Link link);
+
+    void persist(Link link);
 }

@@ -7,6 +7,7 @@
 
 package nl.christine.schwartze.server.service;
 
+import nl.christine.schwartze.server.controller.request.EditReferenceLinkRequest;
 import nl.christine.schwartze.server.controller.request.RemoveReferenceLinkRequest;
 import nl.christine.schwartze.server.model.References;
 
@@ -19,4 +20,6 @@ public interface ReferenceService {
     References updateReferences(References references);
 
     References removeReferenceLink(RemoveReferenceLinkRequest request);
+
+    References editLink(EditReferenceLinkRequest request);
 }
