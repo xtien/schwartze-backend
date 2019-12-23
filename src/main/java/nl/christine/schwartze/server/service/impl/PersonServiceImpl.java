@@ -60,6 +60,7 @@ public class PersonServiceImpl implements PersonService {
     @Override
     @Transactional("transactionManager")
     public Person updatePerson(Person person) {
+        validate(person);
         Person existingPerson = null;
         try {
             existingPerson = personDao.updatePerson(person);
@@ -69,10 +70,17 @@ public class PersonServiceImpl implements PersonService {
         return existingPerson;
     }
 
+    private void validate(Person person) {
+        if(person.getComment().length() > 255){
+            person.setComment(person.getComment().substring(0, 255));
+        }
+    }
+
     @Override
     @Transactional("transactionManager")
     public Person addPerson(Person person) {
 
+        validate(person);
         Person updatedPerson = personDao.addNewPerson(person);
         return updatedPerson;
     }

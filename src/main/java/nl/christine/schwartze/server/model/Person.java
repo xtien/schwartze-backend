@@ -26,7 +26,9 @@ public class Person {
     public static final String COMMENT = "comment";
     public static final String LINKS = "links";
     public static final String ID = "id";
-    private static final String TEXT = "text";
+    public static final String TEXT = "text";
+    public static final String IMAGE_URL = "image_url";
+    public static final String IMAGE_CAPTION = "image_caption";
 
     @Id
     @JsonProperty(ID)
@@ -48,6 +50,14 @@ public class Person {
     @Column(name = COMMENT)
     @JsonProperty(COMMENT)
     private String comment;
+
+    @Column(name=IMAGE_URL)
+    @JsonProperty(IMAGE_URL)
+    private String imageUrl;
+
+    @Column(name=IMAGE_CAPTION)
+    @JsonProperty(IMAGE_CAPTION)
+    private String imageCaption;
 
     @JsonIgnore
     @ManyToMany(mappedBy = "senders", cascade = CascadeType.ALL)
@@ -183,5 +193,21 @@ public class Person {
 
     public String toString(){
         return firstName + " " + lastName;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public String getImageCaption() {
+        return imageCaption;
+    }
+
+    public void setImageCaption(String imageCaption) {
+        this.imageCaption = imageCaption;
     }
 }
