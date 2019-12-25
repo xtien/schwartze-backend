@@ -47,13 +47,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling()
                 .authenticationEntryPoint(restAuthenticationEntryPoint)
                 .and()
+                .httpBasic()
+                .and()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS,"/**").permitAll()
-               // .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/admin/**").hasAuthority("WRITE_PRIVILEGE")
                 .antMatchers("/**").permitAll()
                 .anyRequest().permitAll()
-                .and()
-                .httpBasic()
-        ;
+          ;
     }
 }

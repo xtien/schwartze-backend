@@ -71,7 +71,7 @@ public class PersonServiceImpl implements PersonService {
     }
 
     private void validate(Person person) {
-        if(person.getComment().length() > 255){
+        if(StringUtils.isNotEmpty(person.getComment()) && person.getComment().length() > 255){
             person.setComment(person.getComment().substring(0, 255));
         }
     }

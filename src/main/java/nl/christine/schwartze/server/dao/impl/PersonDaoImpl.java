@@ -43,6 +43,8 @@ public class PersonDaoImpl implements PersonDao {
             existingPerson.setFirstName(person.getFirstName());
             existingPerson.setMiddleName(person.getMiddleName());
             existingPerson.setComment(person.getComment());
+            existingPerson.setImageCaption(person.getImageCaption());
+            existingPerson.setImageUrl(person.getImageUrl());
          }
 
         return person;
