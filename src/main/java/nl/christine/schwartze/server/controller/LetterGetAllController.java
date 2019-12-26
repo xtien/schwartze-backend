@@ -47,7 +47,26 @@ public class LetterGetAllController {
 
         } catch (Exception e) {
             logger.error("get_letters exception ", e);
-         }
+        }
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = Application.UI_HOST)
+    @PostMapping(value = "/get_letters_by_date/")
+    public ResponseEntity<LettersResult> getLettersByDate(@RequestBody LettersRequest request) {
+
+        LettersResult result = new LettersResult();
+
+        try {
+
+            List<Letter> letters = letterService.getLettersByDate();
+            result.setLetters(letters);
+            result.setResult(LettersResult.OK);
+
+        } catch (Exception e) {
+            logger.error("get_letters exception ", e);
+        }
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }

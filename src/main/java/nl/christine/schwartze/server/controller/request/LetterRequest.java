@@ -17,6 +17,9 @@ public class LetterRequest {
     @JsonProperty("comment")
     private String comment;
 
+    @JsonProperty("date")
+    private String date;
+
     public int getLetterNumber() {
         return letterNumber;
     }
@@ -31,5 +34,9 @@ public class LetterRequest {
 
     public String getComment() {
         return comment;
+    }
+
+    public String getDate() {
+        return date;
     }
 }

@@ -5,27 +5,20 @@
  * http://www.apache.org/licenses/LICENSE-2.0.
  */
 
-package nl.christine.schwartze.server.controller.security;
+package nl.christine.schwartze.server.controller.user;
 
 import nl.christine.schwartze.server.Application;
-import nl.christine.schwartze.server.controller.request.LoginRequest;
 import nl.christine.schwartze.server.controller.result.LoginResult;
-import nl.christine.schwartze.server.security.model.User;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -39,6 +32,7 @@ public class UserController {
     private UserDetailsService userDetailsService;
 
     @PostMapping(value = "/login")
+    @CrossOrigin(origins = Application.UI_HOST)
     public ResponseEntity<LoginResult> login() {
 
         HttpStatus status = HttpStatus.OK;
@@ -50,6 +44,6 @@ public class UserController {
         UserDetails user = userDetailsService.loadUserByUsername(currentPrincipalName);
         loginResult.setAuthorities(user.getAuthorities());
 
-         return new ResponseEntity<>(loginResult, status);
+        return new ResponseEntity<>(loginResult, status);
     }
 }

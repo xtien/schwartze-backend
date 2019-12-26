@@ -171,4 +171,8 @@ public class Letter {
     public void setNumber(int letterNumber) {
         this.number = letterNumber;
     }
+
+    public LocalDate getDate(){
+        return date;
+    }
 }

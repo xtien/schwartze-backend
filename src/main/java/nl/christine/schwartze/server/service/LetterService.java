@@ -10,6 +10,7 @@ package nl.christine.schwartze.server.service;
 import nl.christine.schwartze.server.exception.LetterNotFoundException;
 import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.modelimport.ImportLetter;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -17,13 +18,16 @@ public interface LetterService {
 
     int persist(ImportLetter importLetter);
 
-    Letter updateLetterComment(int letterNumber, String text);
+    Letter updateLetterComment(int letterNumber, String text, String date);
 
     void persistIfNotPresent(ImportLetter importLetter);
 
     Letter getLetterByNumber(int i);
 
     List<Letter> getLetters();
+
+    @Transactional("transactionManager")
+    List<Letter> getLettersByDate();
 
     List<Letter> getLettersToPerson(int toId);
 

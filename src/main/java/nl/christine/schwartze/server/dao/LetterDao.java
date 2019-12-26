@@ -20,9 +20,7 @@ public interface LetterDao {
 
     Letter getLetterForNumber(int letterNumber);
 
-    int deleteLetters(List<Letter> letters);
-
-    Letter updateLetterComment(int letterNumber, String text);
+    Letter updateLetterComment(int letterNumber, String text, String date);
 
     Letter addLetter(Letter letter);
 

@@ -21,8 +21,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component("letterService")
 public class LetterServiceImpl implements LetterService {
@@ -49,6 +51,15 @@ public class LetterServiceImpl implements LetterService {
 
     @Override
     @Transactional("transactionManager")
+    public List<Letter> getLettersByDate() {
+        List<Letter> letters = letterDao.getLetters().stream().sorted((l1,l2) -> (
+                l1.getDate() == null ? -1 :( l2.getDate() == null ? 1: l1.getDate().compareTo(l2.getDate()))
+                )).collect(Collectors.toList());
+        return letters;
+    }
+
+    @Override
+    @Transactional("transactionManager")
     public List<Letter> getLettersToPerson(int toId) {
         return personDao.getLettersForPerson(Optional.empty(), Optional.ofNullable(toId));
     }
@@ -58,6 +69,7 @@ public class LetterServiceImpl implements LetterService {
     public List<Letter> getLettersFromPerson(int fromId) {
         return personDao.getLettersForPerson(Optional.ofNullable(fromId), Optional.empty());
     }
+
     @Override
     @Transactional("transactionManager")
     public List<Letter> getLettersFromLocation(int fromId) {
@@ -68,9 +80,9 @@ public class LetterServiceImpl implements LetterService {
     @Transactional("transactionManager")
     public Letter addLetter(Letter letter) {
 
-        Letter resultLetter =  letterDao.addLetter(letter);
+        Letter resultLetter = letterDao.addLetter(letter);
         Letter existingLetterForNumber = letterDao.getLetterForNumber(resultLetter.getId());
-        if(existingLetterForNumber == null){
+        if (existingLetterForNumber == null) {
             letter.setNumber(letter.getId());
         }
 
@@ -157,10 +169,10 @@ public class LetterServiceImpl implements LetterService {
 
     @Override
     @Transactional("transactionManager")
-    public Letter updateLetterComment(int letterNumber, String text) {
+    public Letter updateLetterComment(int letterNumber, String text, String date) {
         Letter letter = null;
         try {
-           letter = letterDao.updateLetterComment(letterNumber, text);
+            letter = letterDao.updateLetterComment(letterNumber, text,date);
         } catch (Exception e) {
             logger.error("Error updating letter comments", e);
         }

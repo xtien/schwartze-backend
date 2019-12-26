@@ -65,25 +65,10 @@ public class LetterDaoImpl implements LetterDao {
     }
 
     @Override
-    public int deleteLetters(List<Letter> letters) {
-
-        try {
-            for (Letter l : letters) {
-                Letter letter = em.find(Letter.class, l.getId());
-                em.remove(letter);
-            }
-        } catch (Exception e) {
-            logger.error("Error deleting letters", e);
-            return -1;
-        }
-
-        return 0;
-    }
-
-    @Override
-    public Letter updateLetterComment(int letterNumber, String text) {
+    public Letter updateLetterComment(int letterNumber, String text, String date) {
         Letter letter = getLetterForNumber(letterNumber);
         letter.setComment(text);
+        letter.setDate(date);
         return letter;
     }
 
