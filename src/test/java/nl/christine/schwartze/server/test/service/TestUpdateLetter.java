@@ -36,6 +36,7 @@ public class TestUpdateLetter {
 
     private String comment = "test";
     private String newComment = "testtest";
+    private String newDate = "12121912";
 
     @Test
     public void testGetLetter() throws IOException {
@@ -48,9 +49,9 @@ public class TestUpdateLetter {
         newLetter.setComment(newComment);
 
         when(letterDao.getLetterForNumber(letter.getNumber())).thenReturn(letter);
-        when(letterDao.updateLetterComment(letter.getNumber(), newComment)).thenReturn(newLetter);
+        when(letterDao.updateLetterComment(letter.getNumber(), newComment, newDate)).thenReturn(newLetter);
 
-        Letter resultingLetter =   letterService.updateLetterComment(12, newComment);
+        Letter resultingLetter =   letterService.updateLetterComment(12, newComment, newDate);
 
         Assert.assertNotNull(resultingLetter);
         Assert.assertEquals(newComment, resultingLetter.getComment());

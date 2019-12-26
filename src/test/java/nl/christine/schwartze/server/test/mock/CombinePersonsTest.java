@@ -21,7 +21,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.web.csrf.CsrfToken;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -45,6 +48,10 @@ public class CombinePersonsTest {
 
     @MockBean
     private PersonService personService;
+
+    HttpSessionCsrfTokenRepository httpSessionCsrfTokenRepository = new HttpSessionCsrfTokenRepository();
+    CsrfToken csrfToken = httpSessionCsrfTokenRepository.generateToken(new MockHttpServletRequest());
+    String TOKEN_ATTR_NAME = "org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository.CSRF_TOKEN";
 
     private int personId1 = 12;
     private int personId2 = 22;
@@ -90,6 +97,8 @@ public class CombinePersonsTest {
 
         String responseString = this.mockMvc.perform(post("/admin/get_combine_person/")
                 .contentType(MediaType.APPLICATION_JSON)
+                .sessionAttr(TOKEN_ATTR_NAME, csrfToken)
+                .param(csrfToken.getParameterName(), csrfToken.getToken())
                 .characterEncoding("UTF-8")
                 .content(json))
                 .andDo(print())
@@ -123,6 +132,8 @@ public class CombinePersonsTest {
         String responseString = this.mockMvc.perform(post("/admin/put_combine_person/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
+                .sessionAttr(TOKEN_ATTR_NAME, csrfToken)
+                .param(csrfToken.getParameterName(), csrfToken.getToken())
                 .content(json))
                 .andDo(print())
                 .andExpect(status().isOk())

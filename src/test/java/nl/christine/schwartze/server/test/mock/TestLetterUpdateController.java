@@ -19,7 +19,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.web.csrf.CsrfToken;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -48,8 +51,13 @@ public class TestLetterUpdateController {
     @MockBean
     private LetterServiceImpl letterService;
 
+    HttpSessionCsrfTokenRepository httpSessionCsrfTokenRepository = new HttpSessionCsrfTokenRepository();
+    CsrfToken csrfToken = httpSessionCsrfTokenRepository.generateToken(new MockHttpServletRequest());
+    String TOKEN_ATTR_NAME = "org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository.CSRF_TOKEN";
+
     private int letterNumber = 12;
     private String comment = "testing";
+    private String date = "12121912";
 
     @Test
     @WithMockUser(username = "user1", password = "pwd", roles = "ADMIN")
@@ -60,14 +68,17 @@ public class TestLetterUpdateController {
         letter.setNumber(letterNumber);
         letter.setComment(comment);
 
-        when(letterService.updateLetterComment(letterNumber, comment)).thenReturn(letter);
+        when(letterService.updateLetterComment(letterNumber, comment, date)).thenReturn(letter);
 
         LetterRequest request = new LetterRequest();
         request.setComment(comment);
         request.setNumber(letterNumber);
+        request.setDate(date);
         String json = objectMapper.writeValueAsString(request);
 
         this.mockMvc.perform(post("/admin/update_letter_details/")
+                .sessionAttr(TOKEN_ATTR_NAME, csrfToken)
+                .param(csrfToken.getParameterName(), csrfToken.getToken())
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
                 .content(json))
