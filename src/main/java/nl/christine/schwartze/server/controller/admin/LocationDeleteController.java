@@ -32,7 +32,6 @@ public class LocationDeleteController {
     @Autowired
     private LocationService locationService;
 
-    @CrossOrigin(origins = Application.UI_HOST)
     @PostMapping(value = "/delete_location/")
     public ResponseEntity<DeleteLocationResult> getPerson(@RequestBody DeleteLocationRequest request) {
 

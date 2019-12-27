@@ -40,7 +40,6 @@ public class TextUpdateController {
     @Autowired
     private LocationDao locationDao;
 
-    @CrossOrigin(origins = Application.UI_HOST)
     @PostMapping(value = "/update_text/")
     public ResponseEntity<TextResult> updateText(@RequestBody TextRequest request) {
 

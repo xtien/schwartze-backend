@@ -29,7 +29,6 @@ public class LocationAddController {
     @Autowired
     private LocationService locationService;
 
-    @CrossOrigin(origins = Application.UI_HOST)
     @PostMapping(value = "/add_location/")
     public ResponseEntity<AddLocationResult> addLocation(@RequestBody AddLocationRequest request) {
 

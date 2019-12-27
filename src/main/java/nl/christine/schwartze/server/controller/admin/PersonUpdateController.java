@@ -36,7 +36,6 @@ public class PersonUpdateController {
     @Autowired
     private PersonService personService;
 
-    @CrossOrigin(origins = Application.UI_HOST)
     @PostMapping(value = "/update_person_details/")
     public ResponseEntity<PersonResult> updatePerson(@RequestBody UpdatePersonRequest request) {
 

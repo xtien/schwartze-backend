@@ -31,7 +31,6 @@ public class ReferencesUpdateController {
     @Autowired
     private ReferenceService referenceService;
 
-    @CrossOrigin(origins = Application.UI_HOST)
     @PostMapping(value = "/update_references/")
     public ResponseEntity<UpdateReferencesResult> updateReferences(@RequestBody UpdateReferencesRequest request) {
         UpdateReferencesResult result = new UpdateReferencesResult();
@@ -42,7 +41,6 @@ public class ReferencesUpdateController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @CrossOrigin(origins = Application.UI_HOST)
     @PostMapping(value = "/remove_reference_link/")
     public ResponseEntity<UpdateReferencesResult> removeReferenceLink(@RequestBody RemoveReferenceLinkRequest request) {
         UpdateReferencesResult result = new UpdateReferencesResult();
@@ -53,7 +51,6 @@ public class ReferencesUpdateController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @CrossOrigin(origins = Application.UI_HOST)
     @PostMapping(value = "/edit_reference_link/")
     public ResponseEntity<UpdateReferencesResult> editLink(@RequestBody EditReferenceLinkRequest request) {
         UpdateReferencesResult result = new UpdateReferencesResult();

@@ -38,7 +38,6 @@ public class LocationUpdateController {
     @Autowired
     private LocationService locationService;
 
-    @CrossOrigin(origins = Application.UI_HOST)
     @PostMapping(value = "/update_location_details/")
     @Transactional("transactionManager")
     public ResponseEntity<LocationResult> updateLocation(@RequestBody UpdateLocationRequest request) {

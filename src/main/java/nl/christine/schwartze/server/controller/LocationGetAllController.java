@@ -30,7 +30,6 @@ public class LocationGetAllController {
     @Autowired
     private LocationService locationService;
 
-    @CrossOrigin(origins = Application.UI_HOST)
     @PostMapping(value = "/get_locations/")
     public ResponseEntity<LocationsResult> getLocations(@RequestBody LocationRequest request) throws IOException {
 

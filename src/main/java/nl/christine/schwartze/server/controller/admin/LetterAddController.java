@@ -29,7 +29,6 @@ public class LetterAddController {
     @Autowired
     private LetterService letterService;
 
-    @CrossOrigin(origins = Application.UI_HOST)
     @PostMapping(value = "/add_letter/")
     public ResponseEntity<AddLetterResult> addLetter(@RequestBody AddLetterRequest request) {
         AddLetterResult result = new AddLetterResult();

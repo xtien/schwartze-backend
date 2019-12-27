@@ -32,7 +32,6 @@ public class LinkEditController {
     @Autowired
     private PersonService personService;
 
-    @CrossOrigin(origins = Application.UI_HOST)
     @PostMapping(value = "/edit_link/")
     public ResponseEntity<EditLinkResult> editLink(@RequestBody EditLinkRequest request) {
         EditLinkResult result = new EditLinkResult();

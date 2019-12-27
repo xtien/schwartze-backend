@@ -40,8 +40,7 @@ public class LocationGetController {
     public LocationGetController() {
     }
 
-    @CrossOrigin(origins = Application.UI_HOST)
-    @PostMapping(value = "/get_location/")
+     @PostMapping(value = "/get_location/")
     public ResponseEntity<LocationResult> getLocation(@RequestBody LocationRequest request) throws IOException {
 
         LocationResult result = new LocationResult();

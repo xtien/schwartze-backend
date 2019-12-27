@@ -51,7 +51,6 @@ public class ImagesController {
         textDocumentName = properties.getProperty("text_document_name");
     }
 
-    @CrossOrigin(origins = Application.UI_HOST)
     @RequestMapping(method = RequestMethod.POST, value = "/get_letter_images/")
     @Transactional("transactionManager")
     public ResponseEntity<ImagesResult> getLetterImages(@RequestBody ImagesRequest request) throws IOException {

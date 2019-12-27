@@ -29,7 +29,6 @@ public class LetterDeleteController {
     @Autowired
     private LetterService letterService;
 
-    @CrossOrigin(origins = Application.UI_HOST)
     @PostMapping(value = "/delete_letter/")
     public ResponseEntity<DeleteLetterResult> addLetter(@RequestBody DeleteLetterRequest request) {
         DeleteLetterResult result = new DeleteLetterResult();

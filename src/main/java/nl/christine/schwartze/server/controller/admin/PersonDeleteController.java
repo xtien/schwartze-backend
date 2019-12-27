@@ -32,7 +32,6 @@ public class PersonDeleteController {
     @Autowired
     private PersonService personService;
 
-    @CrossOrigin(origins = Application.UI_HOST)
     @PostMapping(value = "/delete_person/")
     @Transactional("transactionManager")
     public ResponseEntity<PersonResult> getPerson(@RequestBody DeletePersonRequest request) {

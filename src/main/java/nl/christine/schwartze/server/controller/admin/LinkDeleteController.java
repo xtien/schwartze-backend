@@ -34,8 +34,7 @@ public class LinkDeleteController {
     @Autowired
     private PersonService personService;
 
-    @CrossOrigin(origins = Application.UI_HOST)
-    @PostMapping(value = "/delete_link/")
+     @PostMapping(value = "/delete_link/")
     public ResponseEntity<EditLinkResult> deleteLink(@RequestBody EditLinkRequest request) {
 
         EditLinkResult result = new EditLinkResult();

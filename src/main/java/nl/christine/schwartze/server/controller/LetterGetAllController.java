@@ -33,7 +33,6 @@ public class LetterGetAllController {
     @Autowired
     private LetterService letterService;
 
-    @CrossOrigin(origins = Application.UI_HOST)
     @PostMapping(value = "/get_letters/")
     public ResponseEntity<LettersResult> getLetters(@RequestBody LettersRequest request) {
 
@@ -52,7 +51,6 @@ public class LetterGetAllController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @CrossOrigin(origins = Application.UI_HOST)
     @PostMapping(value = "/get_letters_by_date/")
     public ResponseEntity<LettersResult> getLettersByDate(@RequestBody LettersRequest request) {
 

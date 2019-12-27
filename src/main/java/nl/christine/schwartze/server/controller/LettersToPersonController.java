@@ -33,8 +33,7 @@ public class LettersToPersonController {
     @Autowired
     private LetterService letterService;
 
-    @CrossOrigin(origins = Application.UI_HOST)
-    @PostMapping(value = "/get_letters_to_person/")
+     @PostMapping(value = "/get_letters_to_person/")
     public ResponseEntity<LettersResult> getLetters(@RequestBody LettersRequest request) {
 
         LettersResult result = new LettersResult();

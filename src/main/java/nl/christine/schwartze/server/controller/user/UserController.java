@@ -32,8 +32,7 @@ public class UserController {
     private UserDetailsService userDetailsService;
 
     @PostMapping(value = "/login")
-    @CrossOrigin(origins = Application.UI_HOST)
-    public ResponseEntity<LoginResult> login() {
+     public ResponseEntity<LoginResult> login() {
 
         HttpStatus status = HttpStatus.OK;
         LoginResult loginResult = new LoginResult();

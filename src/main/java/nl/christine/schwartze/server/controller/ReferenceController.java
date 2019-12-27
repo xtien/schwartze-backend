@@ -31,10 +31,8 @@ public class ReferenceController {
     @Autowired
     private ReferenceService referenceService;
 
-    @CrossOrigin(origins = Application.UI_HOST)
-    @PostMapping(value = "/get_references/")
-    @Transactional("transactionManager")
-    public ResponseEntity<ReferencesResult> getPerson(@RequestBody GetReferencesRequest request) {
+     @PostMapping(value = "/get_references/")
+     public ResponseEntity<ReferencesResult> getPerson(@RequestBody GetReferencesRequest request) {
 
         ReferencesResult result = new ReferencesResult();
 

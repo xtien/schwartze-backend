@@ -52,7 +52,6 @@ public class LetterGetController {
         textDocumentName = properties.getProperty("text_document_name");
     }
 
-    @CrossOrigin(origins = Application.UI_HOST)
     @PostMapping(value = "/get_letter_details/")
     public ResponseEntity<LetterResult> getLetter(@RequestBody LetterRequest request) throws IOException {
 

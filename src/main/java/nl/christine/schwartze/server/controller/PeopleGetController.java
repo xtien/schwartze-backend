@@ -35,7 +35,6 @@ public class PeopleGetController {
     @Autowired
     private PersonService personService;
 
-    @CrossOrigin(origins = Application.UI_HOST)
     @PostMapping(value = "/get_people_details/")
     @Transactional("transactionManager")
     public ResponseEntity<PeopleResult> getPeople(@RequestBody PeopleRequest request) {

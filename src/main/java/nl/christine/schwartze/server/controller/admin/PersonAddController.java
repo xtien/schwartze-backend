@@ -36,7 +36,6 @@ public class PersonAddController {
     @Autowired
     private PersonService personService;
 
-    @CrossOrigin(origins = Application.UI_HOST)
     @PostMapping(value = "/add_person/")
     public ResponseEntity<PersonResult> updatePerson(@RequestBody AddPersonRequest request) {
 

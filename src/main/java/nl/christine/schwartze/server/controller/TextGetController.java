@@ -35,7 +35,6 @@ public class TextGetController {
     @Autowired
     private LocationService locationService;
 
-    @CrossOrigin(origins = Application.UI_HOST)
     @PostMapping(value = "/get_text/")
     public ResponseEntity<TextResult> getText(@RequestBody TextRequest request) {
 

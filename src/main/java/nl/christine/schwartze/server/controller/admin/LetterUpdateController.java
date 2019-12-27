@@ -37,7 +37,6 @@ public class LetterUpdateController {
     @Autowired
     private LetterService letterService;
 
-    @CrossOrigin(origins = Application.UI_HOST)
     @PostMapping(value = "/update_letter_details/")
     @Transactional("transactionManager")
     public ResponseEntity<LetterResult> updateLetterComment(@RequestBody LetterRequest request) {

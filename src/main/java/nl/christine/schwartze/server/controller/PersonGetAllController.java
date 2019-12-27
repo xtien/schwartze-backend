@@ -29,7 +29,6 @@ public class PersonGetAllController {
     @Autowired
     private PersonService locationService;
 
-    @CrossOrigin(origins = Application.UI_HOST)
     @PostMapping(value = "/get_people/")
     public ResponseEntity<PeopleResult> getLocations(@RequestBody LocationRequest request) throws IOException {
 

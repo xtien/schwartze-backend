@@ -28,13 +28,11 @@ public class LocationCombineController {
     @Autowired
     private LocationService locationService;
 
-    @CrossOrigin(origins = Application.UI_HOST)
     @PostMapping(value = "/get_combine_location/")
     public ResponseEntity<CombineLocationResult> getCombinePerson(@RequestBody CombineLocationRequest request) {
         return new ResponseEntity<>(locationService.getCombineLocations(request.getId1(), request.getId2()), HttpStatus.OK);
     }
 
-    @CrossOrigin(origins = Application.UI_HOST)
     @PostMapping(value = "/put_combine_location/")
     public ResponseEntity<CombineLocationResult> putCombinePerson(@RequestBody CombineLocationRequest request) {
         return new ResponseEntity<>(locationService.putCombineLocations(request.getId1(), request.getId2()), HttpStatus.OK);
