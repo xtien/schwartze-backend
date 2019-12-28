@@ -26,7 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Controller
-@CrossOrigin(origins = Application.UI_HOST)
+@CrossOrigin(origins = Application.UI_HOST, maxAge = 7200)
 @Profile("!test")
 public class UserController {
 

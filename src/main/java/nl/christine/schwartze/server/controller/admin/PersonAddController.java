@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 @RequestMapping("/admin")
-@CrossOrigin(origins = Application.UI_HOST)
+@CrossOrigin(origins = Application.UI_HOST, maxAge = 7200)
 public class PersonAddController {
 
     Logger logger = Logger.getLogger(PersonAddController.class);

@@ -30,7 +30,7 @@ import java.io.IOException;
  * Date: 1/20/19 6:21 PM
  */
 @Controller
-@CrossOrigin(origins = Application.UI_HOST)
+@CrossOrigin(origins = Application.UI_HOST, maxAge = 7200)
 public class LocationGetController {
     Logger logger = Logger.getLogger(LocationGetController.class);
 

@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@CrossOrigin(origins = Application.UI_HOST)
+@CrossOrigin(origins = Application.UI_HOST, maxAge = 7200)
 public class TextGetController {
 
     Logger logger = Logger.getLogger(TextGetController.class);

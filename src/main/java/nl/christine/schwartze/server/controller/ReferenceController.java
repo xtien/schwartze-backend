@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
-@CrossOrigin(origins = Application.UI_HOST)
+@CrossOrigin(origins = Application.UI_HOST, maxAge = 7200)
 
 public class ReferenceController {
     Logger logger = Logger.getLogger(ReferenceController.class);

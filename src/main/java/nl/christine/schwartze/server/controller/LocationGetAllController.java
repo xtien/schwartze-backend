@@ -24,14 +24,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.io.IOException;
 
 @Controller
-@CrossOrigin(origins = Application.UI_HOST)
+@CrossOrigin(origins = Application.UI_HOST, maxAge = 7200)
 public class LocationGetAllController {
 
     @Autowired
     private LocationService locationService;
 
     @PostMapping(value = "/get_locations/")
-    @CrossOrigin(origins = Application.UI_HOST)
+    @CrossOrigin(origins = Application.UI_HOST, maxAge = 7200)
     public ResponseEntity<LocationsResult> getLocations(@RequestBody LocationRequest request) throws IOException {
 
         LocationsResult locationsResult = new LocationsResult();
