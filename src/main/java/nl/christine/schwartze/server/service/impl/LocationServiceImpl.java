@@ -10,6 +10,7 @@ package nl.christine.schwartze.server.service.impl;
 import nl.christine.schwartze.server.controller.request.EditLinkRequest;
 import nl.christine.schwartze.server.controller.result.CombineLocationResult;
 import nl.christine.schwartze.server.controller.result.EditLinkResult;
+import nl.christine.schwartze.server.dao.LinkDao;
 import nl.christine.schwartze.server.dao.LocationDao;
 import nl.christine.schwartze.server.exception.LocationNotFoundException;
 import nl.christine.schwartze.server.model.Link;
@@ -37,6 +38,9 @@ public class LocationServiceImpl implements LocationService {
     private LocationDao locationDao;
 
     Logger logger = Logger.getLogger(LocationServiceImpl.class);
+
+    @Autowired
+    private LinkDao linkDao;
 
     @Override
     @Transactional("transactionManager")
@@ -92,6 +96,7 @@ public class LocationServiceImpl implements LocationService {
             Link link = new Link(request.getLinkName(), request.getLinkUrl());
             link.setLocation(location);
             location.getLinks().add(link);
+            linkDao.persist(link);
         } else {
             Optional<Link> link = location.getLinks().stream().filter(x -> x.getId() == request.getLinkId()).findFirst();
             if (link.isPresent()) {

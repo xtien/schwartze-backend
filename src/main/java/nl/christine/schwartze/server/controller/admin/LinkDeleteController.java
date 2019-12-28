@@ -34,17 +34,17 @@ public class LinkDeleteController {
     @Autowired
     private PersonService personService;
 
-     @PostMapping(value = "/delete_link/")
+    @PostMapping(value = "/delete_link/")
     public ResponseEntity<EditLinkResult> deleteLink(@RequestBody EditLinkRequest request) {
 
         EditLinkResult result = new EditLinkResult();
 
-        if(request.getPersonId() !=null){
+        if (request.getLocationId() != null) {
             result.setLocation(linkService.deleteLocationLink(request));
-        } else if (request.getLocationId() !=null){
+        } else if (request.getPersonId() != null) {
             result.setPerson(linkService.deletePersonLink(request));
         }
 
-         return new ResponseEntity<>(result, HttpStatus.OK);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

@@ -46,7 +46,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        //  11.4 in https://docs.spring.io/spring-security/site/docs/current/reference/htmlsingle/
 
         http
                 .csrf().disable()

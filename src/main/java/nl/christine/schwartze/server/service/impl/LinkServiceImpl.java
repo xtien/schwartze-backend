@@ -39,8 +39,11 @@ public class LinkServiceImpl implements LinkService {
 
         if (request.getLocationId() != null) {
             location = locationDao.getLocation(request.getLocationId());
-            location.getLinks().stream().filter(x -> x.getId() != request.getLinkId());
-            linkDao.deleteLink(request.getLinkId());
+            Link link = location.getLinks().stream().filter(x -> x.getId() == request.getLinkId()).findFirst().orElse(null);
+            if (link != null) {
+                location.getLinks().remove(link);
+                linkDao.remove(link);
+            }
         }
         return location;
     }
@@ -53,8 +56,11 @@ public class LinkServiceImpl implements LinkService {
 
         if (request.getPersonId() != null) {
             person = personDao.getPerson(request.getPersonId());
-            person.getLinks().stream().filter(x -> x.getId() != request.getLinkId());
-            linkDao.deleteLink(request.getLinkId());
+            Link link = person.getLinks().stream().filter(x -> x.getId() == request.getLinkId()).findFirst().orElse(null);
+            if (link != null) {
+                person.getLinks().remove(link);
+                linkDao.remove(link);
+            }
         }
         return person;
 

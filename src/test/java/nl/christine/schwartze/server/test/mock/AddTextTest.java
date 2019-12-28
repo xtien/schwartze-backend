@@ -52,14 +52,13 @@ public class AddTextTest {
     @MockBean
     private LocationService locationService;
 
-    String TOKEN_ATTR_NAME = "org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository.CSRF_TOKEN";
-
     private int personId = 123;
     private Text text;
     private int textId = 3;
     private Integer locationId = 4;
     private String textString = "string text string";
 
+    String TOKEN_ATTR_NAME = "org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository.CSRF_TOKEN";
     HttpSessionCsrfTokenRepository httpSessionCsrfTokenRepository = new HttpSessionCsrfTokenRepository();
     CsrfToken csrfToken = httpSessionCsrfTokenRepository.generateToken(new MockHttpServletRequest());
 
@@ -82,7 +81,6 @@ public class AddTextTest {
         String json = objectMapper.writeValueAsString(textRequest);
 
         when(personService.getText(personId)).thenReturn(text);
-
 
         this.mockMvc.perform(post("/get_text/")
                 .sessionAttr(TOKEN_ATTR_NAME, csrfToken)

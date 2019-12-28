@@ -10,6 +10,7 @@ package nl.christine.schwartze.server.service.impl;
 import nl.christine.schwartze.server.controller.request.EditLinkRequest;
 import nl.christine.schwartze.server.controller.result.CombinePersonResult;
 import nl.christine.schwartze.server.controller.result.EditLinkResult;
+import nl.christine.schwartze.server.dao.LinkDao;
 import nl.christine.schwartze.server.dao.PersonDao;
 import nl.christine.schwartze.server.model.*;
 import nl.christine.schwartze.server.service.PersonService;
@@ -41,6 +42,9 @@ public class PersonServiceImpl implements PersonService {
     private PersonDao personDao;
 
     Logger logger = Logger.getLogger(PersonServiceImpl.class);
+
+    @Autowired
+    private LinkDao linkDao;
 
     public PersonServiceImpl() {
         compareByName = Comparator
@@ -208,6 +212,7 @@ public class PersonServiceImpl implements PersonService {
             Link link = new Link(request.getLinkName(), request.getLinkUrl());
             link.setPerson(person);
             person.getLinks().add(link);
+            linkDao.persist(link);
         } else {
             Optional<Link> link = person.getLinks().stream().filter(x -> x.getId() == request.getLinkId()).findFirst();
             if (link.isPresent()) {

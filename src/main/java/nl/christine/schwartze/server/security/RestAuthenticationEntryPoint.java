@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component("restAuthenticationEntryPoint")
-public final class RestAuthenticationEntryPoint        implements AuthenticationEntryPoint {
+public final class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     @Override
     public void commence(
@@ -24,7 +24,6 @@ public final class RestAuthenticationEntryPoint        implements Authentication
             HttpServletResponse response,
             AuthenticationException authException) throws IOException {
 
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED,
-                "Unauthorized");
+        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
     }
 }

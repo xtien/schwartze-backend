@@ -18,8 +18,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Controller
 @CrossOrigin(origins = Application.UI_HOST)
@@ -31,8 +35,8 @@ public class UserController {
     @Autowired
     private UserDetailsService userDetailsService;
 
-    @PostMapping(value = "/login")
-     public ResponseEntity<LoginResult> login() {
+    @GetMapping(value = "/login")
+    public ResponseEntity<LoginResult> login() {
 
         HttpStatus status = HttpStatus.OK;
         LoginResult loginResult = new LoginResult();
@@ -45,4 +49,18 @@ public class UserController {
 
         return new ResponseEntity<>(loginResult, status);
     }
+//
+//    @PostMapping(value = "/logout")
+//    public ResponseEntity<LoginResult> logout(HttpServletRequest request, HttpServletResponse response) {
+//
+//        HttpStatus status = HttpStatus.OK;
+//        LoginResult loginResult = new LoginResult();
+//
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        if (auth != null){
+//            new SecurityContextLogoutHandler().logout(request, response, auth);
+//        }
+//
+//        return new ResponseEntity<>(loginResult, status);
+//    }
 }
