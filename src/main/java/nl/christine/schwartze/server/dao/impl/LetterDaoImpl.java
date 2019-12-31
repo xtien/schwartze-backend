@@ -60,7 +60,8 @@ public class LetterDaoImpl implements LetterDao {
         }
     }
 
-    private Letter getLetterForId(int id) {
+    @Override
+    public Letter getLetterForId(int id) {
         return em.find(Letter.class, id);
     }
 

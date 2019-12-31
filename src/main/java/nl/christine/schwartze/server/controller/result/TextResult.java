@@ -8,6 +8,7 @@
 package nl.christine.schwartze.server.controller.result;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.model.MyLocation;
 import nl.christine.schwartze.server.model.Person;
 import nl.christine.schwartze.server.model.Text;
@@ -25,6 +26,9 @@ public class TextResult {
 
     @JsonProperty("location")
     private MyLocation location;
+
+    @JsonProperty("letter")
+    private Letter letter;
 
     public void setErrorText(String errorText) {
         this.errorText = errorText;
@@ -56,5 +60,13 @@ public class TextResult {
 
     public void setLocation(MyLocation location) {
         this.location = location;
+    }
+
+    public Letter getLetter() {
+        return letter;
+    }
+
+    public void setLetter(Letter letter) {
+        this.letter = letter;
     }
 }

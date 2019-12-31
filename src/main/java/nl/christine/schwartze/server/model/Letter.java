@@ -27,6 +27,7 @@ import java.util.List;
 @Table(name = "letters")
 public class Letter {
 
+    private static final String TEXT = "text";
     @Transient
     Logger logger = Logger.getLogger(Letter.class);
 
@@ -92,6 +93,10 @@ public class Letter {
     @Column(name = "comment")
     @JsonProperty(REMARKS)
     private String remarks;
+
+    @OneToOne
+    @JsonProperty(TEXT)
+    private Text text;
 
     public Letter() {
 
@@ -174,5 +179,13 @@ public class Letter {
 
     public LocalDate getDate(){
         return date;
+    }
+
+    public Text getText() {
+        return text;
+    }
+
+    public void setText(Text text) {
+        this.text = text;
     }
 }

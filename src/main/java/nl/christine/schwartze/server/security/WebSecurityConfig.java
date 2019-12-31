@@ -57,6 +57,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .antMatchers("/admin/**").hasAuthority("WRITE_PRIVILEGE")
+                .antMatchers("/user/**").hasAuthority("WRITE_PRIVILEGE")
                 .antMatchers("/**").permitAll()
                 .anyRequest().permitAll()
         ;

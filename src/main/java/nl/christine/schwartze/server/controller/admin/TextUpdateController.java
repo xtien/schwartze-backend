@@ -10,6 +10,7 @@ package nl.christine.schwartze.server.controller.admin;
 import nl.christine.schwartze.server.Application;
 import nl.christine.schwartze.server.controller.request.TextRequest;
 import nl.christine.schwartze.server.controller.result.TextResult;
+import nl.christine.schwartze.server.dao.LetterDao;
 import nl.christine.schwartze.server.dao.LocationDao;
 import nl.christine.schwartze.server.dao.PersonDao;
 import nl.christine.schwartze.server.model.Text;
@@ -40,6 +41,9 @@ public class TextUpdateController {
     @Autowired
     private LocationDao locationDao;
 
+    @Autowired
+    private LetterDao letterDao;
+
     @PostMapping(value = "/update_text/")
     public ResponseEntity<TextResult> updateText(@RequestBody TextRequest request) {
 
@@ -48,16 +52,21 @@ public class TextUpdateController {
 
         try {
             Text text = textService.updateText(request);
-            if (text != null) {
-                result.setText(text);
-            } else {
-                status = HttpStatus.NOT_FOUND;
-            }
+
             if (request.getPersonId() != null) {
                 result.setPerson(personDao.getPerson(request.getPersonId()));
             }
             if (request.getLocationId() != null) {
                 result.setLocation(locationDao.getLocation(request.getLocationId()));
+            }
+            if(request.getTextId() !=null){
+                result.setLetter(letterDao.getLetterForId(request.getLetterId()));
+            }
+            if (text != null) {
+                result.setText(text);
+
+            } else {
+                status = HttpStatus.NOT_FOUND;
             }
 
         } catch (Exception e) {

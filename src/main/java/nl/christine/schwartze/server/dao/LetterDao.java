@@ -20,6 +20,8 @@ public interface LetterDao {
 
     Letter getLetterForNumber(int letterNumber);
 
+    Letter getLetterForId(int id);
+
     Letter updateLetterComment(int letterNumber, String text, String date);
 
     Letter addLetter(Letter letter);

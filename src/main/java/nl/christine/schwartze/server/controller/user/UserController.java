@@ -8,7 +8,9 @@
 package nl.christine.schwartze.server.controller.user;
 
 import nl.christine.schwartze.server.Application;
+import nl.christine.schwartze.server.controller.request.LogoutRequest;
 import nl.christine.schwartze.server.controller.result.LoginResult;
+import nl.christine.schwartze.server.controller.result.LogoutResult;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
@@ -18,16 +20,15 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 @CrossOrigin(origins = Application.UI_HOST, maxAge = 7200)
-@Profile("!test")
+//@Profile("!test")
 public class UserController {
 
     Logger logger = Logger.getLogger(UserController.class);
@@ -49,18 +50,18 @@ public class UserController {
 
         return new ResponseEntity<>(loginResult, status);
     }
-//
-//    @PostMapping(value = "/logout")
-//    public ResponseEntity<LoginResult> logout(HttpServletRequest request, HttpServletResponse response) {
-//
-//        HttpStatus status = HttpStatus.OK;
-//        LoginResult loginResult = new LoginResult();
-//
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+    @PostMapping(value = "/user/signout")
+    public ResponseEntity<LogoutResult> logout(@RequestBody LogoutRequest request) {
+
+        HttpStatus status = HttpStatus.OK;
+        LogoutResult logoutResult = new LogoutResult();
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 //        if (auth != null){
 //            new SecurityContextLogoutHandler().logout(request, response, auth);
 //        }
-//
-//        return new ResponseEntity<>(loginResult, status);
-//    }
+
+        return new ResponseEntity<>(logoutResult, status);
+    }
 }

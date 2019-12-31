@@ -29,6 +29,8 @@ public class Person {
     public static final String TEXT = "text";
     public static final String IMAGE_URL = "image_url";
     public static final String IMAGE_CAPTION = "image_caption";
+    private static final String DATE_OF_BIRTH = "date_of_birth";
+    private static final String DATE_OF_DEATH = "date_of_death";
 
     @Id
     @JsonProperty(ID)
@@ -46,6 +48,14 @@ public class Person {
     @Column(name = LAST_NAME)
     @JsonProperty(LAST_NAME)
     private String lastName;
+
+    @Column(name = DATE_OF_BIRTH)
+    @JsonProperty(DATE_OF_BIRTH)
+    private String dateOfBirth;
+
+    @Column(name = DATE_OF_DEATH)
+    @JsonProperty(DATE_OF_DEATH)
+    private String dateOfDeath;
 
     @Column(name = COMMENT)
     @JsonProperty(COMMENT)
@@ -209,5 +219,21 @@ public class Person {
 
     public void setImageCaption(String imageCaption) {
         this.imageCaption = imageCaption;
+    }
+
+    public String getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(String dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public String getDateOfDeath() {
+        return dateOfDeath;
+    }
+
+    public void setDateOfDeath(String dateOfDeath) {
+        this.dateOfDeath = dateOfDeath;
     }
 }

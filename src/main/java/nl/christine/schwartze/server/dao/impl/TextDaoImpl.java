@@ -35,7 +35,9 @@ public class TextDaoImpl implements TextDao {
     @Override
     public Text updateText(Text text) {
         Text existingText = getText(text.getId());
-        existingText.setTextString(text.getTextString());
+        if(existingText !=null){
+            existingText.setTextString(text.getTextString());
+        }
         return existingText;
     }
 

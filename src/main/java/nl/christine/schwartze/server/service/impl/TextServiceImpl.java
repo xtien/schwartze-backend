@@ -8,9 +8,11 @@
 package nl.christine.schwartze.server.service.impl;
 
 import nl.christine.schwartze.server.controller.request.TextRequest;
+import nl.christine.schwartze.server.dao.LetterDao;
 import nl.christine.schwartze.server.dao.LocationDao;
 import nl.christine.schwartze.server.dao.PersonDao;
 import nl.christine.schwartze.server.dao.TextDao;
+import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.model.MyLocation;
 import nl.christine.schwartze.server.model.Person;
 import nl.christine.schwartze.server.model.Text;
@@ -32,6 +34,9 @@ public class TextServiceImpl implements TextService {
 
     @Autowired
     private LocationDao locationDao;
+
+    @Autowired
+    private LetterDao letterDao;
 
     @Override
     @Transactional("transactionManager")
@@ -63,6 +68,17 @@ public class TextServiceImpl implements TextService {
                 location.getText().setTextString(request.getTextString());
             }
             return location.getText();
+        } else if (request.getLetterId() !=null){
+            Letter letter = letterDao.getLetterForId(request.getLetterId());
+            if(letter.getText() == null){
+                letter.setText(new Text());
+                textDao.persist(letter.getText());
+            }
+            if(request.getText() !=null){
+                letter.getText().setTextString(request.getTextString());
+            } else if (StringUtils.isNotEmpty(request.getTextString())){
+                letter.getText().setTextString(request.getTextString());
+            }
         }
 
         return null;
