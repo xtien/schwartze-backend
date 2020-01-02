@@ -79,6 +79,7 @@ public class TextServiceImpl implements TextService {
             } else if (StringUtils.isNotEmpty(request.getTextString())){
                 letter.getText().setTextString(request.getTextString());
             }
+            return letter.getText();
         }
 
         return null;

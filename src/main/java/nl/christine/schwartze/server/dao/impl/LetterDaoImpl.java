@@ -10,6 +10,8 @@ package nl.christine.schwartze.server.dao.impl;
 import nl.christine.schwartze.server.dao.LetterDao;
 import nl.christine.schwartze.server.exception.LetterNotFoundException;
 import nl.christine.schwartze.server.model.Letter;
+import nl.christine.schwartze.server.model.MyLocation;
+import nl.christine.schwartze.server.model.Text;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
@@ -92,5 +94,16 @@ public class LetterDaoImpl implements LetterDao {
         } else {
             throw new LetterNotFoundException();
         }
+    }
+
+    @Override
+    public Text getText(int id) {
+        Letter letter = getLetterForId(id);
+        if (letter.getText() == null) {
+            Text text = new Text();
+            em.persist(text);
+            letter.setText(text);
+        }
+        return letter.getText();
     }
 }

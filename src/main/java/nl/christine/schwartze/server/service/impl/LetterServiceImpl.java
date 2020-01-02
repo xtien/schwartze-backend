@@ -14,6 +14,7 @@ import nl.christine.schwartze.server.exception.LetterNotFoundException;
 import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.model.MyLocation;
 import nl.christine.schwartze.server.model.Person;
+import nl.christine.schwartze.server.model.Text;
 import nl.christine.schwartze.server.modelimport.ImportLetter;
 import nl.christine.schwartze.server.service.LetterService;
 import org.apache.log4j.Logger;
@@ -52,9 +53,9 @@ public class LetterServiceImpl implements LetterService {
     @Override
     @Transactional("transactionManager")
     public List<Letter> getLettersByDate() {
-        List<Letter> letters = letterDao.getLetters().stream().sorted((l1,l2) -> (
-                l1.getDate() == null ? -1 :( l2.getDate() == null ? 1: l1.getDate().compareTo(l2.getDate()))
-                )).collect(Collectors.toList());
+        List<Letter> letters = letterDao.getLetters().stream().sorted((l1, l2) -> (
+                l1.getDate() == null ? -1 : (l2.getDate() == null ? 1 : l1.getDate().compareTo(l2.getDate()))
+        )).collect(Collectors.toList());
         return letters;
     }
 
@@ -74,6 +75,18 @@ public class LetterServiceImpl implements LetterService {
     @Transactional("transactionManager")
     public List<Letter> getLettersFromLocation(int fromId) {
         return locationDao.getLettersForLocation(Optional.ofNullable(fromId), Optional.empty());
+    }
+
+    @Override
+    @Transactional("transactionManager")
+    public Text getText(int id) {
+        return letterDao.getText(id);
+    }
+
+
+    @Override
+    public Letter getLetterById(Integer letterId) {
+        return letterDao.getLetterForId(letterId);
     }
 
     @Override
@@ -172,7 +185,7 @@ public class LetterServiceImpl implements LetterService {
     public Letter updateLetterComment(int letterNumber, String text, String date) {
         Letter letter = null;
         try {
-            letter = letterDao.updateLetterComment(letterNumber, text,date);
+            letter = letterDao.updateLetterComment(letterNumber, text, date);
         } catch (Exception e) {
             logger.error("Error updating letter comments", e);
         }

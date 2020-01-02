@@ -10,6 +10,7 @@ package nl.christine.schwartze.server.controller;
 import nl.christine.schwartze.server.Application;
 import nl.christine.schwartze.server.controller.request.TextRequest;
 import nl.christine.schwartze.server.controller.result.TextResult;
+import nl.christine.schwartze.server.service.LetterService;
 import nl.christine.schwartze.server.service.LocationService;
 import nl.christine.schwartze.server.service.PersonService;
 import nl.christine.schwartze.server.service.TextService;
@@ -35,6 +36,9 @@ public class TextGetController {
     @Autowired
     private LocationService locationService;
 
+    @Autowired
+    private LetterService letterService;
+
     @PostMapping(value = "/get_text/")
     public ResponseEntity<TextResult> getText(@RequestBody TextRequest request) {
 
@@ -48,6 +52,9 @@ public class TextGetController {
             } else if (request.getLocationId() != null) {
                 result.setText(locationService.getText(request.getLocationId()));
                 result.setLocation(locationService.getLocation(request.getLocationId()));
+            } else if (request.getLetterId() != null) {
+                result.setText(letterService.getText(request.getLetterId()));
+                result.setLetter(letterService.getLetterById(request.getLetterId()));
             } else if (request.getId() !=null){
                 result.setText(personService.getText(request.getId()));
             }

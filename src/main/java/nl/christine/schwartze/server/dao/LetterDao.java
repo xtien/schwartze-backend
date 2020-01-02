@@ -9,6 +9,7 @@ package nl.christine.schwartze.server.dao;
 
 import nl.christine.schwartze.server.exception.LetterNotFoundException;
 import nl.christine.schwartze.server.model.Letter;
+import nl.christine.schwartze.server.model.Text;
 
 import java.util.List;
 
@@ -27,4 +28,6 @@ public interface LetterDao {
     Letter addLetter(Letter letter);
 
     void deleteLetter(Letter letter) throws LetterNotFoundException;
+
+    Text getText(int id);
 }

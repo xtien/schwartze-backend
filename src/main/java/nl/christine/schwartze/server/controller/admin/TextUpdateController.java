@@ -59,7 +59,7 @@ public class TextUpdateController {
             if (request.getLocationId() != null) {
                 result.setLocation(locationDao.getLocation(request.getLocationId()));
             }
-            if(request.getTextId() !=null){
+            if (request.getLetterId() != null) {
                 result.setLetter(letterDao.getLetterForId(request.getLetterId()));
             }
             if (text != null) {
