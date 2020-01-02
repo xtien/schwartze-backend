@@ -24,15 +24,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 @CrossOrigin(origins = Application.UI_HOST, maxAge = 7200)
-
 public class ReferenceController {
     Logger logger = Logger.getLogger(ReferenceController.class);
 
     @Autowired
     private ReferenceService referenceService;
 
-     @PostMapping(value = "/get_references/")
-     public ResponseEntity<ReferencesResult> getPerson(@RequestBody GetReferencesRequest request) {
+    @PostMapping(value = "/get_references/")
+    public ResponseEntity<ReferencesResult> getPerson(@RequestBody GetReferencesRequest request) {
 
         ReferencesResult result = new ReferencesResult();
 
@@ -43,8 +42,9 @@ public class ReferenceController {
                 result.setReferences(references);
             }
         } catch (Exception e) {
-            logger.error("Error getting references",e);
+            logger.error("Error getting references", e);
         }
 
         return new ResponseEntity<>(result, HttpStatus.OK);
-    }}
+    }
+}

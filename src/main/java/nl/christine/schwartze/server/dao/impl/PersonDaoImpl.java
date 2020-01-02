@@ -45,6 +45,8 @@ public class PersonDaoImpl implements PersonDao {
             existingPerson.setComment(person.getComment());
             existingPerson.setImageCaption(person.getImageCaption());
             existingPerson.setImageUrl(person.getImageUrl());
+            existingPerson.setDateOfBirth(person.getDateOfBirth());
+            existingPerson.setDateOfDeath(person.getDateOfDeath());
          }
 
         return person;
