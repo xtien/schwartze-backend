@@ -25,18 +25,18 @@ public class Subject {
     private int id;
 
     @JsonProperty(NAME)
-    private String subject;
+    private String name;
 
     @OneToOne
     @JsonProperty(TEXT)
     private Text text;
 
-    public String getSubject() {
-        return subject;
+    public String getName() {
+        return name;
     }
 
-    public void setSubject(String subject) {
-        this.subject = subject;
+    public void setName(String subject) {
+        this.name = subject;
     }
 
     public int getId() {

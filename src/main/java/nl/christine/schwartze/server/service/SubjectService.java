@@ -8,6 +8,7 @@
 package nl.christine.schwartze.server.service;
 
 import nl.christine.schwartze.server.model.Subject;
+import nl.christine.schwartze.server.model.Text;
 
 import java.util.List;
 
@@ -15,5 +16,9 @@ public interface SubjectService {
 
     List<Subject> getSubjects();
 
-    List<Subject> updateSubject(String name);
+    List<Subject> addSubject(String name);
+
+    Subject getSubjectById(Integer subjectId);
+
+    List<Subject> removeSubject(Integer id);
 }

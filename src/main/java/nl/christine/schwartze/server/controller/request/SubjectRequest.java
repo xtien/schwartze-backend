@@ -11,8 +11,19 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class SubjectRequest {
 
+    @JsonProperty("subject_id")
+    private Integer subjectId;
+
     @JsonProperty("subject_name")
     private String subjectName;
+
+    public Integer getSubjectId() {
+        return subjectId;
+    }
+
+    public void setSubjectId(Integer subjectId) {
+        this.subjectId = subjectId;
+    }
 
     public String getSubjectName() {
         return subjectName;

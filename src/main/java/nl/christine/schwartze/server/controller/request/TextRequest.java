@@ -33,6 +33,9 @@ public class TextRequest {
     @JsonProperty("letter_id")
     private Integer letterId;
 
+    @JsonProperty("subject_id")
+    private Integer subjectId;
+
     public Integer getId() {
         return id;
     }
@@ -87,5 +90,13 @@ public class TextRequest {
 
     public void setLetterId(Integer letterId) {
         this.letterId = letterId;
+    }
+
+    public Integer getSubjectId() {
+        return subjectId;
+    }
+
+    public void setSubjectId(Integer subjectId) {
+        this.subjectId = subjectId;
     }
 }

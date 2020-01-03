@@ -13,6 +13,7 @@ import nl.christine.schwartze.server.controller.result.TextResult;
 import nl.christine.schwartze.server.dao.LetterDao;
 import nl.christine.schwartze.server.dao.LocationDao;
 import nl.christine.schwartze.server.dao.PersonDao;
+import nl.christine.schwartze.server.dao.SubjectDao;
 import nl.christine.schwartze.server.model.Text;
 import nl.christine.schwartze.server.service.TextService;
 import org.apache.log4j.Logger;
@@ -42,6 +43,9 @@ public class TextUpdateController {
     private LocationDao locationDao;
 
     @Autowired
+    private SubjectDao subjectDao;
+
+    @Autowired
     private LetterDao letterDao;
 
     @PostMapping(value = "/update_text/")
@@ -61,6 +65,9 @@ public class TextUpdateController {
             }
             if (request.getLetterId() != null) {
                 result.setLetter(letterDao.getLetterForId(request.getLetterId()));
+            }
+            if(request.getSubjectId() !=null){
+                result.setSubject(subjectDao.getSubjectById(request.getSubjectId()));
             }
             if (text != null) {
                 result.setText(text);

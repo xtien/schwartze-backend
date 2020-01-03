@@ -8,14 +8,8 @@
 package nl.christine.schwartze.server.service.impl;
 
 import nl.christine.schwartze.server.controller.request.TextRequest;
-import nl.christine.schwartze.server.dao.LetterDao;
-import nl.christine.schwartze.server.dao.LocationDao;
-import nl.christine.schwartze.server.dao.PersonDao;
-import nl.christine.schwartze.server.dao.TextDao;
-import nl.christine.schwartze.server.model.Letter;
-import nl.christine.schwartze.server.model.MyLocation;
-import nl.christine.schwartze.server.model.Person;
-import nl.christine.schwartze.server.model.Text;
+import nl.christine.schwartze.server.dao.*;
+import nl.christine.schwartze.server.model.*;
 import nl.christine.schwartze.server.service.TextService;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -37,6 +31,9 @@ public class TextServiceImpl implements TextService {
 
     @Autowired
     private LetterDao letterDao;
+
+    @Autowired
+    private SubjectDao subjectDao;
 
     @Override
     @Transactional("transactionManager")
@@ -68,18 +65,30 @@ public class TextServiceImpl implements TextService {
                 location.getText().setTextString(request.getTextString());
             }
             return location.getText();
-        } else if (request.getLetterId() !=null){
+        } else if (request.getLetterId() != null) {
             Letter letter = letterDao.getLetterForId(request.getLetterId());
-            if(letter.getText() == null){
+            if (letter.getText() == null) {
                 letter.setText(new Text());
                 textDao.persist(letter.getText());
             }
-            if(request.getText() !=null){
-                letter.getText().setTextString(request.getTextString());
-            } else if (StringUtils.isNotEmpty(request.getTextString())){
+            if (request.getText() != null) {
+                letter.getText().setTextString(request.getText().getTextString());
+            } else if (StringUtils.isNotEmpty(request.getTextString())) {
                 letter.getText().setTextString(request.getTextString());
             }
             return letter.getText();
+        } else if (request.getSubjectId() != null) {
+            Subject subject = subjectDao.getSubjectById(request.getSubjectId());
+            if (subject.getText() == null) {
+                subject.setText(new Text());
+                subjectDao.persist(subject.getText());
+            }
+            if(request.getText() !=null){
+                subject.getText().setTextString(request.getText().getTextString());
+            } else if (StringUtils.isNotEmpty(request.getTextString())){
+                subject.getText().setTextString(request.getTextString());
+            }
+            return subject.getText();
         }
 
         return null;

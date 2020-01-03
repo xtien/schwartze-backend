@@ -9,6 +9,7 @@ package nl.christine.schwartze.server.service.impl;
 
 import nl.christine.schwartze.server.dao.SubjectDao;
 import nl.christine.schwartze.server.model.Subject;
+import nl.christine.schwartze.server.model.Text;
 import nl.christine.schwartze.server.service.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -30,8 +31,21 @@ public class SubjectServiceImpl implements SubjectService {
 
     @Override
     @Transactional("transactionManager")
-    public List<Subject> updateSubject(String name) {
-        subjectDao.updateSubject(name);
+    public List<Subject> addSubject(String name) {
+        subjectDao.addSubject(name);
         return subjectDao.getSubjects();
+    }
+
+    @Override
+    @Transactional("transactionManager")
+    public Subject getSubjectById(Integer subjectId) {
+        return subjectDao.getSubjectById(subjectId);
+    }
+
+    @Override
+    @Transactional("transactionManager")
+    public List<Subject> removeSubject(Integer id) {
+        subjectDao.remove(id);
+        return getSubjects();
     }
 }

@@ -8,10 +8,8 @@
 package nl.christine.schwartze.server.controller.admin;
 
 import nl.christine.schwartze.server.Application;
-import nl.christine.schwartze.server.controller.ReferenceController;
 import nl.christine.schwartze.server.controller.request.SubjectRequest;
 import nl.christine.schwartze.server.controller.result.SubjectsResult;
-import nl.christine.schwartze.server.model.Subject;
 import nl.christine.schwartze.server.service.SubjectService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,25 +18,25 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @Controller
 @RequestMapping("/admin")
 @CrossOrigin(origins = Application.UI_HOST, maxAge = 14400)
-public class SubjectUpdateController {   Logger logger = Logger.getLogger(ReferenceController.class);
+public class SubjectAddController {
+
+    Logger logger = Logger.getLogger(SubjectAddController.class);
 
     @Autowired
     private SubjectService subjectService;
 
-    @PostMapping(value = "/update_subject/")
-    public ResponseEntity<SubjectsResult> updateSubject(@RequestBody SubjectRequest request) {
+    @PostMapping(value = "/add_subject/")
+    public ResponseEntity<SubjectsResult> addSubject(@RequestBody SubjectRequest request) {
 
         SubjectsResult result = new SubjectsResult();
 
         try {
-           result.setSubjects(subjectService.updateSubject(request.getSubjectName()));
+            result.setSubjects(subjectService.addSubject(request.getSubjectName()));
         } catch (Exception e) {
-            logger.error("Error getting references",e);
+            logger.error("Error getting references", e);
         }
 
         return new ResponseEntity<>(result, HttpStatus.OK);

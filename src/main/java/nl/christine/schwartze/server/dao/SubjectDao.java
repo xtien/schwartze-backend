@@ -8,6 +8,7 @@
 package nl.christine.schwartze.server.dao;
 
 import nl.christine.schwartze.server.model.Subject;
+import nl.christine.schwartze.server.model.Text;
 
 import java.util.List;
 
@@ -15,5 +16,11 @@ public interface SubjectDao {
 
     List<Subject> getSubjects();
 
-    Subject updateSubject(String name);
+    Subject addSubject(String name);
+
+    Subject getSubjectById(Integer subjectId);
+
+    void remove(Integer id);
+
+    void persist(Text text);
 }
