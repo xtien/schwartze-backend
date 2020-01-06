@@ -8,6 +8,7 @@
 package nl.christine.schwartze.server.controller.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import nl.christine.schwartze.server.model.Letter;
 
 public class LetterRequest {
 
@@ -16,6 +17,9 @@ public class LetterRequest {
 
     @JsonProperty("comment")
     private String comment;
+
+    @JsonProperty("letter")
+    private Letter letter;
 
     @JsonProperty("date")
     private String date;
@@ -42,5 +46,13 @@ public class LetterRequest {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public Letter getLetter() {
+        return letter;
+    }
+
+    public void setLetter(Letter letter) {
+        this.letter = letter;
     }
 }

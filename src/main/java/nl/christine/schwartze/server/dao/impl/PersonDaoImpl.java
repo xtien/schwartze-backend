@@ -47,7 +47,7 @@ public class PersonDaoImpl implements PersonDao {
             existingPerson.setImageUrl(person.getImageUrl());
             existingPerson.setDateOfBirth(person.getDateOfBirth());
             existingPerson.setDateOfDeath(person.getDateOfDeath());
-         }
+        }
 
         return person;
     }
@@ -88,6 +88,28 @@ public class PersonDaoImpl implements PersonDao {
             person.setText(text);
         }
         return person.getText();
+    }
+
+    @Override
+    public void persistIfNotExist(Person p) {
+        if (p.getId() == 0) {
+            entityManager.persist(p);
+        }
+    }
+
+    @Override
+    public void savePerson(Person person) {
+        if (person.getId() != 0) {
+            entityManager.merge(person);
+        } else {
+            entityManager.persist(person);
+        }
+    }
+
+    @Override
+    public Person persist(Person person) {
+        entityManager.persist(person);
+        return person;
     }
 
     @Override

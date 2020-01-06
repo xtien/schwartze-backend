@@ -178,33 +178,6 @@ public class Person {
         this.links = links;
     }
 
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        if (obj.getClass() != getClass()) {
-            return false;
-        }
-        Person rhs = (Person) obj;
-        return new EqualsBuilder()
-                .appendSuper(super.equals(obj))
-                .append(id, rhs.id)
-                .isEquals();
-    }
-
-    public int hashCode() {
-        return new HashCodeBuilder(17, 37).
-                append(id).
-                toHashCode();
-    }
-
-    public String toString(){
-        return firstName + " " + lastName;
-    }
-
     public String getImageUrl() {
         return imageUrl;
     }
@@ -235,5 +208,32 @@ public class Person {
 
     public void setDateOfDeath(String dateOfDeath) {
         this.dateOfDeath = dateOfDeath;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
+        if (obj.getClass() != getClass()) {
+            return false;
+        }
+        Person rhs = (Person) obj;
+        return new EqualsBuilder()
+                .appendSuper(super.equals(obj))
+                .append(id, rhs.id)
+                .isEquals();
+    }
+
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37).
+                append(id).
+                toHashCode();
+    }
+
+    public String toString(){
+        return id + " " + firstName + " " + lastName + " " + dateOfBirth;
     }
 }

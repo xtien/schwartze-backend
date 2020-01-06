@@ -34,4 +34,8 @@ public interface LocationDao {
     void deleteLocation(MyLocation location);
 
     List<Letter> getLettersForLocation(Optional<Integer> fromId, Optional<Integer> toId);
+
+    MyLocation saveLocation(MyLocation location);
+
+    void persist(MyLocation location);
 }

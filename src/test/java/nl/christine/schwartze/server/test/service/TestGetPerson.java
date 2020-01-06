@@ -24,7 +24,7 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ActiveProfiles("test")
-@ContextConfiguration(locations = {"/applicationContext.xml"})
+@ContextConfiguration(locations = {"/testApplicationContext.xml"})
 public class TestGetPerson {
 
     @Autowired
@@ -34,7 +34,7 @@ public class TestGetPerson {
     private LetterService letterservice;
 
     @Test
-    public void testGetPerson(){
+    public void testGetPerson() {
 
         Person person = new Person();
         person.setFirstName("Lizzy");
@@ -57,7 +57,7 @@ public class TestGetPerson {
         person.addLetterWritten(letter3);
         person.addLetterWritten(letter4);
 
-       int id1 =  personService.addPerson(person).getId();
+        int id1 = personService.addPerson(person).getId();
         List<Letter> lettersFrom = letterservice.getLettersFromPerson(id1);
         assertEquals(4, lettersFrom.size());
 

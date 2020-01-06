@@ -28,7 +28,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 @CrossOrigin(origins = Application.UI_HOST, maxAge = 7200)
-//@Profile("!test")
 public class UserController {
 
     Logger logger = Logger.getLogger(UserController.class);

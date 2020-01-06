@@ -22,7 +22,7 @@ import java.util.List;
 
 @Controller
 @CrossOrigin(origins = Application.UI_HOST, maxAge = 7200)
-@Profile("test")
+@Profile("import")
 public class ImportDBController {
 
     @Autowired

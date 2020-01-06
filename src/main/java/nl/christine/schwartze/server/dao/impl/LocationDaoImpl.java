@@ -12,6 +12,7 @@ import nl.christine.schwartze.server.exception.LocationNotFoundException;
 import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.model.MyLocation;
 import nl.christine.schwartze.server.model.Text;
+import nl.christine.schwartze.server.security.MySuccessHandler;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
@@ -109,6 +110,22 @@ public class LocationDaoImpl implements LocationDao {
             letters.addAll(toLocation.getLettersTo());
         }
         return letters;
+    }
+
+    @Override
+    public MyLocation saveLocation(MyLocation location) {
+        if (location.getId() != 0) {
+            entityManager.merge(location);
+            location = entityManager.find(MyLocation.class, location.getId());
+        } else {
+            entityManager.persist(location);
+        }
+        return location;
+    }
+
+    @Override
+    public void persist(MyLocation location) {
+        entityManager.persist(location);
     }
 
 }

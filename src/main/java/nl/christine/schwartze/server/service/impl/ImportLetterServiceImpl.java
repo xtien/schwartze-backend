@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Component("importLetterService")
-@Profile("test")
+@Profile("imnport")
 public class ImportLetterServiceImpl implements ImportLetterService {
 
     @Autowired

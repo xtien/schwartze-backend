@@ -21,10 +21,10 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Component("letterService")
@@ -91,14 +91,112 @@ public class LetterServiceImpl implements LetterService {
 
     @Override
     @Transactional("transactionManager")
+    public Letter updateLetter(Letter letter) {
+
+        Letter existingLetter = letterDao.getLetterForNumber(letter.getNumber());
+        update(existingLetter.getSenders(), letter.getSenders());
+        update(existingLetter.getRecipients(), letter.getRecipients());
+
+        return existingLetter;
+    }
+
+    private void update(List<Person> existingPeople, List<Person> people) {
+        if (!CollectionUtils.isEmpty(people)) {
+            List<Person> toAdd = new ArrayList<>();
+            List<Person> toRemove = new ArrayList<>();
+            for (Person p : people) {
+                if (!existingPeople.contains(p)) {
+                    toAdd.add(p);
+                }
+            }
+            for (Person p : existingPeople) {
+                if (!people.contains(p)) {
+                    toRemove.add(p);
+                }
+            }
+            existingPeople.removeAll(toRemove);
+            for (Person p : toAdd) {
+                personDao.persistIfNotExist(p);
+            }
+            existingPeople.addAll(toAdd);
+        }
+    }
+
+    @Override
+    @Transactional("transactionManager")
     public Letter addLetter(Letter letter) {
 
-        Letter resultLetter = letterDao.addLetter(letter);
-        Letter existingLetterForNumber = letterDao.getLetterForNumber(resultLetter.getId());
-        if (existingLetterForNumber == null) {
-            letter.setNumber(letter.getId());
+        Letter existingLetter = letterDao.getLetterForNumber(letter.getNumber());
+        if (existingLetter != null) {
+            return null;
         }
 
+        List<Person> toAdd = new LinkedList<>();
+        List<Person> toRemove = new LinkedList<>();
+        for (Person person : letter.getRecipients()) {
+            if (person.getId() == 0) {
+                personDao.persist(person);
+            } else {
+                Person existingPerson = personDao.getPerson(person.getId());
+                existingPerson.addLetterReceived(letter);
+                toAdd.add(existingPerson);
+                toRemove.add(person);
+            }
+        }
+        letter.getRecipients().removeAll(toRemove);
+        letter.getRecipients().addAll(toAdd);
+
+        toAdd.clear();
+        toRemove.clear();
+
+        for (Person person : letter.getSenders()) {
+            if (person.getId() == 0) {
+                personDao.persist(person);
+            } else {
+                Person existingPerson = personDao.getPerson(person.getId());
+                existingPerson.addLetterWritten(letter);
+                toAdd.add(existingPerson);
+                toRemove.add(person);
+            }
+        }
+
+        letter.getSenders().removeAll(toRemove);
+        letter.getSenders().addAll(toAdd);
+
+        List<MyLocation> locationAdd = new LinkedList<>();
+        List<MyLocation> lcoationRemove = new LinkedList<>();
+
+        for (MyLocation location : letter.getFromLocations()) {
+            if (location.getId() == 0) {
+                locationDao.persist(location);
+            } else {
+                MyLocation existingLocation = locationDao.getLocation(location.getId());
+                existingLocation.addLetterFrom(letter);
+                locationAdd.add(existingLocation);
+                lcoationRemove.add(location);
+            }
+        }
+
+        letter.getFromLocations().removeAll(lcoationRemove);
+        letter.getFromLocations().addAll(locationAdd);
+
+        locationAdd.clear();
+        lcoationRemove.clear();
+
+        for (MyLocation location : letter.getToLocations()) {
+            if (location.getId() == 0) {
+                locationDao.persist(location);
+            } else {
+                MyLocation existingLocation = locationDao.getLocation(location.getId());
+                existingLocation.addLetterTo(letter);
+                locationAdd.add(existingLocation);
+                lcoationRemove.add(location);
+            }
+        }
+        letter.getToLocations().removeAll(lcoationRemove);
+        letter.getToLocations().addAll(locationAdd);
+
+        letterDao.addLetter(letter);
         return letter;
     }
 

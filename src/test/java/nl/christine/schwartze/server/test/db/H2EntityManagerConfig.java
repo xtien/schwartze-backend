@@ -1,11 +1,11 @@
 /*
- * Copyright (c) 2019, Zaphod Consulting BV, Christine Karman
+ * Copyright (c) 2020, Zaphod Consulting BV, Christine Karman
  * This project is free software: you can redistribute it and/or modify it under the terms of
  * the Apache License, Version 2.0. You can find a copy of the license at
  * http://www.apache.org/licenses/LICENSE-2.0.
  */
 
-package nl.christine.schwartze.server.db;
+package nl.christine.schwartze.server.test.db;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.*;
@@ -21,8 +21,8 @@ import java.util.Properties;
 
 @Configuration
 @PropertySource({"application.properties", "local.properties"})
-@Profile("!test")
-public class EntityManagerConfig {
+@Profile("test")
+public class H2EntityManagerConfig {
 
     @Primary
     @Bean(name = "entityManagerFactory")
@@ -49,7 +49,7 @@ public class EntityManagerConfig {
     Properties additionalProperties() {
         Properties properties = new Properties();
         properties.setProperty("hibernate.hbm2ddl.auto", "update");
-        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQL82Dialect");
+        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
 
         return properties;
     }

@@ -27,13 +27,13 @@ public class SchwartzeDbConfig {
 
     private String userName;
 
-     private String password;
+    private String password;
 
     @Value("${spring.datasource.driver-class-name}")
     private String driverClass;
 
     @Autowired
-    public SchwartzeDbConfig(SchwartzeProperties properties){
+    public SchwartzeDbConfig(SchwartzeProperties properties) {
         password = properties.getProperty("dbpassword");
         userName = properties.getProperty("dbusername");
     }
@@ -47,4 +47,4 @@ public class SchwartzeDbConfig {
                 .password(password)
                 .build();
     }
- }
+}

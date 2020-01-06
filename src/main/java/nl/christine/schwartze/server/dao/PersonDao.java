@@ -39,4 +39,10 @@ public interface PersonDao {
     void merge(Person person);
 
     Text getPersonText(int id);
+
+    void persistIfNotExist(Person p);
+
+    void savePerson(Person p);
+
+    Person persist(Person person);
 }

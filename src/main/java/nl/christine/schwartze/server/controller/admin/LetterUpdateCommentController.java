@@ -8,36 +8,50 @@
 package nl.christine.schwartze.server.controller.admin;
 
 import nl.christine.schwartze.server.Application;
-import nl.christine.schwartze.server.controller.request.AddLetterRequest;
-import nl.christine.schwartze.server.controller.result.AddLetterResult;
+import nl.christine.schwartze.server.controller.request.LetterRequest;
+import nl.christine.schwartze.server.controller.result.LetterResult;
 import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.service.LetterService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+/**
+ * User: christine
+ * Date: 12/29/18 12:41 PM
+ */
 @Controller
 @RequestMapping("/admin")
 @CrossOrigin(origins = Application.UI_HOST, maxAge = 7200)
-public class LetterAddController {
+public class LetterUpdateCommentController {
+
+    Logger logger = Logger.getLogger(LetterUpdateCommentController.class);
 
     @Autowired
     private LetterService letterService;
 
-    @PostMapping(value = "/add_letter/")
-    public ResponseEntity<AddLetterResult> addLetter(@RequestBody AddLetterRequest request) {
-        AddLetterResult result = new AddLetterResult();
+    @PostMapping(value = "/update_letter_comment/")
+    @Transactional("transactionManager")
+    public ResponseEntity<LetterResult> updateLetterComment(@RequestBody LetterRequest request) {
 
-        if (request.getLetter().getId() > 0) {
-            result.setErrorText("letter exists");
-        } else {
-            Letter resultLetter = letterService.addLetter(request.getLetter());
-            result.setLetter(resultLetter);
+        LetterResult result = new LetterResult();
+        result.setResult(LetterResult.NOT_OK);
+
+        try {
+            Letter letter = letterService.updateLetterComment(request.getLetterNumber(), request.getComment(), request.getDate());
+            if (letter != null) {
+                result.setLetter(letter);
+                result.setResultCode(LetterResult.OK);
+            }
+        } catch (Exception e) {
+            logger.error("Error updating letter comment",e);
         }
 
         return new ResponseEntity<>(result, HttpStatus.OK);

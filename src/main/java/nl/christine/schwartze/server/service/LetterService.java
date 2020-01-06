@@ -44,4 +44,6 @@ public interface LetterService {
     Text getText(int letterId);
 
     Letter getLetterById(Integer letterId);
+
+    Letter updateLetter(Letter letter);
 }

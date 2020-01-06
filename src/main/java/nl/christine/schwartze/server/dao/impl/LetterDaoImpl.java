@@ -24,11 +24,8 @@ import java.util.List;
 @Component("letterDao")
 public class LetterDaoImpl implements LetterDao {
 
-    Logger logger = Logger.getLogger(LetterDaoImpl.class);
-
     @PersistenceContext(unitName = "defaultPU")
     private EntityManager em;
-
 
     @Override
     public List<Letter> getLetters() {
@@ -78,9 +75,10 @@ public class LetterDaoImpl implements LetterDao {
     @Override
     public Letter addLetter(Letter letter) {
 
-        if (letter.getNumber() > 0) {
+        if (letter.getId() > 0) {
             return null;
         }
+
         em.persist(letter);
 
         return letter;
@@ -90,6 +88,10 @@ public class LetterDaoImpl implements LetterDao {
     public void deleteLetter(Letter letter) throws LetterNotFoundException {
         Letter existingLetter = getLetterForId(letter.getId());
         if (existingLetter != null) {
+            existingLetter.getToLocations().clear();
+            existingLetter.getFromLocations().clear();
+            existingLetter.getRecipients().clear();
+            existingLetter.getSenders().clear();
             em.remove(existingLetter);
         } else {
             throw new LetterNotFoundException();

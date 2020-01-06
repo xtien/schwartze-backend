@@ -37,15 +37,15 @@ public class LetterUpdateController {
     @Autowired
     private LetterService letterService;
 
-    @PostMapping(value = "/update_letter_details/")
+    @PostMapping(value = "/update_letter/")
     @Transactional("transactionManager")
-    public ResponseEntity<LetterResult> updateLetterComment(@RequestBody LetterRequest request) {
+    public ResponseEntity<LetterResult> updateLetter(@RequestBody LetterRequest request) {
 
         LetterResult result = new LetterResult();
         result.setResult(LetterResult.NOT_OK);
 
         try {
-            Letter letter = letterService.updateLetterComment(request.getLetterNumber(), request.getComment(), request.getDate());
+            Letter letter = letterService.updateLetter(request.getLetter());
             if (letter != null) {
                 result.setLetter(letter);
                 result.setResultCode(LetterResult.OK);

@@ -188,4 +188,15 @@ public class Letter {
     public void setText(Text text) {
         this.text = text;
     }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public List<MyLocation> getFromLocations(){
+        return fromLocations;
+    }
+    public List<MyLocation> getToLocations(){
+        return toLocations;
+    }
 }
