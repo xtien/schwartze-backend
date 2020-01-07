@@ -222,7 +222,6 @@ public class Person {
         }
         Person rhs = (Person) obj;
         return new EqualsBuilder()
-                .appendSuper(super.equals(obj))
                 .append(id, rhs.id)
                 .isEquals();
     }

@@ -38,7 +38,6 @@ public class LetterUpdateController {
     private LetterService letterService;
 
     @PostMapping(value = "/update_letter/")
-    @Transactional("transactionManager")
     public ResponseEntity<LetterResult> updateLetter(@RequestBody LetterRequest request) {
 
         LetterResult result = new LetterResult();

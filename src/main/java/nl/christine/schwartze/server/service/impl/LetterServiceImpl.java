@@ -94,23 +94,28 @@ public class LetterServiceImpl implements LetterService {
     public Letter updateLetter(Letter letter) {
 
         Letter existingLetter = letterDao.getLetterForNumber(letter.getNumber());
-        update(existingLetter.getSenders(), letter.getSenders());
-        update(existingLetter.getRecipients(), letter.getRecipients());
-
+        if (existingLetter != null) {
+            update(existingLetter.getSenders(), letter.getSenders(), existingLetter);
+            update(existingLetter.getRecipients(), letter.getRecipients(), existingLetter);
+        }
         return existingLetter;
     }
 
-    private void update(List<Person> existingPeople, List<Person> people) {
+    private void update(List<Person> existingPeople, List<Person> people, Letter letter) {
         if (!CollectionUtils.isEmpty(people)) {
             List<Person> toAdd = new ArrayList<>();
             List<Person> toRemove = new ArrayList<>();
             for (Person p : people) {
                 if (!existingPeople.contains(p)) {
-                    toAdd.add(p);
+                    Person existingP = personDao.getPerson(p.getId());
+                    existingP.getLettersWritten().add(letter);
+                    toAdd.add(existingP);
                 }
             }
             for (Person p : existingPeople) {
                 if (!people.contains(p)) {
+                    Person existingP = personDao.getPerson(p.getId());
+                    existingP.getLettersWritten().remove(letter);
                     toRemove.add(p);
                 }
             }
