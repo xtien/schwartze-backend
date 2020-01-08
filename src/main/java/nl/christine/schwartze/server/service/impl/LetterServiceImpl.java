@@ -24,7 +24,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.util.*;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Component("letterService")
@@ -95,13 +94,40 @@ public class LetterServiceImpl implements LetterService {
 
         Letter existingLetter = letterDao.getLetterForNumber(letter.getNumber());
         if (existingLetter != null) {
-            update(existingLetter.getSenders(), letter.getSenders(), existingLetter);
-            update(existingLetter.getRecipients(), letter.getRecipients(), existingLetter);
+            updateSendersReciepients(existingLetter.getSenders(), letter.getSenders(), existingLetter);
+            updateSendersReciepients(existingLetter.getRecipients(), letter.getRecipients(), existingLetter);
+            updateLocations(existingLetter.getFromLocations(), letter.getFromLocations(), existingLetter);
+            updateLocations(existingLetter.getToLocations(), letter.getToLocations(), existingLetter);
         }
         return existingLetter;
     }
 
-    private void update(List<Person> existingPeople, List<Person> people, Letter letter) {
+    /**
+     * for now, assume there is only one location
+     *
+     * @param existingLocations
+     * @param locations
+     * @param existingLetter
+     */
+    private void updateLocations(List<MyLocation> existingLocations, List<MyLocation> locations, Letter existingLetter) {
+        if (!CollectionUtils.isEmpty(locations)) {
+            MyLocation newLocation = locations.get(0);
+            if (newLocation.getId() != 0) {
+                newLocation = locationDao.getLocation(newLocation.getId());
+                existingLocations.clear();
+                existingLocations.add(newLocation);
+            }
+        }
+    }
+
+    /**
+     * for now, assume there is only one sender and one recipient
+     *
+     * @param existingPeople
+     * @param people
+     * @param letter
+     */
+    private void updateSendersReciepients(List<Person> existingPeople, List<Person> people, Letter letter) {
         if (!CollectionUtils.isEmpty(people)) {
             List<Person> toAdd = new ArrayList<>();
             List<Person> toRemove = new ArrayList<>();
