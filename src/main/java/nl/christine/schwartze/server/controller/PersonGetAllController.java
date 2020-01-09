@@ -18,7 +18,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.io.IOException;
 
@@ -27,13 +26,21 @@ import java.io.IOException;
 public class PersonGetAllController {
 
     @Autowired
-    private PersonService locationService;
+    private PersonService personService;
 
     @PostMapping(value = "/get_people/")
-    public ResponseEntity<PeopleResult> getLocations(@RequestBody LocationRequest request) throws IOException {
+    public ResponseEntity<PeopleResult> getPeople(@RequestBody LocationRequest request) throws IOException {
 
         PeopleResult peopleResult = new PeopleResult();
-        peopleResult.setPeople(locationService.getAllPeople());
+        peopleResult.setPeople(personService.getAllPeople());
+        return new ResponseEntity<>(peopleResult, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/get_people_by_lastname/")
+    public ResponseEntity<PeopleResult> getPeopleByLastName(@RequestBody LocationRequest request) throws IOException {
+
+        PeopleResult peopleResult = new PeopleResult();
+        peopleResult.setPeople(personService.getAllPeopleByLastName());
         return new ResponseEntity<>(peopleResult, HttpStatus.OK);
     }
 }

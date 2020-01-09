@@ -29,6 +29,9 @@ import java.util.stream.Collectors;
 @Component("letterService")
 public class LetterServiceImpl implements LetterService {
 
+    private final Comparator<Letter> compareByDate;
+    private final Comparator<Letter> compareByNumber;
+
     Logger logger = Logger.getLogger(LetterServiceImpl.class);
 
     @Autowired
@@ -42,19 +45,24 @@ public class LetterServiceImpl implements LetterService {
 
     Logger log = Logger.getLogger(LetterServiceImpl.class);
 
+    public LetterServiceImpl(){
+        compareByDate = Comparator
+                .comparing(Letter::getDate, Comparator.nullsFirst(Comparator.naturalOrder()));
+        compareByNumber = Comparator
+                .comparing(Letter::getNumber, Comparator.nullsFirst(Comparator.naturalOrder()));
+    }
+
     @Override
     @Transactional("transactionManager")
     public List<Letter> getLetters() {
-        List<Letter> letters = letterDao.getLetters();
+        List<Letter> letters = letterDao.getLetters().stream().sorted(compareByNumber).collect(Collectors.toList());
         return letters;
     }
 
     @Override
     @Transactional("transactionManager")
     public List<Letter> getLettersByDate() {
-        List<Letter> letters = letterDao.getLetters().stream().sorted((l1, l2) -> (
-                l1.getDate() == null ? -1 : (l2.getDate() == null ? 1 : l1.getDate().compareTo(l2.getDate()))
-        )).collect(Collectors.toList());
+        List<Letter> letters = letterDao.getLetters().stream().sorted(compareByDate).collect(Collectors.toList());
         return letters;
     }
 
@@ -94,10 +102,18 @@ public class LetterServiceImpl implements LetterService {
 
         Letter existingLetter = letterDao.getLetterForNumber(letter.getNumber());
         if (existingLetter != null) {
-            updateSendersReciepients(existingLetter.getSenders(), letter.getSenders(), existingLetter);
-            updateSendersReciepients(existingLetter.getRecipients(), letter.getRecipients(), existingLetter);
-            updateLocations(existingLetter.getFromLocations(), letter.getFromLocations(), existingLetter);
-            updateLocations(existingLetter.getToLocations(), letter.getToLocations(), existingLetter);
+            if(!CollectionUtils.isEmpty(existingLetter.getSenders())){
+                updateSendersRecipients(existingLetter.getSenders(), letter.getSenders(), existingLetter);
+            }
+            if(!CollectionUtils.isEmpty(existingLetter.getRecipients())){
+                updateSendersRecipients(existingLetter.getRecipients(), letter.getRecipients(), existingLetter);
+            }
+            if(!CollectionUtils.isEmpty(existingLetter.getFromLocations())){
+                updateLocations(existingLetter.getFromLocations(), letter.getFromLocations(), existingLetter);
+            }
+            if(!CollectionUtils.isEmpty(existingLetter.getToLocations())){
+                updateLocations(existingLetter.getToLocations(), letter.getToLocations(), existingLetter);
+            }
         }
         return existingLetter;
     }
@@ -127,7 +143,7 @@ public class LetterServiceImpl implements LetterService {
      * @param people
      * @param letter
      */
-    private void updateSendersReciepients(List<Person> existingPeople, List<Person> people, Letter letter) {
+    private void updateSendersRecipients(List<Person> existingPeople, List<Person> people, Letter letter) {
         if (!CollectionUtils.isEmpty(people)) {
             List<Person> toAdd = new ArrayList<>();
             List<Person> toRemove = new ArrayList<>();

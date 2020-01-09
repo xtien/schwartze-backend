@@ -39,12 +39,18 @@ public class PersonDeleteController {
         PersonResult result = new PersonResult();
         HttpStatus status = HttpStatus.OK;
 
+        int personId = 0;
         try {
-            int i = personService.deletePersonIfNoChildren(request.getPerson().getId());
-            result.setResultCode(i);
+            if (request.getPerson() != null) {
+                personId = request.getPerson().getId();
+            } else if (request.getPersonId() != null) {
+                personId = request.getPersonId();
+            }
+            if (personId != 0) {
+                personService.deletePersonIfNoChildren(personId);
+            }
         } catch (Exception e) {
             logger.error("Error getting person", e);
-            result.setResultCode(-1);
             status = HttpStatus.NOT_FOUND;
         }
 

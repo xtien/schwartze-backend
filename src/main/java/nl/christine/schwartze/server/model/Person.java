@@ -22,6 +22,7 @@ public class Person {
 
     public static final String FIRST_NAME = "first_name";
     public static final String MIDDLE_NAME = "middle_name";
+    public static final String TUSSENVOEGSEL = "tussenvoegsel";
     public static final String LAST_NAME = "last_name";
     public static final String COMMENT = "comment";
     public static final String LINKS = "links";
@@ -44,6 +45,10 @@ public class Person {
     @Column(name = MIDDLE_NAME)
     @JsonProperty(MIDDLE_NAME)
     private String middleName;
+
+    @Column(name = TUSSENVOEGSEL)
+    @JsonProperty(TUSSENVOEGSEL)
+    private String tussenvoegsel;
 
     @Column(name = LAST_NAME)
     @JsonProperty(LAST_NAME)
@@ -234,5 +239,13 @@ public class Person {
 
     public String toString(){
         return id + " " + firstName + " " + lastName + " " + dateOfBirth;
+    }
+
+    public String getTussenvoegsel() {
+        return tussenvoegsel;
+    }
+
+    public void setTussenvoegsel(String tussenvoegsel) {
+        this.tussenvoegsel = tussenvoegsel;
     }
 }

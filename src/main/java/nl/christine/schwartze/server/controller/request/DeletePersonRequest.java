@@ -15,11 +15,22 @@ public class DeletePersonRequest {
     @JsonProperty("person")
     private Person person;
 
+    @JsonProperty("id")
+    private Integer personId;
+
     public Person getPerson() {
         return person;
     }
 
     public void setPerson(Person person) {
         this.person = person;
+    }
+
+    public Integer getPersonId() {
+        return personId;
+    }
+
+    public void setPersonId(Integer personId) {
+        this.personId = personId;
     }
 }

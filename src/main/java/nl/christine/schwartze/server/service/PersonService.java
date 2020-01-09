@@ -36,6 +36,9 @@ public interface PersonService {
 
     List<Person> getAllPeople();
 
+    @Transactional("transactionManager")
+    List<Person> getAllPeopleByLastName();
+
     int deletePersonIfNoChildren(int id);
 
     Text getText(int id);

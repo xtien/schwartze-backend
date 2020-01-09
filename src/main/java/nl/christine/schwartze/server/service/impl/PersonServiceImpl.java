@@ -37,6 +37,7 @@ import static org.springframework.util.CollectionUtils.isEmpty;
 public class PersonServiceImpl implements PersonService {
 
     private final Comparator<Person> compareByName;
+    private final Comparator<Person> compareByLastName;
 
     @Autowired
     private PersonDao personDao;
@@ -50,6 +51,9 @@ public class PersonServiceImpl implements PersonService {
         compareByName = Comparator
                 .comparing(Person::getFirstName, Comparator.nullsFirst(Comparator.naturalOrder()))
                 .thenComparing(Person::getLastName, Comparator.nullsFirst(Comparator.naturalOrder()));
+        compareByLastName = Comparator
+                .comparing(Person::getLastName, Comparator.nullsFirst(Comparator.naturalOrder()))
+                .thenComparing(Person::getFirstName, Comparator.nullsFirst(Comparator.naturalOrder()));
     }
 
     @Override
@@ -126,6 +130,12 @@ public class PersonServiceImpl implements PersonService {
     @Transactional("transactionManager")
     public List<Person> getAllPeople() {
         return personDao.getAllPeople().stream().sorted(compareByName).collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional("transactionManager")
+    public List<Person> getAllPeopleByLastName() {
+        return personDao.getAllPeople().stream().sorted(compareByLastName).collect(Collectors.toList());
     }
 
     @Override
