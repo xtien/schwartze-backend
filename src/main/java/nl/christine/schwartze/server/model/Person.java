@@ -32,6 +32,8 @@ public class Person {
     public static final String IMAGE_CAPTION = "image_caption";
     private static final String DATE_OF_BIRTH = "date_of_birth";
     private static final String DATE_OF_DEATH = "date_of_death";
+    public static final String HAS_LETTERS_FROM = "brieven_van";
+    public static final String HAS_LETTERS_TO = "brieven_aan";
 
     @Id
     @JsonProperty(ID)
@@ -89,6 +91,14 @@ public class Person {
     @OneToOne
     @JsonProperty(TEXT)
     private Text text;
+
+    @JsonProperty(HAS_LETTERS_FROM)
+    @Transient
+    private Boolean hasLettersFrom;
+
+    @JsonProperty(HAS_LETTERS_TO)
+    @Transient
+    private Boolean hasLettersTo;
 
     public Person() {
         // used for deserialization
@@ -247,5 +257,21 @@ public class Person {
 
     public void setTussenvoegsel(String tussenvoegsel) {
         this.tussenvoegsel = tussenvoegsel;
+    }
+
+    public Boolean getHasLettersFrom() {
+        return hasLettersFrom;
+    }
+
+    public void setHasLettersFrom(Boolean hasLettersFrom) {
+        this.hasLettersFrom = hasLettersFrom;
+    }
+
+    public Boolean getHasLettersTo() {
+        return hasLettersTo;
+    }
+
+    public void setHasLettersTo(Boolean hasLettersTo) {
+        this.hasLettersTo = hasLettersTo;
     }
 }

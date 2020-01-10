@@ -62,6 +62,8 @@ public class PersonServiceImpl implements PersonService {
         Person resultPerson = personDao.getPerson(id);
         resultPerson.getLettersWritten();
         resultPerson.getLettersReceived();
+        resultPerson.setHasLettersFrom(resultPerson.getLettersWritten().size() > 0);
+        resultPerson.setHasLettersTo(resultPerson.getLettersReceived().size() > 0);
         return resultPerson;
     }
 
@@ -79,7 +81,7 @@ public class PersonServiceImpl implements PersonService {
     }
 
     private void validate(Person person) {
-        if(StringUtils.isNotEmpty(person.getComment()) && person.getComment().length() > 255){
+        if (StringUtils.isNotEmpty(person.getComment()) && person.getComment().length() > 255) {
             person.setComment(person.getComment().substring(0, 255));
         }
     }
@@ -177,8 +179,17 @@ public class PersonServiceImpl implements PersonService {
         if (StringUtils.isEmpty(person1.getMiddleName())) {
             person1.setMiddleName(person2.getMiddleName());
         }
+        if (StringUtils.isEmpty(person1.getTussenvoegsel())) {
+            person1.setTussenvoegsel(person2.getTussenvoegsel());
+        }
         if (StringUtils.isEmpty(person1.getLastName())) {
             person1.setLastName(person2.getLastName());
+        }
+        if (StringUtils.isEmpty(person1.getDateOfBirth())) {
+            person1.setDateOfBirth(person2.getDateOfBirth());
+        }
+        if (StringUtils.isEmpty(person1.getDateOfDeath())) {
+            person1.setDateOfDeath(person2.getDateOfDeath());
         }
         if (StringUtils.isNotEmpty(person2.getComment())) {
             person1.setComment(person1.getComment() + "\n" + person2.getComment());
@@ -186,6 +197,9 @@ public class PersonServiceImpl implements PersonService {
         if (!CollectionUtils.isEmpty(person2.getLinks())) {
             if (person1.getLinks() == null) {
                 person1.setLinks(new ArrayList<>());
+            }
+            for (Link link : person2.getLinks()) {
+                link.setPerson(person1);
             }
             person1.addLinks(person2.getLinks());
         }
