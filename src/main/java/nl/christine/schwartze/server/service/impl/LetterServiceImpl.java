@@ -45,7 +45,7 @@ public class LetterServiceImpl implements LetterService {
 
     Logger log = Logger.getLogger(LetterServiceImpl.class);
 
-    public LetterServiceImpl(){
+    public LetterServiceImpl() {
         compareByDate = Comparator
                 .comparing(Letter::getDate, Comparator.nullsFirst(Comparator.naturalOrder()));
         compareByNumber = Comparator
@@ -102,16 +102,19 @@ public class LetterServiceImpl implements LetterService {
 
         Letter existingLetter = letterDao.getLetterForNumber(letter.getNumber());
         if (existingLetter != null) {
-            if(!CollectionUtils.isEmpty(existingLetter.getSenders())){
+            if (letter.getDate() != null) {
+                existingLetter.setLocalDate(letter.getDate());
+            }
+            if (existingLetter.getSenders() != null) {
                 updateSendersRecipients(existingLetter.getSenders(), letter.getSenders(), existingLetter);
             }
-            if(!CollectionUtils.isEmpty(existingLetter.getRecipients())){
+            if (existingLetter.getRecipients() != null) {
                 updateSendersRecipients(existingLetter.getRecipients(), letter.getRecipients(), existingLetter);
             }
-            if(!CollectionUtils.isEmpty(existingLetter.getFromLocations())){
+            if (existingLetter.getFromLocations() != null) {
                 updateLocations(existingLetter.getFromLocations(), letter.getFromLocations(), existingLetter);
             }
-            if(!CollectionUtils.isEmpty(existingLetter.getToLocations())){
+            if (existingLetter.getToLocations() != null) {
                 updateLocations(existingLetter.getToLocations(), letter.getToLocations(), existingLetter);
             }
         }

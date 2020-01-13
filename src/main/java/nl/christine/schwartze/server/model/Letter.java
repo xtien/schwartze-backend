@@ -9,9 +9,7 @@ package nl.christine.schwartze.server.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import org.apache.log4j.Logger;
 import org.hibernate.annotations.LazyCollection;
@@ -178,6 +176,10 @@ public class Letter {
 
     public LocalDate getDate(){
         return date;
+    }
+
+    public void setLocalDate(LocalDate date){
+        this.date = date;
     }
 
     public Text getText() {
