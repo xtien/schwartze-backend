@@ -131,7 +131,7 @@ public class LetterServiceImpl implements LetterService {
     private void updateLocations(List<MyLocation> existingLocations, List<MyLocation> locations, Letter existingLetter) {
         if (!CollectionUtils.isEmpty(locations)) {
             MyLocation newLocation = locations.get(0);
-            if (newLocation.getId() != 0) {
+            if (newLocation !=null && newLocation.getId() != 0) {
                 newLocation = locationDao.getLocation(newLocation.getId());
                 existingLocations.clear();
                 existingLocations.add(newLocation);
