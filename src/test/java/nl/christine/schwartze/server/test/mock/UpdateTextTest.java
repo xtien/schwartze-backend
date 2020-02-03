@@ -10,9 +10,7 @@ package nl.christine.schwartze.server.test.mock;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import nl.christine.schwartze.server.controller.admin.TextUpdateController;
 import nl.christine.schwartze.server.controller.request.TextRequest;
-import nl.christine.schwartze.server.dao.LocationDao;
-import nl.christine.schwartze.server.dao.PersonDao;
-import nl.christine.schwartze.server.dao.TextDao;
+import nl.christine.schwartze.server.dao.*;
 import nl.christine.schwartze.server.model.Text;
 import nl.christine.schwartze.server.service.LocationService;
 import nl.christine.schwartze.server.service.PersonService;
@@ -56,6 +54,7 @@ public class UpdateTextTest {
 
     @MockBean
     private PersonDao personDao;
+
     @MockBean
     private LocationDao locationDao;
 
@@ -64,6 +63,12 @@ public class UpdateTextTest {
 
     @MockBean
     private LocationService locationService;
+
+    @MockBean
+    private LetterDao letterDao;
+
+    @MockBean
+    private SubjectDao subjectDao;
 
     HttpSessionCsrfTokenRepository httpSessionCsrfTokenRepository = new HttpSessionCsrfTokenRepository();
     CsrfToken csrfToken = httpSessionCsrfTokenRepository.generateToken(new MockHttpServletRequest());

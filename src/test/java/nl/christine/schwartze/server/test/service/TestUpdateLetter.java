@@ -11,6 +11,7 @@ import nl.christine.schwartze.server.controller.user.UserController;
 import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.model.Person;
 import nl.christine.schwartze.server.service.LetterService;
+import nl.christine.schwartze.server.service.PersonService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,24 +32,31 @@ public class TestUpdateLetter {
     @Autowired
     private LetterService letterService;
 
+    @Autowired
+    private PersonService personService;
+
     @Test
-    public void testUpdateLetter()  {
+    public void testUpdateLetter() {
 
         Letter letter = createLetter(1);
         letterService.addLetter(letter);
+        Person person3 = createPerson(3, 3);
+        person3 = personService.addPerson(person3);
+        Person person4 = createPerson(4, 4);
+        person4 = personService.addPerson(person4);
 
         letter.getSenders().remove(0);
         letter.getRecipients().remove(0);
-        letter.getSenders().add(createPerson(3,3));
-        letter.getRecipients().add(createPerson(4,4));
+        letter.getSenders().add(person3);
+        letter.getRecipients().add(person4);
 
         letterService.updateLetter(letter);
 
         Letter updatedLetter = letterService.getLetterByNumber(letter.getNumber());
 
         assertNotNull(updatedLetter);
+    }
 
-      }
     private Letter createLetter(int i) {
         Letter letter = new Letter();
         letter.setNumber(i);
@@ -62,7 +70,7 @@ public class TestUpdateLetter {
 
     private Person createPerson(int i, int j) {
         Person person = new Person();
-        person.setId(i * 10 + j);
+        //   person.setId(i * 10 + j);
         person.setFirstName("first" + i + j);
         person.setLastName("last" + i + j);
         return person;

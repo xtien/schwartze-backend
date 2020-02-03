@@ -44,9 +44,4 @@ public class H2DbConfig {
                 .password(password)
                 .build();
     }
-
-    @Bean(name = "jdbcTemplate")
-    public JdbcTemplate primaryJdbcTemplate(@Qualifier("datasource") DataSource dataSource) {
-        return new JdbcTemplate(dataSource);
-    }
 }

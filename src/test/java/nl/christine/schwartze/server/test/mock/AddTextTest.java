@@ -11,8 +11,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import nl.christine.schwartze.server.controller.TextGetController;
 import nl.christine.schwartze.server.controller.request.TextRequest;
 import nl.christine.schwartze.server.model.Text;
+import nl.christine.schwartze.server.service.LetterService;
 import nl.christine.schwartze.server.service.LocationService;
 import nl.christine.schwartze.server.service.PersonService;
+import nl.christine.schwartze.server.service.SubjectService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -51,6 +53,12 @@ public class AddTextTest {
 
     @MockBean
     private LocationService locationService;
+
+    @MockBean
+    private SubjectService subjectService;
+
+    @MockBean
+    private LetterService letterService;
 
     private int personId = 123;
     private Text text;
