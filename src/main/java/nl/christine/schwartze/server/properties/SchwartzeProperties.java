@@ -27,8 +27,6 @@ public class SchwartzeProperties {
     private String path;
     private FastDateFormat dateFormat = FastDateFormat.getInstance("yyyy/MM/dd hh:mm");
 
-    private boolean propertiesRead = false;
-
     @PostConstruct
     public void init() {
         readProperties();

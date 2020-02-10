@@ -16,7 +16,7 @@ import org.springframework.context.annotation.*;
 import javax.sql.DataSource;
 
 @Configuration
-@PropertySource({"application.properties", "local.properties"})
+@PropertySource({"application.properties"})
 @Profile("!test")
 @DependsOn("schwartzeProperties")
 public class UserDbConfig {

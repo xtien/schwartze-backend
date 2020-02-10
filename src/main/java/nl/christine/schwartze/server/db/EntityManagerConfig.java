@@ -20,7 +20,7 @@ import javax.sql.DataSource;
 import java.util.Properties;
 
 @Configuration
-@PropertySource({"application.properties", "local.properties"})
+@PropertySource({"application.properties"})
 @Profile("!test")
 public class EntityManagerConfig {
 

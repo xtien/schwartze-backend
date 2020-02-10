@@ -21,7 +21,7 @@ import javax.sql.DataSource;
 import java.util.Properties;
 
 @Configuration
-@PropertySource({"application.properties", "local.properties"})
+@PropertySource({"application.properties"})
 @Profile("test")
 @EnableTransactionManagement
 public class H2EntityManagerConfig {
