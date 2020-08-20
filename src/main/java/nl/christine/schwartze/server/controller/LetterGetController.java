@@ -32,7 +32,11 @@ import java.io.InputStreamReader;
 import java.nio.file.Paths;
 
 @Controller
-@CrossOrigin(origins = Application.UI_HOST, maxAge = 7200)
+@CrossOrigin(origins = {"https://pengo.christine.nl",
+        "https://www.schwartze-ansingh.com",
+        "https://www.schwartze-ansingh.nl",
+        "https://schwartze-ansingh.com",
+        "https://schwartze-ansingh.nl"}, maxAge = 7200)
 public class LetterGetController {
 
     Logger logger = Logger.getLogger(LetterGetController.class);

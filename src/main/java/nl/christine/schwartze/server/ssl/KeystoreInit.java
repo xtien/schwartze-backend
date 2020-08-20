@@ -21,11 +21,19 @@ import org.springframework.stereotype.Component;
 @Component
 public class KeystoreInit {
 
-    private String keystorePassword;
+    private final String keystoreAlias;
+    private final String keystoreType;
+    private final String keystorePassword;
+    private final String keystoreLocation;
+    private final String keyPassword;
 
     @Autowired
     public KeystoreInit(SchwartzeProperties properties) {
         keystorePassword = properties.getProperty("keystorePassword");
+        keystoreLocation = properties.getProperty("keystoreLocation");
+        keystoreAlias = properties.getProperty(("keyAlias"));
+        keyPassword = properties.getProperty("keyPassword");
+        keystoreType = properties.getProperty(("keystoreType"));
     }
 
     @Bean
@@ -35,6 +43,10 @@ public class KeystoreInit {
         final Ssl ssl = new Ssl();
         ssl.setKeyPassword(keystorePassword);
         System.setProperty("server.ssl.key-store-password", keystorePassword);
+        System.setProperty("server.ssl.key-store", keystoreLocation);
+        System.setProperty("server.ssl.key-alias", keystoreAlias);
+        System.setProperty("server.ssl.key-store-type", keystoreType);
+        //      System.setProperty("server.ssl.key-password", keyPassword);
         serverProperties.setSsl(ssl);
         return serverProperties;
     }

@@ -69,19 +69,19 @@ public class LetterServiceImpl implements LetterService {
     @Override
     @Transactional("transactionManager")
     public List<Letter> getLettersToPerson(int toId) {
-        return personDao.getLettersForPerson(Optional.empty(), Optional.ofNullable(toId));
+        return personDao.getLettersForPerson(Optional.empty(), Optional.ofNullable(toId)).stream().sorted(compareByDate).collect(Collectors.toList());
     }
 
     @Override
     @Transactional("transactionManager")
     public List<Letter> getLettersFromPerson(int fromId) {
-        return personDao.getLettersForPerson(Optional.ofNullable(fromId), Optional.empty());
+        return personDao.getLettersForPerson(Optional.ofNullable(fromId), Optional.empty()).stream().sorted(compareByDate).collect(Collectors.toList());
     }
 
     @Override
     @Transactional("transactionManager")
     public List<Letter> getLettersFromLocation(int fromId) {
-        return locationDao.getLettersForLocation(Optional.ofNullable(fromId), Optional.empty());
+        return locationDao.getLettersForLocation(Optional.ofNullable(fromId), Optional.empty()).stream().sorted(compareByDate).collect(Collectors.toList());
     }
 
     @Override

@@ -17,9 +17,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class Application {
 
-    public static final String UI_HOST = "https://pengo.christine.nl";
-  //  public static final String UI_HOST = "https://www.schwartze-ansingh.nl";
-
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }

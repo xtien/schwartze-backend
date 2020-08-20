@@ -25,7 +25,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@CrossOrigin(origins = Application.UI_HOST, maxAge = 7200)
+@CrossOrigin(origins = {"https://pengo.christine.nl",
+        "https://www.schwartze-ansingh.com",
+        "https://www.schwartze-ansingh.nl",
+        "https://schwartze-ansingh.com",
+        "https://schwartze-ansingh.nl"}, maxAge = 7200)
 public class PersonGetController {
 
     Logger logger = Logger.getLogger(PersonGetController.class);
