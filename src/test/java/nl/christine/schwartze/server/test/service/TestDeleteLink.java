@@ -8,9 +8,6 @@
 package nl.christine.schwartze.server.test.service;
 
 import nl.christine.schwartze.server.controller.request.EditLinkRequest;
-import nl.christine.schwartze.server.dao.LinkDao;
-import nl.christine.schwartze.server.dao.PersonDao;
-import nl.christine.schwartze.server.model.Link;
 import nl.christine.schwartze.server.model.MyLocation;
 import nl.christine.schwartze.server.model.Person;
 import nl.christine.schwartze.server.service.LinkService;
@@ -22,8 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import java.util.Collections;
 
 import static org.junit.Assert.assertEquals;
 
@@ -45,7 +40,7 @@ public class TestDeleteLink {
     public void testDeletePersonLink(){
 
          Person person = new Person();
-        person.setFirstName("Lizzy");
+        person.setName("Lizzy");
         Person resultPerson = personService.addPerson(person);
         int personId = resultPerson.getId();
         EditLinkRequest editLinkRequest = new EditLinkRequest();

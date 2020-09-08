@@ -71,7 +71,7 @@ public class WebMockGetPersonTest {
         letter1.setComment(comment);
         person = new Person();
         person.setId(3);
-        person.setFirstName("Lizzy");
+        person.setName("Lizzy");
         letter1.setRecipient(person);
         letters.add(letter1);
         letters.add(new Letter());

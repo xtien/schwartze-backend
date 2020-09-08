@@ -37,7 +37,7 @@ public class TestAddPerson {
     public void testGetPerson() {
 
         Person person = new Person();
-        person.setFirstName("Lizzy");
+        person.setName("Lizzy");
         person.setLastName("testGetPerson");
 
         Letter letter1 = new Letter();

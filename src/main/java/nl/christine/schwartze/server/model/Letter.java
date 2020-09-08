@@ -149,8 +149,8 @@ public class Letter {
 
     public String toString() {
         return number + " " + date + " " +
-                ((senders == null || senders.isEmpty()) ? "none" : senders.get(0).getFirstName()) + " " +
-                ((recipients == null || recipients.isEmpty()) ? "none" : recipients.get(0).getFirstName()) + " " +
+                ((senders == null || senders.isEmpty()) ? "none" : senders.get(0).getName()) + " " +
+                ((recipients == null || recipients.isEmpty()) ? "none" : recipients.get(0).getName()) + " " +
                 ((fromLocations == null || fromLocations.isEmpty()) ? "none" : fromLocations.get(0).getName()) + " " +
                 ((toLocations == null || toLocations.isEmpty()) ? "none" : toLocations.get(0).getName());
     }

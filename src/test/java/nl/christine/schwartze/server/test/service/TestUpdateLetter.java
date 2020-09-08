@@ -7,7 +7,6 @@
 
 package nl.christine.schwartze.server.test.service;
 
-import nl.christine.schwartze.server.controller.user.UserController;
 import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.model.Person;
 import nl.christine.schwartze.server.service.LetterService;
@@ -15,9 +14,6 @@ import nl.christine.schwartze.server.service.PersonService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.FilterType;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -71,7 +67,7 @@ public class TestUpdateLetter {
     private Person createPerson(int i, int j) {
         Person person = new Person();
         //   person.setId(i * 10 + j);
-        person.setFirstName("first" + i + j);
+        person.setName("first" + i + j);
         person.setLastName("last" + i + j);
         return person;
     }

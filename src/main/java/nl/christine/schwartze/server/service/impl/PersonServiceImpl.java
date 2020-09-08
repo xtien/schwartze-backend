@@ -49,11 +49,11 @@ public class PersonServiceImpl implements PersonService {
 
     public PersonServiceImpl() {
         compareByName = Comparator
-                .comparing(Person::getFirstName, Comparator.nullsFirst(Comparator.naturalOrder()))
+                .comparing(Person::getName, Comparator.nullsFirst(Comparator.naturalOrder()))
                 .thenComparing(Person::getLastName, Comparator.nullsFirst(Comparator.naturalOrder()));
         compareByLastName = Comparator
                 .comparing(Person::getLastName, Comparator.nullsFirst(Comparator.naturalOrder()))
-                .thenComparing(Person::getFirstName, Comparator.nullsFirst(Comparator.naturalOrder()));
+                .thenComparing(Person::getName, Comparator.nullsFirst(Comparator.naturalOrder()));
     }
 
     @Override
@@ -173,11 +173,11 @@ public class PersonServiceImpl implements PersonService {
             x.getSenders().remove(person2);
         });
 
-        if (StringUtils.isEmpty(person1.getFirstName())) {
-            person1.setFirstName(person2.getFirstName());
+        if (StringUtils.isEmpty(person1.getName())) {
+            person1.setName(person2.getName());
         }
-        if (StringUtils.isEmpty(person1.getMiddleName())) {
-            person1.setMiddleName(person2.getMiddleName());
+        if (StringUtils.isEmpty(person1.getFullName())) {
+            person1.setFullName(person2.getFullName());
         }
         if (StringUtils.isEmpty(person1.getTussenvoegsel())) {
             person1.setTussenvoegsel(person2.getTussenvoegsel());

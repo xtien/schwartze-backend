@@ -20,8 +20,8 @@ import java.util.List;
 @Table(name = "people")
 public class Person {
 
-    public static final String FIRST_NAME = "first_name";
-    public static final String MIDDLE_NAME = "middle_name";
+    public static final String NAME = "first_name";
+    public static final String FULL_NAME = "middle_name";
     public static final String TUSSENVOEGSEL = "tussenvoegsel";
     public static final String LAST_NAME = "last_name";
     public static final String COMMENT = "comment";
@@ -40,13 +40,13 @@ public class Person {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = FIRST_NAME)
-    @JsonProperty(FIRST_NAME)
-    private String firstName;
+    @Column(name = NAME)
+    @JsonProperty("nick_name")
+    private String name;
 
-    @Column(name = MIDDLE_NAME)
-    @JsonProperty(MIDDLE_NAME)
-    private String middleName;
+    @Column(name = FULL_NAME)
+    @JsonProperty("full_name")
+    private String fullName;
 
     @Column(name = TUSSENVOEGSEL)
     @JsonProperty(TUSSENVOEGSEL)
@@ -104,12 +104,12 @@ public class Person {
         // used for deserialization
     }
 
-    public void setFirstName(String s) {
-        firstName = s;
+    public void setName(String s) {
+        name = s;
     }
 
-    public void setMiddleName(String s) {
-        middleName = s;
+    public void setFullName(String s) {
+        fullName = s;
     }
 
     public void setLastName(String substring) {
@@ -124,12 +124,12 @@ public class Person {
         this.id = id;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getName() {
+        return name;
     }
 
-    public String getMiddleName() {
-        return middleName;
+    public String getFullName() {
+        return fullName;
     }
 
     public String getLastName() {
@@ -145,14 +145,14 @@ public class Person {
     }
 
     public void noNulls() {
-        if (firstName == null) {
-            firstName = "";
+        if (name == null) {
+            name = "";
         }
         if (lastName == null) {
             lastName = "";
         }
-        if (middleName == null) {
-            middleName = "";
+        if (fullName == null) {
+            fullName = "";
         }
     }
 
@@ -248,7 +248,7 @@ public class Person {
     }
 
     public String toString(){
-        return id + " " + firstName + " " + lastName + " " + dateOfBirth;
+        return id + " " + name + " " + lastName + " " + dateOfBirth;
     }
 
     public String getTussenvoegsel() {

@@ -40,8 +40,8 @@ public class PersonDaoImpl implements PersonDao {
             entityManager.persist(person);
         } else {
             existingPerson.setLastName(person.getLastName());
-            existingPerson.setFirstName(person.getFirstName());
-            existingPerson.setMiddleName(person.getMiddleName());
+            existingPerson.setName(person.getName());
+            existingPerson.setFullName(person.getFullName());
             existingPerson.setTussenvoegsel(person.getTussenvoegsel());
             existingPerson.setComment(person.getComment());
             existingPerson.setImageCaption(person.getImageCaption());
@@ -137,7 +137,7 @@ public class PersonDaoImpl implements PersonDao {
         TypedQuery<Person> query = entityManager.createQuery(
                 "select a from " + Person.class.getSimpleName() + " a where a.firstName = :firstname and a.lastName = :lastname", Person.class);
         try {
-            existingPerson = query.setParameter("firstname", person.getFirstName()).setParameter("lastname", person.getLastName()).getSingleResult();
+            existingPerson = query.setParameter("firstname", person.getName()).setParameter("lastname", person.getLastName()).getSingleResult();
         } catch (NoResultException nre) {
             existingPerson = null;
         }

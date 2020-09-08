@@ -74,7 +74,7 @@ public class CombinePersonsTest {
 
         person1 = new Person();
         person1.setId(personId1);
-        person1.setFirstName(firstName1);
+        person1.setName(firstName1);
         person1.addLinks(Collections.singletonList(link1));
         person2 = new Person();
         person2.setId(personId2);

@@ -30,7 +30,6 @@ import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -120,7 +119,7 @@ public class TestLetterUpdateController {
     private Person createPerson(int i, int j) {
         Person person = new Person();
         person.setId(i * 10 + j);
-        person.setFirstName("first" + i + j);
+        person.setName("first" + i + j);
         person.setLastName("last" + i + j);
         return person;
     }
