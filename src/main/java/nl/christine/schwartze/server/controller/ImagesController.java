@@ -76,24 +76,4 @@ public class ImagesController {
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
-
-    private String getLetterText(int letterNumber) throws IOException {
-
-        String result = "";
-        String fileName = lettersDirectory + "/" + letterNumber + "/" + textDocumentName;
-        try (BufferedReader rd = new BufferedReader(new InputStreamReader(new FileInputStream(fileName)))) {
-
-            String line = "";
-            while ((line = rd.readLine()) != null) {
-                result += "<br>" + line;
-            }
-            int i = 1;
-            result = result.replaceAll("    ", "&nbsp&nbsp&nbsp&nbsp;");
-            result = result.replaceAll("/", "<BR><BR><i>blad " + ++i + "</i><BR><BR>");
-        } catch (Exception e) {
-            logger.error("Error getting letter text", e);
-        }
-
-        return result;
-    }
 }

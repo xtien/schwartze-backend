@@ -87,11 +87,11 @@ public class LetterGetController {
             try (BufferedReader rd = new BufferedReader(new InputStreamReader(java.nio.file.Files.newInputStream(Paths.get(fileName))))) {
                 String line = "";
                 while ((line = rd.readLine()) != null) {
-                    result += "<br>" + line;
+                    result += "<BR>" + line;
                 }
                 int i = 1;
                 result = result.replaceAll("    ", "&nbsp&nbsp&nbsp&nbsp;");
-                result = result.replaceAll("/", "<BR><BR>-----<BR><BR>");
+                result = result.replaceAll("<BR>/<BR>", "<BR><BR>-----<BR><BR>");
             } catch (Exception e) {
                 logger.error("Error getting letter text", e);
                 result = "text file not found";
