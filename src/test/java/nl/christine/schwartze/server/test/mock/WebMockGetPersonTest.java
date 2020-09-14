@@ -95,7 +95,7 @@ public class WebMockGetPersonTest {
                 .content(json))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.person.first_name").value("Lizzy"));
+                .andExpect(jsonPath("$.person.nick_name").value("Lizzy"));
 
         verify(personService).getPerson(3);
     }

@@ -94,7 +94,7 @@ public class WebMockLettersFromTest {
                 .content(json))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.letters[0].senders[0].first_name").value("Lizzy"));
+                .andExpect(jsonPath("$.letters[0].senders[0].nick_name").value("Lizzy"));
 
         verify(letterService).getLettersFromPerson(3);
     }

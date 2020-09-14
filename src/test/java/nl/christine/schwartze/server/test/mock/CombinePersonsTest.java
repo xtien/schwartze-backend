@@ -104,7 +104,7 @@ public class CombinePersonsTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.person1.id").value(personId1))
-                .andExpect(jsonPath("$.person1.first_name").value(firstName1))
+                .andExpect(jsonPath("$.person1.nick_name").value(firstName1))
                 .andExpect(jsonPath("$.person2.id").value(personId2))
                 .andReturn()
                 .getResponse()
@@ -138,7 +138,7 @@ public class CombinePersonsTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.person1.id").value(personId1))
-                .andExpect(jsonPath("$.person1.first_name").value(firstName1))
+                .andExpect(jsonPath("$.person1.nick_name").value(firstName1))
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
