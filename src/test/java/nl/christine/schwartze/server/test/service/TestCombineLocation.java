@@ -49,12 +49,14 @@ public class TestCombineLocation {
 
         Letter letter1 = new Letter();
         letter1.setComment("comment 1");
+        letter1.setNumber(1);
         letter1.addFromLocation(location1);
         letter1.addToLocation(location3);
         location1.addLetterFrom(letter1);
         location3.addLetterTo(letter1);
 
         Letter letter2 = new Letter();
+        letter2.setNumber(2);
         letter2.setComment("comment 2");
         letter2.addFromLocation(location2);
         letter2.addToLocation(location3);
@@ -62,6 +64,7 @@ public class TestCombineLocation {
         location3.addLetterTo(letter2);
 
         Letter letter3 = new Letter();
+        letter3.setNumber(3);
         letter3.setComment("comment 3");
         letter3.addFromLocation(location3);
         letter3.addToLocation(location1);
@@ -69,6 +72,7 @@ public class TestCombineLocation {
         location1.addLetterTo(letter3);
 
         Letter letter4 = new Letter();
+        letter4.setNumber(4);
         letter4.setComment("comment 4");
         letter4.addFromLocation(location3);
         letter4.addToLocation(location2);
@@ -87,6 +91,6 @@ public class TestCombineLocation {
         assertEquals("Amsterdam", result2.getLocation1().getName());
 
         List<Letter> lettersFrom = letterservice.getLettersForLocation(location1.getId());
-        assertEquals(2, lettersFrom.size());
+        assertEquals(4, lettersFrom.size());
     }
 }
