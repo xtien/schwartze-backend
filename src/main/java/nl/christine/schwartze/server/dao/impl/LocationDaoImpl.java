@@ -12,7 +12,6 @@ import nl.christine.schwartze.server.exception.LocationNotFoundException;
 import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.model.MyLocation;
 import nl.christine.schwartze.server.model.Text;
-import nl.christine.schwartze.server.security.MySuccessHandler;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
@@ -99,15 +98,12 @@ public class LocationDaoImpl implements LocationDao {
     }
 
     @Override
-    public List<Letter> getLettersForLocation(Optional<Integer> fromId, Optional<Integer> toId) {
+    public List<Letter> getLettersForLocation(Optional<Integer> locationId) {
         List<Letter> letters = new LinkedList<>();
-        if (fromId.isPresent()) {
-            MyLocation fromLocation = getLocation(fromId.get());
-            letters.addAll(fromLocation.getLettersFrom());
-        }
-        if (toId.isPresent()) {
-            MyLocation toLocation = getLocation(toId.get());
-            letters.addAll(toLocation.getLettersTo());
+        if (locationId.isPresent()) {
+            MyLocation location = getLocation(locationId.get());
+            letters.addAll(location.getLettersFrom());
+            letters.addAll(location.getLettersTo());
         }
         return letters;
     }

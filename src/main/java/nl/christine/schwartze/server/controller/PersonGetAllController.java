@@ -7,7 +7,6 @@
 
 package nl.christine.schwartze.server.controller;
 
-import nl.christine.schwartze.server.Application;
 import nl.christine.schwartze.server.controller.request.LocationRequest;
 import nl.christine.schwartze.server.controller.result.PeopleResult;
 import nl.christine.schwartze.server.service.PersonService;

@@ -7,12 +7,9 @@
 
 package nl.christine.schwartze.server.controller.admin;
 
-import nl.christine.schwartze.server.Application;
 import nl.christine.schwartze.server.controller.request.EditLinkRequest;
 import nl.christine.schwartze.server.controller.result.EditLinkResult;
-import nl.christine.schwartze.server.service.LetterService;
 import nl.christine.schwartze.server.service.LinkService;
-import nl.christine.schwartze.server.service.LocationService;
 import nl.christine.schwartze.server.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

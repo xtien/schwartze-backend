@@ -7,7 +7,6 @@
 
 package nl.christine.schwartze.server.controller.admin;
 
-import nl.christine.schwartze.server.Application;
 import nl.christine.schwartze.server.controller.request.AddLocationRequest;
 import nl.christine.schwartze.server.controller.result.AddLocationResult;
 import nl.christine.schwartze.server.model.MyLocation;

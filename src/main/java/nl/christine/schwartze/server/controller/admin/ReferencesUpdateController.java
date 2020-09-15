@@ -7,7 +7,6 @@
 
 package nl.christine.schwartze.server.controller.admin;
 
-import nl.christine.schwartze.server.Application;
 import nl.christine.schwartze.server.controller.request.EditReferenceLinkRequest;
 import nl.christine.schwartze.server.controller.request.RemoveReferenceLinkRequest;
 import nl.christine.schwartze.server.controller.request.UpdateReferencesRequest;

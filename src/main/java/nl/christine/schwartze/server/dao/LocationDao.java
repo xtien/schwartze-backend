@@ -33,7 +33,7 @@ public interface LocationDao {
 
     void deleteLocation(MyLocation location);
 
-    List<Letter> getLettersForLocation(Optional<Integer> fromId, Optional<Integer> toId);
+    List<Letter> getLettersForLocation(Optional<Integer> locationId);
 
     MyLocation saveLocation(MyLocation location);
 

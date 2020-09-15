@@ -7,7 +7,6 @@
 
 package nl.christine.schwartze.server.controller.admin;
 
-import nl.christine.schwartze.server.Application;
 import nl.christine.schwartze.server.controller.request.SubjectRequest;
 import nl.christine.schwartze.server.controller.result.SubjectsResult;
 import nl.christine.schwartze.server.service.SubjectService;

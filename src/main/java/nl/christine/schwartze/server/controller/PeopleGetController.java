@@ -7,7 +7,6 @@
 
 package nl.christine.schwartze.server.controller;
 
-import nl.christine.schwartze.server.Application;
 import nl.christine.schwartze.server.controller.request.PeopleRequest;
 import nl.christine.schwartze.server.controller.result.LettersResult;
 import nl.christine.schwartze.server.controller.result.PeopleResult;
@@ -22,7 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 

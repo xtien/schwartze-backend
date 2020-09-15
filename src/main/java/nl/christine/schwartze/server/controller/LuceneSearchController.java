@@ -7,13 +7,9 @@
 
 package nl.christine.schwartze.server.controller;
 
-import nl.christine.schwartze.server.Application;
 import nl.christine.schwartze.server.controller.request.SearchRequest;
-import nl.christine.schwartze.server.controller.result.IndexResult;
 import nl.christine.schwartze.server.controller.result.SearchResult;
-import nl.christine.schwartze.server.search.IndexFiles;
 import nl.christine.schwartze.server.search.SearchFiles;
-import nl.christine.schwartze.server.search.impl.IndexFilesImpl;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,7 +18,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.io.IOException;
 

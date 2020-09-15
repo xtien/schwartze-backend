@@ -7,10 +7,12 @@
 
 package nl.christine.schwartze.server.controller;
 
-import nl.christine.schwartze.server.Application;
 import nl.christine.schwartze.server.controller.request.TextRequest;
 import nl.christine.schwartze.server.controller.result.TextResult;
-import nl.christine.schwartze.server.service.*;
+import nl.christine.schwartze.server.service.LetterService;
+import nl.christine.schwartze.server.service.LocationService;
+import nl.christine.schwartze.server.service.PersonService;
+import nl.christine.schwartze.server.service.SubjectService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,7 +21,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @CrossOrigin(origins = {"https://pengo.christine.nl",

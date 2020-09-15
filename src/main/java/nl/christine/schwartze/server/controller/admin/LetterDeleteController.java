@@ -7,7 +7,6 @@
 
 package nl.christine.schwartze.server.controller.admin;
 
-import nl.christine.schwartze.server.Application;
 import nl.christine.schwartze.server.controller.request.DeleteLetterRequest;
 import nl.christine.schwartze.server.controller.result.DeleteLetterResult;
 import nl.christine.schwartze.server.exception.LetterNotFoundException;

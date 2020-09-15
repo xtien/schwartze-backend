@@ -7,9 +7,7 @@
 
 package nl.christine.schwartze.server.controller;
 
-import nl.christine.schwartze.server.Application;
 import nl.christine.schwartze.server.controller.request.LocationRequest;
-import nl.christine.schwartze.server.controller.result.LocationResult;
 import nl.christine.schwartze.server.controller.result.LocationsResult;
 import nl.christine.schwartze.server.service.LocationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +17,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.io.IOException;
 

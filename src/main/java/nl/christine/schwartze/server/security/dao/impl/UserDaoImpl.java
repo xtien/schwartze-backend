@@ -7,8 +7,8 @@
 
 package nl.christine.schwartze.server.security.dao.impl;
 
-import nl.christine.schwartze.server.security.model.User;
 import nl.christine.schwartze.server.security.dao.UserDao;
+import nl.christine.schwartze.server.security.model.User;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 

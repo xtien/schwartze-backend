@@ -9,7 +9,6 @@ package nl.christine.schwartze.server.search;
 
 import nl.christine.schwartze.server.model.Letter;
 
-import java.io.IOException;
 import java.util.List;
 
 public interface SearchFiles {

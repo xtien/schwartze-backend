@@ -7,13 +7,11 @@
 
 package nl.christine.schwartze.server.controller.user;
 
-import nl.christine.schwartze.server.Application;
 import nl.christine.schwartze.server.controller.request.LogoutRequest;
 import nl.christine.schwartze.server.controller.result.LoginResult;
 import nl.christine.schwartze.server.controller.result.LogoutResult;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;

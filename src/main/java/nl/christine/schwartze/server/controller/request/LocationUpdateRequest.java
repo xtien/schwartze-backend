@@ -7,18 +7,25 @@
 
 package nl.christine.schwartze.server.controller.request;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+public class LocationUpdateRequest {
 
-public class DeleteLocationRequest {
-
-    @JsonProperty("id")
     private int id;
+
+    private String name;
+
+    public int getId() {
+        return id;
+    }
 
     public void setId(int id) {
         this.id = id;
     }
 
-    public int getId(){
-        return id;
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

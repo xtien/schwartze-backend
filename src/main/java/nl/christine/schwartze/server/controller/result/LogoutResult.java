@@ -8,11 +8,8 @@
 package nl.christine.schwartze.server.controller.result;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.springframework.security.core.GrantedAuthority;
 
-import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class LogoutResult {
 

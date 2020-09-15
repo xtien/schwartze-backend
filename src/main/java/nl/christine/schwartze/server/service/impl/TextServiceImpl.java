@@ -11,7 +11,6 @@ import nl.christine.schwartze.server.controller.request.TextRequest;
 import nl.christine.schwartze.server.dao.*;
 import nl.christine.schwartze.server.model.*;
 import nl.christine.schwartze.server.service.TextService;
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

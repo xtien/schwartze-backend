@@ -9,10 +9,8 @@ package nl.christine.schwartze.server.service;
 
 import nl.christine.schwartze.server.exception.LetterNotFoundException;
 import nl.christine.schwartze.server.model.Letter;
-import nl.christine.schwartze.server.model.MyLocation;
 import nl.christine.schwartze.server.model.Text;
 import nl.christine.schwartze.server.modelimport.ImportLetter;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -28,7 +26,6 @@ public interface LetterService {
 
     List<Letter> getLetters();
 
-    @Transactional("transactionManager")
     List<Letter> getLettersByDate();
 
     List<Letter> getLettersToPerson(int toId);
@@ -39,7 +36,7 @@ public interface LetterService {
 
     void deleteLetter(Letter letter) throws LetterNotFoundException;
 
-    List<Letter> getLettersFromLocation(int id);
+    List<Letter> getLettersForLocation(int id);
 
     Text getText(int letterId);
 

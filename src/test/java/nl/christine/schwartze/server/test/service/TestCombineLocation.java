@@ -15,7 +15,6 @@ import nl.christine.schwartze.server.service.LocationService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -87,7 +86,7 @@ public class TestCombineLocation {
 
         assertEquals("Amsterdam", result2.getLocation1().getName());
 
-        List<Letter> lettersFrom = letterservice.getLettersFromLocation(location1.getId());
+        List<Letter> lettersFrom = letterservice.getLettersForLocation(location1.getId());
         assertEquals(2, lettersFrom.size());
     }
 }

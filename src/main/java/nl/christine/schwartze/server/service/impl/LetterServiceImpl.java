@@ -43,8 +43,6 @@ public class LetterServiceImpl implements LetterService {
     @Autowired
     private LocationDao locationDao;
 
-    Logger log = Logger.getLogger(LetterServiceImpl.class);
-
     public LetterServiceImpl() {
         compareByDate = Comparator
                 .comparing(Letter::getDate, Comparator.nullsFirst(Comparator.naturalOrder()));
@@ -80,8 +78,8 @@ public class LetterServiceImpl implements LetterService {
 
     @Override
     @Transactional("transactionManager")
-    public List<Letter> getLettersFromLocation(int fromId) {
-        return locationDao.getLettersForLocation(Optional.ofNullable(fromId), Optional.empty()).stream().sorted(compareByDate).collect(Collectors.toList());
+    public List<Letter> getLettersForLocation(int locationId) {
+        return locationDao.getLettersForLocation(Optional.ofNullable(locationId)).stream().sorted(compareByDate).collect(Collectors.toList());
     }
 
     @Override
@@ -92,6 +90,7 @@ public class LetterServiceImpl implements LetterService {
 
 
     @Override
+    @Transactional("transactionManager")
     public Letter getLetterById(Integer letterId) {
         return letterDao.getLetterForId(letterId);
     }

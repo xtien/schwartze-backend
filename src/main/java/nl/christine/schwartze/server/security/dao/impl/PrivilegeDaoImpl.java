@@ -8,10 +8,7 @@
 package nl.christine.schwartze.server.security.dao.impl;
 
 import nl.christine.schwartze.server.security.dao.PrivilegeDao;
-import nl.christine.schwartze.server.security.dao.RoleDao;
 import nl.christine.schwartze.server.security.model.Privilege;
-import nl.christine.schwartze.server.security.model.Role;
-import nl.christine.schwartze.server.security.model.User;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 

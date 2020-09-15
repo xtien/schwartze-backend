@@ -7,8 +7,9 @@
 
 package nl.christine.schwartze.server.controller.admin;
 
-import nl.christine.schwartze.server.Application;
+import nl.christine.schwartze.server.controller.request.LocationUpdateRequest;
 import nl.christine.schwartze.server.controller.request.UpdateLocationRequest;
+import nl.christine.schwartze.server.controller.result.LettersResult;
 import nl.christine.schwartze.server.controller.result.LocationResult;
 import nl.christine.schwartze.server.controller.result.PersonResult;
 import nl.christine.schwartze.server.model.MyLocation;
@@ -23,6 +24,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.io.IOException;
 
 /**
  * User: christine
@@ -59,4 +62,21 @@ public class LocationUpdateController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    @PostMapping(value = "/update_location/")
+    public ResponseEntity<LocationResult> updateLocation(@RequestBody LocationUpdateRequest request) throws IOException {
+
+        LocationResult result = new LocationResult();
+
+        try {
+
+            MyLocation location = locationService.updateLocation(request.getId(), request.getName());
+            result.setLocation(location);
+            result.setResult(LettersResult.OK);
+
+        } catch (Exception e) {
+            logger.error("Error getting location", e);
+        }
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
 }

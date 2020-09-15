@@ -7,11 +7,6 @@
 
 package nl.christine.schwartze.server.search;
 
-import org.apache.lucene.index.IndexWriter;
-
-import java.io.IOException;
-import java.nio.file.Path;
-
 public interface IndexFiles {
     int indexFiles();
 }

@@ -22,9 +22,11 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -126,6 +128,19 @@ public class LocationServiceImpl implements LocationService {
         CombineLocationResult result = new CombineLocationResult();
         result.setLocation1(merge(getLocation(id1), getLocation(id2)));
         return result;
+    }
+
+    @Override
+    @Transactional("transactionManager")
+    public MyLocation updateLocation(int id, String name) {
+        MyLocation location = getLocation(id);
+
+        if(location !=null){
+            location.setName(name);
+            locationDao.merge(location);
+        }
+
+        return location;
     }
 
     private MyLocation merge(MyLocation location1, MyLocation location2) {

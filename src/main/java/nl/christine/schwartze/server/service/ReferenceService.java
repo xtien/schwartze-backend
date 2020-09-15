@@ -11,8 +11,6 @@ import nl.christine.schwartze.server.controller.request.EditReferenceLinkRequest
 import nl.christine.schwartze.server.controller.request.RemoveReferenceLinkRequest;
 import nl.christine.schwartze.server.model.References;
 
-import java.util.List;
-
 public interface ReferenceService {
 
     References getReferences(String type);

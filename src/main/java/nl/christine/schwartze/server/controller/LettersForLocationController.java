@@ -7,10 +7,10 @@
 
 package nl.christine.schwartze.server.controller;
 
-import nl.christine.schwartze.server.controller.request.GetReferencesRequest;
-import nl.christine.schwartze.server.controller.result.ReferencesResult;
-import nl.christine.schwartze.server.model.References;
-import nl.christine.schwartze.server.service.ReferenceService;
+import nl.christine.schwartze.server.controller.request.LocationLettersRequest;
+import nl.christine.schwartze.server.controller.result.LettersResult;
+import nl.christine.schwartze.server.model.Letter;
+import nl.christine.schwartze.server.service.LetterService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,31 +20,34 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.List;
+
 @Controller
 @CrossOrigin(origins = {"https://pengo.christine.nl",
         "https://www.schwartze-ansingh.com",
         "https://www.schwartze-ansingh.nl",
         "https://schwartze-ansingh.com",
         "https://schwartze-ansingh.nl"}, maxAge = 7200)
-public class ReferenceController {
-    Logger logger = Logger.getLogger(ReferenceController.class);
+public class LettersForLocationController {
+
+    Logger logger = Logger.getLogger(LettersForLocationController.class);
 
     @Autowired
-    private ReferenceService referenceService;
+    private LetterService letterService;
 
-    @PostMapping(value = "/get_references/")
-    public ResponseEntity<ReferencesResult> getPerson(@RequestBody GetReferencesRequest request) {
+    @PostMapping(value = "/get_letters_for_location/")
+    public ResponseEntity<LettersResult> getLetters(@RequestBody LocationLettersRequest request) {
 
-        ReferencesResult result = new ReferencesResult();
+        LettersResult result = new LettersResult();
 
         try {
 
-            References references = referenceService.getReferences("site");
-            if (references != null) {
-                result.setReferences(references);
-            }
+            List<Letter> letters = letterService.getLettersForLocation(request.getLocationId());
+            result.setLetters(letters);
+            result.setResult(LettersResult.OK);
+
         } catch (Exception e) {
-            logger.error("Error getting references", e);
+            logger.error("get_letters exception ", e);
         }
 
         return new ResponseEntity<>(result, HttpStatus.OK);

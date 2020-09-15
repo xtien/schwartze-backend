@@ -10,7 +10,6 @@ package nl.christine.schwartze.server.service;
 import nl.christine.schwartze.server.controller.request.EditLinkRequest;
 import nl.christine.schwartze.server.model.MyLocation;
 import nl.christine.schwartze.server.model.Person;
-import org.springframework.transaction.annotation.Transactional;
 
 public interface LinkService {
 

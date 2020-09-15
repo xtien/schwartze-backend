@@ -7,7 +7,6 @@
 
 package nl.christine.schwartze.server.controller.admin;
 
-import nl.christine.schwartze.server.Application;
 import nl.christine.schwartze.server.controller.result.LettersResult;
 import nl.christine.schwartze.server.modelimport.ImportLetter;
 import nl.christine.schwartze.server.service.ImportLetterService;

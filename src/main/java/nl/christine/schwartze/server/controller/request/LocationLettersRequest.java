@@ -9,16 +9,23 @@ package nl.christine.schwartze.server.controller.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class DeleteLocationRequest {
+public class LocationLettersRequest {
 
-    @JsonProperty("id")
-    private int id;
+    @JsonProperty("requestCode")
+    private int requestCode = 0;
 
-    public void setId(int id) {
-        this.id = id;
+    @JsonProperty("location_id")
+    private int locationId;
+
+    public int getRequestCode() {
+        return requestCode;
     }
 
-    public int getId(){
-        return id;
+    public void setRequestCode(int requestCode) {
+        this.requestCode = requestCode;
+    }
+
+    public int getLocationId() {
+        return locationId;
     }
 }
