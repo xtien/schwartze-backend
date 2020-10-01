@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,6 +40,8 @@ import java.util.stream.Collectors;
 public class SearchFilesImpl implements SearchFiles {
 
     Logger logger = Logger.getLogger(SearchFilesImpl.class);
+
+    private final Comparator<Letter> compareByDate;
 
     @Autowired
     private SchwartzeProperties properties;
@@ -52,6 +55,11 @@ public class SearchFilesImpl implements SearchFiles {
     private String textDocumentName;
     Path docDir;
 
+    public SearchFilesImpl(){
+        compareByDate = Comparator
+                .comparing(Letter::getDate, Comparator.nullsFirst(Comparator.naturalOrder()));
+    }
+
     @PostConstruct
     public void init() {
 
@@ -64,7 +72,6 @@ public class SearchFilesImpl implements SearchFiles {
     @Override
     public List<Letter> search(String searchTerm) throws Exception {
 
-        List<Letter> letters = new ArrayList<>();
         IndexSearcher searcher = createSearcher();
 
         TopDocs foundDocs = searchInContent(searchTerm, searcher);
@@ -72,7 +79,7 @@ public class SearchFilesImpl implements SearchFiles {
         for (ScoreDoc scoreDoc : foundDocs.scoreDocs) {
             documents.add(searcher.doc(scoreDoc.doc));
         }
-       return documents.stream().map(doc -> getLetter(doc)).collect(Collectors.toList());
+       return documents.stream().map(doc -> getLetter(doc)).sorted(compareByDate).collect(Collectors.toList());
     }
 
     private Letter getLetter(Document doc){
