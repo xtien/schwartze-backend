@@ -63,14 +63,16 @@ public class LetterGetController {
         try {
 
             Letter letter = letterService.getLetterByNumber(request.getLetterNumber());
-            result.setLetter(letter);
-            result.setResult(LettersResult.OK);
-
+            if (letter != null) {
+                result.setLetter(letter);
+                result.setLetterText(getLetterText(request.getLetterNumber()));
+                result.setResult(LettersResult.OK);
+            } else {
+                result.setResult(LetterResult.NOT_OK);
+            }
         } catch (Exception e) {
             logger.error("Error getting Letters", e);
         }
-
-        result.setLetterText(getLetterText(request.getLetterNumber()));
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
@@ -80,7 +82,7 @@ public class LetterGetController {
         String fileName = lettersDirectory + "/" + letterNumber + "/" + textDocumentName;
         String result = "";
 
-        if(new File(fileName).exists()) {
+        if (new File(fileName).exists()) {
 
             try (BufferedReader rd = new BufferedReader(new InputStreamReader(java.nio.file.Files.newInputStream(Paths.get(fileName))))) {
                 String line = "";

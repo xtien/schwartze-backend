@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
@@ -49,11 +50,16 @@ public class ImageServiceImpl implements ImageService {
     @Override
     public List<String> getImages(int letterNumber) {
 
-        return Arrays.stream(new File(imagesDirectory + "/" + letterNumber + "/").listFiles())
-                .sorted(Comparator.comparing(File::getName))
-                .filter((file -> file.getName().toLowerCase().endsWith(".jpg")))
-                .map(file -> imagesUrl + letterNumber + File.separator + file.getName())
-                .collect(Collectors.toList());
+        File dir = new File(imagesDirectory + "/" + letterNumber + "/");
+        if(dir.exists()) {
+            return Arrays.stream(dir.listFiles())
+                    .sorted(Comparator.comparing(File::getName))
+                    .filter((file -> file.getName().toLowerCase().endsWith(".jpg")))
+                    .map(file -> imagesUrl + letterNumber + File.separator + file.getName())
+                    .collect(Collectors.toList());
+        } else {
+            return new ArrayList<>();
+        }
     }
 
     private String createBlob(File imageFile) {

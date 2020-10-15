@@ -25,7 +25,8 @@ import java.util.List;
 @Table(name = "letters")
 public class Letter {
 
-    private static final String TEXT = "text";
+    public static final String TEXT = "text";
+    public static final String COLLECTION = "collection";
     @Transient
     Logger logger = Logger.getLogger(Letter.class);
 
@@ -95,8 +96,11 @@ public class Letter {
     @JsonProperty(TEXT)
     private Text text;
 
-    public Letter() {
+    @JsonProperty(COLLECTION)
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Collectie collectie;
 
+    public Letter() {
     }
 
     public int getId() {
