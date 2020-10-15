@@ -26,7 +26,7 @@ import java.util.List;
 public class Letter {
 
     public static final String TEXT = "text";
-    public static final String COLLECTION = "collection";
+    public static final String COLLECTION = "collectie";
     @Transient
     Logger logger = Logger.getLogger(Letter.class);
 
@@ -203,5 +203,13 @@ public class Letter {
     }
     public List<MyLocation> getToLocations(){
         return toLocations;
+    }
+
+    public Collectie getCollection() {
+        return collectie;
+    }
+
+    public void setCollection(Collectie collectie) {
+        this.collectie = collectie;
     }
 }

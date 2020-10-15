@@ -19,8 +19,8 @@ public class Collectie {
 
     private static final String DESCRIPTION = "description";
     private static final String NAME = "name";
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name=NAME)
@@ -33,4 +33,12 @@ public class Collectie {
 
     @OneToMany(mappedBy = "collectie")
     private Collection<Letter> letters = new ArrayList<>();
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }
