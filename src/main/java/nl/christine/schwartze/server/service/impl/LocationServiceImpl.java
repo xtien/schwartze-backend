@@ -132,11 +132,12 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     @Transactional("transactionManager")
-    public MyLocation updateLocation(int id, String name) {
+    public MyLocation updateLocation(int id, String name, String comment) {
         MyLocation location = getLocation(id);
 
-        if(location !=null){
+        if (location != null) {
             location.setName(name);
+            location.setComment(comment);
             locationDao.merge(location);
         }
 
@@ -183,7 +184,7 @@ public class LocationServiceImpl implements LocationService {
             }
         }
 
-        if (location2.getLinks() != null && location2.getLinks().size() > 0){
+        if (location2.getLinks() != null && location2.getLinks().size() > 0) {
             if (location1.getLinks() == null) {
                 location1.setLinks(new ArrayList<>());
             }

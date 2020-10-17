@@ -9,7 +9,7 @@ package nl.christine.schwartze.server.dao;
 
 import nl.christine.schwartze.server.model.Collectie;
 
-public interface CollectionDao {
+public interface CollectieDao {
 
-    Collectie getCollection(int id);
+    Collectie getCollectie(int id);
 }

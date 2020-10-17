@@ -52,7 +52,9 @@ public class LetterUpdateController {
                 result.setResultCode(LetterResult.OK);
             }
         } catch (Exception e) {
-            logger.error("Error updating letter comment",e);
+            logger.error("Error updating letter comment", e);
+            result.setMessage(e.getMessage() != null ? e.getMessage() : e.getClass().getName());
+            result.setLetter(request.getLetter());
         }
 
         return new ResponseEntity<>(result, HttpStatus.OK);

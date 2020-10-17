@@ -7,7 +7,7 @@
 
 package nl.christine.schwartze.server.dao.impl;
 
-import nl.christine.schwartze.server.dao.CollectionDao;
+import nl.christine.schwartze.server.dao.CollectieDao;
 import nl.christine.schwartze.server.model.Collectie;
 import org.springframework.stereotype.Component;
 
@@ -15,13 +15,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 @Component("collectionDao")
-public class CollectionDaoImpl implements CollectionDao {
+public class CollectieDaoImpl implements CollectieDao {
 
     @PersistenceContext(unitName = "defaultPU")
     private EntityManager em;
 
     @Override
-    public Collectie getCollection(int id) {
+    public Collectie getCollectie(int id) {
         return em.find(Collectie.class, id);
     }
 }

@@ -97,7 +97,7 @@ public class Letter {
     private Text text;
 
     @JsonProperty(COLLECTION)
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL)
     private Collectie collectie;
 
     public Letter() {
@@ -205,11 +205,11 @@ public class Letter {
         return toLocations;
     }
 
-    public Collectie getCollection() {
+    public Collectie getCollectie() {
         return collectie;
     }
 
-    public void setCollection(Collectie collectie) {
+    public void setCollectie(Collectie collectie) {
         this.collectie = collectie;
     }
 }

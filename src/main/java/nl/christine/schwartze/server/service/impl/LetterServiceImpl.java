@@ -7,7 +7,7 @@
 
 package nl.christine.schwartze.server.service.impl;
 
-import nl.christine.schwartze.server.dao.CollectionDao;
+import nl.christine.schwartze.server.dao.CollectieDao;
 import nl.christine.schwartze.server.dao.LetterDao;
 import nl.christine.schwartze.server.dao.LocationDao;
 import nl.christine.schwartze.server.dao.PersonDao;
@@ -45,7 +45,7 @@ public class LetterServiceImpl implements LetterService {
     private LocationDao locationDao;
 
     @Autowired
-    private CollectionDao collectionDao;
+    private CollectieDao collectieDao;
 
     public LetterServiceImpl() {
         compareByDate = Comparator
@@ -184,8 +184,8 @@ public class LetterServiceImpl implements LetterService {
             return null;
         }
 
-        if(letter.getCollection() !=null){
-            letter.setCollection(collectionDao.getCollection(letter.getCollection().getId()));
+        if(letter.getCollectie() !=null){
+            letter.setCollectie(collectieDao.getCollectie(letter.getCollectie().getId()));
         }
 
         List<Person> toAdd = new LinkedList<>();

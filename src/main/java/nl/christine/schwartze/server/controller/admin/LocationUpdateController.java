@@ -69,7 +69,7 @@ public class LocationUpdateController {
 
         try {
 
-            MyLocation location = locationService.updateLocation(request.getId(), request.getName());
+            MyLocation location = locationService.updateLocation(request.getId(), request.getName(), request.getComment());
             result.setLocation(location);
             result.setResult(LettersResult.OK);
 
