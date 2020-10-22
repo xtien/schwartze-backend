@@ -16,6 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -68,11 +71,26 @@ public class ImageServiceImpl implements ImageService {
 
     private String readFile(File file) throws IOException {
 
-        byte[] fileData = new byte[(int) file.length()];
+        byte[] fileData;
 
-        try (DataInputStream dis = new DataInputStream(new FileInputStream(file))) {
-            dis.readFully(fileData);
-        }
+        BufferedImage bImage = ImageIO.read(file);
+        int ratio = 5;
+
+        BufferedImage newImage = resizeImage(bImage, bImage.getWidth() / ratio, bImage.getHeight() / ratio, bImage.getType());
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ImageIO.write(newImage, "jpg", baos);
+        baos.flush();
+        fileData = baos.toByteArray();
+        baos.close();
         return Base64.encodeBase64String(fileData);
+    }
+
+    private static BufferedImage resizeImage(BufferedImage originalImage, int width, int height, int type) {
+        BufferedImage resizedImage = new BufferedImage(width, height, type);
+        Graphics2D g = resizedImage.createGraphics();
+        g.drawImage(originalImage, 0, 0, width, height, null);
+        g.dispose();
+        return resizedImage;
     }
 }
