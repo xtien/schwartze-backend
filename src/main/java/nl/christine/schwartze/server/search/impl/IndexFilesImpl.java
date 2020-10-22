@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
@@ -48,11 +49,15 @@ public class IndexFilesImpl implements IndexFiles {
 
     @PostConstruct
     public void init() {
-
         lettersDirectory = properties.getProperty("letters_directory");
         textDocumentName = properties.getProperty("text_document_name");
         docDir = Paths.get(lettersDirectory);
-        indexPath = lettersDirectory + "/indexedFiles";
+        indexPath = properties.getProperty("index_directory");
+
+        File indexDir = new File(indexPath);
+        if(!indexDir.exists()){
+            indexDir.mkdir();
+        }
     }
 
     @Override
@@ -83,6 +88,10 @@ public class IndexFilesImpl implements IndexFiles {
         try (DirectoryStream<Path> ds = Files.newDirectoryStream(path, filter())) {
 
             for (Path p : ds) {
+
+                if(p.endsWith("701")){
+                    logger.info("ok");
+                }
 
                 Path textFile = Paths.get(p.toString() + "/" + textDocumentName);
 
