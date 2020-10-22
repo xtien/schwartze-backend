@@ -10,7 +10,9 @@ package nl.christine.schwartze.server.controller;
 import nl.christine.schwartze.server.controller.request.ImagesRequest;
 import nl.christine.schwartze.server.controller.result.ImagesResult;
 import nl.christine.schwartze.server.image.ImageService;
+import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.properties.SchwartzeProperties;
+import nl.christine.schwartze.server.service.LetterService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -45,6 +47,9 @@ public class ImagesController {
     @Autowired
     private ImageService imageService;
 
+    @Autowired
+    private LetterService letterService;
+
     @PostConstruct
     public void init() {
         lettersDirectory = properties.getProperty("letters_directory");
@@ -59,11 +64,16 @@ public class ImagesController {
 
         try {
 
-            List<String> images = imageService.getImages(request.getLetterNumber());
-            if (images.size() < 1) {
-                return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+            Letter letter = letterService.getLetterByNumber(request.getLetterNumber());
+            if (letter.getCollectie() == null || !letter.getCollectie().isDontShowLetter()) {
+                List<String> images = imageService.getImages(request.getLetterNumber());
+                if (images.size() < 1) {
+                    return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+                }
+                result.setImages(images);
+            } else {
+                return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
             }
-            result.setImages(images);
 
         } catch (Exception e) {
             e.printStackTrace();

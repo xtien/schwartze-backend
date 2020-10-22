@@ -19,6 +19,7 @@ public class Collectie {
 
     private static final String DESCRIPTION = "description";
     private static final String NAME = "name";
+    private static final String DONTSHOWLETTER = "letter_noshow";
 
     @Id
     private int id;
@@ -26,6 +27,10 @@ public class Collectie {
     @Column(name=NAME)
     @JsonProperty(NAME)
     private String name;
+
+    @Column(name=DONTSHOWLETTER)
+    @JsonProperty(DONTSHOWLETTER)
+    private boolean dontShowLetter;
 
     @Column(name=DESCRIPTION)
     @JsonProperty(DESCRIPTION)
@@ -40,5 +45,13 @@ public class Collectie {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public boolean isDontShowLetter() {
+        return dontShowLetter;
+    }
+
+    public void setDontShowLetter(boolean dontShowLetter) {
+        this.dontShowLetter = dontShowLetter;
     }
 }

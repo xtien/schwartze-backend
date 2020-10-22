@@ -65,7 +65,9 @@ public class LetterGetController {
             Letter letter = letterService.getLetterByNumber(request.getLetterNumber());
             if (letter != null) {
                 result.setLetter(letter);
-                result.setLetterText(getLetterText(request.getLetterNumber()));
+                if(!letter.getCollectie().isDontShowLetter()){
+                    result.setLetterText(getLetterText(request.getLetterNumber()));
+                }
                 result.setResult(LettersResult.OK);
             } else {
                 result.setResult(LetterResult.NOT_OK);
