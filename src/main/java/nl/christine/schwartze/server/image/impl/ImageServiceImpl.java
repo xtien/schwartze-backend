@@ -16,10 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -51,29 +48,31 @@ public class ImageServiceImpl implements ImageService {
     public List<String> getImages(int letterNumber) {
 
         File dir = new File(imagesDirectory + "/" + letterNumber + "/");
-        if(dir.exists()) {
+        if (dir.exists()) {
             return Arrays.stream(dir.listFiles())
                     .sorted(Comparator.comparing(File::getName))
                     .filter((file -> file.getName().toLowerCase().endsWith(".jpg")))
-                    .map(file -> imagesUrl + letterNumber + File.separator + file.getName())
+                    .map(file -> {
+                        try {
+                            return readFile(file);
+                        } catch (IOException e) {
+                            logger.error("error reading image file", e);
+                            return null;
+                        }
+                    })
                     .collect(Collectors.toList());
         } else {
             return new ArrayList<>();
         }
     }
 
-    private String createBlob(File imageFile) {
+    private String readFile(File file) throws IOException {
 
-        String resultBlob = "";
+        byte[] fileData = new byte[(int) file.length()];
 
-        try {
-            resultBlob = new String(Base64.encodeBase64(IOUtils.toByteArray(new FileInputStream(imageFile))), "UTF-8");
-        } catch (FileNotFoundException fnfe) {
-            logger.error("createBlob fileNotFound", fnfe);
-        } catch (IOException ioe) {
-            logger.error("createBlob IO Exception", ioe);
+        try (DataInputStream dis = new DataInputStream(new FileInputStream(file))) {
+            dis.readFully(fileData);
         }
-
-        return resultBlob;
+        return Base64.encodeBase64String(fileData);
     }
 }
