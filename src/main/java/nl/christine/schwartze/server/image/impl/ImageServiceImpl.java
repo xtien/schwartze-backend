@@ -9,7 +9,6 @@ package nl.christine.schwartze.server.image.impl;
 
 import nl.christine.schwartze.server.image.ImageService;
 import nl.christine.schwartze.server.properties.SchwartzeProperties;
-import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +23,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.stream.Collectors;
 
 /**
@@ -34,7 +36,8 @@ import java.util.stream.Collectors;
 public class ImageServiceImpl implements ImageService {
 
     private String imagesDirectory;
-    private String imagesUrl;
+    private String cacheDir;
+    ExecutorService es = Executors.newCachedThreadPool();
 
     @Autowired
     private SchwartzeProperties properties;
@@ -44,7 +47,11 @@ public class ImageServiceImpl implements ImageService {
     @PostConstruct
     public void init() {
         imagesDirectory = properties.getProperty("images_directory");
-        imagesUrl = properties.getProperty(("images_url"));
+        cacheDir = properties.getProperty("cache_directory");
+        File cache = new File(cacheDir);
+        if(!cache.exists()){
+            cache.mkdir();
+        }
     }
 
     @Override
@@ -56,11 +63,20 @@ public class ImageServiceImpl implements ImageService {
                     .sorted(Comparator.comparing(File::getName))
                     .filter((file -> file.getName().toLowerCase().endsWith(".jpg")))
                     .map(file -> {
-                        try {
-                            return readFile(file);
-                        } catch (IOException e) {
-                            logger.error("error reading image file", e);
-                            return null;
+                        if (existsInCache(letterNumber, file.getName())) {
+                            try {
+                                return getFromCache(letterNumber, file.getName());
+                            } catch (IOException e) {
+                                logger.error("error reading cached file", e);
+                                return null;
+                            }
+                        } else {
+                            try {
+                                return readFileAndResize(letterNumber, file);
+                            } catch (IOException e) {
+                                logger.error("error reading image file", e);
+                                return null;
+                            }
                         }
                     })
                     .collect(Collectors.toList());
@@ -69,22 +85,57 @@ public class ImageServiceImpl implements ImageService {
         }
     }
 
-    private String readFile(File file) throws IOException {
+    private String readFileAndResize(int letterNumber, File file) throws IOException {
 
         byte[] fileData;
-
         BufferedImage bImage = ImageIO.read(file);
         int ratio = 5;
-
         BufferedImage newImage = resizeImage(bImage, bImage.getWidth() / ratio, bImage.getHeight() / ratio, bImage.getType());
-
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ImageIO.write(newImage, "jpg", baos);
         baos.flush();
         fileData = baos.toByteArray();
         baos.close();
+
+        writeToCache(letterNumber, file.getName(), fileData);
+
         return Base64.encodeBase64String(fileData);
     }
+
+    private String getFromCache(int letterNumber, String fileName) throws IOException {
+
+        File file = new File(cacheDir + "/" + letterNumber + "/" + fileName);
+        byte[] fileData = new byte[(int) file.length()];
+
+        try (DataInputStream dis = new DataInputStream(new FileInputStream(file))) {
+            dis.readFully(fileData);
+        }
+        return Base64.encodeBase64String(fileData);
+    }
+
+    private boolean existsInCache(int letterNumber, String fileName) {
+        File dir = new File(cacheDir + "/" + letterNumber + "/" + fileName);
+        return dir.exists();
+    }
+
+    private void writeToCache(int letterNumber, String fileName, byte[] fileData) throws IOException {
+
+        es.execute(() -> {
+            File dir = new File(cacheDir + "/" + letterNumber);
+            if(!dir.exists()){
+                dir.mkdir();
+            }
+
+            try (OutputStream os = new FileOutputStream(new File(cacheDir + "/" + letterNumber + "/" + fileName));){
+                os.write(fileData);
+            } catch (FileNotFoundException e) {
+                logger.error("cache writing error", e);
+            } catch (IOException e) {
+                logger.error("cache writing error", e);
+            }
+
+        });
+     }
 
     private static BufferedImage resizeImage(BufferedImage originalImage, int width, int height, int type) {
         BufferedImage resizedImage = new BufferedImage(width, height, type);
