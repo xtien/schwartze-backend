@@ -11,6 +11,7 @@ import nl.christine.schwartze.server.controller.request.LetterRequest;
 import nl.christine.schwartze.server.controller.result.LetterResult;
 import nl.christine.schwartze.server.controller.result.LettersResult;
 import nl.christine.schwartze.server.model.Letter;
+import nl.christine.schwartze.server.model.Person;
 import nl.christine.schwartze.server.properties.SchwartzeProperties;
 import nl.christine.schwartze.server.service.LetterService;
 import org.apache.log4j.Logger;
@@ -28,6 +29,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Paths;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @CrossOrigin(origins = {"https://pengo.christine.nl",
@@ -65,7 +68,7 @@ public class LetterGetController {
             Letter letter = letterService.getLetterByNumber(request.getLetterNumber());
             if (letter != null) {
                 result.setLetter(letter);
-                if(letter.getCollectie() == null || !letter.getCollectie().isDontShowLetter()){
+                if (canShowLetter(letter)) {
                     result.setLetterText(getLetterText(request.getLetterNumber()));
                 }
                 result.setResult(LettersResult.OK);
@@ -77,6 +80,12 @@ public class LetterGetController {
         }
 
         return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    private boolean canShowLetter(Letter letter) {
+        return (letter.getCollectie() == null)
+                || !letter.getCollectie().isDontShowLetter()
+                || (letter.getSenders().stream().filter(l -> l.getHideLetters() == false).collect(Collectors.toList()).size() > 0);
     }
 
     private String getLetterText(int letterNumber) throws IOException {

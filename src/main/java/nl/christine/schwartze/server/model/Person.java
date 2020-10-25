@@ -34,6 +34,7 @@ public class Person {
     private static final String DATE_OF_DEATH = "date_of_death";
     public static final String HAS_LETTERS_FROM = "brieven_van";
     public static final String HAS_LETTERS_TO = "brieven_aan";
+    private static final String HIDE_LETTERS = "hide_letters";
 
     @Id
     @JsonProperty(ID)
@@ -75,6 +76,10 @@ public class Person {
     @Column(name=IMAGE_CAPTION)
     @JsonProperty(IMAGE_CAPTION)
     private String imageCaption;
+
+    @Column(name=HIDE_LETTERS)
+    @JsonProperty(HIDE_LETTERS)
+    private Boolean hideLetters = false;
 
     @JsonIgnore
     @ManyToMany(mappedBy = "senders", cascade = CascadeType.ALL)
@@ -273,5 +278,13 @@ public class Person {
 
     public void setHasLettersTo(Boolean hasLettersTo) {
         this.hasLettersTo = hasLettersTo;
+    }
+
+    public Boolean getHideLetters() {
+        return hideLetters;
+    }
+
+    public void setHideLetters(Boolean hideLetters) {
+        this.hideLetters = hideLetters;
     }
 }

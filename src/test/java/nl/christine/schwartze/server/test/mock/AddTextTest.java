@@ -8,7 +8,7 @@
 package nl.christine.schwartze.server.test.mock;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import nl.christine.schwartze.server.controller.TextGetController;
+import nl.christine.schwartze.server.controller.LetterTextGetController;
 import nl.christine.schwartze.server.controller.request.TextRequest;
 import nl.christine.schwartze.server.model.Text;
 import nl.christine.schwartze.server.service.LetterService;
@@ -29,8 +29,6 @@ import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -41,7 +39,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(TextGetController.class)
+@WebMvcTest(LetterTextGetController.class)
 @ActiveProfiles("test")
 public class AddTextTest {
 
