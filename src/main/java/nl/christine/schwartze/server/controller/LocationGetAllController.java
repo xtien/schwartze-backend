@@ -25,7 +25,7 @@ import java.io.IOException;
         "https://www.schwartze-ansingh.com",
         "https://www.schwartze-ansingh.nl",
         "https://schwartze-ansingh.com",
-        "https://schwartze-ansingh.nl"}, maxAge = 7200)
+        "https://schwartze-ansingh.nl"}, maxAge = 14400)
 public class LocationGetAllController {
 
     @Autowired
@@ -36,7 +36,7 @@ public class LocationGetAllController {
         "https://www.schwartze-ansingh.com",
         "https://www.schwartze-ansingh.nl",
         "https://schwartze-ansingh.com",
-        "https://schwartze-ansingh.nl"}, maxAge = 7200)
+        "https://schwartze-ansingh.nl"}, maxAge = 14400)
     public ResponseEntity<LocationsResult> getLocations(@RequestBody LocationRequest request) throws IOException {
 
         LocationsResult locationsResult = new LocationsResult();

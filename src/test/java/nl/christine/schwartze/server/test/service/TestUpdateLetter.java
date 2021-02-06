@@ -32,7 +32,7 @@ public class TestUpdateLetter {
     private PersonService personService;
 
     @Test
-    public void testUpdateLetter() {
+    public void testUpdateLetter() throws InterruptedException {
 
         Letter letter = createLetter(1);
         letterService.addLetter(letter);
@@ -45,6 +45,9 @@ public class TestUpdateLetter {
         letter.getRecipients().remove(0);
         letter.getSenders().add(person3);
         letter.getRecipients().add(person4);
+
+        // wait a sec for inserts to have happened
+        Thread.sleep(1000l);
 
         letterService.updateLetter(letter);
 

@@ -33,7 +33,7 @@ import java.util.List;
         "https://www.schwartze-ansingh.com",
         "https://www.schwartze-ansingh.nl",
         "https://schwartze-ansingh.com",
-        "https://schwartze-ansingh.nl"}, maxAge = 7200)
+        "https://schwartze-ansingh.nl"}, maxAge = 14400)
 public class ImagesController {
 
     Logger logger = Logger.getLogger(ImagesController.class);

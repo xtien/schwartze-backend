@@ -31,7 +31,7 @@ import java.nio.file.Paths;
         "https://www.schwartze-ansingh.com",
         "https://www.schwartze-ansingh.nl",
         "https://schwartze-ansingh.com",
-        "https://schwartze-ansingh.nl"}, maxAge = 7200)
+        "https://schwartze-ansingh.nl"}, maxAge = 14400)
 public class HomeTextGetController {
 
     private String lettersDirectory;

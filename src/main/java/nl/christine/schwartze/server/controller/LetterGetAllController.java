@@ -28,7 +28,7 @@ import java.util.List;
         "https://www.schwartze-ansingh.nl",
         "https://schwartze-ansingh.com",
         "https://schwartze-ansingh.nl"},
-        maxAge = 7200)
+        maxAge = 14400)
 public class LetterGetAllController {
 
     Logger logger = Logger.getLogger(LetterGetAllController.class);

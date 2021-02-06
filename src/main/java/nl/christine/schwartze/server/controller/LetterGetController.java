@@ -37,7 +37,7 @@ import java.util.stream.Collectors;
         "https://www.schwartze-ansingh.com",
         "https://www.schwartze-ansingh.nl",
         "https://schwartze-ansingh.com",
-        "https://schwartze-ansingh.nl"}, maxAge = 7200)
+        "https://schwartze-ansingh.nl"}, maxAge = 14400)
 public class LetterGetController {
 
     Logger logger = Logger.getLogger(LetterGetController.class);
@@ -81,6 +81,51 @@ public class LetterGetController {
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
+
+    @PostMapping(value = "/get_next_letter/")
+    public ResponseEntity<LetterResult> getNextLetter(@RequestBody LetterRequest request) throws IOException {
+        LetterResult result = new LetterResult();
+
+        try {
+
+            Letter letter = letterService.getNextLetter(request.getLetterNumber());
+            if (letter != null) {
+                result.setLetter(letter);
+                if (canShowLetter(letter)) {
+                    result.setLetterText(getLetterText(request.getLetterNumber()));
+                }
+                result.setResult(LettersResult.OK);
+            } else {
+                result.setResult(LetterResult.NOT_OK);
+            }
+        } catch (Exception e) {
+            logger.error("Error getting Letters", e);
+        }
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/get_previous_letter/")
+    public ResponseEntity<LetterResult> getPreviousLetter(@RequestBody LetterRequest request) throws IOException {
+        LetterResult result = new LetterResult();
+
+        try {
+
+            Letter letter = letterService.getPreviousLetter(request.getLetterNumber());
+            if (letter != null) {
+                result.setLetter(letter);
+                if (canShowLetter(letter)) {
+                    result.setLetterText(getLetterText(request.getLetterNumber()));
+                }
+                result.setResult(LettersResult.OK);
+            } else {
+                result.setResult(LetterResult.NOT_OK);
+            }
+        } catch (Exception e) {
+            logger.error("Error getting Letters", e);
+        }
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
 
     private boolean canShowLetter(Letter letter) {
         return (letter.getCollectie() == null)

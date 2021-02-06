@@ -24,6 +24,10 @@ public interface LetterService {
 
     Letter getLetterByNumber(int i);
 
+    Letter getNextLetter(int i);
+
+    Letter getPreviousLetter(int i);
+
     List<Letter> getLetters();
 
     List<Letter> getLettersByDate();

@@ -337,6 +337,18 @@ public class LetterServiceImpl implements LetterService {
 
     @Override
     @Transactional("transactionManager")
+    public Letter getNextLetter(int letterNumber) {
+        return letterDao.getNextLetter(letterNumber);
+    }
+
+    @Override
+    @Transactional("transactionManager")
+    public Letter getPreviousLetter(int letterNumber) {
+        return letterDao.getPreviousLetter(letterNumber);
+    }
+
+    @Override
+    @Transactional("transactionManager")
     public Letter updateLetterComment(int letterNumber, String text, String date) {
         Letter letter = null;
         try {

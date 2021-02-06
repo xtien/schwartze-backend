@@ -30,4 +30,8 @@ public interface LetterDao {
     void deleteLetter(Letter letter) throws LetterNotFoundException;
 
     Text getText(int id);
+
+    Letter getNextLetter(int letterNumber);
+
+    Letter getPreviousLetter(int letterNumber);
 }

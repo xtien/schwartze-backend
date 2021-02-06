@@ -23,6 +23,7 @@ public class LetterDaoImpl implements LetterDao {
 
     @PersistenceContext(unitName = "defaultPU")
     private EntityManager em;
+    private int maxLetterNumber = 860;
 
     @Override
     public List<Letter> getLetters() {
@@ -32,7 +33,9 @@ public class LetterDaoImpl implements LetterDao {
                         + " a order by a.number",
                 Letter.class);
 
-        return query.getResultList();
+        List<Letter> result = query.getResultList();
+        maxLetterNumber = result.get(result.size() - 1).getNumber();
+        return result;
     }
 
     @Override
@@ -54,6 +57,24 @@ public class LetterDaoImpl implements LetterDao {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    @Override
+    public Letter getNextLetter(int letterNumber) {
+        Letter result = null;
+        while (result == null && letterNumber <= maxLetterNumber) {
+            result = getLetterForNumber(++letterNumber);
+        }
+        return result;
+    }
+
+    @Override
+    public Letter getPreviousLetter(int letterNumber) {
+        Letter result = null;
+        while (result == null && letterNumber > 0) {
+            result = getLetterForNumber(--letterNumber);
+        }
+        return result;
     }
 
     @Override
