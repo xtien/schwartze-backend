@@ -69,7 +69,7 @@ public class LetterGetController {
             if (letter != null) {
                 result.setLetter(letter);
                 if (canShowLetter(letter)) {
-                    result.setLetterText(getLetterText(request.getLetterNumber()));
+                    result.setLetterText(getLetterText(letter.getNumber()));
                 }
                 result.setResult(LettersResult.OK);
             } else {
@@ -92,7 +92,7 @@ public class LetterGetController {
             if (letter != null) {
                 result.setLetter(letter);
                 if (canShowLetter(letter)) {
-                    result.setLetterText(getLetterText(request.getLetterNumber()));
+                    result.setLetterText(getLetterText(letter.getNumber()));
                 }
                 result.setResult(LettersResult.OK);
             } else {
@@ -114,7 +114,7 @@ public class LetterGetController {
             if (letter != null) {
                 result.setLetter(letter);
                 if (canShowLetter(letter)) {
-                    result.setLetterText(getLetterText(request.getLetterNumber()));
+                    result.setLetterText(getLetterText(letter.getNumber()));
                 }
                 result.setResult(LettersResult.OK);
             } else {

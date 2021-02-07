@@ -27,6 +27,8 @@ import org.springframework.util.CollectionUtils;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static org.assertj.core.description.Description.emptyIfNull;
+
 @Component("letterService")
 public class LetterServiceImpl implements LetterService {
 
@@ -57,15 +59,13 @@ public class LetterServiceImpl implements LetterService {
     @Override
     @Transactional("transactionManager")
     public List<Letter> getLetters() {
-        List<Letter> letters = letterDao.getLetters().stream().sorted(compareByNumber).collect(Collectors.toList());
-        return letters;
+        return Optional.ofNullable(letterDao.getLetters()).orElse(new ArrayList<>()).stream().sorted(compareByNumber).collect(Collectors.toList());
     }
 
     @Override
     @Transactional("transactionManager")
     public List<Letter> getLettersByDate() {
-        List<Letter> letters = letterDao.getLetters().stream().sorted(compareByDate).collect(Collectors.toList());
-        return letters;
+        return Optional.ofNullable(letterDao.getLetters()).orElse(new ArrayList<>()).stream().sorted(compareByDate).collect(Collectors.toList());
     }
 
     @Override

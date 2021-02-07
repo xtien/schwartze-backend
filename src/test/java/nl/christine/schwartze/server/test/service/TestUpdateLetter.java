@@ -18,6 +18,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.List;
+
 import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -25,6 +27,7 @@ import static org.junit.Assert.assertNotNull;
 @ActiveProfiles("test")
 public class TestUpdateLetter {
 
+    private int letterNumber = 17;
     @Autowired
     private LetterService letterService;
 
@@ -34,24 +37,38 @@ public class TestUpdateLetter {
     @Test
     public void testUpdateLetter() throws InterruptedException {
 
-        Letter letter = createLetter(1);
-        letterService.addLetter(letter);
+        Letter letter1 = createLetter(1);
+        letter1.setNumber(letterNumber);
+        for(Person p : letter1.getRecipients()){
+            personService.addPerson(p);
+        }
+        for(Person p : letter1.getSenders()){
+            personService.addPerson(p);
+        }
+        letterService.addLetter(letter1);
+
+        Letter letter2 = createLetter(1);
+        letter2.setNumber(letterNumber);
+        for(Person p : letter2.getRecipients()){
+            personService.addPerson(p);
+        }
+        for(Person p : letter2.getSenders()){
+            personService.addPerson(p);
+        }
+
         Person person3 = createPerson(3, 3);
         person3 = personService.addPerson(person3);
         Person person4 = createPerson(4, 4);
         person4 = personService.addPerson(person4);
 
-        letter.getSenders().remove(0);
-        letter.getRecipients().remove(0);
-        letter.getSenders().add(person3);
-        letter.getRecipients().add(person4);
+        letter2.getSenders().remove(0);
+        letter2.getRecipients().remove(0);
+        letter2.getSenders().add(person3);
+        letter2.getRecipients().add(person4);
 
-        // wait a sec for inserts to have happened
-        Thread.sleep(1000l);
+        letterService.updateLetter(letter2);
 
-        letterService.updateLetter(letter);
-
-        Letter updatedLetter = letterService.getLetterByNumber(letter.getNumber());
+        Letter updatedLetter = letterService.getLetterByNumber(letterNumber);
 
         assertNotNull(updatedLetter);
     }

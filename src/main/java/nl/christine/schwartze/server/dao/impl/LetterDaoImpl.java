@@ -34,7 +34,7 @@ public class LetterDaoImpl implements LetterDao {
                 Letter.class);
 
         List<Letter> result = query.getResultList();
-        maxLetterNumber = result.get(result.size() - 1).getNumber();
+        maxLetterNumber = result.isEmpty() ? 1 : result.get(result.size() - 1).getNumber();
         return result;
     }
 
