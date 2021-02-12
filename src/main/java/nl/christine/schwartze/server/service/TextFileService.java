@@ -7,13 +7,11 @@
 
 package nl.christine.schwartze.server.service;
 
-import nl.christine.schwartze.server.modelimport.ImportLetter;
-import org.springframework.transaction.annotation.Transactional;
+import java.io.IOException;
 
-import java.util.List;
+public interface TextFileService {
 
-public interface ImportLetterService {
+    String getText(String type, String documentName, String language);
 
-    @Transactional("importTransactionManager")
-    List<ImportLetter> getImportLetters();
+    String getPage(String chapterId, String pageId, String language);
 }

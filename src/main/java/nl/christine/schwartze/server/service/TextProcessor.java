@@ -7,13 +7,9 @@
 
 package nl.christine.schwartze.server.service;
 
-import nl.christine.schwartze.server.modelimport.ImportLetter;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.stereotype.Component;
 
-import java.util.List;
+public interface TextProcessor {
 
-public interface ImportLetterService {
-
-    @Transactional("importTransactionManager")
-    List<ImportLetter> getImportLetters();
+    public String process(String text);
 }

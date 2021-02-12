@@ -8,18 +8,27 @@
 package nl.christine.schwartze.server.controller.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import nl.christine.schwartze.server.model.Letter;
 
-public class DeleteLetterRequest {
+public class PageTextRequest {
 
-    @JsonProperty("letter")
-    private Letter letter;
+    @JsonProperty("page")
+    private String pageid;
 
-    public Letter getLetter() {
-        return letter;
+    @JsonProperty("chapter")
+    private String chapterId;
+
+    @JsonProperty("language")
+    private String language;
+
+    public String getPageId() {
+        return pageid;
     }
 
-    public void setLetter(Letter letter) {
-        this.letter = letter;
+    public String getChapterId() {
+        return chapterId;
+    }
+
+    public String getLanguage(){
+        return language;
     }
 }
