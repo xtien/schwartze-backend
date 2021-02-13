@@ -1,7 +1,7 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
 
 <!--
-  ~ Copyright (c) 2020, Zaphod Consulting BV, Christine Karman
+  ~ Copyright (c) 2018 - 2021, Zaphod Consulting BV, Christine Karman
   ~ This project is free software: you can redistribute it and/or modify it under the terms of
   ~ the Apache License, Version 2.0. You can find a copy of the license at
   ~ http://www.apache.org/licenses/LICENSE-2.0.
@@ -17,6 +17,7 @@
 
     <context:component-scan base-package="nl.christine.schwartze.server.dao"/>
     <context:component-scan base-package="nl.christine.schwartze.server.service"/>
+    <context:component-scan base-package="nl.christine.schwartze.server.properties"/>
     <context:component-scan base-package="nl.christine.schwartze.server.test.db"/>
 
 </beans>

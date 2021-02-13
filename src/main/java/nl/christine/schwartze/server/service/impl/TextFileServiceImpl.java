@@ -7,7 +7,6 @@
 
 package nl.christine.schwartze.server.service.impl;
 
-import nl.christine.schwartze.server.controller.HomeTextGetController;
 import nl.christine.schwartze.server.properties.SchwartzeProperties;
 import nl.christine.schwartze.server.service.TextFileService;
 import nl.christine.schwartze.server.service.TextProcessor;
@@ -18,7 +17,6 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Paths;
 

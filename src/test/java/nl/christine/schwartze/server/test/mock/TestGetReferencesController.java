@@ -8,14 +8,9 @@
 package nl.christine.schwartze.server.test.mock;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import nl.christine.schwartze.server.controller.admin.TextUpdateController;
-import nl.christine.schwartze.server.controller.request.TextRequest;
-import nl.christine.schwartze.server.dao.*;
-import nl.christine.schwartze.server.model.Text;
-import nl.christine.schwartze.server.service.LocationService;
-import nl.christine.schwartze.server.service.PersonService;
-import nl.christine.schwartze.server.service.TextService;
-import org.junit.Before;
+import nl.christine.schwartze.server.controller.GetPageReferencesController;
+import nl.christine.schwartze.server.controller.request.PageRequest;
+import nl.christine.schwartze.server.service.PageService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,78 +25,42 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(TextUpdateController.class)
+@WebMvcTest(GetPageReferencesController.class)
 @ActiveProfiles("test")
-public class UpdateTextTest {
+public class TestGetReferencesController {
+
+    private String pageNumber = "3";
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private PersonService personService;
-
-    @MockBean
-    private TextDao textDao;
-
-    @MockBean
-    private PersonDao personDao;
-
-    @MockBean
-    private LocationDao locationDao;
-
-    @MockBean
-    private TextService textService;
-
-    @MockBean
-    private LocationService locationService;
-
-    @MockBean
-    private LetterDao letterDao;
-
-    @MockBean
-    private SubjectDao subjectDao;
+    private PageService pageService;
 
     HttpSessionCsrfTokenRepository httpSessionCsrfTokenRepository = new HttpSessionCsrfTokenRepository();
     CsrfToken csrfToken = httpSessionCsrfTokenRepository.generateToken(new MockHttpServletRequest());
     String TOKEN_ATTR_NAME = "org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository.CSRF_TOKEN";
 
-    private int personId = 123;
-    private Text text;
-    private int textId = 3;
-    private Integer locationId = 4;
-    private String textString = "string text string";
-
-    @Before
-    public void setup() {
-        text = new Text();
-        text.setId(textId);
-        text.setTextString(textString);
-    }
-
     @Test
     @WithMockUser(username = "user1", password = "pwd", roles = "ADMIN")
-    public void testEditText() throws Exception {
+    public void testGetPage() throws Exception {
 
         ObjectMapper objectMapper = new ObjectMapper();
 
-        TextRequest textRequest = new TextRequest();
-        text.setTextString(textString);
-        textRequest.setText(text);
+        when(pageService.getPage(pageNumber));
 
-        String json = objectMapper.writeValueAsString(textRequest);
+        PageRequest request = new PageRequest();
+        request.setPageNumber(pageNumber);
 
-        when(textService.updateText(any(TextRequest.class))).thenReturn(text);
+        String json = objectMapper.writeValueAsString(request);
 
-        this.mockMvc.perform(post("/admin/update_text/")
+        this.mockMvc.perform(post("/get_page_references/")
                 .sessionAttr(TOKEN_ATTR_NAME, csrfToken)
                 .param(csrfToken.getParameterName(), csrfToken.getToken())
                 .contentType(MediaType.APPLICATION_JSON)
@@ -109,6 +68,7 @@ public class UpdateTextTest {
                 .content(json))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.text.text_string").value(textString));
+        ;
+
     }
 }
