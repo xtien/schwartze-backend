@@ -42,6 +42,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class TestPageController {
 
     String pageNumber = "11";
+    String chapterNumber = "2";
 
     @Autowired
     private MockMvc mockMvc;
@@ -61,8 +62,9 @@ public class TestPageController {
 
         PageRequest request = new PageRequest();
         request.setPageNumber(pageNumber);
+        request.setChapterNumber(chapterNumber);
         String json = objectMapper.writeValueAsString(request);
-        when(pageService.getPage(pageNumber)).thenReturn(new Page());
+        when(pageService.getPage(pageNumber, chapterNumber)).thenReturn(new Page());
 
         MockHttpServletResponse response = this.mockMvc.perform(post("/admin/add_page/")
                 .sessionAttr(TOKEN_ATTR_NAME, csrfToken)
@@ -85,9 +87,10 @@ public class TestPageController {
 
         PageRequest request = new PageRequest();
         request.setPageNumber(pageNumber);
+        request.setChapterNumber(chapterNumber);
         String json = objectMapper.writeValueAsString(request);
 
-        when(pageService.getPage(pageNumber)).thenReturn(new Page());
+        when(pageService.getPage(pageNumber, chapterNumber)).thenReturn(new Page());
 
         MockHttpServletResponse response = this.mockMvc.perform(post("/admin/remove_page/")
                 .sessionAttr(TOKEN_ATTR_NAME, csrfToken)
@@ -111,9 +114,10 @@ public class TestPageController {
 
         PageRequest request = new PageRequest();
         request.setPageNumber(pageNumber);
+        request.setChapterNumber(chapterNumber);
         String json = objectMapper.writeValueAsString(request);
 
-        when(pageService.getPage(pageNumber)).thenReturn(new Page());
+        when(pageService.getPage(pageNumber, chapterNumber)).thenReturn(new Page());
 
         MockHttpServletResponse response = this.mockMvc.perform(post("/admin/add_page_reference/")
                 .sessionAttr(TOKEN_ATTR_NAME, csrfToken)

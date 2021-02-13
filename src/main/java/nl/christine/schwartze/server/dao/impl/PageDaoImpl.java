@@ -24,46 +24,47 @@ public class PageDaoImpl implements PageDao {
     private EntityManager entityManager;
 
     @Override
-    public void addPage(String pageNumber) {
-        Page existingPage = getPage(pageNumber);
+    public void addPage(String pageNumber, String chapterNumber) {
+        Page existingPage = getPage(pageNumber, chapterNumber);
         if (existingPage == null) {
             Page page = new Page();
             page.setPageNumber(pageNumber);
+            page.setChapterNumber(chapterNumber);
             entityManager.persist(page);
         }
     }
 
     @Override
-    public void removePage(String pageNumber) {
-        Page existingPage = getPage(pageNumber);
+    public void removePage(String pageNumber, String chapterNumber) {
+        Page existingPage = getPage(pageNumber, chapterNumber);
         if (existingPage == null) {
             entityManager.remove(existingPage);
         }
     }
 
     @Override
-    public void addReference(String pageNumber, PageReference reference) {
-        Page page = getPage(pageNumber);
+    public void addReference(String pageNumber, String chapterNumber, PageReference reference) {
+        Page page = getPage(pageNumber, chapterNumber);
         reference.setPage(page);
         page.addReference(reference);
     }
 
     @Override
-    public void removeReference(String pageNumber, PageReference reference) {
-        Page page = getPage(pageNumber);
+    public void removeReference(String pageNumber, String chapterNumber, PageReference reference) {
+        Page page = getPage(pageNumber, chapterNumber);
         if (page.getReferences().contains(reference)) {
             page.getReferences().remove(reference);
         }
     }
 
     @Override
-    public Page getPage(String pageNumber) {
+    public Page getPage(String pageNumber, String chapterNumber) {
         Page existingPage;
 
         TypedQuery<Page> query = entityManager.createQuery(
-                "select a from " + Page.class.getSimpleName() + " a where a.pageNumber = :pageNumber ", Page.class);
+                "select a from " + Page.class.getSimpleName() + " a where a.pageNumber = :pageNumber AND a.chapterNumber = :chapterNumber", Page.class);
         try {
-            existingPage = query.setParameter("pageNumber", pageNumber).getSingleResult();
+            existingPage = query.setParameter("pageNumber", pageNumber).setParameter("chapterNumber", chapterNumber).getSingleResult();
         } catch (NoResultException nre) {
             existingPage = null;
         }

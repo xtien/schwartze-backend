@@ -35,28 +35,28 @@ public class UpdatePageController {
     @PostMapping(value = "/add_page/")
     public ResponseEntity<PageResult> addPage(@RequestBody PageRequest request) {
         PageResult result = new PageResult();
-        pageService.addPage(request.getPageNumber());
+        pageService.addPage(request.getPageNumber(), request.getChapterNumber());
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @PostMapping(value = "/remove_page/")
     public ResponseEntity<PageResult> removePage(@RequestBody PageRequest request) {
         PageResult result = new PageResult();
-        pageService.removePage(request.getPageNumber());
+        pageService.removePage(request.getPageNumber(), request.getChapterNumber());
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @PostMapping(value = "/add_page_reference/")
     public ResponseEntity<PageResult> addPageReference(@RequestBody PageReferenceRequest request) {
         PageResult result = new PageResult();
-        pageService.addPageReference(request.getPageNumber(), request.getReference());
+        pageService.addPageReference(request.getPageNumber(), request.getChapterNumber(), request.getReference());
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @PostMapping(value = "/remove_page_reference/")
     public ResponseEntity<PageResult> removePageReference(@RequestBody PageReferenceRequest request) {
         PageResult result = new PageResult();
-        pageService.removePageReference(request.getPageNumber(), request.getReference());
+        pageService.removePageReference(request.getPageNumber(),request.getChapterNumber(), request.getReference());
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

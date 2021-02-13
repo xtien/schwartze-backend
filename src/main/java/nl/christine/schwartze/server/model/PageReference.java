@@ -13,7 +13,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "pages")
+@Table(name = "page_references")
 public class PageReference {
 
     public static final String ID = "id";
@@ -21,6 +21,7 @@ public class PageReference {
     private static final String KEY = "key";
     private static final String DESCRIPTION = "description";
     private static final String PAGE = "page";
+    private static final String CHAPTER = "chapter";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

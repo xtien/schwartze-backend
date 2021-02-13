@@ -26,6 +26,7 @@ import static org.junit.Assert.*;
 public class TestPageReference {
 
     private String pageNumber = "12";
+    private String chapterNumber = "4";
     private String key = "key";
     private String description = "123 description ";
     private ReferenceType type = ReferenceType.LETTER;
@@ -36,14 +37,14 @@ public class TestPageReference {
     @Test
     public void testAddPage() {
 
-        pageService.addPage(pageNumber);
+        pageService.addPage(pageNumber, chapterNumber);
 
-        Page page = pageService.getPage(pageNumber);
+        Page page = pageService.getPage(pageNumber, chapterNumber);
 
         assertNotNull(page);
         assertEquals(pageNumber, page.getPageNumber());
 
-        pageService.removePage(pageNumber);
+        pageService.removePage(pageNumber, chapterNumber);
     }
 
     @Test
@@ -53,25 +54,27 @@ public class TestPageReference {
 
         Page page = new Page();
         page.setPageNumber(pageNumber);
-        pageService.addPage(pageNumber);
-        Page newPage = pageService.getPage(pageNumber);
+        page.setChapterNumber(chapterNumber);
+        pageService.addPage(pageNumber, chapterNumber);
+        Page newPage = pageService.getPage(pageNumber, chapterNumber);
+        assertNotNull(newPage);
 
         PageReference pageReference = new PageReference();
         pageReference.setKey(key);
         pageReference.setType(type);
         pageReference.setDescription(description);
         pageReference.setPage(page);
-        pageService.addPageReference(pageNumber, pageReference);
+        pageService.addPageReference(pageNumber, chapterNumber, pageReference);
 
-        Page resultPage = pageService.getPage(pageNumber);
+        Page resultPage = pageService.getPage(pageNumber, chapterNumber);
         assertNotNull(page);
         assertEquals(pageNumber, resultPage.getPageNumber());
         assertTrue(resultPage.getReferences().size() == 1);
         assertTrue(resultPage.getReferences().contains(pageReference));
 
-        pageService.removePageReference(pageNumber, pageReference);
+        pageService.removePageReference(pageNumber, chapterNumber, pageReference);
 
-        resultPage = pageService.getPage(pageNumber);
+        resultPage = pageService.getPage(pageNumber, chapterNumber);
         assertNotNull(resultPage);
         assertFalse(resultPage.getReferences().contains(pageReference));
     }

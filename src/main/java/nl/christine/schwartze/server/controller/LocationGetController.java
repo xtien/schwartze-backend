@@ -42,7 +42,7 @@ public class LocationGetController {
     public LocationGetController() {
     }
 
-     @PostMapping(value = "/get_location/")
+    @PostMapping(value = "/get_location/")
     public ResponseEntity<LocationResult> getLocation(@RequestBody LocationRequest request) throws IOException {
 
         LocationResult result = new LocationResult();
@@ -54,7 +54,7 @@ public class LocationGetController {
             result.setResult(LettersResult.OK);
 
         } catch (Exception e) {
-            logger.error("Error getting location",e);
+            logger.error("Error getting location", e);
         }
 
         return new ResponseEntity<>(result, HttpStatus.OK);

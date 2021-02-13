@@ -12,13 +12,13 @@ import nl.christine.schwartze.server.model.PageReference;
 
 public interface PageService {
 
-    Page getPage(String pageNumber);
+    Page getPage(String pageNumber, String chapterNumber);
 
-    void addPage(String pageNumber);
+    void addPage(String pageNumber, String chapterNumber);
 
-    void removePage(String pageNumber);
+    void removePage(String pageNumber, String chapterNumber);
 
-    void addPageReference(String pageNumber, PageReference reference);
+    void addPageReference(String pageNumber, String chapterNumber, PageReference reference);
 
-    void removePageReference(String pageNumber, PageReference reference);
+    void removePageReference(String pageNumber, String chapterNumber, PageReference reference);
 }

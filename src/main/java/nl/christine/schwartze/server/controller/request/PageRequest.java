@@ -7,9 +7,15 @@
 
 package nl.christine.schwartze.server.controller.request;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class PageRequest {
 
+    @JsonProperty("page_number")
     private String pageNumber;
+
+    @JsonProperty("chapter_number")
+    private String chapterNumber;
 
     public String getPageNumber() {
         return pageNumber;
@@ -17,5 +23,13 @@ public class PageRequest {
 
     public void setPageNumber(String pageNumber) {
         this.pageNumber = pageNumber;
+    }
+
+    public String getChapterNumber() {
+        return chapterNumber;
+    }
+
+    public void setChapterNumber(String chapterNumber) {
+        this.chapterNumber = chapterNumber;
     }
 }

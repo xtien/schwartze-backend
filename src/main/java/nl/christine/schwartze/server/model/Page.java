@@ -19,11 +19,16 @@ public class Page {
     public static final String ID = "id";
     private static final String REFERENCES = "references";
     private static final String PAGE_NUMBER = "page_number";
+    private static final String CHAPTER_NUMBER = "chapter_number";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty(ID)
     private int id;
+
+    @Column(name=CHAPTER_NUMBER)
+    @JsonProperty(CHAPTER_NUMBER)
+    private String chapterNumber;
 
     @Column(name=PAGE_NUMBER)
     @JsonProperty(PAGE_NUMBER)
@@ -48,5 +53,13 @@ public class Page {
 
     public void setPageNumber(String pageNumber) {
         this.pageNumber = pageNumber;
+    }
+
+    public String getChapterNumber() {
+        return chapterNumber;
+    }
+
+    public void setChapterNumber(String chapterNumber) {
+        this.chapterNumber = chapterNumber;
     }
 }

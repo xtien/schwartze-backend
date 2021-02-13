@@ -7,12 +7,18 @@
 
 package nl.christine.schwartze.server.controller.request;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import nl.christine.schwartze.server.model.PageReference;
 
 public class PageReferenceRequest {
 
+    @JsonProperty("page_number")
     private String pageNumber;
 
+    @JsonProperty("chapter_number")
+    private String chapterNumber;
+
+    @JsonProperty("reference")
     private PageReference reference;
 
     public String getPageNumber() {
@@ -29,5 +35,13 @@ public class PageReferenceRequest {
 
     public void setReference(PageReference reference) {
         this.reference = reference;
+    }
+
+    public String getChapterNumber() {
+        return chapterNumber;
+    }
+
+    public void setChapterNumber(String chapterNumber) {
+        this.chapterNumber = chapterNumber;
     }
 }

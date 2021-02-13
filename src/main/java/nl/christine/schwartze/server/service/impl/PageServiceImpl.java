@@ -24,31 +24,31 @@ public class PageServiceImpl implements PageService {
 
     @Override
     @Transactional("transactionManager")
-    public Page getPage(String pageNumber) {
-        return pageDao.getPage(pageNumber);
+    public Page getPage(String pageNumber, String chapterNumber) {
+        return pageDao.getPage(pageNumber, chapterNumber);
     }
 
     @Override
     @Transactional("transactionManager")
-    public void addPage(String pageNumber) {
-        pageDao.addPage(pageNumber);
+    public void addPage(String pageNumber, String chapterNumber) {
+        pageDao.addPage(pageNumber, chapterNumber);
     }
 
     @Override
     @Transactional("transactionManager")
-    public void removePage(String pageNumber) {
-        pageDao.removePage(pageNumber);
+    public void removePage(String pageNumber, String chapterNumber) {
+        pageDao.removePage(pageNumber,chapterNumber);
     }
 
     @Override
     @Transactional("transactionManager")
-    public void addPageReference(String pageNumber, PageReference reference) {
-        pageDao.addReference(pageNumber, reference);
+    public void addPageReference(String pageNumber, String chapterNumber, PageReference reference) {
+        pageDao.addReference(pageNumber,chapterNumber, reference);
     }
 
     @Override
     @Transactional("transactionManager")
-    public void removePageReference(String pageNumber, PageReference reference) {
-        pageDao.removeReference(pageNumber, reference);
+    public void removePageReference(String pageNumber, String chapterNumber, PageReference reference) {
+        pageDao.removeReference(pageNumber,chapterNumber, reference);
     }
 }

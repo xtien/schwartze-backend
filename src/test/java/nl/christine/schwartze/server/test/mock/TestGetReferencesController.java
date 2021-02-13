@@ -36,6 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class TestGetReferencesController {
 
     private String pageNumber = "3";
+    private String chapterNumber = "2";
 
     @Autowired
     private MockMvc mockMvc;
@@ -53,7 +54,7 @@ public class TestGetReferencesController {
 
         ObjectMapper objectMapper = new ObjectMapper();
 
-        when(pageService.getPage(pageNumber));
+        when(pageService.getPage(pageNumber, chapterNumber));
 
         PageRequest request = new PageRequest();
         request.setPageNumber(pageNumber);
