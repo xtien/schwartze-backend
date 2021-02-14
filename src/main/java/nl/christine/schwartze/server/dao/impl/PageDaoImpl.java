@@ -46,7 +46,7 @@ public class PageDaoImpl implements PageDao {
     @Override
     public void addReference(String pageNumber, String chapterNumber, PageReference reference) {
         Page page = getPage(pageNumber, chapterNumber);
-        if (reference != null){
+        if (reference != null) {
             if (page == null) {
                 page = addPage(pageNumber, chapterNumber);
             }
@@ -56,11 +56,13 @@ public class PageDaoImpl implements PageDao {
     }
 
     @Override
-    public void removeReference(String pageNumber, String chapterNumber, PageReference reference) {
+    public Page removeReference(String pageNumber, String chapterNumber, PageReference reference) {
+        PageReference existingReference = entityManager.find(PageReference.class, reference.getId());
         Page page = getPage(pageNumber, chapterNumber);
-        if (page.getReferences().contains(reference)) {
-            page.getReferences().remove(reference);
+        if(!page.getReferences().isEmpty()){
+            page.getReferences().remove(existingReference);
         }
+        return page;
     }
 
     @Override

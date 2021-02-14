@@ -48,7 +48,7 @@ public class PageServiceImpl implements PageService {
 
     @Override
     @Transactional("transactionManager")
-    public void removePageReference(String pageNumber, String chapterNumber, PageReference reference) {
-        pageDao.removeReference(pageNumber,chapterNumber, reference);
+    public Page removePageReference(String pageNumber, String chapterNumber, PageReference reference) {
+        return pageDao.removeReference(pageNumber,chapterNumber, reference);
     }
 }

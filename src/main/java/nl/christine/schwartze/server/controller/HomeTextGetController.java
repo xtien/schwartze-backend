@@ -10,7 +10,9 @@ package nl.christine.schwartze.server.controller;
 import nl.christine.schwartze.server.controller.request.HomeTextRequest;
 import nl.christine.schwartze.server.controller.request.PageTextRequest;
 import nl.christine.schwartze.server.controller.result.HomeTextResult;
+import nl.christine.schwartze.server.controller.result.PageTextResult;
 import nl.christine.schwartze.server.properties.SchwartzeProperties;
+import nl.christine.schwartze.server.service.PageService;
 import nl.christine.schwartze.server.service.TextFileService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,10 +38,11 @@ import java.nio.file.Paths;
         "https://schwartze-ansingh.nl"}, maxAge = 14400)
 public class HomeTextGetController {
 
-    Logger logger = Logger.getLogger(HomeTextGetController.class);
+     @Autowired
+    private TextFileService textFileService;
 
     @Autowired
-    private TextFileService textFileService;
+    private PageService pageService;
 
     @PostMapping(value = "/get_page_text/")
     public ResponseEntity<HomeTextResult> getText(@RequestBody HomeTextRequest request) {
@@ -51,11 +54,12 @@ public class HomeTextGetController {
     }
 
     @PostMapping(value = "/get_page_page/")
-    public ResponseEntity<HomeTextResult> getPage(@RequestBody PageTextRequest request) {
+    public ResponseEntity<PageTextResult> getPage(@RequestBody PageTextRequest request) {
 
-        HomeTextResult result = new HomeTextResult();
+        PageTextResult result = new PageTextResult();
         HttpStatus status = HttpStatus.OK;
         result.setText(textFileService.getPage(request.getChapterId(), request.getPageId(), request.getLanguage()));
+        result.setPage(pageService.getPage(request.getPageId(), request.getChapterId()));
         return new ResponseEntity<>(result, status);
     }
 }

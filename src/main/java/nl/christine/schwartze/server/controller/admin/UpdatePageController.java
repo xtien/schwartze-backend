@@ -10,7 +10,9 @@ package nl.christine.schwartze.server.controller.admin;
 import nl.christine.schwartze.server.controller.request.PageReferenceRequest;
 import nl.christine.schwartze.server.controller.request.PageRequest;
 import nl.christine.schwartze.server.controller.result.PageResult;
+import nl.christine.schwartze.server.model.Page;
 import nl.christine.schwartze.server.service.PageService;
+import nl.christine.schwartze.server.service.TextFileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +33,9 @@ public class UpdatePageController {
 
     @Autowired
     private PageService pageService;
+
+    @Autowired
+    private TextFileService textFileService;
 
     @PostMapping(value = "/add_page/")
     public ResponseEntity<PageResult> addPage(@RequestBody PageRequest request) {
@@ -56,7 +61,9 @@ public class UpdatePageController {
     @PostMapping(value = "/remove_page_reference/")
     public ResponseEntity<PageResult> removePageReference(@RequestBody PageReferenceRequest request) {
         PageResult result = new PageResult();
-        pageService.removePageReference(request.getPageNumber(),request.getChapterNumber(), request.getReference());
+        Page page = pageService.removePageReference(request.getPageNumber(),request.getChapterNumber(), request.getReference());
+        result.setText(textFileService.getPage(request.getChapterNumber(), request.getPageNumber(), "nl"));
+        result.setPage(page);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

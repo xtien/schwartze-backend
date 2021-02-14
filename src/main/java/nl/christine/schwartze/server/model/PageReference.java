@@ -7,6 +7,7 @@
 
 package nl.christine.schwartze.server.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
@@ -27,7 +28,7 @@ public class PageReference {
     @JsonProperty(ID)
     private int id;
 
-    @JsonProperty(PAGE)
+    @JsonIgnore
     @OneToOne
     private Page page;
 
@@ -42,23 +43,6 @@ public class PageReference {
     @Column(name = DESCRIPTION)
     @JsonProperty(DESCRIPTION)
     private String description;
-
-    @Override
-    public int hashCode(){
-        return Objects.hash(page.getPageNumber(), type, key);
-    }
-
-    @Override
-    public boolean equals(final Object obj){
-        if(obj instanceof PageReference){
-            final PageReference other = (PageReference) obj;
-            return Objects.equals(page.getPageNumber(), other.page.getPageNumber())
-                    && type == other.type // special handling for primitives
-                    && Objects.equals(key, other.key);
-        } else{
-            return false;
-        }
-    }
 
     public String getDescription() {
         return description;
@@ -78,5 +62,9 @@ public class PageReference {
 
     public void setPage(Page page) {
         this.page = page;
+    }
+
+    public int getId(){
+        return id;
     }
 }

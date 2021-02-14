@@ -18,7 +18,7 @@ public interface PageDao {
 
     void addReference(String pageNumber, String chapterNumber, PageReference reference);
 
-    void removeReference(String pageNumber, String chapterNumber, PageReference reference);
+    Page removeReference(String pageNumber, String chapterNumber, PageReference reference);
 
     Page getPage(String pageNumber, String chapterNumber);
 }

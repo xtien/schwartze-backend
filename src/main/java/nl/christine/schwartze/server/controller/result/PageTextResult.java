@@ -10,23 +10,30 @@ package nl.christine.schwartze.server.controller.result;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import nl.christine.schwartze.server.model.Page;
 
-public class PageResult {
-
-    @JsonProperty("page")
-    private Page page;
+public class PageTextResult {
 
     @JsonProperty("text")
     private String text;
 
-    public void setPage(Page page) {
-        this.page = page;
-    }
+    @JsonProperty("error_text")
+    private String errorText;
 
-    public Page getPage() {
-        return page;
+    @JsonProperty("page")
+    private Page page;
+
+    public String getText() {
+        return text;
     }
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public void setErrorText(String text) {
+        this.errorText = text;
+    }
+
+    public void setPage(Page page) {
+        this.page = page;
     }
 }

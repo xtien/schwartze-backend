@@ -20,5 +20,5 @@ public interface PageService {
 
     void addPageReference(String pageNumber, String chapterNumber, PageReference reference);
 
-    void removePageReference(String pageNumber, String chapterNumber, PageReference reference);
+    Page removePageReference(String pageNumber, String chapterNumber, PageReference reference);
 }
