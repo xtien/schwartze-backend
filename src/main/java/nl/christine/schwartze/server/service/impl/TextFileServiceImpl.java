@@ -23,6 +23,7 @@ import java.nio.file.Paths;
 @Component("textFileService")
 public class TextFileServiceImpl implements TextFileService {
 
+final String defaultLanguage = "nl";
     Logger logger = Logger.getLogger(TextFileServiceImpl.class);
 
     private String lettersDirectory;
@@ -40,14 +41,30 @@ public class TextFileServiceImpl implements TextFileService {
 
     @Override
     public String getText(String type, String documentName, String language) {
-        String fileName = lettersDirectory + "/" + type + "/"  + language + "/" + documentName + ".txt";
-        return processor.process(getText(fileName));
+        String fileName = lettersDirectory + "/" + type + "/" + language + "/" + documentName + ".txt";
+        String result = getText(fileName);
+        if (result == null) {
+            fileName = lettersDirectory + "/" + type + "/" + defaultLanguage + "/" + documentName + ".txt";
+            result = getText(fileName);
+        }
+        if (result == null) {
+            result = "text file not found";
+        }
+        return result;
     }
 
     @Override
     public String getPage(String chapterId, String pageId, String language) {
         String fileName = lettersDirectory + "/pages/" + language + "/" + chapterId + "/" + pageId + ".txt";
-        return getText(fileName);
+        String result = getText(fileName);
+        if (result == null) {
+            fileName = lettersDirectory + "/pages/" + defaultLanguage + "/" + chapterId + "/" + pageId + ".txt";
+            result = getText(fileName);
+        }
+        if (result == null) {
+            result = "text file not found";
+        }
+        return result;
     }
 
     private String getText(String fileName) {
@@ -66,7 +83,7 @@ public class TextFileServiceImpl implements TextFileService {
                 result = "text file not found";
             }
         } else {
-            result = "text file not found";
+            result = null;
         }
 
         return result;

@@ -21,7 +21,6 @@ public class PageReference {
     private static final String TYPE = "type";
     private static final String KEY = "key";
     private static final String DESCRIPTION = "description";
-    private static final String PAGE = "page";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
