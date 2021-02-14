@@ -24,14 +24,15 @@ public class PageDaoImpl implements PageDao {
     private EntityManager entityManager;
 
     @Override
-    public void addPage(String pageNumber, String chapterNumber) {
-        Page existingPage = getPage(pageNumber, chapterNumber);
-        if (existingPage == null) {
-            Page page = new Page();
+    public Page addPage(String pageNumber, String chapterNumber) {
+        Page page = getPage(pageNumber, chapterNumber);
+        if (page == null) {
+            page = new Page();
             page.setPageNumber(pageNumber);
             page.setChapterNumber(chapterNumber);
             entityManager.persist(page);
         }
+        return page;
     }
 
     @Override
@@ -45,8 +46,13 @@ public class PageDaoImpl implements PageDao {
     @Override
     public void addReference(String pageNumber, String chapterNumber, PageReference reference) {
         Page page = getPage(pageNumber, chapterNumber);
-        reference.setPage(page);
-        page.addReference(reference);
+        if (reference != null){
+            if (page == null) {
+                page = addPage(pageNumber, chapterNumber);
+            }
+            reference.setPage(page);
+            page.addReference(reference);
+        }
     }
 
     @Override

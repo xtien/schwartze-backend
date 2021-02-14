@@ -10,6 +10,7 @@ package nl.christine.schwartze.server.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -37,7 +38,7 @@ public class Page {
     @Column(name = REFERENCES)
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonProperty(REFERENCES)
-    private List<PageReference> references;
+    private List<PageReference> references = new ArrayList<>();
 
     public List<PageReference> getReferences() {
         return references;

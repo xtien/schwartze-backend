@@ -12,7 +12,7 @@ import nl.christine.schwartze.server.model.PageReference;
 
 public interface PageDao {
 
-    void addPage(String pageNumber, String chapterNumber);
+    Page addPage(String pageNumber, String chapterNumber);
 
     void removePage(String pageNumber, String chapterNumber);
 
