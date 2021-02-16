@@ -19,4 +19,8 @@ public interface TextFileService {
     PageResult getNextPage(String chapterId, String pageId, String language);
 
     PageResult getPreviousPage(String chapterId, String pageId, String language);
+
+    PageResult getNextChapter(String chapterId, String pageId, String language);
+
+    PageResult getPreviousChapter(String chapterId, String pageId, String language);
 }
