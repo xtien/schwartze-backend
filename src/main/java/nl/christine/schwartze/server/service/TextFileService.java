@@ -7,11 +7,16 @@
 
 package nl.christine.schwartze.server.service;
 
-import java.io.IOException;
+
+import nl.christine.schwartze.server.controller.result.PageResult;
 
 public interface TextFileService {
 
     String getText(String type, String documentName, String language);
 
     String getPage(String chapterId, String pageId, String language);
+
+    PageResult getNextPage(String chapterId, String pageId, String language);
+
+    PageResult getPreviousPage(String chapterId, String pageId, String language);
 }

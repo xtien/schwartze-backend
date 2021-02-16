@@ -36,7 +36,7 @@ public class GetPageReferencesController {
     private PageService pageService;
 
     @PostMapping(value = "/get_page_references/")
-    public ResponseEntity<PageResult> getLetter(@RequestBody PageRequest request) throws IOException {
+    public ResponseEntity<PageResult> getPage(@RequestBody PageRequest request) throws IOException {
 
         PageResult result = new PageResult();
 

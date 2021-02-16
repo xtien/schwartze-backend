@@ -10,11 +10,10 @@ package nl.christine.schwartze.server.controller;
 import nl.christine.schwartze.server.controller.request.HomeTextRequest;
 import nl.christine.schwartze.server.controller.request.PageTextRequest;
 import nl.christine.schwartze.server.controller.result.HomeTextResult;
+import nl.christine.schwartze.server.controller.result.PageResult;
 import nl.christine.schwartze.server.controller.result.PageTextResult;
-import nl.christine.schwartze.server.properties.SchwartzeProperties;
 import nl.christine.schwartze.server.service.PageService;
 import nl.christine.schwartze.server.service.TextFileService;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,13 +21,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-
-import javax.annotation.PostConstruct;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.file.Paths;
 
 @Controller
 @CrossOrigin(origins = {"https://pengo.christine.nl",
@@ -38,7 +30,7 @@ import java.nio.file.Paths;
         "https://schwartze-ansingh.nl"}, maxAge = 14400)
 public class HomeTextGetController {
 
-     @Autowired
+    @Autowired
     private TextFileService textFileService;
 
     @Autowired
@@ -60,6 +52,19 @@ public class HomeTextGetController {
         HttpStatus status = HttpStatus.OK;
         result.setText(textFileService.getPage(request.getChapterId(), request.getPageId(), request.getLanguage()));
         result.setPage(pageService.getPage(request.getPageId(), request.getChapterId()));
+        return new ResponseEntity<>(result, status);
+    }
+
+    @PostMapping(value = "/get_next_page/")
+    public ResponseEntity<PageTextResult> getNextPage(@RequestBody PageTextRequest request) {
+
+        PageTextResult result = new PageTextResult();
+        HttpStatus status = HttpStatus.OK;
+        PageResult pageResult = textFileService.getNextPage(request.getChapterId(), request.getPageId(), request.getLanguage());
+        if (pageResult != null) {
+            result.setPage(pageService.getPage(pageResult.getPageId(), pageResult.getChapterId()));
+            result.setText(pageResult.getText());
+        }
         return new ResponseEntity<>(result, status);
     }
 }

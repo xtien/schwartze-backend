@@ -18,6 +18,12 @@ public class PageResult {
     @JsonProperty("text")
     private String text;
 
+    @JsonProperty("pageId")
+    private String pageId;
+
+    @JsonProperty("chapterId")
+    private String chapterId;
+
     public void setPage(Page page) {
         this.page = page;
     }
@@ -28,5 +34,25 @@ public class PageResult {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public String getText(){
+        return text;
+    }
+
+    public String getPageId() {
+        return pageId;
+    }
+
+    public void setPageId(String pageId) {
+        this.pageId = pageId;
+    }
+
+    public String getChapterId() {
+        return chapterId;
+    }
+
+    public void setChapterId(String chapterId) {
+        this.chapterId = chapterId;
     }
 }

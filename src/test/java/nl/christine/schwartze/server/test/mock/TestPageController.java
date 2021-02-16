@@ -13,6 +13,7 @@ import nl.christine.schwartze.server.controller.request.PageRequest;
 import nl.christine.schwartze.server.controller.result.PageResult;
 import nl.christine.schwartze.server.model.Page;
 import nl.christine.schwartze.server.service.PageService;
+import nl.christine.schwartze.server.service.TextFileService;
 import nl.christine.schwartze.server.service.impl.PageServiceImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -49,6 +50,9 @@ public class TestPageController {
 
     @MockBean
     private PageService pageService;
+
+    @MockBean
+    private TextFileService textFileService;
 
     HttpSessionCsrfTokenRepository httpSessionCsrfTokenRepository = new HttpSessionCsrfTokenRepository();
     CsrfToken csrfToken = httpSessionCsrfTokenRepository.generateToken(new MockHttpServletRequest());

@@ -70,7 +70,7 @@ public class TestPageReference {
         assertNotNull(page);
         assertEquals(pageNumber, resultPage.getPageNumber());
         assertTrue(resultPage.getReferences().size() == 1);
-        assertTrue(resultPage.getReferences().contains(pageReference));
+        assertTrue(resultPage.getReferences().get(0).getId() == (pageReference.getId()));
 
         pageService.removePageReference(pageNumber, chapterNumber, pageReference);
 
