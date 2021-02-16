@@ -44,7 +44,7 @@ public class PageDaoImpl implements PageDao {
     }
 
     @Override
-    public void addReference(String pageNumber, String chapterNumber, PageReference reference) {
+    public Page addReference(String pageNumber, String chapterNumber, PageReference reference) {
         Page page = getPage(pageNumber, chapterNumber);
         if (reference != null) {
             if (page == null) {
@@ -53,6 +53,7 @@ public class PageDaoImpl implements PageDao {
             reference.setPage(page);
             page.addReference(reference);
         }
+        return page;
     }
 
     @Override

@@ -48,8 +48,8 @@ public class PageServiceImpl implements PageService {
 
     @Override
     @Transactional("transactionManager")
-    public void addPageReference(String pageNumber, String chapterNumber, PageReference reference) {
-        pageDao.addReference(pageNumber,chapterNumber, reference);
+    public Page addPageReference(String pageNumber, String chapterNumber, PageReference reference) {
+        return pageDao.addReference(pageNumber,chapterNumber, reference);
     }
 
     @Override
