@@ -67,4 +67,16 @@ public class HomeTextGetController {
         }
         return new ResponseEntity<>(result, status);
     }
+    @PostMapping(value = "/get_previous_page/")
+    public ResponseEntity<PageTextResult> getPreviousPage(@RequestBody PageTextRequest request) {
+
+        PageTextResult result = new PageTextResult();
+        HttpStatus status = HttpStatus.OK;
+        PageResult pageResult = textFileService.getPreviousPage(request.getChapterId(), request.getPageId(), request.getLanguage());
+        if (pageResult != null) {
+            result.setPage(pageService.getPage(pageResult.getPageId(), pageResult.getChapterId()));
+            result.setText(pageResult.getText());
+        }
+        return new ResponseEntity<>(result, status);
+    }
 }

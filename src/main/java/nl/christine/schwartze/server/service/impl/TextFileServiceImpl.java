@@ -29,6 +29,8 @@ public class TextFileServiceImpl implements TextFileService {
     final String defaultLanguage = "nl";
     Logger logger = Logger.getLogger(TextFileServiceImpl.class);
 
+    private final Comparator<File> reverseComparator;
+
     private String lettersDirectory;
 
     @Autowired
@@ -36,6 +38,11 @@ public class TextFileServiceImpl implements TextFileService {
 
     @Autowired
     private TextProcessor processor;
+
+    public TextFileServiceImpl(){
+        reverseComparator = Comparator
+                .comparing(File::getName, Comparator.nullsFirst(Comparator.reverseOrder()));
+    }
 
     @PostConstruct
     public void init() {
@@ -124,6 +131,53 @@ public class TextFileServiceImpl implements TextFileService {
 
     @Override
     public PageResult getPreviousPage(String chapterId, String pageId, String language) {
+        PageResult pageResult;
+        String fileDir = lettersDirectory + "/pages/" + language + "/" + chapterId;
+        File dir = new File(fileDir);
+        File[] dirList = dir.listFiles();
+        String nextPageId = null;
+        Iterator<File> iterator = Arrays.stream(dirList)
+                .sorted(reverseComparator)
+                .collect(Collectors.toList()).iterator();
+        while (iterator.hasNext()) {
+            if (iterator.next().getName().equals(pageId + ".txt")) {
+                if (iterator.hasNext()) {
+                    nextPageId = iterator.next().getName().replace(".txt", "");
+                }
+                break;
+            }
+        }
+        if (nextPageId != null) {
+            pageResult = new PageResult();
+            pageResult.setPageId(nextPageId);
+            pageResult.setChapterId(chapterId);
+            pageResult.setText(getPage(chapterId, nextPageId, language));
+            return pageResult;
+        }
+        File[] chapterDirFiles = new File(dir.getParent()).listFiles();
+        Iterator<File> chapterIterator = Arrays.stream(chapterDirFiles)
+                .sorted(reverseComparator)
+                .collect(Collectors.toList()).iterator();
+        String nextChapterId;
+        String firstPageId;
+        while (chapterIterator.hasNext()) {
+            if (chapterIterator.next().getName().equals(chapterId)) {
+                if (chapterIterator.hasNext()) {
+                    String nextChapterDirName = chapterIterator.next().getAbsolutePath();
+                    File f = new File(nextChapterDirName);
+                    nextChapterId = f.getName();
+                    File[] files = f.listFiles();
+                    firstPageId = Arrays.stream(files)
+                            .sorted(reverseComparator)
+                            .collect(Collectors.toList()).get(0).getName().replace(".txt", "");
+                    pageResult = new PageResult();
+                    pageResult.setChapterId(nextChapterId);
+                    pageResult.setPageId(firstPageId);
+                    pageResult.setText(getPage(nextChapterId, firstPageId, language));
+                    return pageResult;
+                }
+            }
+        }
         return null;
     }
 
