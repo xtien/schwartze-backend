@@ -45,6 +45,17 @@ public class HomeTextGetController {
         return new ResponseEntity<>(result, status);
     }
 
+    @PostMapping(value = "/switch_page_text/")
+    public ResponseEntity<PageTextResult> switchLanguage(@RequestBody PageTextRequest request) {
+
+        PageTextResult result = new PageTextResult();
+        String switchedLanguage = ((request.getLanguage().equals("nl")) ? "en" : "nl");
+        HttpStatus status = HttpStatus.OK;
+        result.setText(textFileService.getPage(request.getChapterId(), request.getPageId(), switchedLanguage));
+        result.setLanguage(switchedLanguage);
+        return new ResponseEntity<>(result, status);
+    }
+
     @PostMapping(value = "/get_page_page/")
     public ResponseEntity<PageTextResult> getPage(@RequestBody PageTextRequest request) {
 
@@ -81,7 +92,7 @@ public class HomeTextGetController {
         return new ResponseEntity<>(result, status);
     }
 
-    @PostMapping(value="get_next_chapter")
+    @PostMapping(value = "get_next_chapter")
     public ResponseEntity<PageTextResult> getNextChapter(@RequestBody PageTextRequest request) {
 
         PageTextResult result = new PageTextResult();
@@ -94,7 +105,7 @@ public class HomeTextGetController {
         return new ResponseEntity<>(result, status);
     }
 
-    @PostMapping(value="get_previous_chapter")
+    @PostMapping(value = "get_previous_chapter")
     public ResponseEntity<PageTextResult> getPreviousChapter(@RequestBody PageTextRequest request) {
 
         PageTextResult result = new PageTextResult();

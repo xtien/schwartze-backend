@@ -21,6 +21,9 @@ public class PageTextResult {
     @JsonProperty("page")
     private Page page;
 
+    @JsonProperty("language")
+    private String language;
+
     public String getText() {
         return text;
     }
@@ -35,5 +38,13 @@ public class PageTextResult {
 
     public void setPage(Page page) {
         this.page = page;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
     }
 }
