@@ -36,6 +36,18 @@ public class PageDaoImpl implements PageDao {
     }
 
     @Override
+    public Page updatePage(Page page) {
+        Page existingPage = getPage(page.getPageNumber(), page.getChapterNumber());
+        if (existingPage == null) {
+            entityManager.persist(page);
+            return page;
+        }
+
+        existingPage.setPictureUrl(page.getPictureUrl());
+        return existingPage;
+    }
+
+    @Override
     public void removePage(String pageNumber, String chapterNumber) {
         Page existingPage = getPage(pageNumber, chapterNumber);
         if (existingPage == null) {
@@ -60,7 +72,7 @@ public class PageDaoImpl implements PageDao {
     public Page removeReference(String pageNumber, String chapterNumber, PageReference reference) {
         PageReference existingReference = entityManager.find(PageReference.class, reference.getId());
         Page page = getPage(pageNumber, chapterNumber);
-        if(!page.getReferences().isEmpty()){
+        if (!page.getReferences().isEmpty()) {
             page.getReferences().remove(existingReference);
         }
         return page;

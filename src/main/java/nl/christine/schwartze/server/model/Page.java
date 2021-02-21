@@ -21,17 +21,22 @@ public class Page {
     private static final String REFERENCES = "references";
     private static final String PAGE_NUMBER = "page_number";
     private static final String CHAPTER_NUMBER = "chapter_number";
+    private static final String PICTURE_URL = "picture_url";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty(ID)
     private int id;
 
-    @Column(name=CHAPTER_NUMBER)
+    @Column(name = CHAPTER_NUMBER)
     @JsonProperty(CHAPTER_NUMBER)
     private String chapterNumber;
 
-    @Column(name=PAGE_NUMBER)
+    @Column(name = PICTURE_URL)
+    @JsonProperty(PICTURE_URL)
+    private String pictureUrl;
+
+    @Column(name = PAGE_NUMBER)
     @JsonProperty(PAGE_NUMBER)
     private String pageNumber;
 
@@ -62,5 +67,13 @@ public class Page {
 
     public void setChapterNumber(String chapterNumber) {
         this.chapterNumber = chapterNumber;
+    }
+
+    public String getPictureUrl() {
+        return pictureUrl;
+    }
+
+    public void setPictureUrl(String pictureUrl) {
+        this.pictureUrl = pictureUrl;
     }
 }

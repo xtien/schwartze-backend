@@ -44,6 +44,13 @@ public class UpdatePageController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    @PostMapping(value = "/update_page/")
+    public ResponseEntity<PageResult> updatePage(@RequestBody PageRequest request) {
+        PageResult result = new PageResult();
+        pageService.addPage(request.getPageNumber(), request.getChapterNumber());
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
     @PostMapping(value = "/remove_page/")
     public ResponseEntity<PageResult> removePage(@RequestBody PageRequest request) {
         PageResult result = new PageResult();

@@ -36,8 +36,13 @@ public class PageServiceImpl implements PageService {
 
     @Override
     @Transactional("transactionManager")
-    public void addPage(String pageNumber, String chapterNumber) {
-        pageDao.addPage(pageNumber, chapterNumber);
+    public Page addPage(String pageNumber, String chapterNumber) {
+        return pageDao.addPage(pageNumber, chapterNumber);
+    }
+
+    @Override
+    public Page updatePage(Page page) {
+        return pageDao.updatePage(page);
     }
 
     @Override

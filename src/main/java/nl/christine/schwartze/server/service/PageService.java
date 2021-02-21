@@ -14,7 +14,9 @@ public interface PageService {
 
     Page getPage(String pageNumber, String chapterNumber);
 
-    void addPage(String pageNumber, String chapterNumber);
+    Page addPage(String pageNumber, String chapterNumber);
+
+    Page updatePage(Page page);
 
     void removePage(String pageNumber, String chapterNumber);
 
