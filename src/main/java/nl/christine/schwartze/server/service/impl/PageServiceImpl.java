@@ -41,6 +41,7 @@ public class PageServiceImpl implements PageService {
     }
 
     @Override
+    @Transactional("transactionManager")
     public Page updatePage(Page page) {
         return pageDao.updatePage(page);
     }

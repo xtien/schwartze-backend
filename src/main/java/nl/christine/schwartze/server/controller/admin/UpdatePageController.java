@@ -9,6 +9,7 @@ package nl.christine.schwartze.server.controller.admin;
 
 import nl.christine.schwartze.server.controller.request.PageReferenceRequest;
 import nl.christine.schwartze.server.controller.request.PageRequest;
+import nl.christine.schwartze.server.controller.request.UpdatePageRequest;
 import nl.christine.schwartze.server.controller.result.PageResult;
 import nl.christine.schwartze.server.model.Page;
 import nl.christine.schwartze.server.service.PageService;
@@ -45,9 +46,10 @@ public class UpdatePageController {
     }
 
     @PostMapping(value = "/update_page/")
-    public ResponseEntity<PageResult> updatePage(@RequestBody PageRequest request) {
+    public ResponseEntity<PageResult> updatePage(@RequestBody UpdatePageRequest request) {
         PageResult result = new PageResult();
-        pageService.addPage(request.getPageNumber(), request.getChapterNumber());
+        Page page = pageService.updatePage(request.getPage());
+        result.setPage(page);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -55,7 +57,7 @@ public class UpdatePageController {
     public ResponseEntity<PageResult> removePage(@RequestBody PageRequest request) {
         PageResult result = new PageResult();
         pageService.removePage(request.getPageNumber(), request.getChapterNumber());
-        return new ResponseEntity<>(result, HttpStatus.OK);
+         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @PostMapping(value = "/add_page_reference/")
