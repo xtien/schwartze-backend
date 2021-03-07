@@ -193,6 +193,12 @@ public class PersonServiceImpl implements PersonService {
         if (StringUtils.isEmpty(person1.getDateOfDeath())) {
             person1.setDateOfDeath(person2.getDateOfDeath());
         }
+        if (StringUtils.isEmpty(person1.getPlaceOfBirth())) {
+            person1.setPlaceOfBirth(person2.getPlaceOfBirth());
+        }
+        if (StringUtils.isEmpty(person1.getPlaceOfDeath())) {
+            person1.setPlaceOfDeath(person2.getPlaceOfDeath());
+        }
         if (StringUtils.isNotEmpty(person2.getComment())) {
             person1.setComment(person1.getComment() + "\n" + person2.getComment());
         }

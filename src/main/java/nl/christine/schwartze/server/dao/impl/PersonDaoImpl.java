@@ -48,6 +48,8 @@ public class PersonDaoImpl implements PersonDao {
             existingPerson.setImageUrl(person.getImageUrl());
             existingPerson.setDateOfBirth(person.getDateOfBirth());
             existingPerson.setDateOfDeath(person.getDateOfDeath());
+            existingPerson.setPlaceOfBirth(person.getPlaceOfBirth());
+            existingPerson.setPlaceOfDeath(person.getPlaceOfDeath());
         }
 
         return person;

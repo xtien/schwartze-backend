@@ -35,6 +35,8 @@ public class Person {
     public static final String HAS_LETTERS_FROM = "brieven_van";
     public static final String HAS_LETTERS_TO = "brieven_aan";
     private static final String HIDE_LETTERS = "hide_letters";
+    private static final String PLACE_OF_BIRTH = "place_of_birth";
+    private static final String PLACE_OF_DEATH = "place_of_death";
 
     @Id
     @JsonProperty(ID)
@@ -60,10 +62,18 @@ public class Person {
     @Column(name = DATE_OF_BIRTH)
     @JsonProperty(DATE_OF_BIRTH)
     private String dateOfBirth;
+    
+    @Column(name = PLACE_OF_BIRTH)
+    @JsonProperty(PLACE_OF_BIRTH)
+    private String placeOfBirth;
 
     @Column(name = DATE_OF_DEATH)
     @JsonProperty(DATE_OF_DEATH)
     private String dateOfDeath;
+
+    @Column(name = PLACE_OF_DEATH)
+    @JsonProperty(PLACE_OF_DEATH)
+    private String placeOfDeath;
 
     @Column(name = COMMENT)
     @JsonProperty(COMMENT)
@@ -286,5 +296,21 @@ public class Person {
 
     public void setHideLetters(Boolean hideLetters) {
         this.hideLetters = hideLetters;
+    }
+
+    public String getPlaceOfBirth() {
+        return placeOfBirth;
+    }
+
+    public void setPlaceOfBirth(String placeOfBirth) {
+        this.placeOfBirth = placeOfBirth;
+    }
+
+    public String getPlaceOfDeath() {
+        return placeOfDeath;
+    }
+
+    public void setPlaceOfDeath(String placeOfDeath) {
+        this.placeOfDeath = placeOfDeath;
     }
 }
