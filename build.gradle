@@ -85,6 +85,7 @@ dependencies {
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: jacksonVersion
 
     compile group: 'io.springfox', name: 'springfox-swagger2', version: swaggerVersion
+    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: swaggerVersion
 
     compile group: 'org.apache.lucene', name: 'lucene-core', version: luceneVersion
     compile group: 'org.apache.lucene', name: 'lucene-analyzers-common', version: luceneVersion

@@ -51,6 +51,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .antMatchers("/admin/**").hasAuthority("WRITE_PRIVILEGE")
                 .antMatchers("/user/**").hasAuthority("WRITE_PRIVILEGE")
+                .antMatchers("/v2/api-docs",
+                        "/swagger-ui.html", "/swagger-ui").hasAuthority("WRITE_PRIVILEGE")
                 .antMatchers("/**").permitAll()
                 .anyRequest().permitAll()
         ;

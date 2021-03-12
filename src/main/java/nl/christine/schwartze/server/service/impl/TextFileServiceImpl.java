@@ -10,17 +10,17 @@ package nl.christine.schwartze.server.service.impl;
 import nl.christine.schwartze.server.controller.result.PageResult;
 import nl.christine.schwartze.server.properties.SchwartzeProperties;
 import nl.christine.schwartze.server.service.TextFileService;
-import nl.christine.schwartze.server.service.TextProcessor;
+import nl.christine.schwartze.server.text.TextReader;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.InputStreamReader;
-import java.nio.file.Paths;
-import java.util.*;
+import java.io.FilenameFilter;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Iterator;
 import java.util.stream.Collectors;
 
 @Component("textFileService")
@@ -38,7 +38,7 @@ public class TextFileServiceImpl implements TextFileService {
     private SchwartzeProperties properties;
 
     @Autowired
-    private TextProcessor processor;
+    private TextReader textReader;
 
     public TextFileServiceImpl() {
         reverseComparator = Comparator
@@ -54,10 +54,10 @@ public class TextFileServiceImpl implements TextFileService {
     @Override
     public String getText(String type, String documentName, String language) {
         String fileName = lettersDirectory + "/" + type + "/" + language + "/" + documentName + ".txt";
-        String result = getText(fileName);
+        String result = textReader.getText(fileName);
         if (result == null) {
             fileName = lettersDirectory + "/" + type + "/" + defaultLanguage + "/" + documentName + ".txt";
-            result = getText(fileName);
+            result = textReader.getText(fileName);
         }
         if (result == null) {
             result = "text file not found";
@@ -68,10 +68,10 @@ public class TextFileServiceImpl implements TextFileService {
     @Override
     public String getPage(String chapterId, String pageId, String language) {
         String fileName = lettersDirectory + "/pages/" + language + "/" + chapterId + "/" + pageId + ".txt";
-        String result = getText(fileName);
+        String result = textReader.getText(fileName);
         if (result == null) {
             fileName = lettersDirectory + "/pages/" + defaultLanguage + "/" + chapterId + "/" + pageId + ".txt";
-            result = getText(fileName);
+            result = textReader.getText(fileName);
         }
         if (result == null) {
             result = "text file not found";
@@ -92,7 +92,7 @@ public class TextFileServiceImpl implements TextFileService {
     private PageResult getPreviousNextPage(Comparator<File> pComparator, String chapterId, String pageId, String language) {
         PageResult pageResult;
         File dir = new File(lettersDirectory + "/pages/" + language + "/" + chapterId);
-        File[] dirList = dir.listFiles();
+        File[] dirList = dir.listFiles((dir1, name) -> name.toLowerCase().endsWith(".txt"));
         String nextPageId = null;
         Iterator<File> iterator = Arrays.stream(dirList)
                 .sorted(pComparator)
@@ -153,27 +153,5 @@ public class TextFileServiceImpl implements TextFileService {
             }
         }
         return null;
-    }
-
-    private String getText(String fileName) {
-
-        String result = "";
-
-        if (new File(fileName).exists()) {
-
-            try (BufferedReader rd = new BufferedReader(new InputStreamReader(java.nio.file.Files.newInputStream(Paths.get(fileName))))) {
-                String line = "";
-                while ((line = rd.readLine()) != null) {
-                    result += line;
-                }
-            } catch (Exception e) {
-                logger.error("Error getting home text", e);
-                result = "text file not found";
-            }
-        } else {
-            result = null;
-        }
-
-        return result;
     }
 }
