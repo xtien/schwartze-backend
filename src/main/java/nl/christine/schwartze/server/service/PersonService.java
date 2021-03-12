@@ -44,4 +44,6 @@ public interface PersonService {
     Text getText(int id);
 
     EditLinkResult editLink(EditLinkRequest request);
+
+    List<Person> search(String searchTerm);
 }

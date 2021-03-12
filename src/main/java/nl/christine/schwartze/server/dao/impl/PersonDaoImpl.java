@@ -18,10 +18,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @SuppressWarnings("JpaQlInspection")
 @Component("personDao")
@@ -116,6 +113,21 @@ public class PersonDaoImpl implements PersonDao {
     }
 
     @Override
+    public List<Person> search(String searchTerm) {
+        TypedQuery<Person> query = entityManager.createQuery(
+                "select a from " + Person.class.getSimpleName() +
+                        " a  where LOWER(a.name) LIKE :searchTerm  " +
+                        "or LOWER(a.fullName) LIKE :searchTerm " +
+                        "or LOWER(a.lastName) LIKE :searchTerm",
+                Person.class);
+        try {
+            return query.setParameter("searchTerm", "%" + searchTerm.toLowerCase(Locale.ROOT) + "%").getResultList();
+        } catch (NoResultException nre) {
+            return new ArrayList<>();
+        }
+    }
+
+    @Override
     public Person getPerson(int id) {
         return entityManager.find(Person.class, id);
     }
@@ -137,7 +149,7 @@ public class PersonDaoImpl implements PersonDao {
         Person existingPerson;
 
         TypedQuery<Person> query = entityManager.createQuery(
-                "select a from " + Person.class.getSimpleName() + " a where a.firstName = :firstname and a.lastName = :lastname", Person.class);
+                "select a from " + Person.class.getSimpleName() + " a where a.name = :firstname and a.lastName = :lastname", Person.class);
         try {
             existingPerson = query.setParameter("firstname", person.getName()).setParameter("lastname", person.getLastName()).getSingleResult();
         } catch (NoResultException nre) {

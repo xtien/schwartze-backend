@@ -45,4 +45,6 @@ public interface PersonDao {
     void savePerson(Person p);
 
     Person persist(Person person);
+
+    List<Person> search(String searchTerm);
 }

@@ -7,15 +7,17 @@
 
 package nl.christine.schwartze.server.controller;
 
-import nl.christine.schwartze.server.controller.result.SubjectsResult;
-import nl.christine.schwartze.server.service.SubjectService;
+import nl.christine.schwartze.server.controller.request.SearchPeopleRequest;
+import nl.christine.schwartze.server.controller.result.PeopleResult;
+import nl.christine.schwartze.server.service.PersonService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 @CrossOrigin(origins = {"https://pengo.christine.nl",
@@ -23,20 +25,20 @@ import org.springframework.web.bind.annotation.GetMapping;
         "https://www.schwartze-ansingh.nl",
         "https://schwartze-ansingh.com",
         "https://schwartze-ansingh.nl"}, maxAge = 14400)
-public class SubjectsGetController {
+public class SearchPeopleController {
 
-    Logger logger = Logger.getLogger(ReferenceController.class);
+    Logger logger = Logger.getLogger(SearchPeopleController.class);
 
     @Autowired
-    private SubjectService subjectService;
+    private PersonService personService;
 
-    @GetMapping(value = "/get_subjects/")
-    public ResponseEntity<SubjectsResult> getSubjects() {
+    @PostMapping(value = "/search_people/")
+    public ResponseEntity<PeopleResult> searchPeople(@RequestBody SearchPeopleRequest request) {
 
-        SubjectsResult result = new SubjectsResult();
+        PeopleResult result = new PeopleResult();
 
         try {
-            result.setSubjects(subjectService.getSubjects());
+            result.setPeople(personService.search(request.getSearchTerm()));
         } catch (Exception e) {
             logger.error("Error getting references",e);
         }

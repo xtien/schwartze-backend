@@ -23,10 +23,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.springframework.util.CollectionUtils.isEmpty;
@@ -254,6 +251,19 @@ public class PersonServiceImpl implements PersonService {
         }
 
         result.setPerson(person);
+        return result;
+    }
+
+    @Override
+    @Transactional("transactionManager")
+    public List<Person> search(final String searchTerm) {
+
+        String term = searchTerm.replaceAll("\\s+", " ");
+        String array[] = term.split(" ");
+        List<Person> result = new ArrayList<>();
+        for (String s : array) {
+            result.addAll(personDao.search(s));
+        }
         return result;
     }
 
