@@ -37,6 +37,7 @@ public class PersonServiceImpl implements PersonService {
 
     private final Comparator<Person> compareByName;
     private final Comparator<Person> compareByLastName;
+    private final String pattern = "^[\\p{L}0-9\\-\\s']+$";
 
     @Autowired
     private PersonDao personDao;
@@ -258,13 +259,14 @@ public class PersonServiceImpl implements PersonService {
     @Transactional("transactionManager")
     public List<Person> search(final String searchTerm) {
 
-        String term = searchTerm.replaceAll("\\s+", " ");
-        String array[] = term.split(" ");
         List<Person> result = new ArrayList<>();
-        for (String s : array) {
-            result.addAll(personDao.search(s));
+        if (searchTerm.matches(pattern)) {
+            String term = searchTerm.replaceAll("\\s+", " ");
+            String array[] = term.split(" ");
+            for (String s : array) {
+                result.addAll(personDao.search(s));
+            }
         }
         return result;
     }
-
 }

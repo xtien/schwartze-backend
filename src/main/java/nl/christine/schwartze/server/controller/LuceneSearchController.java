@@ -30,6 +30,7 @@ import java.io.IOException;
 public class LuceneSearchController {
 
     Logger logger = Logger.getLogger(LuceneSearchController.class);
+    private final String pattern = "^[\\p{L}0-9\\-\\s']+$";
 
     @Autowired
     private SearchFiles searchFiles;
@@ -38,13 +39,15 @@ public class LuceneSearchController {
     public ResponseEntity<SearchResult> searchIndex(@RequestBody SearchRequest request) {
 
         SearchResult result = new SearchResult();
-        try {
-            result.setLetters(searchFiles.search(request.getSearchTerm()));
-            result.setNumberOfResults(result.getLetters().size());
-        } catch (IOException e) {
-            logger.error(e);
-        } catch (Exception e) {
-            logger.error(e);
+        if (request.getSearchTerm().matches(pattern)) {
+            try {
+                result.setLetters(searchFiles.search(request.getSearchTerm()));
+                result.setNumberOfResults(result.getLetters().size());
+            } catch (IOException e) {
+                logger.error(e);
+            } catch (Exception e) {
+                logger.error(e);
+            }
         }
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
