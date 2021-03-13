@@ -17,6 +17,7 @@
 
     <context:component-scan base-package="nl.christine.schwartze.server.dao"/>
     <context:component-scan base-package="nl.christine.schwartze.server.service"/>
+    <context:component-scan base-package="nl.christine.schwartze.server.text"/>
     <context:component-scan base-package="nl.christine.schwartze.server.properties"/>
     <context:component-scan base-package="nl.christine.schwartze.server.test.db"/>
 
