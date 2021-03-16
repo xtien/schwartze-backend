@@ -70,7 +70,7 @@ public class WebMockLettersFromTest {
         letter1.setComment(comment);
         Person person = new Person();
         person.setId(3);
-        person.setName("Lizzy");
+        person.setFirstName("Lizzy");
         letter1.setSender(person);
         letters.add(letter1);
         letters.add(new Letter());

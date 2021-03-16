@@ -37,7 +37,7 @@ public class PersonDaoImpl implements PersonDao {
             entityManager.persist(person);
         } else {
             existingPerson.setLastName(person.getLastName());
-            existingPerson.setName(person.getName());
+            existingPerson.setFirstName(person.getFirstName());
             existingPerson.setFullName(person.getFullName());
             existingPerson.setTussenvoegsel(person.getTussenvoegsel());
             existingPerson.setComment(person.getComment());
@@ -116,15 +116,27 @@ public class PersonDaoImpl implements PersonDao {
     public List<Person> search(String searchTerm) {
         TypedQuery<Person> query = entityManager.createQuery(
                 "select a from " + Person.class.getSimpleName() +
-                        " a  where LOWER(a.name) LIKE :searchTerm  " +
-                        "or LOWER(a.fullName) LIKE :searchTerm " +
-                        "or LOWER(a.lastName) LIKE :searchTerm",
+                        " a  where LOWER(a.firstName) LIKE :searchTerm" +
+                        " or LOWER(a.fullName) LIKE :searchTerm" +
+                        " or LOWER(a.lastName) LIKE :searchTerm",
                 Person.class);
-        try {
-            return query.setParameter("searchTerm", "%" + searchTerm.toLowerCase(Locale.ROOT) + "%").getResultList();
-        } catch (NoResultException nre) {
-            return new ArrayList<>();
-        }
+        return query.setParameter("searchTerm", "%" + searchTerm.toLowerCase(Locale.ROOT) + "%").getResultList();
+    }
+
+    @Override
+    public List<Person> searchFirstAndLastName(String searchTerm) {
+
+        String array[] = searchTerm.split(" ");
+        final String firstName = array[0];
+        final String lastName = searchTerm.substring(searchTerm.indexOf(" ") + 1);
+
+        TypedQuery<Person> query = entityManager.createQuery(
+                "select a from " + Person.class.getSimpleName() +
+                        " a  where LOWER(a.firstName) = :firstName" +
+                        " and LOWER(a.lastName) = :lastName",
+                Person.class);
+        List<Person> list = query.setParameter("firstName", firstName.toLowerCase(Locale.ROOT)).setParameter("lastName", lastName.toLowerCase(Locale.ROOT)).getResultList();
+        return list;
     }
 
     @Override
@@ -151,7 +163,7 @@ public class PersonDaoImpl implements PersonDao {
         TypedQuery<Person> query = entityManager.createQuery(
                 "select a from " + Person.class.getSimpleName() + " a where a.name = :firstname and a.lastName = :lastname", Person.class);
         try {
-            existingPerson = query.setParameter("firstname", person.getName()).setParameter("lastname", person.getLastName()).getSingleResult();
+            existingPerson = query.setParameter("firstname", person.getFirstName()).setParameter("lastname", person.getLastName()).getSingleResult();
         } catch (NoResultException nre) {
             existingPerson = null;
         }

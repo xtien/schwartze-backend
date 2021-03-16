@@ -41,11 +41,11 @@ public class TestCombinePerson {
         List<Person> list = personService.getAllPeople();
 
         Person person1 = new Person();
-        person1.setName("Anna1");
+        person1.setFirstName("Anna1");
         person1.setLastName(("van Gogh"));
 
         Person person2 = new Person();
-        person2.setName("Anna2");
+        person2.setFirstName("Anna2");
         person2.setLastName(("van Gogh"));
 
         Letter letter1 = new Letter();
@@ -73,18 +73,18 @@ public class TestCombinePerson {
         int id2 = personService.addPerson(person2).getId();
 
         Person person3 = new Person();
-        person3.setName("Lizzy");
+        person3.setFirstName("Lizzy");
         person3.setLastName(("Ansingh"));
         personService.addPerson(person3);
 
         CombinePersonResult result = personService.getCombinePersons(id1, id2);
 
-        assertEquals("Anna1", result.getPerson1().getName());
-        assertEquals("Anna2", result.getPerson2().getName());
+        assertEquals("Anna1", result.getPerson1().getFirstName());
+        assertEquals("Anna2", result.getPerson2().getFirstName());
 
         CombinePersonResult result2 = personService.putCombinePersons(id1, id2);
 
-        assertEquals("Anna1", result2.getPerson1().getName());
+        assertEquals("Anna1", result2.getPerson1().getFirstName());
         assertNull(result2.getPerson2());
 
         List<Person> allPeople = personService.getAllPeople();

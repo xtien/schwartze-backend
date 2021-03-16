@@ -40,7 +40,7 @@ public class TestDeleteLink {
     public void testDeletePersonLink(){
 
          Person person = new Person();
-        person.setName("Lizzy");
+        person.setFirstName("Lizzy");
         Person resultPerson = personService.addPerson(person);
         int personId = resultPerson.getId();
         EditLinkRequest editLinkRequest = new EditLinkRequest();

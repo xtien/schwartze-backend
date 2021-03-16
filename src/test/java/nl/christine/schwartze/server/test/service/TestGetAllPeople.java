@@ -39,9 +39,9 @@ public class TestGetAllPeople {
         List<Person> list = personService.getAllPeople();
 
         Person person1 = new Person();
-        person1.setName("Lizzy");
+        person1.setFirstName("Lizzy");
         Person person2 = new Person();
-        person2.setName("Therese");
+        person2.setFirstName("Therese");
         person2.setLastName("Schwartze");
         Person person3 = new Person();
         person3.setLastName("Moes");

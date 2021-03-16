@@ -75,7 +75,7 @@ public class WebMockUpdatePersonTest {
         letter1.setComment(comment);
         person = new Person();
         person.setId(3);
-        person.setName("Lizzy");
+        person.setFirstName("Lizzy");
         letter1.setRecipient(person);
         letters.add(letter1);
         letters.add(new Letter());
@@ -103,6 +103,6 @@ public class WebMockUpdatePersonTest {
 
         ArgumentCaptor<Person> captor = ArgumentCaptor.forClass(Person.class);
         verify(personService).updatePerson(captor.capture());
-        assertThat(captor.getValue().getName(), is(equalTo(person.getName())));
+        assertThat(captor.getValue().getFirstName(), is(equalTo(person.getFirstName())));
     }
 }

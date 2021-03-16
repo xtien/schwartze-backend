@@ -18,8 +18,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.List;
-
 import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -87,7 +85,7 @@ public class TestUpdateLetter {
     private Person createPerson(int i, int j) {
         Person person = new Person();
         //   person.setId(i * 10 + j);
-        person.setName("first" + i + j);
+        person.setFirstName("first" + i + j);
         person.setLastName("last" + i + j);
         return person;
     }

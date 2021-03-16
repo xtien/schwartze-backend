@@ -20,7 +20,7 @@ import java.util.List;
 @Table(name = "people")
 public class Person {
 
-    public static final String NAME = "first_name";
+    public static final String FIRST_NAME = "first_name";
     public static final String FULL_NAME = "middle_name";
     public static final String TUSSENVOEGSEL = "tussenvoegsel";
     public static final String LAST_NAME = "last_name";
@@ -43,9 +43,9 @@ public class Person {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = NAME)
+    @Column(name = FIRST_NAME)
     @JsonProperty("nick_name")
-    private String name;
+    private String firstName;
 
     @Column(name = FULL_NAME)
     @JsonProperty("full_name")
@@ -62,7 +62,7 @@ public class Person {
     @Column(name = DATE_OF_BIRTH)
     @JsonProperty(DATE_OF_BIRTH)
     private String dateOfBirth;
-    
+
     @Column(name = PLACE_OF_BIRTH)
     @JsonProperty(PLACE_OF_BIRTH)
     private String placeOfBirth;
@@ -119,16 +119,16 @@ public class Person {
         // used for deserialization
     }
 
-    public void setName(String s) {
-        name = s;
+    public void setFirstName(String s) {
+        firstName = s;
     }
 
     public void setFullName(String s) {
         fullName = s;
     }
 
-    public void setLastName(String substring) {
-        lastName = substring;
+    public void setLastName(String string) {
+        lastName = string;
     }
 
     public int getId() {
@@ -139,8 +139,8 @@ public class Person {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
     public String getFullName() {
@@ -160,8 +160,8 @@ public class Person {
     }
 
     public void noNulls() {
-        if (name == null) {
-            name = "";
+        if (firstName == null) {
+            firstName = "";
         }
         if (lastName == null) {
             lastName = "";
@@ -263,7 +263,7 @@ public class Person {
     }
 
     public String toString(){
-        return id + " " + name + " " + lastName + " " + dateOfBirth;
+        return id + " " + firstName + " " + lastName + " " + dateOfBirth;
     }
 
     public String getTussenvoegsel() {

@@ -47,4 +47,6 @@ public interface PersonDao {
     Person persist(Person person);
 
     List<Person> search(String searchTerm);
+
+    List<Person> searchFirstAndLastName(String searchTerm);
 }

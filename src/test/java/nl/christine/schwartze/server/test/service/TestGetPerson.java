@@ -37,7 +37,7 @@ public class TestGetPerson {
     public void testGetPerson() {
 
         Person person = new Person();
-        person.setName("Lizzy");
+        person.setFirstName("Lizzy");
 
         Letter letter1 = new Letter();
         letter1.setComment("comment 1");
@@ -62,6 +62,6 @@ public class TestGetPerson {
         assertEquals(4, lettersFrom.size());
 
         Person p1 = personService.getPerson(id1);
-        assertEquals("Lizzy", p1.getName());
+        assertEquals("Lizzy", p1.getFirstName());
     }
 }

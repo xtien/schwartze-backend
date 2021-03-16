@@ -27,8 +27,6 @@ import org.springframework.util.CollectionUtils;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static org.assertj.core.description.Description.emptyIfNull;
-
 @Component("letterService")
 public class LetterServiceImpl implements LetterService {
 
@@ -390,7 +388,7 @@ public class LetterServiceImpl implements LetterService {
         String[] str = importPerson.split(" ");
         int i = 0;
         if (str.length > 0) {
-            person.setName(str[0].trim());
+            person.setFirstName(str[0].trim());
             i = str[0].length();
             if (str.length > 2 && Character.isUpperCase(str[1].charAt(0))) {
                 person.setFullName(str[1].trim());

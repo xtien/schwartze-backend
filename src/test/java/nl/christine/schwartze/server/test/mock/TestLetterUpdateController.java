@@ -119,7 +119,7 @@ public class TestLetterUpdateController {
     private Person createPerson(int i, int j) {
         Person person = new Person();
         person.setId(i * 10 + j);
-        person.setName("first" + i + j);
+        person.setFirstName("first" + i + j);
         person.setLastName("last" + i + j);
         return person;
     }
