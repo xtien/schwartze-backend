@@ -27,6 +27,7 @@ public class TestPageReference {
 
     private String pageNumber = "12";
     private String chapterNumber = "4";
+    private String language = "nl";
     private String key = "key";
     private String description = "123 description ";
     private ReferenceType type = ReferenceType.LETTER;
@@ -39,7 +40,7 @@ public class TestPageReference {
 
         pageService.addPage(pageNumber, chapterNumber);
 
-        Page page = pageService.getPage(pageNumber, chapterNumber);
+        Page page = pageService.getPage(language, pageNumber, chapterNumber);
 
         assertNotNull(page);
         assertEquals(pageNumber, page.getPageNumber());
@@ -56,7 +57,7 @@ public class TestPageReference {
         page.setPageNumber(pageNumber);
         page.setChapterNumber(chapterNumber);
         pageService.addPage(pageNumber, chapterNumber);
-        Page newPage = pageService.getPage(pageNumber, chapterNumber);
+        Page newPage = pageService.getPage(language, pageNumber, chapterNumber);
         assertNotNull(newPage);
 
         PageReference pageReference = new PageReference();
@@ -66,7 +67,7 @@ public class TestPageReference {
         pageReference.setPage(page);
         pageService.addPageReference(pageNumber, chapterNumber, pageReference);
 
-        Page resultPage = pageService.getPage(pageNumber, chapterNumber);
+        Page resultPage = pageService.getPage(language, pageNumber, chapterNumber);
         assertNotNull(page);
         assertEquals(pageNumber, resultPage.getPageNumber());
         assertTrue(resultPage.getReferences().size() == 1);
@@ -74,7 +75,7 @@ public class TestPageReference {
 
         pageService.removePageReference(pageNumber, chapterNumber, pageReference);
 
-        resultPage = pageService.getPage(pageNumber, chapterNumber);
+        resultPage = pageService.getPage(language, pageNumber, chapterNumber);
         assertNotNull(resultPage);
         assertFalse(resultPage.getReferences().contains(pageReference));
     }

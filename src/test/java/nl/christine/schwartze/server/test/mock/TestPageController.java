@@ -44,6 +44,7 @@ public class TestPageController {
 
     String pageNumber = "11";
     String chapterNumber = "2";
+    String language = "nl";
 
     @Autowired
     private MockMvc mockMvc;
@@ -68,7 +69,7 @@ public class TestPageController {
         request.setPageNumber(pageNumber);
         request.setChapterNumber(chapterNumber);
         String json = objectMapper.writeValueAsString(request);
-        when(pageService.getPage(pageNumber, chapterNumber)).thenReturn(new Page());
+        when(pageService.getPage(language, pageNumber, chapterNumber)).thenReturn(new Page());
 
         MockHttpServletResponse response = this.mockMvc.perform(post("/admin/add_page/")
                 .sessionAttr(TOKEN_ATTR_NAME, csrfToken)
@@ -94,7 +95,7 @@ public class TestPageController {
         request.setChapterNumber(chapterNumber);
         String json = objectMapper.writeValueAsString(request);
 
-        when(pageService.getPage(pageNumber, chapterNumber)).thenReturn(new Page());
+        when(pageService.getPage(language, pageNumber, chapterNumber)).thenReturn(new Page());
 
         MockHttpServletResponse response = this.mockMvc.perform(post("/admin/remove_page/")
                 .sessionAttr(TOKEN_ATTR_NAME, csrfToken)
@@ -121,7 +122,7 @@ public class TestPageController {
         request.setChapterNumber(chapterNumber);
         String json = objectMapper.writeValueAsString(request);
 
-        when(pageService.getPage(pageNumber, chapterNumber)).thenReturn(new Page());
+        when(pageService.getPage(language, pageNumber, chapterNumber)).thenReturn(new Page());
 
         MockHttpServletResponse response = this.mockMvc.perform(post("/admin/add_page_reference/")
                 .sessionAttr(TOKEN_ATTR_NAME, csrfToken)

@@ -37,6 +37,7 @@ public class TestGetReferencesController {
 
     private String pageNumber = "3";
     private String chapterNumber = "2";
+    private String language = "nl";
 
     @Autowired
     private MockMvc mockMvc;
@@ -54,7 +55,7 @@ public class TestGetReferencesController {
 
         ObjectMapper objectMapper = new ObjectMapper();
 
-        when(pageService.getPage(pageNumber, chapterNumber));
+        when(pageService.getPage(language, pageNumber, chapterNumber));
 
         PageRequest request = new PageRequest();
         request.setPageNumber(pageNumber);
