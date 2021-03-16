@@ -12,7 +12,7 @@ import nl.christine.schwartze.server.model.PageReference;
 
 public interface PageService {
 
-    Page getPage(String pageNumber, String chapterNumber);
+    Page getPage(String language, String pageNumber, String chapterNumber);
 
     Page addPage(String pageNumber, String chapterNumber);
 

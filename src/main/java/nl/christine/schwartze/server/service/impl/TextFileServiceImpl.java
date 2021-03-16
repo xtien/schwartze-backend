@@ -125,6 +125,11 @@ public class TextFileServiceImpl implements TextFileService {
         return getPreviousNextChapter(reverseComparator, chapterId, pageId, language);
     }
 
+    @Override
+    public String getChapterTitle(String language, String chapterNumber) {
+        return textReader.getText(lettersDirectory + "/pages/" + language + "/" + chapterNumber + "/title.ch");
+    }
+
     private PageResult getPreviousNextChapter(Comparator<File> pComparator, String chapterId, String pageId, String language) {
         PageResult pageResult;
         File dir = new File(lettersDirectory + "/pages/" + language + "/" + chapterId);

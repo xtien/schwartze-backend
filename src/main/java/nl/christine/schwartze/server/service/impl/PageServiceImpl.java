@@ -12,6 +12,8 @@ import nl.christine.schwartze.server.dao.PageDao;
 import nl.christine.schwartze.server.model.Page;
 import nl.christine.schwartze.server.model.PageReference;
 import nl.christine.schwartze.server.service.PageService;
+import nl.christine.schwartze.server.service.TextFileService;
+import nl.christine.schwartze.server.text.TextReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,15 +24,19 @@ public class PageServiceImpl implements PageService {
     @Autowired
     private PageDao pageDao;
 
+    @Autowired
+    private TextFileService textFileService;
+
     @Override
     @Transactional("transactionManager")
-    public Page getPage(String pageNumber, String chapterNumber) {
+    public Page getPage(String language, String pageNumber, String chapterNumber) {
         Page result = pageDao.getPage(pageNumber, chapterNumber);
         if(result == null){
             result = new Page();
             result.setChapterNumber(chapterNumber);
             result.setPageNumber(pageNumber);
         }
+        result.setChapterTitle(textFileService.getChapterTitle(language, chapterNumber));
         return result;
     }
 

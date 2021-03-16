@@ -22,6 +22,7 @@ public class Page {
     private static final String PAGE_NUMBER = "page_number";
     private static final String CHAPTER_NUMBER = "chapter_number";
     private static final String PICTURE_URL = "picture_url";
+    private static final String CHAPTER_TITLE = "chapter_title";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,6 +40,10 @@ public class Page {
     @Column(name = PAGE_NUMBER)
     @JsonProperty(PAGE_NUMBER)
     private String pageNumber;
+
+    @Transient
+    @JsonProperty(CHAPTER_TITLE)
+    private String chapterTitle;
 
     @Column(name = REFERENCES)
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
@@ -75,5 +80,9 @@ public class Page {
 
     public void setPictureUrl(String pictureUrl) {
         this.pictureUrl = pictureUrl;
+    }
+
+    public void setChapterTitle(String chapterTitle) {
+        this.chapterTitle = chapterTitle;
     }
 }

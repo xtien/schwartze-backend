@@ -42,7 +42,7 @@ public class GetPageReferencesController {
 
         try {
 
-            Page page = pageService.getPage(request.getPageNumber(), request.getChapterNumber());
+            Page page = pageService.getPage(request.getLanguage(), request.getPageNumber(), request.getChapterNumber());
 
             if (page != null) {
                 result.setPage(page);

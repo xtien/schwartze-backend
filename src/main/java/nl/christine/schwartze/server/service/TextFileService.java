@@ -23,4 +23,6 @@ public interface TextFileService {
     PageResult getNextChapter(String chapterId, String pageId, String language);
 
     PageResult getPreviousChapter(String chapterId, String pageId, String language);
+
+    String getChapterTitle(String language, String chapterNumber);
 }

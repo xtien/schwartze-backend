@@ -62,7 +62,7 @@ public class HomeTextGetController {
         PageTextResult result = new PageTextResult();
         HttpStatus status = HttpStatus.OK;
         result.setText(textFileService.getPage(request.getChapterId(), request.getPageId(), request.getLanguage()));
-        result.setPage(pageService.getPage(request.getPageId(), request.getChapterId()));
+        result.setPage(pageService.getPage(request.getLanguage(), request.getPageId(), request.getChapterId()));
         return new ResponseEntity<>(result, status);
     }
 
@@ -73,7 +73,7 @@ public class HomeTextGetController {
         HttpStatus status = HttpStatus.OK;
         PageResult pageResult = textFileService.getNextPage(request.getChapterId(), request.getPageId(), request.getLanguage());
         if (pageResult != null) {
-            result.setPage(pageService.getPage(pageResult.getPageId(), pageResult.getChapterId()));
+            result.setPage(pageService.getPage(request.getLanguage(), pageResult.getPageId(), pageResult.getChapterId()));
             result.setText(pageResult.getText());
         }
         return new ResponseEntity<>(result, status);
@@ -86,7 +86,7 @@ public class HomeTextGetController {
         HttpStatus status = HttpStatus.OK;
         PageResult pageResult = textFileService.getPreviousPage(request.getChapterId(), request.getPageId(), request.getLanguage());
         if (pageResult != null) {
-            result.setPage(pageService.getPage(pageResult.getPageId(), pageResult.getChapterId()));
+            result.setPage(pageService.getPage(request.getLanguage(), pageResult.getPageId(), pageResult.getChapterId()));
             result.setText(pageResult.getText());
         }
         return new ResponseEntity<>(result, status);
@@ -99,7 +99,7 @@ public class HomeTextGetController {
         HttpStatus status = HttpStatus.OK;
         PageResult pageResult = textFileService.getNextChapter(request.getChapterId(), request.getPageId(), request.getLanguage());
         if (pageResult != null) {
-            result.setPage(pageService.getPage(pageResult.getPageId(), pageResult.getChapterId()));
+            result.setPage(pageService.getPage(request.getLanguage(), pageResult.getPageId(), pageResult.getChapterId()));
             result.setText(pageResult.getText());
         }
         return new ResponseEntity<>(result, status);
@@ -112,7 +112,7 @@ public class HomeTextGetController {
         HttpStatus status = HttpStatus.OK;
         PageResult pageResult = textFileService.getPreviousChapter(request.getChapterId(), request.getPageId(), request.getLanguage());
         if (pageResult != null) {
-            result.setPage(pageService.getPage(pageResult.getPageId(), pageResult.getChapterId()));
+            result.setPage(pageService.getPage(request.getLanguage(), pageResult.getPageId(), pageResult.getChapterId()));
             result.setText(pageResult.getText());
         }
         return new ResponseEntity<>(result, status);

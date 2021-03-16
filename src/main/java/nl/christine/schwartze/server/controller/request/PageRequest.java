@@ -17,6 +17,9 @@ public class PageRequest {
     @JsonProperty("chapter_number")
     private String chapterNumber;
 
+    @JsonProperty("language")
+    private String language;
+
     public String getPageNumber() {
         return pageNumber;
     }
@@ -31,5 +34,13 @@ public class PageRequest {
 
     public void setChapterNumber(String chapterNumber) {
         this.chapterNumber = chapterNumber;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    public String getLanguage() {
+        return language;
     }
 }
