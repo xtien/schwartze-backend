@@ -11,6 +11,7 @@ import nl.christine.schwartze.server.model.ContentItem;
 import nl.christine.schwartze.server.properties.SchwartzeProperties;
 import nl.christine.schwartze.server.service.ContentService;
 import nl.christine.schwartze.server.text.TextReader;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -21,13 +22,14 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Component("contentService")
 public class ContentServiceImpl implements ContentService {
 
     Logger logger = Logger.getLogger(ContentServiceImpl.class);
 
-    private final Comparator<File> comparator;
+    private final Comparator<File> comparator = Comparator.comparingInt(this::num);
     private String lettersDirectory;
 
     @Autowired
@@ -36,8 +38,12 @@ public class ContentServiceImpl implements ContentService {
     @Autowired
     private SchwartzeProperties properties;
 
-    public ContentServiceImpl() {
-        comparator = Comparator.comparing(File::getName);
+    private int num(File file) {
+        String fileName = file.getName();
+        if(fileName.contains(".")){
+            fileName = fileName.substring(0,fileName.indexOf("."));
+        }
+         return Integer.parseInt(NumberUtils.isCreatable(fileName) ? fileName : "0");
     }
 
     @PostConstruct
@@ -47,8 +53,8 @@ public class ContentServiceImpl implements ContentService {
 
     @Override
     public List<ContentItem> getContent(String language) {
-
         File chapterDir = new File(lettersDirectory + "/pages/" + language);
+
         return Arrays
                 .stream(chapterDir.listFiles())
                 .sorted(comparator)
@@ -63,10 +69,18 @@ public class ContentServiceImpl implements ContentService {
     }
 
     private String getPageNumber(File dir) {
-        return Arrays
-                .stream(dir.listFiles())
+
+        File[] d = dir.listFiles((dir1, name) -> name.toLowerCase().endsWith(".txt"));
+        List<File> s = Arrays.stream(d).sorted(comparator).collect(Collectors.toList());
+        List<String> p = Arrays
+                .stream(dir.listFiles((dir1, name) -> name.toLowerCase().endsWith(".txt")))
                 .sorted(comparator)
-                .map(file -> file.getName().substring(0,file.getName().indexOf(".")))
+                .map(file -> file.getName().substring(0, file.getName().indexOf("."))).collect(Collectors.toList());
+
+        return Arrays
+                .stream(dir.listFiles((dir1, name) -> name.toLowerCase().endsWith(".txt")))
+                .sorted(comparator)
+                .map(file -> file.getName().substring(0, file.getName().indexOf(".")))
                 .findFirst()
                 .orElse("");
     }

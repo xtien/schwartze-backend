@@ -11,26 +11,34 @@ import nl.christine.schwartze.server.controller.result.PageResult;
 import nl.christine.schwartze.server.properties.SchwartzeProperties;
 import nl.christine.schwartze.server.service.TextFileService;
 import nl.christine.schwartze.server.text.TextReader;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.io.File;
-import java.io.FilenameFilter;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Component("textFileService")
 public class TextFileServiceImpl implements TextFileService {
 
     final String defaultLanguage = "nl";
-    Logger logger = Logger.getLogger(TextFileServiceImpl.class);
 
-    private final Comparator<File> reverseComparator;
-    private final Comparator<File> comparator;
+    private final Comparator<File> comparator = Comparator.comparingInt(this::num);
+    private final Comparator<File> reverseComparator = Comparator.comparingInt(this::num).reversed();
+
+    private int num(File file) {
+        String fileName = file.getName();
+        if(fileName.contains(".")){
+            fileName = file.getName().substring(0, file.getName().indexOf("."));
+        }
+        return Integer.parseInt(NumberUtils.isCreatable(fileName) ? fileName : "0");
+    }
 
     private String lettersDirectory;
 
@@ -39,12 +47,6 @@ public class TextFileServiceImpl implements TextFileService {
 
     @Autowired
     private TextReader textReader;
-
-    public TextFileServiceImpl() {
-        reverseComparator = Comparator
-                .comparing(File::getName, Comparator.nullsFirst(Comparator.reverseOrder()));
-        comparator = Comparator.comparing(File::getName);
-    }
 
     @PostConstruct
     public void init() {
@@ -133,19 +135,23 @@ public class TextFileServiceImpl implements TextFileService {
     private PageResult getPreviousNextChapter(Comparator<File> pComparator, String chapterId, String pageId, String language) {
         PageResult pageResult;
         File dir = new File(lettersDirectory + "/pages/" + language + "/" + chapterId);
-        File[] chapterDirFiles = new File(dir.getParent()).listFiles();
+        File[] chapterDirFiles = new File(dir.getParent()).listFiles((d, name) -> NumberUtils.isCreatable(name.toLowerCase()));
+        List<File> chapterList = Arrays.stream(chapterDirFiles)
+                .sorted(pComparator)
+                .collect(Collectors.toList());
         Iterator<File> chapterIterator = Arrays.stream(chapterDirFiles)
                 .sorted(pComparator)
                 .collect(Collectors.toList()).iterator();
         String nextChapterId;
         String firstPageId;
         while (chapterIterator.hasNext()) {
-            if (chapterIterator.next().getName().equals(chapterId)) {
+            File next = chapterIterator.next();
+            if (next.getName().equals(chapterId)) {
                 if (chapterIterator.hasNext()) {
                     String nextChapterDirName = chapterIterator.next().getAbsolutePath();
                     File f = new File(nextChapterDirName);
                     nextChapterId = f.getName();
-                    File[] files = f.listFiles();
+                    File[] files = f.listFiles((d, name) -> name.toLowerCase().endsWith(".txt"));
                     firstPageId = Arrays.stream(files)
                             .sorted(comparator)
                             .collect(Collectors.toList()).get(0).getName().replace(".txt", "");
