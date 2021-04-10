@@ -12,7 +12,6 @@ import nl.christine.schwartze.server.properties.SchwartzeProperties;
 import nl.christine.schwartze.server.service.TextFileService;
 import nl.christine.schwartze.server.text.TextReader;
 import org.apache.commons.lang3.math.NumberUtils;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,7 +20,6 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Iterator;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Component("textFileService")
@@ -34,7 +32,7 @@ public class TextFileServiceImpl implements TextFileService {
 
     private int num(File file) {
         String fileName = file.getName();
-        if(fileName.contains(".")){
+        if (fileName.contains(".")) {
             fileName = file.getName().substring(0, file.getName().indexOf("."));
         }
         return Integer.parseInt(NumberUtils.isCreatable(fileName) ? fileName : "0");
@@ -136,9 +134,6 @@ public class TextFileServiceImpl implements TextFileService {
         PageResult pageResult;
         File dir = new File(lettersDirectory + "/pages/" + language + "/" + chapterId);
         File[] chapterDirFiles = new File(dir.getParent()).listFiles((d, name) -> NumberUtils.isCreatable(name.toLowerCase()));
-        List<File> chapterList = Arrays.stream(chapterDirFiles)
-                .sorted(pComparator)
-                .collect(Collectors.toList());
         Iterator<File> chapterIterator = Arrays.stream(chapterDirFiles)
                 .sorted(pComparator)
                 .collect(Collectors.toList()).iterator();

@@ -22,7 +22,6 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Component("contentService")
 public class ContentServiceImpl implements ContentService {
@@ -40,10 +39,10 @@ public class ContentServiceImpl implements ContentService {
 
     private int num(File file) {
         String fileName = file.getName();
-        if(fileName.contains(".")){
-            fileName = fileName.substring(0,fileName.indexOf("."));
+        if (fileName.contains(".")) {
+            fileName = fileName.substring(0, fileName.indexOf("."));
         }
-         return Integer.parseInt(NumberUtils.isCreatable(fileName) ? fileName : "0");
+        return Integer.parseInt(NumberUtils.isCreatable(fileName) ? fileName : "0");
     }
 
     @PostConstruct
@@ -69,14 +68,6 @@ public class ContentServiceImpl implements ContentService {
     }
 
     private String getPageNumber(File dir) {
-
-        File[] d = dir.listFiles((dir1, name) -> name.toLowerCase().endsWith(".txt"));
-        List<File> s = Arrays.stream(d).sorted(comparator).collect(Collectors.toList());
-        List<String> p = Arrays
-                .stream(dir.listFiles((dir1, name) -> name.toLowerCase().endsWith(".txt")))
-                .sorted(comparator)
-                .map(file -> file.getName().substring(0, file.getName().indexOf("."))).collect(Collectors.toList());
-
         return Arrays
                 .stream(dir.listFiles((dir1, name) -> name.toLowerCase().endsWith(".txt")))
                 .sorted(comparator)
