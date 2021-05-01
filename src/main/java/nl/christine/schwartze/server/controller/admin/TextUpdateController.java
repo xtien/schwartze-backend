@@ -14,7 +14,7 @@ import nl.christine.schwartze.server.dao.LocationDao;
 import nl.christine.schwartze.server.dao.PersonDao;
 import nl.christine.schwartze.server.dao.SubjectDao;
 import nl.christine.schwartze.server.model.Text;
-import nl.christine.schwartze.server.service.TextService;
+import nl.christine.schwartze.server.service.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -40,16 +40,16 @@ public class TextUpdateController {
     private TextService textService;
 
     @Autowired
-    private PersonDao personDao;
+    private SubjectService subjectService;
 
     @Autowired
-    private LocationDao locationDao;
+    private LetterService letterService;
 
     @Autowired
-    private SubjectDao subjectDao;
+    private LocationService locationService;
 
     @Autowired
-    private LetterDao letterDao;
+    private PersonService personService;
 
     @PostMapping(value = "/update_text/")
     public ResponseEntity<TextResult> updateText(@RequestBody TextRequest request) {
@@ -61,16 +61,16 @@ public class TextUpdateController {
             Text text = textService.updateText(request);
 
             if (request.getPersonId() != null) {
-                result.setPerson(personDao.getPerson(request.getPersonId()));
+                result.setPerson(personService.getPerson(request.getPersonId()));
             }
             if (request.getLocationId() != null) {
-                result.setLocation(locationDao.getLocation(request.getLocationId()));
+                result.setLocation(locationService.getLocation(request.getLocationId()));
             }
             if (request.getLetterId() != null) {
-                result.setLetter(letterDao.getLetterForId(request.getLetterId()));
+                result.setLetter(letterService.getLetterById(request.getLetterId()));
             }
-            if(request.getSubjectId() !=null){
-                result.setSubject(subjectDao.getSubjectById(request.getSubjectId()));
+            if (request.getSubjectId() != null) {
+                result.setSubject(subjectService.getSubjectById(request.getSubjectId(), request.getLanguage()));
             }
             if (text != null) {
                 result.setText(text);

@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component("subjectService")
 public class SubjectServiceImpl implements SubjectService {
@@ -29,36 +30,40 @@ public class SubjectServiceImpl implements SubjectService {
 
     @Override
     @Transactional("transactionManager")
-    public List<Subject> getSubjects() {
-        List<Subject> subjects = subjectDao.getSubjects();
-        for (Subject s : subjects) {
-            if (s.getTexts() != null && s.getTexts().size() == 0) {
-                if (s.getText() != null) {
-                    s.getText().setLanguage(defaultLanguage);
-                    s.getTexts().put(defaultLanguage, s.getText());
-                }
-            }
-        }
-        return subjects;
+    public List<Subject> getSubjects(String language) {
+        return convertText(subjectDao.getSubjects(), language);
     }
 
     @Override
     @Transactional("transactionManager")
     public List<Subject> addSubject(String name, String language) {
         subjectDao.addSubject(name, language);
-        return subjectDao.getSubjects();
+        return convertText(subjectDao.getSubjects(), language);
     }
 
     @Override
     @Transactional("transactionManager")
     public Subject getSubjectById(Integer subjectId, String language) {
-        return subjectDao.getSubjectById(subjectId);
+        return getSubjectTextForLanguage(subjectDao.getSubjectById(subjectId), language);
     }
 
     @Override
     @Transactional("transactionManager")
-    public List<Subject> removeSubject(Integer id) {
+    public List<Subject> removeSubject(Integer id, String language) {
         subjectDao.remove(id);
-        return getSubjects();
+        return getSubjects(language);
+    }
+
+    private List<Subject> convertText(List<Subject> subjects, String language) {
+        return subjects.stream().map(s -> getSubjectTextForLanguage(s, language)).collect(Collectors.toList());
+    }
+
+    private Subject getSubjectTextForLanguage(Subject s, String language) {
+        if (s.getTexts().get(language) != null) {
+            s.setText(s.getTexts().get(language));
+        } else {
+            s.setText(s.getTexts().get(defaultLanguage));
+        }
+        return s;
     }
 }

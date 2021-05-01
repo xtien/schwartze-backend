@@ -78,16 +78,17 @@ public class TextServiceImpl implements TextService {
             return letter.getText();
         } else if (request.getSubjectId() != null) {
             Subject subject = subjectDao.getSubjectById(request.getSubjectId());
-            if (subject.getText() == null) {
-                subject.setText(new Text());
-                subjectDao.persist(subject.getText());
+            if (!subject.getTexts().containsKey(request.getLanguage())) {
+                subject.getTexts().put(request.getLanguage(), new Text());
+                subject.getTexts().get(request.getLanguage()).setLanguage(request.getLanguage());  //TODO put language in Text constructor
+                subjectDao.persist(subject.getTexts().get(request.getLanguage()));
             }
-            if(request.getText() !=null){
-                subject.getText().setTextString(request.getText().getTextString());
-            } else if (StringUtils.isNotEmpty(request.getTextString())){
-                subject.getText().setTextString(request.getTextString());
+            if (request.getText() != null) {
+                subject.getTexts().get(request.getLanguage()).setTextString(request.getText().getTextString());
+            } else if (StringUtils.isNotEmpty(request.getTextString())) {
+                subject.getTexts().get(request.getLanguage()).setTextString(request.getTextString());
             }
-            return subject.getText();
+            return subject.getTexts().get(request.getLanguage());
         }
 
         return null;
