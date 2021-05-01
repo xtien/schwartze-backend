@@ -17,6 +17,9 @@ public class SubjectRequest {
     @JsonProperty("subject_name")
     private String subjectName;
 
+    @JsonProperty("language")
+    private String language;
+
     public Integer getSubjectId() {
         return subjectId;
     }
@@ -31,5 +34,9 @@ public class SubjectRequest {
 
     public void setSubjectName(String subjectName) {
         this.subjectName = subjectName;
+    }
+
+    public String getLanguage() {
+        return language;
     }
 }

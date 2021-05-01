@@ -7,19 +7,21 @@
 
 package nl.christine.schwartze.server.service.impl;
 
-import nl.christine.schwartze.server.dao.LocationDao;
 import nl.christine.schwartze.server.dao.PageDao;
 import nl.christine.schwartze.server.model.Page;
 import nl.christine.schwartze.server.model.PageReference;
 import nl.christine.schwartze.server.service.PageService;
 import nl.christine.schwartze.server.service.TextFileService;
-import nl.christine.schwartze.server.text.TextReader;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 @Component("pageService")
 public class PageServiceImpl implements PageService {
+
+    @Value("${defaultlanguage}")
+    private String defaultLanguage;
 
     @Autowired
     private PageDao pageDao;

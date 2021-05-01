@@ -13,6 +13,7 @@ import nl.christine.schwartze.server.service.TextFileService;
 import nl.christine.schwartze.server.text.TextReader;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -25,7 +26,8 @@ import java.util.stream.Collectors;
 @Component("textFileService")
 public class TextFileServiceImpl implements TextFileService {
 
-    final String defaultLanguage = "nl";
+    @Value("${defaultlanguage}")
+    private String defaultLanguage;
 
     private final Comparator<File> comparator = Comparator.comparingInt(this::num);
     private final Comparator<File> reverseComparator = Comparator.comparingInt(this::num).reversed();

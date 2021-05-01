@@ -15,9 +15,9 @@ public interface SubjectService {
 
     List<Subject> getSubjects();
 
-    List<Subject> addSubject(String name);
+    List<Subject> addSubject(String name, String language);
 
-    Subject getSubjectById(Integer subjectId);
+    Subject getSubjectById(Integer subjectId, String language);
 
     List<Subject> removeSubject(Integer id);
 }

@@ -35,7 +35,7 @@ public class SubjectDaoImpl implements SubjectDao {
     }
 
     @Override
-    public Subject addSubject(String name) {
+    public Subject addSubject(String name, String language) {
 
         Subject subject = null;
 

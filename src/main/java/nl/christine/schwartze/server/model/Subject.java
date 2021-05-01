@@ -7,9 +7,12 @@
 
 package nl.christine.schwartze.server.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
+import java.util.List;
+import java.util.Map;
 
 @Entity
 @Table(name = "subjects")
@@ -30,6 +33,11 @@ public class Subject {
     @OneToOne
     @JsonProperty(TEXT)
     private Text text;
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @MapKey(name = "language")
+    @JsonIgnore
+    private Map<String, Text> texts;
 
     public String getName() {
         return name;
@@ -53,5 +61,13 @@ public class Subject {
 
     public void setText(Text text) {
         this.text = text;
+    }
+
+    public Map<String, Text> getTexts() {
+        return texts;
+    }
+
+    public void setTexts(Map<String, Text> texts) {
+        this.texts = texts;
     }
 }

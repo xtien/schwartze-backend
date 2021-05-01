@@ -46,7 +46,6 @@ public class KeystoreInit {
         System.setProperty("server.ssl.key-store", keystoreLocation);
         System.setProperty("server.ssl.key-alias", keystoreAlias);
         System.setProperty("server.ssl.key-store-type", keystoreType);
-        //      System.setProperty("server.ssl.key-password", keyPassword);
         serverProperties.setSsl(ssl);
         return serverProperties;
     }

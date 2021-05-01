@@ -11,13 +11,18 @@ import nl.christine.schwartze.server.dao.SubjectDao;
 import nl.christine.schwartze.server.model.Subject;
 import nl.christine.schwartze.server.service.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Component("subjectService")
 public class SubjectServiceImpl implements SubjectService {
+
+    @Value("${defaultlanguage}")
+    private String defaultLanguage;
 
     @Autowired
     private SubjectDao subjectDao;
@@ -25,19 +30,25 @@ public class SubjectServiceImpl implements SubjectService {
     @Override
     @Transactional("transactionManager")
     public List<Subject> getSubjects() {
-       return subjectDao.getSubjects();
+        List<Subject> subjects = subjectDao.getSubjects();
+        for (Subject s : subjects) {
+            if (s.getTexts() != null && s.getTexts().size() == 0) {
+                s.getTexts().put(defaultLanguage, s.getText());
+            }
+        }
+        return subjects;
     }
 
     @Override
     @Transactional("transactionManager")
-    public List<Subject> addSubject(String name) {
-        subjectDao.addSubject(name);
+    public List<Subject> addSubject(String name, String language) {
+        subjectDao.addSubject(name, language);
         return subjectDao.getSubjects();
     }
 
     @Override
     @Transactional("transactionManager")
-    public Subject getSubjectById(Integer subjectId) {
+    public Subject getSubjectById(Integer subjectId, String language) {
         return subjectDao.getSubjectById(subjectId);
     }
 

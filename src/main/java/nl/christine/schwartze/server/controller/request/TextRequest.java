@@ -18,6 +18,9 @@ public class TextRequest {
     @JsonProperty("text")
     private Text text;
 
+    @JsonProperty("language")
+    private String language;
+
     @JsonProperty("text_string")
     private String textString;
 
@@ -98,5 +101,9 @@ public class TextRequest {
 
     public void setSubjectId(Integer subjectId) {
         this.subjectId = subjectId;
+    }
+
+    public String getLanguage() {
+        return language;
     }
 }

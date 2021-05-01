@@ -61,7 +61,7 @@ public class LetterTextGetController {
                 result.setText(letterService.getText(request.getLetterId()));
                 result.setLetter(letterService.getLetterById(request.getLetterId()));
             } else if (request.getSubjectId() != null) {
-                result.setSubject(subjectService.getSubjectById(request.getSubjectId()));
+                result.setSubject(subjectService.getSubjectById(request.getSubjectId(), request.getLanguage()));
             }
         } catch (Exception e) {
             logger.error("create_text exception ", e);

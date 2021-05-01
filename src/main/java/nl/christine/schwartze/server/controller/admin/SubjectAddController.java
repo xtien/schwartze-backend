@@ -40,7 +40,7 @@ public class SubjectAddController {
         SubjectsResult result = new SubjectsResult();
 
         try {
-            result.setSubjects(subjectService.addSubject(request.getSubjectName()));
+            result.setSubjects(subjectService.addSubject(request.getSubjectName(), request.getLanguage()));
         } catch (Exception e) {
             logger.error("Error getting references", e);
         }

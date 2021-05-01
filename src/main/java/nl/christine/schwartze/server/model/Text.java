@@ -20,10 +20,16 @@ public class Text {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @JsonProperty("text_title")
+    private String textTitle;
+
     @JsonProperty("text_string")
     @Lob
     @Type(type = "org.hibernate.type.TextType")
     private String textString;
+
+    @JsonProperty("language")
+    private String language;
 
     public int getId() {
         return id;
