@@ -30,7 +30,7 @@ public class Subject {
     @JsonProperty(NAME)
     private String name;
 
-    @OneToOne
+    @Transient
     @JsonProperty(TEXT)
     private Text text;
 

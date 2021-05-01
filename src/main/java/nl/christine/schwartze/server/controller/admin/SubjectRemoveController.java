@@ -40,7 +40,7 @@ public class SubjectRemoveController {
         SubjectsResult result = new SubjectsResult();
 
         try {
-            result.setSubjects(subjectService.removeSubject(request.getSubjectId()));
+            result.setSubjects(subjectService.removeSubject(request.getSubjectId(), request.getLanguage()));
         } catch (Exception e) {
             logger.error("Error getting references", e);
         }
