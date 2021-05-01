@@ -46,4 +46,12 @@ public class Text {
     public void setTextString(String text) {
         this.textString = text;
     }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
 }

@@ -33,7 +33,10 @@ public class SubjectServiceImpl implements SubjectService {
         List<Subject> subjects = subjectDao.getSubjects();
         for (Subject s : subjects) {
             if (s.getTexts() != null && s.getTexts().size() == 0) {
-                s.getTexts().put(defaultLanguage, s.getText());
+                if (s.getText() != null) {
+                    s.getText().setLanguage(defaultLanguage);
+                    s.getTexts().put(defaultLanguage, s.getText());
+                }
             }
         }
         return subjects;
