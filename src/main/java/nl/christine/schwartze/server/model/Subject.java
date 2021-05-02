@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
 @Entity
@@ -37,7 +37,12 @@ public class Subject {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @MapKey(name = "language")
     @JsonIgnore
-    private Map<String, Text> texts;
+    private Map<String, Title> title = new HashMap<>();
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @MapKey(name = "language")
+    @JsonIgnore
+    private Map<String, Text> texts = new HashMap<>();
 
     public String getName() {
         return name;
@@ -70,4 +75,19 @@ public class Subject {
     public void setTexts(Map<String, Text> texts) {
         this.texts = texts;
     }
-}
+
+    public void setTitleText(String language, Title title) {
+        if (this.title == null) {
+            this.title = new HashMap<>();
+        }
+        this.title.put(language, title);
+    }
+
+    public Map<String, Title> getTitle() {
+        return title;
+    }
+
+    public Title getTitle(String language) {
+        return getTitle().get(language);
+    }
+ }

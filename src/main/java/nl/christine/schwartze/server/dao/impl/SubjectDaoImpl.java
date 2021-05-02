@@ -10,6 +10,7 @@ package nl.christine.schwartze.server.dao.impl;
 import nl.christine.schwartze.server.dao.SubjectDao;
 import nl.christine.schwartze.server.model.Subject;
 import nl.christine.schwartze.server.model.Text;
+import nl.christine.schwartze.server.model.Title;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
@@ -28,16 +29,27 @@ public class SubjectDaoImpl implements SubjectDao {
 
     @Override
     public List<Subject> getSubjects() {
-        return entityManager.createQuery(
+        List<Subject> subjects =  entityManager.createQuery(
                 "select a from " + Subject.class.getSimpleName()
                         + " a order by a.name",
                 Subject.class).getResultList();
+
+        // convert to new structure  //TODO remove afterwards
+        for (Subject s : subjects) {
+            if (s.getTitle() != null && s.getTitle().size() == 0) {
+                Title title = new Title("nl", s.getName());
+                s.getTitle().put("nl", title);
+                entityManager.persist(title);
+            }
+        }
+
+        return subjects;
     }
 
     @Override
     public Subject addSubject(String name, String language) {
 
-        Subject subject = null;
+        Subject subject;
 
         try {
             subject = entityManager.createQuery("select a from " + Subject.class.getSimpleName()
@@ -48,6 +60,10 @@ public class SubjectDaoImpl implements SubjectDao {
             subject.setText(new Text());
             entityManager.persist(subject.getText());
             entityManager.persist(subject);
+
+            Title title = new Title(language, name);
+            subject.setTitleText(language, title);
+            entityManager.persist(title);
         }
         subject.setName(name);
         return subject;

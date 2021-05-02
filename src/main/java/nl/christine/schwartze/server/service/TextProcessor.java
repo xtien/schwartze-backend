@@ -7,8 +7,6 @@
 
 package nl.christine.schwartze.server.service;
 
-import org.springframework.stereotype.Component;
-
 public interface TextProcessor {
 
     public String process(String text);
