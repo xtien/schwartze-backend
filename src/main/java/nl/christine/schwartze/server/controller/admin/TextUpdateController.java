@@ -9,10 +9,6 @@ package nl.christine.schwartze.server.controller.admin;
 
 import nl.christine.schwartze.server.controller.request.TextRequest;
 import nl.christine.schwartze.server.controller.result.TextResult;
-import nl.christine.schwartze.server.dao.LetterDao;
-import nl.christine.schwartze.server.dao.LocationDao;
-import nl.christine.schwartze.server.dao.PersonDao;
-import nl.christine.schwartze.server.dao.SubjectDao;
 import nl.christine.schwartze.server.model.Text;
 import nl.christine.schwartze.server.service.*;
 import org.apache.log4j.Logger;

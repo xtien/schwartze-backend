@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,7 +30,7 @@ public class SubjectServiceImpl implements SubjectService {
     @Override
     @Transactional("transactionManager")
     public List<Subject> getSubjects(String language) {
-        return convertText(subjectDao.getSubjects(), language);
+        return  convertText(subjectDao.getSubjects(), language);
     }
 
     @Override

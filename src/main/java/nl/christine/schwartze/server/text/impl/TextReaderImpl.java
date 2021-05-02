@@ -7,7 +7,6 @@
 
 package nl.christine.schwartze.server.text.impl;
 
-import nl.christine.schwartze.server.service.impl.ContentServiceImpl;
 import nl.christine.schwartze.server.text.TextReader;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;

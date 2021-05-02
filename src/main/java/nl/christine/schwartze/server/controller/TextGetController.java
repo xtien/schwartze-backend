@@ -28,9 +28,9 @@ import org.springframework.web.bind.annotation.RequestBody;
         "https://www.schwartze-ansingh.nl",
         "https://schwartze-ansingh.com",
         "https://schwartze-ansingh.nl"}, maxAge = 14400)
-public class LetterTextGetController {
+public class TextGetController {
 
-    Logger logger = Logger.getLogger(LetterTextGetController.class);
+    Logger logger = Logger.getLogger(TextGetController.class);
 
     @Autowired
     private PersonService personService;

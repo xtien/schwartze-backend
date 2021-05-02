@@ -8,7 +8,7 @@
 package nl.christine.schwartze.server.test.mock;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import nl.christine.schwartze.server.controller.LetterTextGetController;
+import nl.christine.schwartze.server.controller.TextGetController;
 import nl.christine.schwartze.server.controller.request.TextRequest;
 import nl.christine.schwartze.server.model.Text;
 import nl.christine.schwartze.server.service.LetterService;
@@ -39,7 +39,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(LetterTextGetController.class)
+@WebMvcTest(TextGetController.class)
 @ActiveProfiles("test")
 public class AddTextTest {
 
