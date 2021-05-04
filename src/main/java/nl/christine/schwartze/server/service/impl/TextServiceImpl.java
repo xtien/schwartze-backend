@@ -88,6 +88,15 @@ public class TextServiceImpl implements TextService {
             } else if (StringUtils.isNotEmpty(request.getTextString())) {
                 subject.getTexts().get(request.getLanguage()).setTextString(request.getTextString());
             }
+            if (request.getTitleString() != null) {
+                if(!subject.getTitle().containsKey(request.getLanguage())){
+                    Title title = new Title(request.getLanguage(), request.getTitleString());
+                    subject.getTitle().put(title.getLanguage(), title);
+                    subjectDao.persist(title);
+                } else {
+                    subject.getTitle().get(request.getLanguage()).setText(request.getTitleString());
+                }
+            }
             return subject.getTexts().get(request.getLanguage());
         }
 

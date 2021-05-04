@@ -12,9 +12,7 @@ import nl.christine.schwartze.server.controller.admin.TextUpdateController;
 import nl.christine.schwartze.server.controller.request.TextRequest;
 import nl.christine.schwartze.server.dao.*;
 import nl.christine.schwartze.server.model.Text;
-import nl.christine.schwartze.server.service.LocationService;
-import nl.christine.schwartze.server.service.PersonService;
-import nl.christine.schwartze.server.service.TextService;
+import nl.christine.schwartze.server.service.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -56,19 +54,16 @@ public class UpdateTextTest {
     private PersonDao personDao;
 
     @MockBean
-    private LocationDao locationDao;
-
-    @MockBean
     private TextService textService;
 
     @MockBean
     private LocationService locationService;
 
     @MockBean
-    private LetterDao letterDao;
+    private LetterService letterService;
 
     @MockBean
-    private SubjectDao subjectDao;
+    private SubjectService subjectService;
 
     HttpSessionCsrfTokenRepository httpSessionCsrfTokenRepository = new HttpSessionCsrfTokenRepository();
     CsrfToken csrfToken = httpSessionCsrfTokenRepository.generateToken(new MockHttpServletRequest());
