@@ -24,6 +24,9 @@ public class TextRequest {
     @JsonProperty("text_string")
     private String textString;
 
+    @JsonProperty("title_string")
+    private String titleString;
+
     @JsonProperty("text_id")
     private Integer textId;
 
@@ -105,5 +108,9 @@ public class TextRequest {
 
     public String getLanguage() {
         return language;
+    }
+
+    public String getTitleString() {
+        return titleString;
     }
 }

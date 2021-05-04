@@ -29,7 +29,7 @@ public class SubjectDaoImpl implements SubjectDao {
 
     @Override
     public List<Subject> getSubjects() {
-        List<Subject> subjects =  entityManager.createQuery(
+        List<Subject> subjects = entityManager.createQuery(
                 "select a from " + Subject.class.getSimpleName()
                         + " a order by a.name",
                 Subject.class).getResultList();
@@ -85,5 +85,10 @@ public class SubjectDaoImpl implements SubjectDao {
     @Override
     public void persist(Text text) {
         entityManager.persist(text);
+    }
+
+    @Override
+    public void persist(Title title) {
+        entityManager.persist(title);
     }
 }

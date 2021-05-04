@@ -9,12 +9,15 @@ package nl.christine.schwartze.server.service.impl;
 
 import nl.christine.schwartze.server.dao.SubjectDao;
 import nl.christine.schwartze.server.model.Subject;
+import nl.christine.schwartze.server.model.Text;
+import nl.christine.schwartze.server.model.Title;
 import nl.christine.schwartze.server.service.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,7 +33,7 @@ public class SubjectServiceImpl implements SubjectService {
     @Override
     @Transactional("transactionManager")
     public List<Subject> getSubjects(String language) {
-        return  convertText(subjectDao.getSubjects(), language);
+        return convertText(subjectDao.getSubjects(), language);
     }
 
     @Override
@@ -60,8 +63,19 @@ public class SubjectServiceImpl implements SubjectService {
     private Subject getSubjectTextForLanguage(Subject s, String language) {
         if (s.getTexts().get(language) != null) {
             s.setText(s.getTexts().get(language));
-        } else {
+        } else if(s.getTexts().containsKey(defaultLanguage)) {
             s.setText(s.getTexts().get(defaultLanguage));
+        } else if(s.getTitle().size()>0){
+            s.setText(s.getTexts().get(s.getTexts().values().toArray()[0]));
+        }
+
+        if (s.getTitle().get(language) != null) {
+            s.setName(s.getTitle().get(language).getText());
+        } else if (s.getTitle().containsKey(defaultLanguage)) {
+            s.setName(s.getTitle().get(defaultLanguage).getText());
+        } else if (s.getTitle().size() > 0) {
+             Title c = ((Title) s.getTitle().values().toArray()[0]);
+            s.setName(((Title) s.getTitle().values().toArray()[0]).getText());
         }
         return s;
     }

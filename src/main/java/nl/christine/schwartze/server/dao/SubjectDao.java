@@ -9,6 +9,7 @@ package nl.christine.schwartze.server.dao;
 
 import nl.christine.schwartze.server.model.Subject;
 import nl.christine.schwartze.server.model.Text;
+import nl.christine.schwartze.server.model.Title;
 
 import java.util.List;
 
@@ -23,4 +24,6 @@ public interface SubjectDao {
     void remove(Integer id);
 
     void persist(Text text);
+
+    void persist(Title title);
 }
