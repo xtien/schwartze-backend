@@ -94,6 +94,9 @@ public class TextFileServiceImpl implements TextFileService {
     private PageResult getPreviousNextPage(Comparator<File> pComparator, String chapterId, String pageId, String language) {
         PageResult pageResult;
         File dir = new File(lettersDirectory + "/pages/" + language + "/" + chapterId);
+        if (!dir.exists()) {
+            dir = new File(lettersDirectory + "/pages/" + defaultLanguage + "/" + chapterId);
+        }
         File[] dirList = dir.listFiles((dir1, name) -> name.toLowerCase().endsWith(".txt"));
         String nextPageId = null;
         Iterator<File> iterator = Arrays.stream(dirList)
@@ -135,12 +138,15 @@ public class TextFileServiceImpl implements TextFileService {
     private PageResult getPreviousNextChapter(Comparator<File> pComparator, String chapterId, String pageId, String language) {
         PageResult pageResult;
         File dir = new File(lettersDirectory + "/pages/" + language + "/" + chapterId);
+        if (!dir.exists()) {
+            dir = new File(lettersDirectory + "/pages/" + defaultLanguage + "/" + chapterId);
+        }
         File[] chapterDirFiles = new File(dir.getParent()).listFiles((d, name) -> NumberUtils.isCreatable(name.toLowerCase()));
         Iterator<File> chapterIterator = Arrays.stream(chapterDirFiles)
                 .sorted(pComparator)
                 .collect(Collectors.toList()).iterator();
         String nextChapterId;
-        String firstPageId;
+        String firstPageId = "1";
         while (chapterIterator.hasNext()) {
             File next = chapterIterator.next();
             if (next.getName().equals(chapterId)) {
@@ -149,9 +155,11 @@ public class TextFileServiceImpl implements TextFileService {
                     File f = new File(nextChapterDirName);
                     nextChapterId = f.getName();
                     File[] files = f.listFiles((d, name) -> name.toLowerCase().endsWith(".txt"));
-                    firstPageId = Arrays.stream(files)
-                            .sorted(comparator)
-                            .collect(Collectors.toList()).get(0).getName().replace(".txt", "");
+                    if (files.length > 0) {
+                        firstPageId = Arrays.stream(files)
+                                .sorted(comparator)
+                                .collect(Collectors.toList()).get(0).getName().replace(".txt", "");
+                    }
                     pageResult = new PageResult();
                     pageResult.setChapterId(nextChapterId);
                     pageResult.setPageId(firstPageId);

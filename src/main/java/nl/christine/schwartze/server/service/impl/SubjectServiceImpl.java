@@ -65,7 +65,7 @@ public class SubjectServiceImpl implements SubjectService {
             s.setText(s.getTexts().get(language));
         } else if(s.getTexts().containsKey(defaultLanguage)) {
             s.setText(s.getTexts().get(defaultLanguage));
-        } else if(s.getTitle().size()>0){
+        } else if(s.getTexts().size()>0){
             s.setText(s.getTexts().get(s.getTexts().values().toArray()[0]));
         }
 
