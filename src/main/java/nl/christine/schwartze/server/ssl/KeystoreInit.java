@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 /**
  * https://stackoverflow.com/questions/44969873/spring-boot-key-store-password-set-in-code
  */
-@Component
+//@Component
 public class KeystoreInit {
 
     private final String keystoreAlias;
