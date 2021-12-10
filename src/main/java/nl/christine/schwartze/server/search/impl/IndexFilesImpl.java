@@ -9,7 +9,6 @@ package nl.christine.schwartze.server.search.impl;
 
 import nl.christine.schwartze.server.properties.SchwartzeProperties;
 import nl.christine.schwartze.server.search.IndexFiles;
-import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.*;
@@ -18,6 +17,8 @@ import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -36,7 +37,7 @@ import java.nio.file.attribute.BasicFileAttributes;
 @Component("indexFiles")
 public class IndexFilesImpl implements IndexFiles {
 
-    Logger logger = Logger.getLogger(IndexFilesImpl.class);
+    Logger logger = LoggerFactory.getLogger(IndexFilesImpl.class);
 
     @Autowired
     private SchwartzeProperties properties;

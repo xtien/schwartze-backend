@@ -13,7 +13,6 @@ import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.boot.web.server.Ssl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.DependsOn;
-import org.springframework.stereotype.Component;
 
 /**
  * https://stackoverflow.com/questions/44969873/spring-boot-key-store-password-set-in-code

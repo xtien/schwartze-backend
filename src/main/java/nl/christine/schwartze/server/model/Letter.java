@@ -11,9 +11,10 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
-import org.apache.log4j.Logger;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -28,7 +29,7 @@ public class Letter {
     public static final String TEXT = "text";
     public static final String COLLECTION = "collectie";
     @Transient
-    Logger logger = Logger.getLogger(Letter.class);
+    Logger logger = LoggerFactory.getLogger(Letter.class);
 
     public static final String NUMBER = "number";
     public static final String DATE = "date";

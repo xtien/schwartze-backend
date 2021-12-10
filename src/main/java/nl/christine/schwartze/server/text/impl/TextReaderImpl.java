@@ -8,7 +8,8 @@
 package nl.christine.schwartze.server.text.impl;
 
 import nl.christine.schwartze.server.text.TextReader;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
@@ -19,7 +20,7 @@ import java.nio.file.Paths;
 @Component("textReader")
 public class TextReaderImpl implements TextReader {
 
-    Logger logger = Logger.getLogger(TextReaderImpl.class);
+    Logger logger = LoggerFactory.getLogger(TextReaderImpl.class);
 
     @Override
     public String getText(String fileName) {

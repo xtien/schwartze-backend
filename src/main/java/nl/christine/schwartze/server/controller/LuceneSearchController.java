@@ -10,7 +10,8 @@ package nl.christine.schwartze.server.controller;
 import nl.christine.schwartze.server.controller.request.SearchRequest;
 import nl.christine.schwartze.server.controller.result.SearchResult;
 import nl.christine.schwartze.server.search.SearchFiles;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +30,7 @@ import java.io.IOException;
         "https://schwartze-ansingh.nl"}, maxAge = 14400)
 public class LuceneSearchController {
 
-    Logger logger = Logger.getLogger(LuceneSearchController.class);
+    Logger logger = LoggerFactory.getLogger(LuceneSearchController.class);
     private final String pattern = "^[\\p{L}0-9\\-\\s']+$";
 
     @Autowired
@@ -44,9 +45,9 @@ public class LuceneSearchController {
                 result.setLetters(searchFiles.search(request.getSearchTerm()));
                 result.setNumberOfResults(result.getLetters().size());
             } catch (IOException e) {
-                logger.error(e);
+                logger.error(e.getMessage());
             } catch (Exception e) {
-                logger.error(e);
+                logger.error(e.getMessage());
             }
         }
         return new ResponseEntity<>(result, HttpStatus.OK);

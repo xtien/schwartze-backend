@@ -12,7 +12,8 @@ import nl.christine.schwartze.server.controller.result.LettersResult;
 import nl.christine.schwartze.server.controller.result.LocationResult;
 import nl.christine.schwartze.server.model.MyLocation;
 import nl.christine.schwartze.server.service.LocationService;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +35,7 @@ import java.io.IOException;
         "https://schwartze-ansingh.com",
         "https://schwartze-ansingh.nl"}, maxAge = 14400)
 public class LocationGetController {
-    Logger logger = Logger.getLogger(LocationGetController.class);
+    Logger logger = LoggerFactory.getLogger(LocationGetController.class);
 
     @Autowired
     private LocationService locationService;

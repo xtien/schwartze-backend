@@ -18,7 +18,8 @@ import nl.christine.schwartze.server.model.Person;
 import nl.christine.schwartze.server.model.Text;
 import nl.christine.schwartze.server.modelimport.ImportLetter;
 import nl.christine.schwartze.server.service.LetterService;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,7 +34,7 @@ public class LetterServiceImpl implements LetterService {
     private final Comparator<Letter> compareByDate;
     private final Comparator<Letter> compareByNumber;
 
-    Logger logger = Logger.getLogger(LetterServiceImpl.class);
+    Logger logger = LoggerFactory.getLogger(LetterServiceImpl.class);
 
     @Autowired
     private LetterDao letterDao;

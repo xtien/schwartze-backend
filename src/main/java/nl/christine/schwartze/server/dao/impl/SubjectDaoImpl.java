@@ -11,7 +11,8 @@ import nl.christine.schwartze.server.dao.SubjectDao;
 import nl.christine.schwartze.server.model.Subject;
 import nl.christine.schwartze.server.model.Text;
 import nl.christine.schwartze.server.model.Title;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
@@ -25,7 +26,7 @@ public class SubjectDaoImpl implements SubjectDao {
     @PersistenceContext(unitName = "defaultPU")
     private EntityManager entityManager;
 
-    Logger logger = Logger.getLogger(SubjectDaoImpl.class);
+    Logger logger = LoggerFactory.getLogger(SubjectDaoImpl.class);
 
     @Override
     public List<Subject> getSubjects() {

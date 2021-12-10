@@ -11,7 +11,8 @@ import nl.christine.schwartze.server.dao.PersonDao;
 import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.model.Person;
 import nl.christine.schwartze.server.model.Text;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
@@ -27,7 +28,7 @@ public class PersonDaoImpl implements PersonDao {
     @PersistenceContext(unitName = "defaultPU")
     private EntityManager entityManager;
 
-    Logger logger = Logger.getLogger(PersonDaoImpl.class);
+    Logger logger = LoggerFactory.getLogger(PersonDaoImpl.class);
 
     @Override
     public Person updatePerson(Person person) {

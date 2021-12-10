@@ -11,7 +11,8 @@ import nl.christine.schwartze.server.controller.request.PageRequest;
 import nl.christine.schwartze.server.controller.result.PageResult;
 import nl.christine.schwartze.server.model.Page;
 import nl.christine.schwartze.server.service.PageService;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +31,7 @@ import java.io.IOException;
         "https://schwartze-ansingh.nl"}, maxAge = 14400)
 public class GetPageReferencesController {
 
-    Logger logger = Logger.getLogger(GetPageReferencesController.class);
+    Logger logger = LoggerFactory.getLogger(GetPageReferencesController.class);
 
     @Autowired
     private PageService pageService;

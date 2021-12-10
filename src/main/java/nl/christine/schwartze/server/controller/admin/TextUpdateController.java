@@ -11,7 +11,8 @@ import nl.christine.schwartze.server.controller.request.TextRequest;
 import nl.christine.schwartze.server.controller.result.TextResult;
 import nl.christine.schwartze.server.model.Text;
 import nl.christine.schwartze.server.service.*;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +31,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
         "https://schwartze-ansingh.nl"}, maxAge = 14400)
 public class TextUpdateController {
 
-    Logger logger = Logger.getLogger(TextUpdateController.class);
+    Logger logger = LoggerFactory.getLogger(TextUpdateController.class);
 
     @Autowired
     private TextService textService;

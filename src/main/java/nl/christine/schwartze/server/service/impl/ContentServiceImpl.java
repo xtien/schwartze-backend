@@ -12,7 +12,8 @@ import nl.christine.schwartze.server.properties.SchwartzeProperties;
 import nl.christine.schwartze.server.service.ContentService;
 import nl.christine.schwartze.server.text.TextReader;
 import org.apache.commons.lang3.math.NumberUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -26,7 +27,7 @@ import java.util.stream.Collectors;
 @Component("contentService")
 public class ContentServiceImpl implements ContentService {
 
-    Logger logger = Logger.getLogger(ContentServiceImpl.class);
+    Logger logger = LoggerFactory.getLogger(ContentServiceImpl.class);
 
     private final Comparator<File> comparator = Comparator.comparingInt(this::num);
     private String lettersDirectory;

@@ -10,7 +10,8 @@ package nl.christine.schwartze.server.controller.user;
 import nl.christine.schwartze.server.controller.request.LogoutRequest;
 import nl.christine.schwartze.server.controller.result.LoginResult;
 import nl.christine.schwartze.server.controller.result.LogoutResult;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +33,7 @@ import org.springframework.web.bind.annotation.RequestBody;
         "https://schwartze-ansingh.nl"}, maxAge = 14400)
 public class UserController {
 
-    Logger logger = Logger.getLogger(UserController.class);
+    Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private UserDetailsService userDetailsService;

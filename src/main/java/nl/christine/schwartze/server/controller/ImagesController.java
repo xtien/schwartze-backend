@@ -13,7 +13,6 @@ import nl.christine.schwartze.server.image.ImageService;
 import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.properties.SchwartzeProperties;
 import nl.christine.schwartze.server.service.LetterService;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,8 +34,6 @@ import java.util.List;
         "https://schwartze-ansingh.com",
         "https://schwartze-ansingh.nl"}, maxAge = 14400)
 public class ImagesController {
-
-    Logger logger = Logger.getLogger(ImagesController.class);
 
     private String lettersDirectory;
     private String textDocumentName;

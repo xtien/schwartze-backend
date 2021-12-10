@@ -16,7 +16,7 @@ apply plugin: 'idea'
 apply plugin: 'java'
 
 group 'Schwartze'
-version '1.1-SNAPSHOT'
+version '1.2-SNAPSHOT'
 
 sourceCompatibility = 11
 targetCompatibility = 11
@@ -75,7 +75,6 @@ dependencies {
     compile group: 'org.springframework.security', name: 'spring-security-test', version: springSecurityTestVersion
 
     compile group: 'commons-logging', name: 'commons-logging', version: commonsLoggingVersion
-    compile group: 'log4j', name: 'log4j', version: log4jVersion
     compile group: 'org.apache.commons', name: 'commons-lang3', version: commonsLangVersion
     compile group: 'commons-io', name: 'commons-io', version: commonsIOVersion
     compile group: 'org.apache.commons', name: 'commons-dbcp2', version: dbcp2Version

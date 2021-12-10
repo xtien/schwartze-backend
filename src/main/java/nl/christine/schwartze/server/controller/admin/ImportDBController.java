@@ -11,7 +11,8 @@ import nl.christine.schwartze.server.controller.result.LettersResult;
 import nl.christine.schwartze.server.modelimport.ImportLetter;
 import nl.christine.schwartze.server.service.ImportLetterService;
 import nl.christine.schwartze.server.service.LetterService;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Controller;
@@ -34,7 +35,7 @@ public class ImportDBController {
     @Autowired
     private ImportLetterService importLetterService;
 
-    private Logger logger = Logger.getLogger(ImportDBController.class);
+    private Logger logger = LoggerFactory.getLogger(ImportDBController.class);
 
     public LettersResult importDB() {
 

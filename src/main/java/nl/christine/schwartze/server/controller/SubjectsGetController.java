@@ -10,7 +10,8 @@ package nl.christine.schwartze.server.controller;
 import nl.christine.schwartze.server.controller.request.SubjectRequest;
 import nl.christine.schwartze.server.controller.result.SubjectsResult;
 import nl.christine.schwartze.server.service.SubjectService;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -29,7 +30,7 @@ import org.springframework.web.bind.annotation.RequestBody;
         "https://schwartze-ansingh.nl"}, maxAge = 14400)
 public class SubjectsGetController {
 
-    Logger logger = Logger.getLogger(ReferenceController.class);
+    Logger logger = LoggerFactory.getLogger(ReferenceController.class);
 
     @Value("${defaultlanguage}")
     private String defaultLanguage;

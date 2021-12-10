@@ -11,7 +11,8 @@ import nl.christine.schwartze.server.controller.request.LetterRequest;
 import nl.christine.schwartze.server.controller.result.LetterResult;
 import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.service.LetterService;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +35,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
         "https://schwartze-ansingh.nl"}, maxAge = 14400)
 public class LetterUpdateController {
 
-    Logger logger = Logger.getLogger(LetterUpdateController.class);
+    Logger logger = LoggerFactory.getLogger(LetterUpdateController.class);
 
     @Autowired
     private LetterService letterService;

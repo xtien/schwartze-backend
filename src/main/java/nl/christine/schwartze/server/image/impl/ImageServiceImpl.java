@@ -9,8 +9,9 @@ package nl.christine.schwartze.server.image.impl;
 
 import nl.christine.schwartze.server.image.ImageService;
 import nl.christine.schwartze.server.properties.SchwartzeProperties;
-import org.apache.log4j.Logger;
 import org.apache.tomcat.util.codec.binary.Base64;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -41,7 +42,7 @@ public class ImageServiceImpl implements ImageService {
     @Autowired
     private SchwartzeProperties properties;
 
-    private Logger logger = Logger.getLogger(ImageServiceImpl.class);
+    private Logger logger = LoggerFactory.getLogger(ImageServiceImpl.class);
 
     @PostConstruct
     public void init() {

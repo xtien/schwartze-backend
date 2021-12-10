@@ -13,7 +13,8 @@ import nl.christine.schwartze.server.controller.result.LettersResult;
 import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.properties.SchwartzeProperties;
 import nl.christine.schwartze.server.service.LetterService;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,7 +39,7 @@ import java.util.stream.Collectors;
         "https://schwartze-ansingh.nl"}, maxAge = 14400)
 public class LetterGetController {
 
-    Logger logger = Logger.getLogger(LetterGetController.class);
+    Logger logger = LoggerFactory.getLogger(LetterGetController.class);
 
     private String lettersDirectory;
     private String textDocumentName;

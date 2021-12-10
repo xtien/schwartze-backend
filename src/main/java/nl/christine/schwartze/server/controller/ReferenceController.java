@@ -11,7 +11,8 @@ import nl.christine.schwartze.server.controller.request.GetReferencesRequest;
 import nl.christine.schwartze.server.controller.result.ReferencesResult;
 import nl.christine.schwartze.server.model.References;
 import nl.christine.schwartze.server.service.ReferenceService;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +28,7 @@ import org.springframework.web.bind.annotation.RequestBody;
         "https://schwartze-ansingh.com",
         "https://schwartze-ansingh.nl"}, maxAge = 14400)
 public class ReferenceController {
-    Logger logger = Logger.getLogger(ReferenceController.class);
+    Logger logger = LoggerFactory.getLogger(ReferenceController.class);
 
     @Autowired
     private ReferenceService referenceService;

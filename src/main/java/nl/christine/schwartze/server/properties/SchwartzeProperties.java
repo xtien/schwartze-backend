@@ -10,7 +10,8 @@ package nl.christine.schwartze.server.properties;
 import nl.christine.schwartze.server.ServerConstants;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.time.FastDateFormat;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -21,7 +22,7 @@ import java.util.Properties;
 @Component("schwartzeProperties")
 public class SchwartzeProperties {
 
-    private static final Logger log = Logger.getLogger(SchwartzeProperties.class);
+    private static final Logger log = LoggerFactory.getLogger(SchwartzeProperties.class);
 
     private Properties properties;
     private String path;
@@ -49,7 +50,7 @@ public class SchwartzeProperties {
                 properties.load(is);
 
             } catch (IOException e) {
-                log.error(e);
+                log.error(e.getMessage());
             }
         }
         for (Object key : properties.keySet()) {
@@ -92,7 +93,7 @@ public class SchwartzeProperties {
         try (FileOutputStream fos = new FileOutputStream(new File(path))) {
             properties.store(fos, "** " + dateFormat.format(new Date()));
         } catch (IOException e) {
-            log.error(e);
+            log.error(e.getMessage());
         }
     }
 }

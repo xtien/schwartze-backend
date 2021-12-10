@@ -12,7 +12,6 @@ import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.properties.SchwartzeProperties;
 import nl.christine.schwartze.server.search.SearchFiles;
 import org.apache.commons.lang3.math.NumberUtils;
-import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
@@ -24,6 +23,8 @@ import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -39,7 +40,7 @@ import java.util.stream.Collectors;
 @Component("searchFiles")
 public class SearchFilesImpl implements SearchFiles {
 
-    Logger logger = Logger.getLogger(SearchFilesImpl.class);
+    Logger logger = LoggerFactory.getLogger(SearchFilesImpl.class);
 
     private final Comparator<Letter> compareByDate;
 

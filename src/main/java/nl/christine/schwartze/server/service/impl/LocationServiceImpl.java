@@ -18,7 +18,8 @@ import nl.christine.schwartze.server.model.MyLocation;
 import nl.christine.schwartze.server.model.Text;
 import nl.christine.schwartze.server.service.LocationService;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,7 +40,7 @@ public class LocationServiceImpl implements LocationService {
     @Autowired
     private LocationDao locationDao;
 
-    Logger logger = Logger.getLogger(LocationServiceImpl.class);
+    Logger logger = LoggerFactory.getLogger(LocationServiceImpl.class);
 
     @Autowired
     private LinkDao linkDao;

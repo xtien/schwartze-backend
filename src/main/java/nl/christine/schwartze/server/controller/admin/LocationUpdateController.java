@@ -14,7 +14,8 @@ import nl.christine.schwartze.server.controller.result.LocationResult;
 import nl.christine.schwartze.server.controller.result.PersonResult;
 import nl.christine.schwartze.server.model.MyLocation;
 import nl.christine.schwartze.server.service.LocationService;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,7 +41,7 @@ import java.io.IOException;
         "https://schwartze-ansingh.nl"}, maxAge = 14400)
 public class LocationUpdateController {
 
-    Logger logger = Logger.getLogger(LocationUpdateController.class);
+    Logger logger = LoggerFactory.getLogger(LocationUpdateController.class);
 
     @Autowired
     private LocationService locationService;
