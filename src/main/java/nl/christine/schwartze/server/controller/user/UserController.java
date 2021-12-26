@@ -20,12 +20,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
+@RequestMapping("/user")
 @CrossOrigin(origins = {"https://pengo.christine.nl",
         "https://www.schwartze-ansingh.com",
         "https://www.schwartze-ansingh.nl",
@@ -53,7 +51,7 @@ public class UserController {
         return new ResponseEntity<>(loginResult, status);
     }
 
-    @PostMapping(value = "/user/signout")
+    @PostMapping(value = "/signout")
     public ResponseEntity<LogoutResult> logout(@RequestBody LogoutRequest request) {
 
         HttpStatus status = HttpStatus.OK;
