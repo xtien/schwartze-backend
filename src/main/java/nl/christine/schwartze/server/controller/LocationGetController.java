@@ -8,7 +8,7 @@
 package nl.christine.schwartze.server.controller;
 
 import nl.christine.schwartze.server.controller.request.LocationRequest;
-import nl.christine.schwartze.server.controller.result.LettersResult;
+import nl.christine.schwartze.server.controller.result.ApiResult;
 import nl.christine.schwartze.server.controller.result.LocationResult;
 import nl.christine.schwartze.server.model.MyLocation;
 import nl.christine.schwartze.server.service.LocationService;
@@ -21,8 +21,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-
-import java.io.IOException;
 
 /**
  * User: christine
@@ -44,7 +42,7 @@ public class LocationGetController {
     }
 
     @PostMapping(value = "/get_location/")
-    public ResponseEntity<LocationResult> getLocation(@RequestBody LocationRequest request) throws IOException {
+    public ResponseEntity<LocationResult> getLocation(@RequestBody LocationRequest request) {
 
         LocationResult result = new LocationResult();
 
@@ -52,7 +50,7 @@ public class LocationGetController {
 
             MyLocation location = locationService.getLocation(request.getId());
             result.setLocation(location);
-            result.setResult(LettersResult.OK);
+            result.setResult(ApiResult.OK);
 
         } catch (Exception e) {
             logger.error("Error getting location", e);

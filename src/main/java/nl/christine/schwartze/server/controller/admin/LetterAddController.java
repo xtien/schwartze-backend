@@ -37,7 +37,7 @@ public class LetterAddController {
         AddLetterResult result = new AddLetterResult();
 
         if (request.getLetter().getId() > 0) {
-            result.setErrorText("letter exists");
+            result.setText("letter exists");
         } else {
             Letter resultLetter = letterService.addLetter(request.getLetter());
             result.setLetter(resultLetter);

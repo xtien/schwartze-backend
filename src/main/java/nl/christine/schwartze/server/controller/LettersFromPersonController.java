@@ -8,6 +8,7 @@
 package nl.christine.schwartze.server.controller;
 
 import nl.christine.schwartze.server.controller.request.PersonLettersRequest;
+import nl.christine.schwartze.server.controller.result.ApiResult;
 import nl.christine.schwartze.server.controller.result.LettersResult;
 import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.service.LetterService;
@@ -45,7 +46,7 @@ public class LettersFromPersonController {
 
             List<Letter> letters = letterService.getLettersFromPerson(request.getFromId());
             result.setLetters(letters);
-            result.setResult(LettersResult.OK);
+            result.setResult(ApiResult.OK);
 
         } catch (Exception e) {
             logger.error("get_letters exception ", e);

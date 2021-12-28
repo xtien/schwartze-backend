@@ -9,9 +9,8 @@ package nl.christine.schwartze.server.controller.admin;
 
 import nl.christine.schwartze.server.controller.request.LocationUpdateRequest;
 import nl.christine.schwartze.server.controller.request.UpdateLocationRequest;
-import nl.christine.schwartze.server.controller.result.LettersResult;
+import nl.christine.schwartze.server.controller.result.ApiResult;
 import nl.christine.schwartze.server.controller.result.LocationResult;
-import nl.christine.schwartze.server.controller.result.PersonResult;
 import nl.christine.schwartze.server.model.MyLocation;
 import nl.christine.schwartze.server.service.LocationService;
 import org.slf4j.Logger;
@@ -25,8 +24,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.io.IOException;
 
 /**
  * User: christine
@@ -51,7 +48,7 @@ public class LocationUpdateController {
     public ResponseEntity<LocationResult> updateLocation(@RequestBody UpdateLocationRequest request) {
 
         LocationResult result = new LocationResult();
-        result.setResult(PersonResult.NOT_OK);
+        result.setResult(ApiResult.NOT_OK);
 
         try {
             MyLocation resultLocation  = locationService.updateLocationComment(request.getLocation());
@@ -64,7 +61,7 @@ public class LocationUpdateController {
     }
 
     @PostMapping(value = "/update_location/")
-    public ResponseEntity<LocationResult> updateLocation(@RequestBody LocationUpdateRequest request) throws IOException {
+    public ResponseEntity<LocationResult> updateLocation(@RequestBody LocationUpdateRequest request) {
 
         LocationResult result = new LocationResult();
 
@@ -72,7 +69,7 @@ public class LocationUpdateController {
 
             MyLocation location = locationService.updateLocation(request.getId(), request.getName(), request.getComment());
             result.setLocation(location);
-            result.setResult(LettersResult.OK);
+            result.setResult(ApiResult.OK);
 
         } catch (Exception e) {
             logger.error("Error getting location", e);

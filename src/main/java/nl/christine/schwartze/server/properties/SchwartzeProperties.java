@@ -35,7 +35,7 @@ public class SchwartzeProperties {
 
     private void readProperties() {
 
-        path = "/home/christine" + File.separator + ServerConstants.settings_properties_file;
+        path = "/home/christine" + File.separator + ServerConstants.SETTINGS_PROPERTIES_FILE;
 
         File settingsFile = new File(path);
 

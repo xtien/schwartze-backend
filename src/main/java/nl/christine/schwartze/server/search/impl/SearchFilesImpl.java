@@ -23,8 +23,6 @@ import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -39,8 +37,6 @@ import java.util.stream.Collectors;
 
 @Component("searchFiles")
 public class SearchFilesImpl implements SearchFiles {
-
-    Logger logger = LoggerFactory.getLogger(SearchFilesImpl.class);
 
     private final Comparator<Letter> compareByDate;
 
@@ -96,14 +92,12 @@ public class SearchFilesImpl implements SearchFiles {
     private TopDocs searchInContent(String textToFind, IndexSearcher searcher) throws Exception {
         QueryParser qp = new QueryParser("contents", new StandardAnalyzer());
         Query query = qp.parse(textToFind);
-        TopDocs hits = searcher.search(query, 10);
-        return hits;
+        return searcher.search(query, 10);
     }
 
     private IndexSearcher createSearcher() throws IOException {
         Directory dir = FSDirectory.open(Paths.get(indexPath));
         IndexReader reader = DirectoryReader.open(dir);
-        IndexSearcher searcher = new IndexSearcher(reader);
-        return searcher;
+        return new IndexSearcher(reader);
     }
 }

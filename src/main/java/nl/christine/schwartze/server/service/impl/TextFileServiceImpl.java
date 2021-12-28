@@ -41,8 +41,8 @@ public class TextFileServiceImpl implements TextFileService {
     }
 
     private String lettersDirectory;
-    private String TXT_EXTENSION = ".txt";
-    private String PAGES = "/pages/";
+    private final static String TXT_EXTENSION = ".txt";
+    private final static String PAGES = "/pages/";
 
     @Autowired
     private SchwartzeProperties properties;

@@ -22,10 +22,6 @@ public class AddLetterResult {
         this.letter = resultLetter;
     }
 
-    public void setErrorText(String text) {
-        this.text = text;
-    }
-
     public Letter getLetter() {
         return letter;
     }

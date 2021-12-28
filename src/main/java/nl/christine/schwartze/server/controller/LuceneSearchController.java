@@ -20,8 +20,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import java.io.IOException;
-
 @Controller
 @CrossOrigin(origins = {"https://pengo.christine.nl",
         "https://www.schwartze-ansingh.com",
@@ -31,7 +29,7 @@ import java.io.IOException;
 public class LuceneSearchController {
 
     Logger logger = LoggerFactory.getLogger(LuceneSearchController.class);
-    private final String pattern = "^[\\p{L}0-9\\-\\s']+$";
+    private final static String PATTERN = "^[\\p{L}0-9\\-\\s']+$";
 
     @Autowired
     private SearchFiles searchFiles;
@@ -40,12 +38,10 @@ public class LuceneSearchController {
     public ResponseEntity<SearchResult> searchIndex(@RequestBody SearchRequest request) {
 
         SearchResult result = new SearchResult();
-        if (request.getSearchTerm().matches(pattern)) {
+        if (request.getSearchTerm().matches(PATTERN)) {
             try {
                 result.setLetters(searchFiles.search(request.getSearchTerm()));
                 result.setNumberOfResults(result.getLetters().size());
-            } catch (IOException e) {
-                logger.error(e.getMessage());
             } catch (Exception e) {
                 logger.error(e.getMessage());
             }

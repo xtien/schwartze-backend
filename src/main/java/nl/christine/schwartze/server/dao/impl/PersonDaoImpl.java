@@ -29,6 +29,7 @@ public class PersonDaoImpl implements PersonDao {
     private EntityManager entityManager;
 
     Logger logger = LoggerFactory.getLogger(PersonDaoImpl.class);
+    private static final String SELECT = "select a from ";
 
     @Override
     public Person updatePerson(Person person) {
@@ -56,7 +57,7 @@ public class PersonDaoImpl implements PersonDao {
     @Override
     public List<Person> getAllPeople() {
         TypedQuery<Person> query = entityManager.createQuery(
-                "select a from " + Person.class.getSimpleName()
+                SELECT + Person.class.getSimpleName()
                         + " a order by a.lastName",
                 Person.class);
         return query.getResultList();
@@ -116,7 +117,7 @@ public class PersonDaoImpl implements PersonDao {
     @Override
     public List<Person> search(String searchTerm) {
         TypedQuery<Person> query = entityManager.createQuery(
-                "select a from " + Person.class.getSimpleName() +
+                SELECT + Person.class.getSimpleName() +
                         " a  where LOWER(a.firstName) LIKE :searchTerm" +
                         " or LOWER(a.fullName) LIKE :searchTerm" +
                         " or LOWER(a.lastName) LIKE :searchTerm",
@@ -132,7 +133,7 @@ public class PersonDaoImpl implements PersonDao {
         final String lastName = searchTerm.substring(searchTerm.indexOf(" ") + 1);
 
         TypedQuery<Person> query = entityManager.createQuery(
-                "select a from " + Person.class.getSimpleName() +
+                SELECT + Person.class.getSimpleName() +
                         " a  where LOWER(a.firstName) = :firstName" +
                         " and LOWER(a.lastName) = :lastName",
                 Person.class);
@@ -149,7 +150,7 @@ public class PersonDaoImpl implements PersonDao {
     public List<Person> getPersons() {
 
         TypedQuery<Person> query = entityManager.createQuery(
-                "select a from " + Person.class.getSimpleName()
+                SELECT + Person.class.getSimpleName()
                         + " a ",
                 Person.class);
 
@@ -162,7 +163,7 @@ public class PersonDaoImpl implements PersonDao {
         Person existingPerson;
 
         TypedQuery<Person> query = entityManager.createQuery(
-                "select a from " + Person.class.getSimpleName() + " a where a.name = :firstname and a.lastName = :lastname", Person.class);
+                SELECT + Person.class.getSimpleName() + " a where a.name = :firstname and a.lastName = :lastname", Person.class);
         try {
             existingPerson = query.setParameter("firstname", person.getFirstName()).setParameter("lastname", person.getLastName()).getSingleResult();
         } catch (NoResultException nre) {

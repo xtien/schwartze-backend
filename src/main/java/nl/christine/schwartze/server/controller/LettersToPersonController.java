@@ -8,6 +8,7 @@
 package nl.christine.schwartze.server.controller;
 
 import nl.christine.schwartze.server.controller.request.LettersRequest;
+import nl.christine.schwartze.server.controller.result.ApiResult;
 import nl.christine.schwartze.server.controller.result.LettersResult;
 import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.service.LetterService;
@@ -31,7 +32,7 @@ import java.util.List;
         "https://schwartze-ansingh.nl"}, maxAge = 14400)
 public class LettersToPersonController {
 
-    Logger logger = LoggerFactory.getLogger(LetterGetAllController.class);
+    Logger logger = LoggerFactory.getLogger(LettersToPersonController.class);
 
     @Autowired
     private LetterService letterService;
@@ -45,7 +46,7 @@ public class LettersToPersonController {
 
             List<Letter> letters = letterService.getLettersToPerson(request.toId);
             result.setLetters(letters);
-            result.setResult(LettersResult.OK);
+            result.setResult(ApiResult.OK);
 
         } catch (Exception e) {
             logger.error("get_letters exception ", e);

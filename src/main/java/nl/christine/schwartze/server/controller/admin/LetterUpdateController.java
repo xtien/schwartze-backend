@@ -8,6 +8,7 @@
 package nl.christine.schwartze.server.controller.admin;
 
 import nl.christine.schwartze.server.controller.request.LetterRequest;
+import nl.christine.schwartze.server.controller.result.ApiResult;
 import nl.christine.schwartze.server.controller.result.LetterResult;
 import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.service.LetterService;
@@ -44,13 +45,13 @@ public class LetterUpdateController {
     public ResponseEntity<LetterResult> updateLetter(@RequestBody LetterRequest request) {
 
         LetterResult result = new LetterResult();
-        result.setResult(LetterResult.NOT_OK);
+        result.setResult(ApiResult.NOT_OK);
 
         try {
             Letter letter = letterService.updateLetter(request.getLetter());
             if (letter != null) {
                 result.setLetter(letter);
-                result.setResultCode(LetterResult.OK);
+                result.setResultCode(ApiResult.OK);
             }
         } catch (Exception e) {
             logger.error("Error updating letter comment", e);

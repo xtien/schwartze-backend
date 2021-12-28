@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.RequestBody;
         "https://schwartze-ansingh.nl"}, maxAge = 14400)
 public class SubjectsGetController {
 
-    Logger logger = LoggerFactory.getLogger(ReferenceController.class);
+    Logger logger = LoggerFactory.getLogger(SubjectsGetController.class);
 
     @Value("${defaultlanguage}")
     private String defaultLanguage;

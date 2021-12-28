@@ -41,7 +41,7 @@ public class PersonServiceImpl implements PersonService {
 
     private final Comparator<Person> compareByName;
     private final Comparator<Person> compareByLastName;
-    private final String pattern = "^[\\p{L}0-9\\-\\s']+$";
+    private final static String pattern = "^[\\p{L}0-9\\-\\s']+$";
 
     @Autowired
     private PersonDao personDao;
@@ -66,8 +66,8 @@ public class PersonServiceImpl implements PersonService {
         Person resultPerson = personDao.getPerson(id);
         resultPerson.getLettersWritten();
         resultPerson.getLettersReceived();
-        resultPerson.setHasLettersFrom(resultPerson.getLettersWritten().size() > 0);
-        resultPerson.setHasLettersTo(resultPerson.getLettersReceived().size() > 0);
+        resultPerson.setHasLettersFrom(!resultPerson.getLettersWritten().isEmpty());
+        resultPerson.setHasLettersTo(!resultPerson.getLettersReceived().isEmpty());
         return resultPerson;
     }
 
@@ -95,8 +95,7 @@ public class PersonServiceImpl implements PersonService {
     public Person addPerson(Person person) {
 
         validate(person);
-        Person updatedPerson = personDao.addNewPerson(person);
-        return updatedPerson;
+        return personDao.addNewPerson(person);
     }
 
     @Override
@@ -266,7 +265,7 @@ public class PersonServiceImpl implements PersonService {
         List<Person> result = new ArrayList<>();
         if (searchTerm.matches(pattern)) {
             String term = searchTerm.replaceAll("\\s+", " ");
-            String array[] = term.split(" ");
+            String[] array = term.split(" ");
             if (array.length > 1) {
                 result = personDao.searchFirstAndLastName(searchTerm);
             }

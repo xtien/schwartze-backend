@@ -21,8 +21,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import java.io.IOException;
-
 @Controller
 @CrossOrigin(origins = {"https://pengo.christine.nl",
         "https://www.schwartze-ansingh.com",
@@ -37,7 +35,7 @@ public class GetPageReferencesController {
     private PageService pageService;
 
     @PostMapping(value = "/get_page_references/")
-    public ResponseEntity<PageResult> getPage(@RequestBody PageRequest request) throws IOException {
+    public ResponseEntity<PageResult> getPage(@RequestBody PageRequest request) {
 
         PageResult result = new PageResult();
 

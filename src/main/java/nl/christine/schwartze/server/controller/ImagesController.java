@@ -19,12 +19,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.annotation.PostConstruct;
-import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -35,9 +32,6 @@ import java.util.List;
         "https://schwartze-ansingh.nl"}, maxAge = 14400)
 public class ImagesController {
 
-    private String lettersDirectory;
-    private String textDocumentName;
-
     @Autowired
     private SchwartzeProperties properties;
 
@@ -47,15 +41,9 @@ public class ImagesController {
     @Autowired
     private LetterService letterService;
 
-    @PostConstruct
-    public void init() {
-        lettersDirectory = properties.getProperty("letters_directory");
-        textDocumentName = properties.getProperty("text_document_name");
-    }
-
-    @RequestMapping(method = RequestMethod.POST, value = "/get_letter_images/")
+    @PostMapping(value = "/get_letter_images/")
     @Transactional("transactionManager")
-    public ResponseEntity<ImagesResult> getLetterImages(@RequestBody ImagesRequest request) throws IOException {
+    public ResponseEntity<ImagesResult> getLetterImages(@RequestBody ImagesRequest request) {
 
         ImagesResult result = new ImagesResult();
 
@@ -64,7 +52,7 @@ public class ImagesController {
             Letter letter = letterService.getLetterByNumber(request.getLetterNumber());
             if (letter.getCollectie() == null || !letter.getCollectie().isDontShowLetter()) {
                 List<String> images = imageService.getImages(request.getLetterNumber());
-                if (images.size() < 1) {
+                if (images.isEmpty()) {
                     return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
                 }
                 result.setImages(images);

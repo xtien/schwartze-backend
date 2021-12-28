@@ -18,8 +18,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import java.io.IOException;
-
 @Controller
 @CrossOrigin(origins = {"https://pengo.christine.nl",
         "https://www.schwartze-ansingh.com",
@@ -37,7 +35,7 @@ public class LocationGetAllController {
         "https://www.schwartze-ansingh.nl",
         "https://schwartze-ansingh.com",
         "https://schwartze-ansingh.nl"}, maxAge = 14400)
-    public ResponseEntity<LocationsResult> getLocations(@RequestBody LocationRequest request) throws IOException {
+    public ResponseEntity<LocationsResult> getLocations(@RequestBody LocationRequest request) {
 
         LocationsResult locationsResult = new LocationsResult();
         locationsResult.setLocations(locationService.getAllLocations());

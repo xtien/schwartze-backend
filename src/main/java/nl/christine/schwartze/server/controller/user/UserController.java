@@ -57,11 +57,6 @@ public class UserController {
         HttpStatus status = HttpStatus.OK;
         LogoutResult logoutResult = new LogoutResult();
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//        if (auth != null){
-//            new SecurityContextLogoutHandler().logout(request, response, auth);
-//        }
-
         return new ResponseEntity<>(logoutResult, status);
     }
 }

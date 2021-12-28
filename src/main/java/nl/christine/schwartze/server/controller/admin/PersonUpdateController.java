@@ -8,6 +8,7 @@
 package nl.christine.schwartze.server.controller.admin;
 
 import nl.christine.schwartze.server.controller.request.UpdatePersonRequest;
+import nl.christine.schwartze.server.controller.result.ApiResult;
 import nl.christine.schwartze.server.controller.result.PersonResult;
 import nl.christine.schwartze.server.model.Person;
 import nl.christine.schwartze.server.service.PersonService;
@@ -44,11 +45,11 @@ public class PersonUpdateController {
     public ResponseEntity<PersonResult> updatePerson(@RequestBody UpdatePersonRequest request) {
 
         PersonResult result = new PersonResult();
-        result.setResult(PersonResult.NOT_OK);
+        result.setResult(ApiResult.NOT_OK);
 
         try {
             Person updatedPerson = personService.updatePerson(request.getPerson());
-            result.setResult(PersonResult.OK);
+            result.setResult(ApiResult.OK);
             result.setPerson(updatedPerson);
         } catch (Exception e) {
             logger.error("Error updating person",e);

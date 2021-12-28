@@ -35,15 +35,6 @@ public class SubjectDaoImpl implements SubjectDao {
                         + " a order by a.name",
                 Subject.class).getResultList();
 
-        // convert to new structure  //TODO remove afterwards
-        for (Subject s : subjects) {
-            if (s.getTitle() != null && s.getTitle().size() == 0) {
-                Title title = new Title("nl", s.getName());
-                s.getTitle().put("nl", title);
-                entityManager.persist(title);
-            }
-        }
-
         return subjects;
     }
 

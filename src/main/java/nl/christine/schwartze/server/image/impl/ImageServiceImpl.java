@@ -57,7 +57,7 @@ public class ImageServiceImpl implements ImageService {
     @Override
     public List<String> getImages(int letterNumber) {
 
-        File dir = new File(imagesDirectory + "/" + letterNumber + "/");
+        File dir = new File(imagesDirectory + File.separator + letterNumber + File.separator);
         if (dir.exists()) {
             return Arrays.stream(dir.listFiles())
                     .sorted(Comparator.comparing(File::getName))
@@ -104,7 +104,7 @@ public class ImageServiceImpl implements ImageService {
 
     private String getFromCache(int letterNumber, String fileName) throws IOException {
 
-        File file = new File(cacheDir + "/" + letterNumber + "/" + fileName);
+        File file = new File(cacheDir + File.separator + letterNumber + File.separator + fileName);
         byte[] fileData = new byte[(int) file.length()];
 
         try (DataInputStream dis = new DataInputStream(new FileInputStream(file))) {
@@ -114,25 +114,23 @@ public class ImageServiceImpl implements ImageService {
     }
 
     private boolean existsInCache(int letterNumber, String fileName) {
-        File dir = new File(cacheDir + "/" + letterNumber + "/" + fileName);
+        File dir = new File(cacheDir + File.separator + letterNumber + File.separator + fileName);
         return dir.exists();
     }
 
-    private void writeToCache(int letterNumber, String fileName, byte[] fileData) throws IOException {
+    private void writeToCache(int letterNumber, String fileName, byte[] fileData) {
 
         es.execute(() -> {
-            File dir = new File(cacheDir + "/" + letterNumber);
+            File dir = new File(cacheDir + File.separator + letterNumber);
             if(!dir.exists()){
                 dir.mkdir();
             }
 
-            try (OutputStream os = new FileOutputStream(new File(cacheDir + "/" + letterNumber + "/" + fileName));){
+            try (OutputStream os = new FileOutputStream(new File(cacheDir + File.separator + letterNumber + File.separator + fileName));){
                 os.write(fileData);
-            } catch (FileNotFoundException e) {
-                logger.error("cache writing error", e);
             } catch (IOException e) {
                 logger.error("cache writing error", e);
-            }
+           }
 
         });
      }

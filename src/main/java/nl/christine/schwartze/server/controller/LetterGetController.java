@@ -8,8 +8,8 @@
 package nl.christine.schwartze.server.controller;
 
 import nl.christine.schwartze.server.controller.request.LetterRequest;
+import nl.christine.schwartze.server.controller.result.ApiResult;
 import nl.christine.schwartze.server.controller.result.LetterResult;
-import nl.christine.schwartze.server.controller.result.LettersResult;
 import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.properties.SchwartzeProperties;
 import nl.christine.schwartze.server.service.LetterService;
@@ -70,9 +70,9 @@ public class LetterGetController {
                 if (canShowLetter(letter)) {
                     result.setLetterText(getLetterText(letter.getNumber()));
                 }
-                result.setResult(LettersResult.OK);
+                result.setResult(ApiResult.OK);
             } else {
-                result.setResult(LetterResult.NOT_OK);
+                result.setResult(ApiResult.NOT_OK);
             }
         } catch (Exception e) {
             logger.error("Error getting Letters", e);
@@ -86,16 +86,15 @@ public class LetterGetController {
         LetterResult result = new LetterResult();
 
         try {
-
             Letter letter = letterService.getNextLetter(request.getLetterNumber());
             if (letter != null) {
                 result.setLetter(letter);
                 if (canShowLetter(letter)) {
                     result.setLetterText(getLetterText(letter.getNumber()));
                 }
-                result.setResult(LettersResult.OK);
+                result.setResult(ApiResult.OK);
             } else {
-                result.setResult(LetterResult.NOT_OK);
+                result.setResult(ApiResult.NOT_OK);
             }
         } catch (Exception e) {
             logger.error("Error getting Letters", e);
@@ -115,9 +114,9 @@ public class LetterGetController {
                 if (canShowLetter(letter)) {
                     result.setLetterText(getLetterText(letter.getNumber()));
                 }
-                result.setResult(LettersResult.OK);
+                result.setResult(ApiResult.OK);
             } else {
-                result.setResult(LetterResult.NOT_OK);
+                result.setResult(ApiResult.NOT_OK);
             }
         } catch (Exception e) {
             logger.error("Error getting Letters", e);
@@ -129,12 +128,12 @@ public class LetterGetController {
     private boolean canShowLetter(Letter letter) {
         return (letter.getCollectie() == null)
                 || !letter.getCollectie().isDontShowLetter()
-                || (letter.getSenders().stream().filter(l -> l.getHideLetters() == false).collect(Collectors.toList()).size() > 0);
+                || !(letter.getSenders().stream().filter(l -> !l.getHideLetters()).collect(Collectors.toList()).isEmpty());
     }
 
     private String getLetterText(int letterNumber) throws IOException {
 
-        String fileName = lettersDirectory + "/" + letterNumber + "/" + textDocumentName;
+        String fileName = lettersDirectory + File.separator + letterNumber + File.separator + textDocumentName;
         String result = "";
 
         if (new File(fileName).exists()) {
@@ -145,8 +144,8 @@ public class LetterGetController {
                     result += "<BR>" + line;
                 }
                 int i = 1;
-                result = result.replaceAll("    ", "&nbsp&nbsp&nbsp&nbsp;");
-                result = result.replaceAll("<BR>/<BR>", "<BR><BR>-----<BR><BR>");
+                result = result.replace("    ", "&nbsp&nbsp&nbsp&nbsp;");
+                result = result.replace("<BR>/<BR>", "<BR><BR>-----<BR><BR>");
             } catch (Exception e) {
                 logger.error("Error getting letter text", e);
                 result = "text file not found";

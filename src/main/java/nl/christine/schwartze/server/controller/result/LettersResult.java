@@ -15,8 +15,6 @@ import java.util.List;
 
 public class LettersResult extends ApiResult {
 
-    private int result;
-
     @JsonProperty("letters")
     private List<Letter> letters;
 

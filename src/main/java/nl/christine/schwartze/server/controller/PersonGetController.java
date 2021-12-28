@@ -8,7 +8,7 @@
 package nl.christine.schwartze.server.controller;
 
 import nl.christine.schwartze.server.controller.request.GetPersonRequest;
-import nl.christine.schwartze.server.controller.result.LettersResult;
+import nl.christine.schwartze.server.controller.result.ApiResult;
 import nl.christine.schwartze.server.controller.result.PersonResult;
 import nl.christine.schwartze.server.model.Person;
 import nl.christine.schwartze.server.service.PersonService;
@@ -39,14 +39,14 @@ public class PersonGetController {
     public ResponseEntity<PersonResult> getPerson(@RequestBody GetPersonRequest request) {
 
         PersonResult result = new PersonResult();
-        result.setResult(LettersResult.NOT_OK);
+        result.setResult(ApiResult.NOT_OK);
 
         try {
 
             Person person = personService.getPerson(request.getId());
             if (person != null) {
                 result.setPerson(person);
-                result.setResultCode(LettersResult.OK);
+                result.setResultCode(ApiResult.OK);
             }
         } catch (Exception e) {
             logger.error("Error getting person",e);

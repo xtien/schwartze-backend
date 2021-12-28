@@ -114,10 +114,10 @@ public class LetterServiceImpl implements LetterService {
                 updateSendersRecipients(existingLetter.getRecipients(), letter.getRecipients(), existingLetter);
             }
             if (existingLetter.getFromLocations() != null) {
-                updateLocations(existingLetter.getFromLocations(), letter.getFromLocations(), existingLetter);
+                updateLocations(existingLetter.getFromLocations(), letter.getFromLocations());
             }
             if (existingLetter.getToLocations() != null) {
-                updateLocations(existingLetter.getToLocations(), letter.getToLocations(), existingLetter);
+                updateLocations(existingLetter.getToLocations(), letter.getToLocations());
             }
         }
         return existingLetter;
@@ -130,7 +130,7 @@ public class LetterServiceImpl implements LetterService {
      * @param locations
      * @param existingLetter
      */
-    private void updateLocations(List<MyLocation> existingLocations, List<MyLocation> locations, Letter existingLetter) {
+    private void updateLocations(List<MyLocation> existingLocations, List<MyLocation> locations) {
         if (!CollectionUtils.isEmpty(locations)) {
             MyLocation newLocation = locations.get(0);
             if (newLocation !=null && newLocation.getId() != 0) {
@@ -377,13 +377,13 @@ public class LetterServiceImpl implements LetterService {
     }
 
     private MyLocation createLocation(String fromLocation) {
-        fromLocation = fromLocation.replaceAll("  ", " ").trim();
+        fromLocation = fromLocation.replace("  ", " ").trim();
         return new MyLocation(fromLocation);
     }
 
     private Person createPerson(String importPerson) {
 
-        importPerson = importPerson.replaceAll("  ", " ").trim();
+        importPerson = importPerson.replace("  ", " ").trim();
         Person person = new Person();
 
         String[] str = importPerson.split(" ");

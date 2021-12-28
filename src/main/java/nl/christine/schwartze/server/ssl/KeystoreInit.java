@@ -24,14 +24,12 @@ public class KeystoreInit {
     private final String keystoreType;
     private final String keystorePassword;
     private final String keystoreLocation;
-    private final String keyPassword;
 
     @Autowired
     public KeystoreInit(SchwartzeProperties properties) {
         keystorePassword = properties.getProperty("keystorePassword");
         keystoreLocation = properties.getProperty("keystoreLocation");
         keystoreAlias = properties.getProperty(("keyAlias"));
-        keyPassword = properties.getProperty("keyPassword");
         keystoreType = properties.getProperty(("keystoreType"));
     }
 
