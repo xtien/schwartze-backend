@@ -43,12 +43,8 @@ public class SchwartzeProperties {
 
         if (settingsFile.exists()) {
 
-            try {
-
-                InputStream is = new FileInputStream(settingsFile);
-
+            try (InputStream is = new FileInputStream(settingsFile)){
                 properties.load(is);
-
             } catch (IOException e) {
                 log.error(e.getMessage());
             }

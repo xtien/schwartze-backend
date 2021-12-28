@@ -18,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Component("referenceService")
 public class ReferenceServiceImpl implements ReferenceService {
 
@@ -44,7 +46,11 @@ public class ReferenceServiceImpl implements ReferenceService {
     public References removeReferenceLink(RemoveReferenceLinkRequest request) {
         References existingReferences = referenceDao.getReferences(request.getType());
         if (existingReferences != null) {
-            Link link = existingReferences.getLinks().stream().filter(x -> x.getId() == request.getLinkId()).findFirst().get();
+            Optional<Link> l = existingReferences.getLinks().stream().filter(x -> x.getId() == request.getLinkId()).findFirst();
+            Link link = null;
+            if (l.isPresent()) {
+                link = l.get();
+            }
             existingReferences.getLinks().removeIf(x -> x.getId() == request.getLinkId());
             linkDao.remove(link);
         }

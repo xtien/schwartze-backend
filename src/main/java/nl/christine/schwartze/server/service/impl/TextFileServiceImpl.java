@@ -41,6 +41,8 @@ public class TextFileServiceImpl implements TextFileService {
     }
 
     private String lettersDirectory;
+    private String TXT_EXTENSION = ".txt";
+    private String PAGES = "/pages/";
 
     @Autowired
     private SchwartzeProperties properties;
@@ -55,10 +57,10 @@ public class TextFileServiceImpl implements TextFileService {
 
     @Override
     public String getText(String type, String documentName, String language) {
-        String fileName = lettersDirectory + "/" + type + "/" + language + "/" + documentName + ".txt";
+        String fileName = lettersDirectory + File.separator + type + File.separator + language + File.separator + documentName + TXT_EXTENSION;
         String result = textReader.getText(fileName);
         if (result == null) {
-            fileName = lettersDirectory + "/" + type + "/" + defaultLanguage + "/" + documentName + ".txt";
+            fileName = lettersDirectory + File.separator + type + File.separator + defaultLanguage + File.separator + documentName + TXT_EXTENSION;
             result = textReader.getText(fileName);
         }
         if (result == null) {
@@ -69,10 +71,10 @@ public class TextFileServiceImpl implements TextFileService {
 
     @Override
     public String getPage(String chapterId, String pageId, String language) {
-        String fileName = lettersDirectory + "/pages/" + language + "/" + chapterId + "/" + pageId + ".txt";
+        String fileName = lettersDirectory + PAGES + language + File.separator + chapterId + File.separator + pageId + TXT_EXTENSION;
         String result = textReader.getText(fileName);
         if (result == null) {
-            fileName = lettersDirectory + "/pages/" + defaultLanguage + "/" + chapterId + "/" + pageId + ".txt";
+            fileName = lettersDirectory + PAGES + defaultLanguage + File.separator + chapterId + File.separator + pageId + TXT_EXTENSION;
             result = textReader.getText(fileName);
         }
         if (result == null) {
@@ -93,19 +95,19 @@ public class TextFileServiceImpl implements TextFileService {
 
     private PageResult getPreviousNextPage(Comparator<File> pComparator, String chapterId, String pageId, String language) {
         PageResult pageResult;
-        File dir = new File(lettersDirectory + "/pages/" + language + "/" + chapterId);
+        File dir = new File(lettersDirectory + PAGES + language + File.separator + chapterId);
         if (!dir.exists()) {
-            dir = new File(lettersDirectory + "/pages/" + defaultLanguage + "/" + chapterId);
+            dir = new File(lettersDirectory + PAGES + defaultLanguage + File.separator + chapterId);
         }
-        File[] dirList = dir.listFiles((dir1, name) -> name.toLowerCase().endsWith(".txt"));
+        File[] dirList = dir.listFiles((dir1, name) -> name.toLowerCase().endsWith(TXT_EXTENSION));
         String nextPageId = null;
         Iterator<File> iterator = Arrays.stream(dirList)
                 .sorted(pComparator)
                 .collect(Collectors.toList()).iterator();
         while (iterator.hasNext()) {
-            if (iterator.next().getName().equals(pageId + ".txt")) {
+            if (iterator.next().getName().equals(pageId + TXT_EXTENSION)) {
                 if (iterator.hasNext()) {
-                    nextPageId = iterator.next().getName().replace(".txt", "");
+                    nextPageId = iterator.next().getName().replace(TXT_EXTENSION, "");
                 }
                 break;
             }
@@ -132,14 +134,14 @@ public class TextFileServiceImpl implements TextFileService {
 
     @Override
     public String getChapterTitle(String language, String chapterNumber) {
-        return textReader.getText(lettersDirectory + "/pages/" + language + "/" + chapterNumber + "/title.ch");
+        return textReader.getText(lettersDirectory + PAGES + language + File.separator + chapterNumber + "/title.ch");
     }
 
     private PageResult getPreviousNextChapter(Comparator<File> pComparator, String chapterId, String pageId, String language) {
         PageResult pageResult;
-        File dir = new File(lettersDirectory + "/pages/" + language + "/" + chapterId);
+        File dir = new File(lettersDirectory + PAGES + language + File.separator + chapterId);
         if (!dir.exists()) {
-            dir = new File(lettersDirectory + "/pages/" + defaultLanguage + "/" + chapterId);
+            dir = new File(lettersDirectory + PAGES + defaultLanguage + File.separator + chapterId);
         }
         File[] chapterDirFiles = new File(dir.getParent()).listFiles((d, name) -> NumberUtils.isCreatable(name.toLowerCase()));
         Iterator<File> chapterIterator = Arrays.stream(chapterDirFiles)
@@ -154,11 +156,11 @@ public class TextFileServiceImpl implements TextFileService {
                     String nextChapterDirName = chapterIterator.next().getAbsolutePath();
                     File f = new File(nextChapterDirName);
                     nextChapterId = f.getName();
-                    File[] files = f.listFiles((d, name) -> name.toLowerCase().endsWith(".txt"));
+                    File[] files = f.listFiles((d, name) -> name.toLowerCase().endsWith(TXT_EXTENSION));
                     if (files.length > 0) {
                         firstPageId = Arrays.stream(files)
                                 .sorted(comparator)
-                                .collect(Collectors.toList()).get(0).getName().replace(".txt", "");
+                                .collect(Collectors.toList()).get(0).getName().replace(TXT_EXTENSION, "");
                     }
                     pageResult = new PageResult();
                     pageResult.setChapterId(nextChapterId);

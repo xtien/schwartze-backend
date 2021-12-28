@@ -66,8 +66,7 @@ public class IndexFilesImpl implements IndexFiles {
 
         int count = 0;
 
-        try {
-            Directory dir = FSDirectory.open(Paths.get(indexPath));
+        try (Directory dir = FSDirectory.open(Paths.get(indexPath))){
 
             Analyzer analyzer = new StandardAnalyzer();
             IndexWriterConfig iwc = new IndexWriterConfig(analyzer);
