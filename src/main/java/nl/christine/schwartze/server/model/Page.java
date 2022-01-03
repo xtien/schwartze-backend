@@ -22,6 +22,7 @@ public class Page {
     private static final String PAGE_NUMBER = "page_number";
     private static final String CHAPTER_NUMBER = "chapter_number";
     private static final String PICTURE_URL = "picture_url";
+    private static final String PICTURE_CAPTION = "picture_caption";
     private static final String CHAPTER_TITLE = "chapter_title";
 
     @Id
@@ -36,6 +37,10 @@ public class Page {
     @Column(name = PICTURE_URL)
     @JsonProperty(PICTURE_URL)
     private String pictureUrl;
+
+    @Column(name = PICTURE_CAPTION)
+    @JsonProperty(PICTURE_CAPTION)
+    private String pictureCaption;
 
     @Column(name = PAGE_NUMBER)
     @JsonProperty(PAGE_NUMBER)
@@ -84,5 +89,13 @@ public class Page {
 
     public void setChapterTitle(String chapterTitle) {
         this.chapterTitle = chapterTitle;
+    }
+
+    public String getPictureCaption() {
+        return pictureCaption;
+    }
+
+    public void setPictureCaption(String pictureCaption) {
+        this.pictureCaption = pictureCaption;
     }
 }

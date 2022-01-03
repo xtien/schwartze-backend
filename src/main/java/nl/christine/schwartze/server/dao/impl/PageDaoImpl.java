@@ -44,6 +44,7 @@ public class PageDaoImpl implements PageDao {
         }
 
         existingPage.setPictureUrl(page.getPictureUrl());
+        existingPage.setPictureCaption(page.getPictureCaption());
         return existingPage;
     }
 
