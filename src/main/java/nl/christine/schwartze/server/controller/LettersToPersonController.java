@@ -37,7 +37,7 @@ public class LettersToPersonController {
     @Autowired
     private LetterService letterService;
 
-     @PostMapping(value = "/get_letters_to_person/")
+    @PostMapping(value = "/get_letters_to_person/")
     public ResponseEntity<LettersResult> getLetters(@RequestBody LettersRequest request) {
 
         LettersResult result = new LettersResult();
