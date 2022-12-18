@@ -66,7 +66,8 @@ public class TextGetController {
             }
         } catch (Exception e) {
             logger.error("create_text exception ", e);
-            result.setErrorText(e.getClass().getCanonicalName());
+            //result.setErrorText(e.getClass().getCanonicalName());
+            result.setErrorText("EROR: text not found");
         }
 
         return new ResponseEntity<>(result, status);
