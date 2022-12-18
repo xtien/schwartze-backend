@@ -46,9 +46,11 @@ public class LocationDeleteController {
             locationService.deleteLocation(request.getId());
         } catch (LocationNotFoundException e) {
             logger.error("Error getting person", e);
-            status = HttpStatus.NOT_FOUND;
+            status = HttpStatus.OK;
+            result.setErrorText(e.getMessage());
         } catch(Exception e){
             status = HttpStatus.INTERNAL_SERVER_ERROR;
+            result.setErrorText(e.getMessage());
         }
 
         return new ResponseEntity<>(result, status);

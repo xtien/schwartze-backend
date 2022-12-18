@@ -70,6 +70,9 @@ public class LocationDaoImpl implements LocationDao {
     public void deleteLocation(int id) throws LocationNotFoundException {
         MyLocation existingLocation = entityManager.find(MyLocation.class, id);
         if (existingLocation != null) {
+            existingLocation.setLettersFrom(null);
+            existingLocation.setLettersTo(null);
+            existingLocation.setLinks(null);
             entityManager.remove(existingLocation);
         } else {
             throw new LocationNotFoundException();

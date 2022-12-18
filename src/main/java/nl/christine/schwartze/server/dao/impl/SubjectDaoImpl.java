@@ -71,8 +71,8 @@ public class SubjectDaoImpl implements SubjectDao {
     public void remove(Integer id) {
         Subject subject = entityManager.find(Subject.class, id);
         if (subject != null) {
-            subject.setTexts(null);
-            subject.setTitle(null);
+ //           subject.setTexts(null);
+ //           subject.setTitle(null);
             entityManager.remove(subject);
         }
     }

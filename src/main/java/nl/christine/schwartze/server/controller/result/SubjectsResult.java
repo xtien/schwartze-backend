@@ -16,7 +16,16 @@ public class SubjectsResult {
 
     @JsonProperty("subjects")
     private List<Subject> subjects;
+    @JsonProperty("error_text")
+    private String errorText;
 
+    public void setErrorText(String errorText) {
+        this.errorText = errorText;
+    }
+
+    public String getErrorText(){
+        return errorText;
+    }
     public List<Subject> getSubjects() {
         return subjects;
     }

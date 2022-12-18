@@ -44,6 +44,7 @@ public class SubjectRemoveController {
             result.setSubjects(subjectService.removeSubject(request.getSubjectId(), request.getLanguage()));
         } catch (Exception e) {
             logger.error("Error getting references", e);
+            result.setErrorText(e.getMessage());
         }
 
         return new ResponseEntity<>(result, HttpStatus.OK);

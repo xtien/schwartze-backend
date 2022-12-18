@@ -162,4 +162,11 @@ public class MyLocation {
     public String toString(){
         return id + " " + locationName + " " +comment;
     }
+
+    public void setLettersFrom(List<Letter> letters) {
+        this.lettersFrom = letters;
+    }
+    public void setLettersTo(List<Letter> letters) {
+        this.lettersTo = letters;
+    }
 }
