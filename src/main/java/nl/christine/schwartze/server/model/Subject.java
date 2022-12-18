@@ -83,11 +83,10 @@ public class Subject {
         this.title.put(language, title);
     }
 
+    public void setTitle(Map<String, Title> title){
+        this.title = title;
+    }
     public Map<String, Title> getTitle() {
         return title;
-    }
-
-    public Title getTitle(String language) {
-        return getTitle().get(language);
     }
  }

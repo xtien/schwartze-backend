@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.*;
 
 @Entity
-@Table(name="title")
+@Table(name = "title")
 public class Title {
 
     public static final String ID = "id";
@@ -30,13 +30,17 @@ public class Title {
     @JsonProperty(TEXT)
     private String text;
 
-    public Title(){
+    public Title() {
 
     }
 
     public Title(String language, String title) {
         this.language = language;
         this.text = title;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getText() {

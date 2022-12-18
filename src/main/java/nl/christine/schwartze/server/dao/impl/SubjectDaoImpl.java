@@ -19,6 +19,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.util.List;
+import java.util.Map;
 
 @Component("subjectDao")
 public class SubjectDaoImpl implements SubjectDao {
@@ -70,6 +71,8 @@ public class SubjectDaoImpl implements SubjectDao {
     public void remove(Integer id) {
         Subject subject = entityManager.find(Subject.class, id);
         if (subject != null) {
+            subject.setTexts(null);
+            subject.setTitle(null);
             entityManager.remove(subject);
         }
     }
