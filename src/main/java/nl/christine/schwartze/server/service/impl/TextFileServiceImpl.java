@@ -11,6 +11,7 @@ import nl.christine.schwartze.server.controller.result.PageResult;
 import nl.christine.schwartze.server.properties.SchwartzeProperties;
 import nl.christine.schwartze.server.service.TextFileService;
 import nl.christine.schwartze.server.text.TextReader;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -59,11 +60,11 @@ public class TextFileServiceImpl implements TextFileService {
     public String getText(String type, String documentName, String language) {
         String fileName = lettersDirectory + File.separator + type + File.separator + language + File.separator + documentName + TXT_EXTENSION;
         String result = textReader.getText(fileName);
-        if (result == null) {
+        if (StringUtils.isEmpty(result)) {
             fileName = lettersDirectory + File.separator + type + File.separator + defaultLanguage + File.separator + documentName + TXT_EXTENSION;
             result = textReader.getText(fileName);
         }
-        if (result == null) {
+        if (StringUtils.isEmpty(result)) {
             result = "text file not found";
         }
         return result;
@@ -73,11 +74,11 @@ public class TextFileServiceImpl implements TextFileService {
     public String getPage(String chapterId, String pageId, String language) {
         String fileName = lettersDirectory + PAGES + language + File.separator + chapterId + File.separator + pageId + TXT_EXTENSION;
         String result = textReader.getText(fileName);
-        if (result == null) {
+        if (StringUtils.isEmpty(result)) {
             fileName = lettersDirectory + PAGES + defaultLanguage + File.separator + chapterId + File.separator + pageId + TXT_EXTENSION;
             result = textReader.getText(fileName);
         }
-        if (result == null) {
+        if (StringUtils.isEmpty(result)) {
             result = "text file not found";
         }
         return result;

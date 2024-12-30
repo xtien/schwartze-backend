@@ -23,11 +23,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/admin")
-@CrossOrigin(origins = {"https://pengo.christine.nl",
-        "https://www.schwartze-ansingh.com",
-        "https://www.schwartze-ansingh.nl",
-        "https://schwartze-ansingh.com",
-        "https://schwartze-ansingh.nl"}, maxAge = 14400)
 public class SubjectRemoveController {
 
     @Autowired

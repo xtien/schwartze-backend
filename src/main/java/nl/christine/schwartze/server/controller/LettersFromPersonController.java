@@ -25,11 +25,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.util.List;
 
 @Controller
-@CrossOrigin(origins = {"https://pengo.christine.nl",
-        "https://www.schwartze-ansingh.com",
-        "https://www.schwartze-ansingh.nl",
-        "https://schwartze-ansingh.com",
-        "https://schwartze-ansingh.nl"}, maxAge = 14400)
 public class LettersFromPersonController {
 
     Logger logger = LoggerFactory.getLogger(LettersFromPersonController.class);

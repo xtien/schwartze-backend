@@ -27,11 +27,6 @@ import org.springframework.web.bind.annotation.RequestBody;
  * Date: 1/20/19 6:21 PM
  */
 @Controller
-@CrossOrigin(origins = {"https://pengo.christine.nl",
-        "https://www.schwartze-ansingh.com",
-        "https://www.schwartze-ansingh.nl",
-        "https://schwartze-ansingh.com",
-        "https://schwartze-ansingh.nl"}, maxAge = 14400)
 public class LocationGetController {
     Logger logger = LoggerFactory.getLogger(LocationGetController.class);
 
