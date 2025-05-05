@@ -8,9 +8,8 @@
 package nl.christine.schwartze.server.controller.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import nl.christine.schwartze.server.model.Person;
-
 import jakarta.validation.constraints.NotNull;
+import nl.christine.schwartze.server.model.Person;
 
 public class AddPersonRequest {
 

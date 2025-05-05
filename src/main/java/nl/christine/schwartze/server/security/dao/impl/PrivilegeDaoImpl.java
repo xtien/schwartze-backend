@@ -7,14 +7,13 @@
 
 package nl.christine.schwartze.server.security.dao.impl;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
+import jakarta.persistence.PersistenceContext;
 import nl.christine.schwartze.server.security.dao.PrivilegeDao;
 import nl.christine.schwartze.server.security.model.Privilege;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
-
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.NoResultException;
-import jakarta.persistence.PersistenceContext;
 
 @Component("privilegeDao")
 @Profile("!test")

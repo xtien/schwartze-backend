@@ -8,10 +8,8 @@
 package nl.christine.schwartze.server.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.annotations.Type;
-
 import jakarta.persistence.*;
+import org.hibernate.annotations.JdbcTypeCode;
 
 import java.sql.Types;
 

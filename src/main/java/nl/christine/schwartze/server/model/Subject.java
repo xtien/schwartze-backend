@@ -9,8 +9,8 @@ package nl.christine.schwartze.server.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import jakarta.persistence.*;
+
 import java.util.HashMap;
 import java.util.Map;
 

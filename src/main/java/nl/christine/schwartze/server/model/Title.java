@@ -8,7 +8,6 @@
 package nl.christine.schwartze.server.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import jakarta.persistence.*;
 
 @Entity

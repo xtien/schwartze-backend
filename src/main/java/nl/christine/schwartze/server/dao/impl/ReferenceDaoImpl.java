@@ -7,15 +7,14 @@
 
 package nl.christine.schwartze.server.dao.impl;
 
-import nl.christine.schwartze.server.dao.ReferenceDao;
-import nl.christine.schwartze.server.model.Link;
-import nl.christine.schwartze.server.model.References;
-import org.springframework.stereotype.Component;
-
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
+import nl.christine.schwartze.server.dao.ReferenceDao;
+import nl.christine.schwartze.server.model.Link;
+import nl.christine.schwartze.server.model.References;
+import org.springframework.stereotype.Component;
 
 @Component("referenceDao")
 public class ReferenceDaoImpl implements ReferenceDao {

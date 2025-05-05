@@ -7,12 +7,11 @@
 
 package nl.christine.schwartze.server.dao.impl;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import nl.christine.schwartze.server.dao.CollectieDao;
 import nl.christine.schwartze.server.model.Collectie;
 import org.springframework.stereotype.Component;
-
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 
 @Component("collectionDao")
 public class CollectieDaoImpl implements CollectieDao {

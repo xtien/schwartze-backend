@@ -7,15 +7,14 @@
 
 package nl.christine.schwartze.server.dao.impl;
 
-import nl.christine.schwartze.server.dao.PageDao;
-import nl.christine.schwartze.server.model.Page;
-import nl.christine.schwartze.server.model.PageReference;
-import org.springframework.stereotype.Component;
-
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
+import nl.christine.schwartze.server.dao.PageDao;
+import nl.christine.schwartze.server.model.Page;
+import nl.christine.schwartze.server.model.PageReference;
+import org.springframework.stereotype.Component;
 
 @Component("pageDao")
 public class PageDaoImpl implements PageDao {

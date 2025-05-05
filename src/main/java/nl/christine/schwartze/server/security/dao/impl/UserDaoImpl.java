@@ -7,14 +7,13 @@
 
 package nl.christine.schwartze.server.security.dao.impl;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
+import jakarta.persistence.PersistenceContext;
 import nl.christine.schwartze.server.security.dao.UserDao;
 import nl.christine.schwartze.server.security.model.User;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
-
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.NoResultException;
-import jakarta.persistence.PersistenceContext;
 
 @Component("userDao")
 @Profile("!test")

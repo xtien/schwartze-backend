@@ -8,6 +8,7 @@
 package nl.christine.schwartze.server.security.model;
 
 import jakarta.persistence.*;
+
 import java.util.Collection;
 
 @Entity

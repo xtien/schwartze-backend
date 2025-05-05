@@ -7,14 +7,14 @@
 
 package nl.christine.schwartze.server.daoimport.impl;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 import nl.christine.schwartze.server.daoimport.ImportLetterDao;
 import nl.christine.schwartze.server.modelimport.ImportLetter;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.TypedQuery;
 import java.util.List;
 
 @Component("importLetterDao")
