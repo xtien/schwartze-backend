@@ -16,6 +16,7 @@ import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.index.StoredFields;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
@@ -52,7 +53,7 @@ public class SearchFilesImpl implements SearchFiles {
     private String textDocumentName;
     Path docDir;
 
-    public SearchFilesImpl(){
+    public SearchFilesImpl() {
         compareByDate = Comparator
                 .comparing(Letter::getDate, Comparator.nullsFirst(Comparator.naturalOrder()));
     }
@@ -69,21 +70,24 @@ public class SearchFilesImpl implements SearchFiles {
     @Override
     public List<Letter> search(String searchTerm) throws Exception {
 
-        IndexSearcher searcher = createSearcher();
+        Directory dir = FSDirectory.open(Paths.get(indexPath));
+        IndexReader reader = DirectoryReader.open(dir);
+        IndexSearcher searcher = new IndexSearcher(reader);
 
         TopDocs foundDocs = searchInContent(searchTerm, searcher);
+        StoredFields storedFields = reader.storedFields();
         List<Document> documents = new ArrayList<>();
         for (ScoreDoc scoreDoc : foundDocs.scoreDocs) {
-            documents.add(searcher.doc(scoreDoc.doc));
+            documents.add(storedFields.document(scoreDoc.doc));
         }
-       return documents.stream().map(doc -> getLetter(doc)).sorted(compareByDate).collect(Collectors.toList());
+        return documents.stream().map(doc -> getLetter(doc)).sorted(compareByDate).collect(Collectors.toList());
     }
 
-    private Letter getLetter(Document doc){
+    private Letter getLetter(Document doc) {
 
-        String documentNumber = doc.getField("path").stringValue().replace(lettersDirectory, "").replace(textDocumentName, "").replace("/","");
+        String documentNumber = doc.getField("path").stringValue().replace(lettersDirectory, "").replace(textDocumentName, "").replace("/", "");
 
-        if(NumberUtils.isCreatable(documentNumber)){
+        if (NumberUtils.isCreatable(documentNumber)) {
             return letterDao.getLetterForNumber(Integer.parseInt(documentNumber));
         }
         return new Letter();

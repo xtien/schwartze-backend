@@ -13,9 +13,9 @@ import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.model.Text;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 import java.util.List;
 
 @Component("letterDao")

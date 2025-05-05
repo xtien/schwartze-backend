@@ -8,9 +8,8 @@
 package nl.christine.schwartze.server.controller.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotNull;
 import nl.christine.schwartze.server.model.MyLocation;
-
-import javax.validation.constraints.NotNull;
 
 public class AddLocationRequest {
 

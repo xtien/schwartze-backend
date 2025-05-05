@@ -9,7 +9,7 @@ package nl.christine.schwartze.server.modelimport;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "letters")

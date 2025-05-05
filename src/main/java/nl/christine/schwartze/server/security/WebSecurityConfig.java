@@ -7,54 +7,40 @@
 
 package nl.christine.schwartze.server.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
 @Profile("!test")
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
-    @Autowired
-    RestAuthenticationEntryPoint restAuthenticationEntryPoint;
-
-    @Autowired
-    MySuccessHandler mySuccessHandler;
-
-    @Autowired
-    MyFailureHandler myFailureHandler;
+public class WebSecurityConfig  {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf().disable()
-                .exceptionHandling()
-                .authenticationEntryPoint(restAuthenticationEntryPoint)
-                .and()
-                .httpBasic()
-                .and()
-                .authorizeRequests()
-                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .antMatchers("/admin/**").hasAuthority("WRITE_PRIVILEGE")
-                .antMatchers("/user/**").hasAuthority("WRITE_PRIVILEGE")
-                .antMatchers("/v2/api-docs",
-                        "/swagger-ui.html", "/swagger-ui").hasAuthority("WRITE_PRIVILEGE")
-                .antMatchers("/**").permitAll()
-                .anyRequest().permitAll()
-        ;
+                .authorizeHttpRequests((requests) -> requests
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        .requestMatchers("/admin/**").hasAuthority("WRITE_PRIVILEGE")
+                        .requestMatchers("/**").permitAll()
+                        .anyRequest().permitAll()
+                )
+                .cors(cors -> cors.disable())
+                .csrf((csrf) -> csrf
+                        .ignoringRequestMatchers("/**")
+                ).logout((logout) -> logout.permitAll());
+
+        return http.build();
     }
 }

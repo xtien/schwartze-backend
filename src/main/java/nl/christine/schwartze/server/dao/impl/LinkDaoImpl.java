@@ -11,8 +11,8 @@ import nl.christine.schwartze.server.dao.LinkDao;
 import nl.christine.schwartze.server.model.Link;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 
 @Component("linkDao")
 public class LinkDaoImpl implements LinkDao {

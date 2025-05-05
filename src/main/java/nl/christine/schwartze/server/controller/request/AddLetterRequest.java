@@ -8,9 +8,9 @@
 package nl.christine.schwartze.server.controller.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotNull;
 import nl.christine.schwartze.server.model.Letter;
 
-import javax.validation.constraints.NotNull;
 
 public class AddLetterRequest {
 

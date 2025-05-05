@@ -11,8 +11,8 @@ import nl.christine.schwartze.server.dao.TextDao;
 import nl.christine.schwartze.server.model.Text;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 
 @Component("textDao")
 public class TextDaoImpl implements TextDao {

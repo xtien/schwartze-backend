@@ -10,7 +10,7 @@ package nl.christine.schwartze.server.controller.request;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import nl.christine.schwartze.server.model.Person;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 public class AddPersonRequest {
 

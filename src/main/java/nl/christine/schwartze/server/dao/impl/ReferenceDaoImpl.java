@@ -12,10 +12,10 @@ import nl.christine.schwartze.server.model.Link;
 import nl.christine.schwartze.server.model.References;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 
 @Component("referenceDao")
 public class ReferenceDaoImpl implements ReferenceDao {

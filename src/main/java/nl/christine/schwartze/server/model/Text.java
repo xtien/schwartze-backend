@@ -8,9 +8,12 @@
 package nl.christine.schwartze.server.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.Type;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
+
+import java.sql.Types;
 
 @Entity
 @Table(name = "text")
@@ -25,7 +28,7 @@ public class Text {
 
     @JsonProperty("text_string")
     @Lob
-    @Type(type = "org.hibernate.type.TextType")
+    @JdbcTypeCode(Types.LONGVARCHAR)
     private String textString;
 
     @JsonProperty("language")
