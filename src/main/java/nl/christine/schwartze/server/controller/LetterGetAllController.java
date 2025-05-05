@@ -7,6 +7,7 @@
 
 package nl.christine.schwartze.server.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import nl.christine.schwartze.server.controller.request.LettersRequest;
 import nl.christine.schwartze.server.controller.result.ApiResult;
 import nl.christine.schwartze.server.controller.result.LettersResult;
@@ -17,14 +18,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Controller
+@RestController
 public class LetterGetAllController {
 
     Logger logger = LoggerFactory.getLogger(LetterGetAllController.class);

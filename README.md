@@ -8,3 +8,5 @@ I have 500 letters from the families Schwartze and Ansingh, written between 1880
 The frontend software is at https://www.github.com/xtien/schwartze-frontend
 
 The web site is at https://www.schwartze-ansingh.com 
+
+openapi http://localhost:8084/swagger-ui/index.html
