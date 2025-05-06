@@ -7,9 +7,14 @@
 
 package nl.christine.schwartze.server.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import nl.christine.schwartze.server.controller.request.GetReferencesRequest;
+import nl.christine.schwartze.server.controller.request.PageRequest;
+import nl.christine.schwartze.server.controller.result.PageResult;
 import nl.christine.schwartze.server.controller.result.ReferencesResult;
+import nl.christine.schwartze.server.model.Page;
 import nl.christine.schwartze.server.model.References;
+import nl.christine.schwartze.server.service.PageService;
 import nl.christine.schwartze.server.service.ReferenceService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,13 +26,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@Tag(name = "References", description = "")
 public class ReferenceController {
     Logger logger = LoggerFactory.getLogger(ReferenceController.class);
 
     @Autowired
     private ReferenceService referenceService;
 
-    @PostMapping(value = "/get_references/")
+    @Autowired
+    private PageService pageService;
+
+    @PostMapping(value = "/getReferences/")
     public ResponseEntity<ReferencesResult> getPerson(@RequestBody GetReferencesRequest request) {
 
         ReferencesResult result = new ReferencesResult();
@@ -44,4 +53,24 @@ public class ReferenceController {
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
+
+    @PostMapping(value = "/getPageReferences/")
+    public ResponseEntity<PageResult> getPageReferences(@RequestBody PageRequest request) {
+
+        PageResult result = new PageResult();
+
+        try {
+
+            Page page = pageService.getPage(request.getLanguage(), request.getPageNumber(), request.getChapterNumber());
+
+            if (page != null) {
+                result.setPage(page);
+            }
+        } catch (Exception e) {
+            logger.error("Error getting Page References", e);
+        }
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
 }

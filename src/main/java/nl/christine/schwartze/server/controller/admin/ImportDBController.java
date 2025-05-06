@@ -7,6 +7,7 @@
 
 package nl.christine.schwartze.server.controller.admin;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import nl.christine.schwartze.server.controller.result.LettersResult;
 import nl.christine.schwartze.server.modelimport.ImportLetter;
 import nl.christine.schwartze.server.service.ImportLetterService;
@@ -21,6 +22,7 @@ import java.util.List;
 
 @RestController
 @Profile("import")
+@Tag(name = "Admin Import", description = "")
 public class ImportDBController {
 
     @Autowired
@@ -47,14 +49,10 @@ public class ImportDBController {
             return result;
         }
 
-
-
         for (ImportLetter importLetter : importLetters) {
 
             try {
-
                 letterService.persistIfNotPresent(importLetter);
-
             } catch (Exception e) {
                 logger.error("error persisting importede letters", e);
                 result.setResult(-1);

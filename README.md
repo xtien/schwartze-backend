@@ -10,3 +10,5 @@ The frontend software is at https://www.github.com/xtien/schwartze-frontend
 The web site is at https://www.schwartze-ansingh.com 
 
 openapi http://localhost:8084/swagger-ui/index.html
+
+java -jar ./openapi-generator-cli.jar generate -i http://localhost:8084/v3/api-docs -g typescript-axios -pwithSeparateModelsAndApi=true -papiPackage=api -pmodelPackage=model -o generated-api 

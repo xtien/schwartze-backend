@@ -7,6 +7,7 @@
 
 package nl.christine.schwartze.server.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import nl.christine.schwartze.server.controller.request.ImagesRequest;
 import nl.christine.schwartze.server.controller.result.ImagesResult;
 import nl.christine.schwartze.server.image.ImageService;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
+@Tag(name = "Images", description = "")
 public class ImagesController {
 
     @Autowired

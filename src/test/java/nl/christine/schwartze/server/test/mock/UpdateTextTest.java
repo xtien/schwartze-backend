@@ -8,9 +8,10 @@
 package nl.christine.schwartze.server.test.mock;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import nl.christine.schwartze.server.controller.admin.TextUpdateController;
+import nl.christine.schwartze.server.controller.admin.AdminTextController;
 import nl.christine.schwartze.server.controller.request.TextRequest;
-import nl.christine.schwartze.server.dao.*;
+import nl.christine.schwartze.server.dao.PersonDao;
+import nl.christine.schwartze.server.dao.TextDao;
 import nl.christine.schwartze.server.model.Text;
 import nl.christine.schwartze.server.service.*;
 import org.junit.Before;
@@ -29,7 +30,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -37,7 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(TextUpdateController.class)
+@WebMvcTest(AdminTextController.class)
 @ActiveProfiles("test")
 public class UpdateTextTest {
 

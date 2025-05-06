@@ -7,9 +7,11 @@
 
 package nl.christine.schwartze.server.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import nl.christine.schwartze.server.controller.request.LocationRequest;
 import nl.christine.schwartze.server.controller.result.ApiResult;
 import nl.christine.schwartze.server.controller.result.LocationResult;
+import nl.christine.schwartze.server.controller.result.LocationsResult;
 import nl.christine.schwartze.server.model.MyLocation;
 import nl.christine.schwartze.server.service.LocationService;
 import org.slf4j.Logger;
@@ -26,16 +28,17 @@ import org.springframework.web.bind.annotation.RestController;
  * Date: 1/20/19 6:21 PM
  */
 @RestController
-public class LocationGetController {
-    Logger logger = LoggerFactory.getLogger(LocationGetController.class);
+@Tag(name = "Location", description = "The letters API")
+public class LocationController {
+    Logger logger = LoggerFactory.getLogger(LocationController.class);
 
     @Autowired
     private LocationService locationService;
 
-    public LocationGetController() {
+    public LocationController() {
     }
 
-    @PostMapping(value = "/get_location/")
+    @PostMapping(value = "/getLocation/")
     public ResponseEntity<LocationResult> getLocation(@RequestBody LocationRequest request) {
 
         LocationResult result = new LocationResult();
@@ -52,4 +55,13 @@ public class LocationGetController {
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
+
+    @PostMapping(value = "/getLocations/")
+    public ResponseEntity<LocationsResult> getLocations(@RequestBody LocationRequest request) {
+
+        LocationsResult locationsResult = new LocationsResult();
+        locationsResult.setLocations(locationService.getAllLocations());
+        return new ResponseEntity<>(locationsResult, HttpStatus.OK);
+    }
+
 }

@@ -7,6 +7,7 @@
 
 package nl.christine.schwartze.server.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import nl.christine.schwartze.server.controller.request.PageRequest;
 import nl.christine.schwartze.server.controller.result.PageResult;
 import nl.christine.schwartze.server.model.Page;
@@ -21,29 +22,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@Tag(name = "Page", description = "")
 public class GetPageReferencesController {
 
     Logger logger = LoggerFactory.getLogger(GetPageReferencesController.class);
 
-    @Autowired
-    private PageService pageService;
 
-    @PostMapping(value = "/get_page_references/")
-    public ResponseEntity<PageResult> getPage(@RequestBody PageRequest request) {
-
-        PageResult result = new PageResult();
-
-        try {
-
-            Page page = pageService.getPage(request.getLanguage(), request.getPageNumber(), request.getChapterNumber());
-
-            if (page != null) {
-                result.setPage(page);
-            }
-        } catch (Exception e) {
-            logger.error("Error getting Page References", e);
-        }
-
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
-}
+ }

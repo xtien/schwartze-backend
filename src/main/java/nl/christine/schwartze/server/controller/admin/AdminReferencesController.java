@@ -7,6 +7,7 @@
 
 package nl.christine.schwartze.server.controller.admin;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import nl.christine.schwartze.server.controller.request.EditReferenceLinkRequest;
 import nl.christine.schwartze.server.controller.request.RemoveReferenceLinkRequest;
 import nl.christine.schwartze.server.controller.request.UpdateReferencesRequest;
@@ -23,12 +24,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/admin")
-public class ReferencesUpdateController {
+@Tag(name = "Admin References", description = "")
+public class AdminReferencesController {
 
     @Autowired
     private ReferenceService referenceService;
 
-    @PostMapping(value = "/update_references/")
+    @PostMapping(value = "/updateReferences/")
     public ResponseEntity<UpdateReferencesResult> updateReferences(@RequestBody UpdateReferencesRequest request) {
         UpdateReferencesResult result = new UpdateReferencesResult();
 
@@ -38,7 +40,7 @@ public class ReferencesUpdateController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/remove_reference_link/")
+    @PostMapping(value = "/removeReferenceLink/")
     public ResponseEntity<UpdateReferencesResult> removeReferenceLink(@RequestBody RemoveReferenceLinkRequest request) {
         UpdateReferencesResult result = new UpdateReferencesResult();
 
@@ -48,7 +50,7 @@ public class ReferencesUpdateController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/edit_reference_link/")
+    @PostMapping(value = "/editReferenceLink/")
     public ResponseEntity<UpdateReferencesResult> editLink(@RequestBody EditReferenceLinkRequest request) {
         UpdateReferencesResult result = new UpdateReferencesResult();
 

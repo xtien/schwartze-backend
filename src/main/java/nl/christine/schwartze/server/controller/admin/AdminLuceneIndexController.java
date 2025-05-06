@@ -7,6 +7,7 @@
 
 package nl.christine.schwartze.server.controller.admin;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import nl.christine.schwartze.server.controller.result.IndexResult;
 import nl.christine.schwartze.server.search.IndexFiles;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +19,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/admin")
-public class LuceneIndexController {
+@Tag(name = "Admin Lucene", description = "")
+public class AdminLuceneIndexController {
 
     @Autowired
     private IndexFiles indexFiles;
 
-    @PostMapping(value = "/index_files/")
+    @PostMapping(value = "/indexFiles/")
     public ResponseEntity<IndexResult> createIndex() {
 
         IndexResult result = new IndexResult();

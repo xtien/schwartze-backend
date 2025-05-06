@@ -7,6 +7,7 @@
 
 package nl.christine.schwartze.server.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import nl.christine.schwartze.server.controller.request.HomeTextRequest;
 import nl.christine.schwartze.server.controller.request.PageTextRequest;
 import nl.christine.schwartze.server.controller.result.HomeTextResult;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@Tag(name = "Home Text", description = "")
 public class HomeTextGetController {
 
     @Autowired
@@ -30,8 +32,8 @@ public class HomeTextGetController {
     @Autowired
     private PageService pageService;
 
-    @PostMapping(value = "/get_page_text/")
-    public ResponseEntity<HomeTextResult> getText(@RequestBody HomeTextRequest request) {
+    @PostMapping(value = "/get_home_text/")
+    public ResponseEntity<HomeTextResult> getHomeText(@RequestBody HomeTextRequest request) {
 
         HomeTextResult result = new HomeTextResult();
         HttpStatus status = HttpStatus.OK;
@@ -39,7 +41,7 @@ public class HomeTextGetController {
         return new ResponseEntity<>(result, status);
     }
 
-    @PostMapping(value = "/switch_page_text/")
+    @PostMapping(value = "/switch_language/")
     public ResponseEntity<PageTextResult> switchLanguage(@RequestBody PageTextRequest request) {
 
         PageTextResult result = new PageTextResult();
@@ -50,7 +52,7 @@ public class HomeTextGetController {
         return new ResponseEntity<>(result, status);
     }
 
-    @PostMapping(value = "/get_page_page/")
+    @PostMapping(value = "/get_page/")
     public ResponseEntity<PageTextResult> getPage(@RequestBody PageTextRequest request) {
 
         PageTextResult result = new PageTextResult();

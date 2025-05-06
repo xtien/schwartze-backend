@@ -7,6 +7,7 @@
 
 package nl.christine.schwartze.server.controller.admin;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import nl.christine.schwartze.server.controller.request.TextRequest;
 import nl.christine.schwartze.server.controller.result.TextResult;
 import nl.christine.schwartze.server.model.Text;
@@ -23,9 +24,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/admin")
-public class TextUpdateController {
+@Tag(name = "Admin Text", description = "")
+public class AdminTextController {
 
-    Logger logger = LoggerFactory.getLogger(TextUpdateController.class);
+    Logger logger = LoggerFactory.getLogger(AdminTextController.class);
 
     @Autowired
     private TextService textService;
@@ -42,7 +44,7 @@ public class TextUpdateController {
     @Autowired
     private PersonService personService;
 
-    @PostMapping(value = "/update_text/")
+    @PostMapping(value = "/updateText/")
     public ResponseEntity<TextResult> updateText(@RequestBody TextRequest request) {
 
         TextResult result = new TextResult();

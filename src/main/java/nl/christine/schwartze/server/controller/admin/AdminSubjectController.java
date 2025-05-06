@@ -7,6 +7,7 @@
 
 package nl.christine.schwartze.server.controller.admin;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import nl.christine.schwartze.server.controller.request.SubjectRequest;
 import nl.christine.schwartze.server.controller.result.SubjectsResult;
 import nl.christine.schwartze.server.service.SubjectService;
@@ -22,14 +23,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/admin")
-public class SubjectAddController {
+@Tag(name = "Admin Subject", description = "")
+public class AdminSubjectController {
 
-    Logger logger = LoggerFactory.getLogger(SubjectAddController.class);
+    Logger logger = LoggerFactory.getLogger(AdminSubjectController.class);
 
     @Autowired
     private SubjectService subjectService;
 
-    @PostMapping(value = "/add_subject/")
+    @PostMapping(value = "/addSubject/")
     public ResponseEntity<SubjectsResult> addSubject(@RequestBody SubjectRequest request) {
 
         SubjectsResult result = new SubjectsResult();
@@ -42,4 +44,20 @@ public class SubjectAddController {
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
+
+    @PostMapping(value = "/removeSubject/")
+    public ResponseEntity<SubjectsResult> updateSubject(@RequestBody SubjectRequest request) {
+
+        SubjectsResult result = new SubjectsResult();
+
+        try {
+            result.setSubjects(subjectService.removeSubject(request.getSubjectId(), request.getLanguage()));
+        } catch (Exception e) {
+            logger.error("Error getting references", e);
+            result.setErrorText(e.getMessage());
+        }
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
 }

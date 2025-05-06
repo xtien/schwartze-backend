@@ -7,6 +7,7 @@
 
 package nl.christine.schwartze.server.controller.user;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import nl.christine.schwartze.server.controller.request.LogoutRequest;
 import nl.christine.schwartze.server.controller.result.LoginResult;
 import nl.christine.schwartze.server.controller.result.LogoutResult;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user")
+@Tag(name = "User", description = "")
 public class UserController {
 
     Logger logger = LoggerFactory.getLogger(UserController.class);

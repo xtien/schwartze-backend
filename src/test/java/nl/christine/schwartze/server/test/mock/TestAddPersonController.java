@@ -8,7 +8,7 @@
 package nl.christine.schwartze.server.test.mock;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import nl.christine.schwartze.server.controller.admin.PersonAddController;
+import nl.christine.schwartze.server.controller.admin.AdminPersonController;
 import nl.christine.schwartze.server.controller.request.AddPersonRequest;
 import nl.christine.schwartze.server.model.Person;
 import nl.christine.schwartze.server.service.PersonService;
@@ -41,7 +41,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Date: 12/29/18 12:17 PM
  */
 @RunWith(SpringRunner.class)
-@WebMvcTest(PersonAddController.class)
+@WebMvcTest(AdminPersonController.class)
 @ActiveProfiles("test")
 public class TestAddPersonController {
 

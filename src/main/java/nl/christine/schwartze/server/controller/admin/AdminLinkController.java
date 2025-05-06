@@ -7,9 +7,11 @@
 
 package nl.christine.schwartze.server.controller.admin;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import nl.christine.schwartze.server.controller.request.EditLinkRequest;
 import nl.christine.schwartze.server.controller.result.EditLinkResult;
 import nl.christine.schwartze.server.service.LinkService;
+import nl.christine.schwartze.server.service.LocationService;
 import nl.christine.schwartze.server.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,7 +23,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/admin")
-public class LinkDeleteController {
+@Tag(name = "Admin Links", description = "")
+public class AdminLinkController {
 
     @Autowired
     private LinkService linkService;
@@ -29,7 +32,10 @@ public class LinkDeleteController {
     @Autowired
     private PersonService personService;
 
-    @PostMapping(value = "/delete_link/")
+    @Autowired
+    private LocationService locationService;
+
+    @PostMapping(value = "/deleteLink/")
     public ResponseEntity<EditLinkResult> deleteLink(@RequestBody EditLinkRequest request) {
 
         EditLinkResult result = new EditLinkResult();
@@ -42,4 +48,20 @@ public class LinkDeleteController {
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
+
+    @PostMapping(value = "/editLink/")
+    public ResponseEntity<EditLinkResult> editLink(@RequestBody EditLinkRequest request) {
+        EditLinkResult result = new EditLinkResult();
+
+        if (request.getLocationId() != null) {
+            result = locationService.editLink(request);
+        }
+
+        if (request.getPersonId() != null) {
+            result = personService.editLink(request);
+        }
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
 }

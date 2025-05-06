@@ -7,6 +7,7 @@
 
 package nl.christine.schwartze.server.controller.admin;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import nl.christine.schwartze.server.controller.request.PageReferenceRequest;
 import nl.christine.schwartze.server.controller.request.PageRequest;
 import nl.christine.schwartze.server.controller.request.UpdatePageRequest;
@@ -24,7 +25,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/admin")
-public class UpdatePageController {
+@Tag(name = "Admin Page", description = "")
+public class AdminPageController {
 
     @Autowired
     private PageService pageService;
@@ -32,14 +34,14 @@ public class UpdatePageController {
     @Autowired
     private TextFileService textFileService;
 
-    @PostMapping(value = "/add_page/")
+    @PostMapping(value = "/addPage/")
     public ResponseEntity<PageResult> addPage(@RequestBody PageRequest request) {
         PageResult result = new PageResult();
         pageService.addPage(request.getPageNumber(), request.getChapterNumber());
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/update_page/")
+    @PostMapping(value = "/updatePage/")
     public ResponseEntity<PageResult> updatePage(@RequestBody UpdatePageRequest request) {
         PageResult result = new PageResult();
         Page page = pageService.updatePage(request.getPage());
@@ -47,14 +49,14 @@ public class UpdatePageController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/remove_page/")
+    @PostMapping(value = "/removePage/")
     public ResponseEntity<PageResult> removePage(@RequestBody PageRequest request) {
         PageResult result = new PageResult();
         pageService.removePage(request.getPageNumber(), request.getChapterNumber());
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/add_page_reference/")
+    @PostMapping(value = "/addPageReference/")
     public ResponseEntity<PageResult> addPageReference(@RequestBody PageReferenceRequest request) {
         PageResult result = new PageResult();
         Page page = pageService.addPageReference(request.getPageNumber(), request.getChapterNumber(), request.getReference());
@@ -62,7 +64,7 @@ public class UpdatePageController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/remove_page_reference/")
+    @PostMapping(value = "/removePageReference/")
     public ResponseEntity<PageResult> removePageReference(@RequestBody PageReferenceRequest request) {
         PageResult result = new PageResult();
         Page page = pageService.removePageReference(request.getPageNumber(), request.getChapterNumber(), request.getReference());

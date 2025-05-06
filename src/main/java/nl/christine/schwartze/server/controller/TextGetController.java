@@ -7,6 +7,7 @@
 
 package nl.christine.schwartze.server.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import nl.christine.schwartze.server.controller.request.TextRequest;
 import nl.christine.schwartze.server.controller.result.TextResult;
 import nl.christine.schwartze.server.service.LetterService;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@Tag(name = "Text", description = "")
 public class TextGetController {
 
     Logger logger = LoggerFactory.getLogger(TextGetController.class);
@@ -39,7 +41,7 @@ public class TextGetController {
     @Autowired
     private SubjectService subjectService;
 
-    @PostMapping(value = "/get_text/")
+    @PostMapping(value = "/getText/")
     public ResponseEntity<TextResult> getText(@RequestBody TextRequest request) {
 
         TextResult result = new TextResult();

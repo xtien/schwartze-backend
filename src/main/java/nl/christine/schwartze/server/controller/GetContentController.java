@@ -7,6 +7,7 @@
 
 package nl.christine.schwartze.server.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import nl.christine.schwartze.server.controller.request.ContentRequest;
 import nl.christine.schwartze.server.controller.result.ContentResult;
 import nl.christine.schwartze.server.model.ContentItem;
@@ -21,13 +22,14 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
+@Tag(name = "Content", description = "")
 public class GetContentController {
 
     @Autowired
     ContentService contentService;
 
-    @PostMapping(value = "/get_content/")
-    public ResponseEntity<ContentResult> addPage(@RequestBody ContentRequest request) {
+    @PostMapping(value = "/getContent/")
+    public ResponseEntity<ContentResult> getContent(@RequestBody ContentRequest request) {
         ContentResult result = new ContentResult();
         List<ContentItem> list = contentService.getContent(request.getLanguage());
         result.setContent(list);

@@ -7,6 +7,7 @@
 
 package nl.christine.schwartze.server.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import nl.christine.schwartze.server.controller.request.SubjectRequest;
 import nl.christine.schwartze.server.controller.result.SubjectsResult;
 import nl.christine.schwartze.server.service.SubjectService;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@Tag(name = "Subject", description = "")
 public class SubjectsGetController {
 
     Logger logger = LoggerFactory.getLogger(SubjectsGetController.class);
@@ -32,7 +34,7 @@ public class SubjectsGetController {
     @Autowired
     private SubjectService subjectService;
 
-    @GetMapping(value = "/get_subjects/")
+    @GetMapping(value = "/getSubjects/")
     public ResponseEntity<SubjectsResult> getSubjects() {
 
         SubjectsResult result = new SubjectsResult();
@@ -46,7 +48,7 @@ public class SubjectsGetController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/get_subjects/")
+    @PostMapping(value = "/getSubjects/")
     public ResponseEntity<SubjectsResult> getSubjects(@RequestBody SubjectRequest request) {
 
         SubjectsResult result = new SubjectsResult();

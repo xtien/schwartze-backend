@@ -7,6 +7,7 @@
 
 package nl.christine.schwartze.server.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import nl.christine.schwartze.server.controller.request.SearchRequest;
 import nl.christine.schwartze.server.controller.result.SearchResult;
 import nl.christine.schwartze.server.search.SearchFiles;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@Tag(name = "Lucene Search", description = "")
 public class LuceneSearchController {
 
     Logger logger = LoggerFactory.getLogger(LuceneSearchController.class);
@@ -28,7 +30,7 @@ public class LuceneSearchController {
     @Autowired
     private SearchFiles searchFiles;
 
-    @PostMapping(value = "/search_letters/")
+    @PostMapping(value = "/searchLetters/")
     public ResponseEntity<SearchResult> searchIndex(@RequestBody SearchRequest request) {
 
         SearchResult result = new SearchResult();

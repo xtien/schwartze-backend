@@ -8,16 +8,14 @@
 package nl.christine.schwartze.server.test.mock;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import nl.christine.schwartze.server.controller.admin.UpdatePageController;
+import nl.christine.schwartze.server.controller.admin.AdminPageController;
 import nl.christine.schwartze.server.controller.request.PageRequest;
 import nl.christine.schwartze.server.controller.result.PageResult;
 import nl.christine.schwartze.server.model.Page;
 import nl.christine.schwartze.server.service.PageService;
 import nl.christine.schwartze.server.service.TextFileService;
-import nl.christine.schwartze.server.service.impl.PageServiceImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -38,7 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(UpdatePageController.class)
+@WebMvcTest(AdminPageController.class)
 @ActiveProfiles("test")
 public class TestPageController {
 
