@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @Tag(name = "Home Text", description = "")
-public class HomeTextGetController {
+public class HomeTextController {
 
     @Autowired
     private TextFileService textFileService;
@@ -32,7 +32,7 @@ public class HomeTextGetController {
     @Autowired
     private PageService pageService;
 
-    @PostMapping(value = "/get_home_text/")
+    @PostMapping(value = "/getHomeText/")
     public ResponseEntity<HomeTextResult> getHomeText(@RequestBody HomeTextRequest request) {
 
         HomeTextResult result = new HomeTextResult();
@@ -41,7 +41,7 @@ public class HomeTextGetController {
         return new ResponseEntity<>(result, status);
     }
 
-    @PostMapping(value = "/switch_language/")
+    @PostMapping(value = "/switchLanguage/")
     public ResponseEntity<PageTextResult> switchLanguage(@RequestBody PageTextRequest request) {
 
         PageTextResult result = new PageTextResult();
@@ -52,7 +52,7 @@ public class HomeTextGetController {
         return new ResponseEntity<>(result, status);
     }
 
-    @PostMapping(value = "/get_page/")
+    @PostMapping(value = "/getPage/")
     public ResponseEntity<PageTextResult> getPage(@RequestBody PageTextRequest request) {
 
         PageTextResult result = new PageTextResult();
@@ -62,7 +62,7 @@ public class HomeTextGetController {
         return new ResponseEntity<>(result, status);
     }
 
-    @PostMapping(value = "/get_next_page/")
+    @PostMapping(value = "/getNextPage/")
     public ResponseEntity<PageTextResult> getNextPage(@RequestBody PageTextRequest request) {
 
         PageTextResult result = new PageTextResult();
@@ -75,7 +75,7 @@ public class HomeTextGetController {
         return new ResponseEntity<>(result, status);
     }
 
-    @PostMapping(value = "/get_previous_page/")
+    @PostMapping(value = "/getPreviousPage/")
     public ResponseEntity<PageTextResult> getPreviousPage(@RequestBody PageTextRequest request) {
 
         PageTextResult result = new PageTextResult();
@@ -88,7 +88,7 @@ public class HomeTextGetController {
         return new ResponseEntity<>(result, status);
     }
 
-    @PostMapping(value = "get_next_chapter")
+    @PostMapping(value = "getNextChapter")
     public ResponseEntity<PageTextResult> getNextChapter(@RequestBody PageTextRequest request) {
 
         PageTextResult result = new PageTextResult();
@@ -101,7 +101,7 @@ public class HomeTextGetController {
         return new ResponseEntity<>(result, status);
     }
 
-    @PostMapping(value = "get_previous_chapter")
+    @PostMapping(value = "getPreviousChapter")
     public ResponseEntity<PageTextResult> getPreviousChapter(@RequestBody PageTextRequest request) {
 
         PageTextResult result = new PageTextResult();

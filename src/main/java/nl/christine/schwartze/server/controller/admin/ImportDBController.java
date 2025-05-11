@@ -54,7 +54,7 @@ public class ImportDBController {
             try {
                 letterService.persistIfNotPresent(importLetter);
             } catch (Exception e) {
-                logger.error("error persisting importede letters", e);
+                logger.error("error persisting imported letters", e);
                 result.setResult(-1);
                 return result;
             }

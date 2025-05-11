@@ -193,7 +193,7 @@ public class LetterController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/get_letters_for_location/")
+    @PostMapping(value = "/getLettersForLocation/")
     public ResponseEntity<LettersResult> getLetters(@RequestBody LocationLettersRequest request) {
 
         LettersResult result = new LettersResult();
@@ -211,7 +211,7 @@ public class LetterController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/get_letters_from_person/")
+    @PostMapping(value = "/getLettersFromPerson/")
     public ResponseEntity<LettersResult> getLettersFrom(@RequestBody PersonLettersRequest request) {
 
         LettersResult result = new LettersResult();
@@ -228,7 +228,7 @@ public class LetterController {
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
-    @PostMapping(value = "/get_letters_to_person/")
+    @PostMapping(value = "/getLettersToPerson/")
     public ResponseEntity<LettersResult> getLettersTo(@RequestBody LettersRequest request) {
 
         LettersResult result = new LettersResult();

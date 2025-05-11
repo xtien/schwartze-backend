@@ -24,9 +24,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @Tag(name = "Subject", description = "")
-public class SubjectsGetController {
+public class SubjectsController {
 
-    Logger logger = LoggerFactory.getLogger(SubjectsGetController.class);
+    Logger logger = LoggerFactory.getLogger(SubjectsController.class);
 
     @Value("${defaultlanguage}")
     private String defaultLanguage;

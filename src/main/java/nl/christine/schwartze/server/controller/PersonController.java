@@ -76,7 +76,7 @@ public class PersonController {
         return new ResponseEntity<>(peopleResult, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/getPersonDetails/")
+    @PostMapping(value = "/getPerson/")
     public ResponseEntity<PersonResult> getPerson(@RequestBody GetPersonRequest request) {
 
         PersonResult result = new PersonResult();

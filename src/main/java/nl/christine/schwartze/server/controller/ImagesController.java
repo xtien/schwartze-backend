@@ -37,7 +37,7 @@ public class ImagesController {
     @Autowired
     private LetterService letterService;
 
-    @PostMapping(value = "/get_letter_images/")
+    @PostMapping(value = "/getLetterImages/")
     @Transactional("transactionManager")
     public ResponseEntity<ImagesResult> getLetterImages(@RequestBody ImagesRequest request) {
 

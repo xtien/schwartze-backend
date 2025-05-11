@@ -25,9 +25,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @Tag(name = "Text", description = "")
-public class TextGetController {
+public class TextController {
 
-    Logger logger = LoggerFactory.getLogger(TextGetController.class);
+    Logger logger = LoggerFactory.getLogger(TextController.class);
 
     @Autowired
     private PersonService personService;
