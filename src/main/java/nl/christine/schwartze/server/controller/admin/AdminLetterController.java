@@ -53,7 +53,7 @@ public class AdminLetterController {
     }
 
     @PostMapping(value = "/deleteLetter/")
-    public ResponseEntity<DeleteLetterResult> addLetter(@RequestBody DeleteLetterRequest request) {
+    public ResponseEntity<DeleteLetterResult> deleteLetter(@RequestBody DeleteLetterRequest request) {
         DeleteLetterResult result = new DeleteLetterResult();
         HttpStatus status = HttpStatus.OK;
 

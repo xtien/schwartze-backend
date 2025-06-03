@@ -9,7 +9,6 @@ package nl.christine.schwartze.server.controller;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import nl.christine.schwartze.server.controller.request.GetPersonRequest;
-import nl.christine.schwartze.server.controller.request.LocationRequest;
 import nl.christine.schwartze.server.controller.request.PeopleRequest;
 import nl.christine.schwartze.server.controller.request.SearchPeopleRequest;
 import nl.christine.schwartze.server.controller.result.ApiResult;
@@ -41,7 +40,7 @@ public class PersonController {
 
     @PostMapping(value = "/getPeopleDetails/")
     @Transactional("transactionManager")
-    public ResponseEntity<PeopleResult> getPeople(@RequestBody PeopleRequest request) {
+    public ResponseEntity<PeopleResult> getPeopleDetails(@RequestBody PeopleRequest request) {
 
         PeopleResult result = new PeopleResult();
         result.setResult(ApiResult.NOT_OK);
@@ -61,18 +60,15 @@ public class PersonController {
     }
 
     @PostMapping(value = "/getPeople/")
-    public ResponseEntity<PeopleResult> getPeople(@RequestBody LocationRequest request) throws IOException {
+    public ResponseEntity<PeopleResult> getPeople(@RequestBody PeopleRequest request) throws IOException {
 
         PeopleResult peopleResult = new PeopleResult();
-        peopleResult.setPeople(personService.getAllPeople());
-        return new ResponseEntity<>(peopleResult, HttpStatus.OK);
-    }
 
-    @PostMapping(value = "/getPeopleByLastname/")
-    public ResponseEntity<PeopleResult> getPeopleByLastName(@RequestBody LocationRequest request) throws IOException {
-
-        PeopleResult peopleResult = new PeopleResult();
-        peopleResult.setPeople(personService.getAllPeopleByLastName());
+        switch (request.getOrderBy()){
+            case NAME -> peopleResult.setPeople(personService.getAllPeopleByLastName());
+            case FIRST_NAME -> peopleResult.setPeople(personService.getAllPeopleByFirstName());
+            case NUMBER -> peopleResult.setPeople(personService.getAllPeopleByNumber());
+        }
         return new ResponseEntity<>(peopleResult, HttpStatus.OK);
     }
 

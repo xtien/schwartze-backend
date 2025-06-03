@@ -8,12 +8,10 @@
 package nl.christine.schwartze.server.controller.admin;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
-import nl.christine.schwartze.server.controller.request.AddPersonRequest;
-import nl.christine.schwartze.server.controller.request.CombinePersonRequest;
-import nl.christine.schwartze.server.controller.request.DeletePersonRequest;
-import nl.christine.schwartze.server.controller.request.UpdatePersonRequest;
+import nl.christine.schwartze.server.controller.request.*;
 import nl.christine.schwartze.server.controller.result.ApiResult;
 import nl.christine.schwartze.server.controller.result.CombinePersonResult;
+import nl.christine.schwartze.server.controller.result.PeopleResult;
 import nl.christine.schwartze.server.controller.result.PersonResult;
 import nl.christine.schwartze.server.model.Person;
 import nl.christine.schwartze.server.service.PersonService;
@@ -27,6 +25,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * User: christine
@@ -42,7 +43,7 @@ public class AdminPersonController {
     @Autowired
     private PersonService personService;
 
-    @PostMapping(value = "/addPerson/")
+    @PostMapping(value = "/updatePerson/")
     public ResponseEntity<PersonResult> updatePerson(@RequestBody AddPersonRequest request) {
 
         PersonResult result = new PersonResult();
@@ -61,7 +62,7 @@ public class AdminPersonController {
 
     @PostMapping(value = "/deletePerson/")
     @Transactional("transactionManager")
-    public ResponseEntity<PersonResult> getPerson(@RequestBody DeletePersonRequest request) {
+    public ResponseEntity<PersonResult> deletePerson(@RequestBody DeletePersonRequest request) {
 
         PersonResult result = new PersonResult();
         HttpStatus status = HttpStatus.OK;
@@ -83,6 +84,7 @@ public class AdminPersonController {
 
         return new ResponseEntity<>(result, status);
     }
+
     @PostMapping(value = "/getCombinePerson/")
     public ResponseEntity<CombinePersonResult> getCombinePerson(@RequestBody CombinePersonRequest request) {
         return new ResponseEntity<>(personService.getCombinePersons(request.getId1(), request.getId2()), HttpStatus.OK);
@@ -92,8 +94,9 @@ public class AdminPersonController {
     public ResponseEntity<CombinePersonResult> putCombinePerson(@RequestBody CombinePersonRequest request) {
         return new ResponseEntity<>(personService.putCombinePersons(request.getId1(), request.getId2()), HttpStatus.OK);
     }
+
     @PostMapping(value = "/updatePersonDetails/")
-    public ResponseEntity<PersonResult> updatePerson(@RequestBody UpdatePersonRequest request) {
+    public ResponseEntity<PersonResult> updatePersonDetails(@RequestBody UpdatePersonRequest request) {
 
         PersonResult result = new PersonResult();
         result.setResult(ApiResult.NOT_OK);
@@ -103,10 +106,21 @@ public class AdminPersonController {
             result.setResult(ApiResult.OK);
             result.setPerson(updatedPerson);
         } catch (Exception e) {
-            logger.error("Error updating person",e);
+            logger.error("Error updating person", e);
         }
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    @PostMapping(value = "/getPersonsForIds/")
+    public ResponseEntity<PeopleResult> getPersonsForIds(@RequestBody PeopleRequest request) {
+
+        PeopleResult result = new PeopleResult();
+         try {result.setPeople(personService.getPeople(request.getIds()));
+             return new ResponseEntity<>(result, HttpStatus.OK);
+         } catch (Exception e) {
+            logger.error("get_people exception", e);
+        }
+        return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+    }
 }

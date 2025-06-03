@@ -69,14 +69,8 @@ public class LetterServiceImpl implements LetterService {
 
     @Override
     @Transactional("transactionManager")
-    public List<Letter> getLettersToPerson(int toId) {
-        return personDao.getLettersForPerson(Optional.empty(), Optional.ofNullable(toId)).stream().sorted(compareByDate).collect(Collectors.toList());
-    }
-
-    @Override
-    @Transactional("transactionManager")
-    public List<Letter> getLettersFromPerson(int fromId) {
-        return personDao.getLettersForPerson(Optional.ofNullable(fromId), Optional.empty()).stream().sorted(compareByDate).collect(Collectors.toList());
+    public List<Letter> getLettersForPerson(int id) {
+        return personDao.getLettersForPerson(id).stream().sorted(compareByDate).collect(Collectors.toList());
     }
 
     @Override
@@ -114,10 +108,10 @@ public class LetterServiceImpl implements LetterService {
                 updateSendersRecipients(existingLetter.getRecipients(), letter.getRecipients(), existingLetter);
             }
             if (existingLetter.getFromLocations() != null) {
-                updateLocations(existingLetter.getFromLocations(), letter.getFromLocations());
+                updateLocations(existingLetter.getFromLocations(), letter.getFromLocations(), existingLetter);
             }
             if (existingLetter.getToLocations() != null) {
-                updateLocations(existingLetter.getToLocations(), letter.getToLocations());
+                updateLocations(existingLetter.getToLocations(), letter.getToLocations(), existingLetter);
             }
         }
         return existingLetter;
@@ -127,17 +121,34 @@ public class LetterServiceImpl implements LetterService {
      * for now, assume there is only one location
      *
      * @param existingLocations
-     * @param locations
-     * @param existingLetter
+     * @param newLocations
      */
-    private void updateLocations(List<MyLocation> existingLocations, List<MyLocation> locations) {
-        if (!CollectionUtils.isEmpty(locations)) {
-            MyLocation newLocation = locations.get(0);
-            if (newLocation !=null && newLocation.getId() != 0) {
-                newLocation = locationDao.getLocation(newLocation.getId());
-                existingLocations.clear();
-                existingLocations.add(newLocation);
+    private void updateLocations(List<MyLocation> existingLocations, List<MyLocation> newLocations, Letter existingLetter) {
+        List<MyLocation> toRemove = new ArrayList<>();
+        List<MyLocation> toAdd = new ArrayList<>();
+
+        for (MyLocation location : existingLocations) {
+            if (!newLocations.contains(location)) {
+                MyLocation location1 = locationDao.getLocation(location.getId());
+                if (location1.getLettersFrom().contains(existingLetter)) {
+                    location1.getLettersFrom().remove(existingLetter);
+                }
+                if (location1.getLettersTo().contains(existingLetter)) {
+                    location1.getLettersTo().remove(existingLetter);
+                }
+                toRemove.add(location);
             }
+        }
+        for (MyLocation location : newLocations) {
+            if (!existingLocations.contains(location)) {
+                MyLocation ll = locationDao.getLocation(location.getId());
+                toAdd.add(ll);
+            }
+        }
+        existingLocations.removeAll(toRemove);
+        for (MyLocation location : toAdd) {
+            locationDao.persistIfNotExist(location);
+            existingLocations.add(location);
         }
     }
 
@@ -145,24 +156,26 @@ public class LetterServiceImpl implements LetterService {
      * for now, assume there is only one sender and one recipient
      *
      * @param existingPeople
-     * @param people
-     * @param letter
      */
-    private void updateSendersRecipients(List<Person> existingPeople, List<Person> people, Letter letter) {
-        if (!CollectionUtils.isEmpty(people)) {
+    private void updateSendersRecipients(List<Person> existingPeople, List<Person> newPeople, Letter existingLetter) {
+        if (!CollectionUtils.isEmpty(newPeople)) {
             List<Person> toAdd = new ArrayList<>();
             List<Person> toRemove = new ArrayList<>();
-            for (Person p : people) {
+            for (Person p : newPeople) {
                 if (!existingPeople.contains(p)) {
-                    Person existingP = personDao.getPerson(p.getId());
-                    existingP.getLettersWritten().add(letter);
-                    toAdd.add(existingP);
+                    Person pp = personDao.getPerson(p.getId());
+                    toAdd.add(pp);
                 }
             }
             for (Person p : existingPeople) {
-                if (!people.contains(p)) {
+                if (!newPeople.contains(p)) {
                     Person existingP = personDao.getPerson(p.getId());
-                    existingP.getLettersWritten().remove(letter);
+                    if (existingP.getLettersWritten().contains(existingLetter)) {
+                        existingP.getLettersWritten().remove(existingLetter);
+                    }
+                    if (existingP.getLettersReceived().contains(existingLetter)) {
+                        existingP.getLettersReceived().remove(existingLetter);
+                    }
                     toRemove.add(p);
                 }
             }
@@ -183,7 +196,7 @@ public class LetterServiceImpl implements LetterService {
             return null;
         }
 
-        if(letter.getCollectie() !=null){
+        if (letter.getCollectie() != null) {
             letter.setCollectie(collectieDao.getCollectie(letter.getCollectie().getId()));
         }
 

@@ -51,7 +51,7 @@ public class AdminReferencesController {
     }
 
     @PostMapping(value = "/editReferenceLink/")
-    public ResponseEntity<UpdateReferencesResult> editLink(@RequestBody EditReferenceLinkRequest request) {
+    public ResponseEntity<UpdateReferencesResult> editReferenceLink(@RequestBody EditReferenceLinkRequest request) {
         UpdateReferencesResult result = new UpdateReferencesResult();
 
         References references = referenceService.editLink(request);

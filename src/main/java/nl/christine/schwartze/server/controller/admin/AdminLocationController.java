@@ -59,8 +59,9 @@ public class AdminLocationController {
     public ResponseEntity<CombineLocationResult> putCombinePerson(@RequestBody CombineLocationRequest request) {
         return new ResponseEntity<>(locationService.putCombineLocations(request.getId1(), request.getId2()), HttpStatus.OK);
     }
+
     @PostMapping(value = "/deleteLocation/")
-    public ResponseEntity<DeleteLocationResult> getPerson(@RequestBody DeleteLocationRequest request) {
+    public ResponseEntity<DeleteLocationResult> deleteLocation(@RequestBody DeleteLocationRequest request) {
 
         DeleteLocationResult result = new DeleteLocationResult();
         HttpStatus status = HttpStatus.OK;
@@ -71,13 +72,14 @@ public class AdminLocationController {
             logger.error("Error getting person", e);
             status = HttpStatus.OK;
             result.setErrorText(e.getMessage());
-        } catch(Exception e){
+        } catch (Exception e) {
             status = HttpStatus.INTERNAL_SERVER_ERROR;
             result.setErrorText(e.getMessage());
         }
 
         return new ResponseEntity<>(result, status);
     }
+
     @PostMapping(value = "/updateLocationDetails/")
     @Transactional("transactionManager")
     public ResponseEntity<LocationResult> updateLocation(@RequestBody UpdateLocationRequest request) {
@@ -86,10 +88,10 @@ public class AdminLocationController {
         result.setResult(ApiResult.NOT_OK);
 
         try {
-            MyLocation resultLocation  = locationService.updateLocationComment(request.getLocation());
+            MyLocation resultLocation = locationService.updateLocationComment(request.getLocation());
             result.setLocation(resultLocation);
         } catch (Exception e) {
-            logger.error("Error updating location",e);
+            logger.error("Error updating location", e);
         }
 
         return new ResponseEntity<>(result, HttpStatus.OK);
@@ -113,4 +115,16 @@ public class AdminLocationController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    @PostMapping(value = "/getLocationsForIds/")
+    public ResponseEntity<LocationsResult> getLocationsForIds(@RequestBody LocationsRequest request) {
+
+        try {
+            LocationsResult locationsResult = new LocationsResult();
+            locationsResult.setLocations(locationService.getLocations(request.getIds()));
+            return new ResponseEntity<>(locationsResult, HttpStatus.OK);
+        } catch (Exception e) {
+            logger.error("get_locations exception", e);
+        }
+        return new ResponseEntity<>(new LocationsResult(), HttpStatus.NOT_FOUND);
+    }
 }

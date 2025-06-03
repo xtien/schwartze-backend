@@ -34,10 +34,11 @@ public interface PersonService {
 
     List<Person> getPeople(List<Integer> ids);
 
-    List<Person> getAllPeople();
+    List<Person> getAllPeopleByFirstName();
 
-    @Transactional("transactionManager")
     List<Person> getAllPeopleByLastName();
+
+    List<Person> getAllPeopleByNumber();
 
     int deletePersonIfNoChildren(int id);
 

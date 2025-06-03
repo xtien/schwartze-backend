@@ -37,7 +37,7 @@ public class ReferenceController {
     private PageService pageService;
 
     @PostMapping(value = "/getReferences/")
-    public ResponseEntity<ReferencesResult> getPerson(@RequestBody GetReferencesRequest request) {
+    public ResponseEntity<ReferencesResult> getReferences(@RequestBody GetReferencesRequest request) {
 
         ReferencesResult result = new ReferencesResult();
 

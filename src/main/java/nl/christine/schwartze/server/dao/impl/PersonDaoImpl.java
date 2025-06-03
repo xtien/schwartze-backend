@@ -93,9 +93,9 @@ public class PersonDaoImpl implements PersonDao {
     }
 
     @Override
-    public void persistIfNotExist(Person p) {
-        if (p.getId() == 0) {
-            entityManager.persist(p);
+    public void persistIfNotExist(Person person) {
+        if (person.getId() == 0) {
+            entityManager.persist(person);
         }
     }
 
@@ -188,16 +188,11 @@ public class PersonDaoImpl implements PersonDao {
     }
 
     @Override
-    public List<Letter> getLettersForPerson(Optional<Integer> fromId, Optional<Integer> toId) {
+    public List<Letter> getLettersForPerson(int id) {
         List<Letter> letters = new LinkedList<>();
-        if (fromId.isPresent()) {
-            Person fromPerson = getPerson(fromId.get());
-            letters.addAll(fromPerson.getLettersWritten());
-        }
-        if (toId.isPresent()) {
-            Person toPerson = getPerson(toId.get());
-            letters.addAll(toPerson.getLettersReceived());
-        }
+        Person person = getPerson(id);
+        letters.addAll(person.getLettersWritten());
+        letters.addAll(person.getLettersReceived());
         return letters;
     }
 
@@ -206,4 +201,17 @@ public class PersonDaoImpl implements PersonDao {
         entityManager.persist(person);
         return person;
     }
+
+    @Override
+    public List<Person> getPersons(List<Integer> ids) {
+
+        TypedQuery<Person> query = entityManager.createQuery(
+                "select a from " + Person.class.getSimpleName()
+                        + " a  where a.id in :ids ",
+                Person.class);
+
+        List<Person> result = query.setParameter("ids", ids).getResultList();
+        return result;
+    }
+
 }

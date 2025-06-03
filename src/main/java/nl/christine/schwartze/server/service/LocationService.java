@@ -41,4 +41,6 @@ public interface LocationService {
     CombineLocationResult putCombineLocations(int id1, int id2);
 
     MyLocation updateLocation(int id, String name, String comment);
+
+    List<MyLocation> getLocations(List<Integer> ids);
 }

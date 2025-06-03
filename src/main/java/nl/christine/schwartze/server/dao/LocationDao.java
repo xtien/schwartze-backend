@@ -38,4 +38,8 @@ public interface LocationDao {
     MyLocation saveLocation(MyLocation location);
 
     void persist(MyLocation location);
+
+    void persistIfNotExist(MyLocation location);
+
+    List<MyLocation> getLocations(List<Integer> ids);
 }

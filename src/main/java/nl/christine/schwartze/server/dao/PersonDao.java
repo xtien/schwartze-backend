@@ -7,6 +7,7 @@
 
 package nl.christine.schwartze.server.dao;
 
+import nl.christine.schwartze.server.controller.request.ToFrom;
 import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.model.Person;
 import nl.christine.schwartze.server.model.Text;
@@ -24,7 +25,7 @@ public interface PersonDao {
 
     List<Person> getPeople(List<Integer> ids);
 
-    List<Letter> getLettersForPerson(Optional<Integer> fromId, Optional<Integer> toId);
+    List<Letter> getLettersForPerson(int id);
 
     Person addNewPerson(Person person);
 
@@ -49,4 +50,6 @@ public interface PersonDao {
     List<Person> search(String searchTerm);
 
     List<Person> searchFirstAndLastName(String searchTerm);
+
+    List<Person> getPersons(List<Integer> ids);
 }

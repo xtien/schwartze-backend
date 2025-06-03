@@ -41,6 +41,7 @@ public class PersonServiceImpl implements PersonService {
 
     private final Comparator<Person> compareByName;
     private final Comparator<Person> compareByLastName;
+    private final Comparator<Person> compareByNumber;
     private final static String pattern = "^[\\p{L}0-9\\-\\s']+$";
 
     @Autowired
@@ -58,6 +59,9 @@ public class PersonServiceImpl implements PersonService {
         compareByLastName = Comparator
                 .comparing(Person::getLastName, Comparator.nullsFirst(Comparator.naturalOrder()))
                 .thenComparing(Person::getFirstName, Comparator.nullsFirst(Comparator.naturalOrder()));
+        compareByNumber = Comparator
+                .comparing(Person::getId, Comparator.nullsFirst(Comparator.naturalOrder()))
+                .thenComparing(Person::getId, Comparator.nullsFirst(Comparator.naturalOrder()));
     }
 
     @Override
@@ -119,21 +123,12 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     @Transactional("transactionManager")
-    public List<Person> getPeople(List<Integer> ids) {
-        List<Person> people = new ArrayList<>();
-        try {
-            for (int id : ids) {
-                people.add(personDao.getPerson(id));
-            }
-        } catch (Exception e) {
-            logger.error("Error getting people", e);
-        }
-        return people;
+    public List<Person> getPeople(List<Integer> ids) {return personDao.getPeople(ids);
     }
 
     @Override
     @Transactional("transactionManager")
-    public List<Person> getAllPeople() {
+    public List<Person> getAllPeopleByFirstName() {
         return personDao.getAllPeople().stream().sorted(compareByName).collect(Collectors.toList());
     }
 
@@ -141,6 +136,12 @@ public class PersonServiceImpl implements PersonService {
     @Transactional("transactionManager")
     public List<Person> getAllPeopleByLastName() {
         return personDao.getAllPeople().stream().sorted(compareByLastName).collect(Collectors.toList());
+    }
+
+    @Transactional("transactionManager")
+    @Override
+    public List<Person> getAllPeopleByNumber() {
+        return personDao.getAllPeople().stream().sorted(compareByNumber).collect(Collectors.toList());
     }
 
     @Override

@@ -78,6 +78,11 @@ public class LetterDaoImpl implements LetterDao {
     }
 
     @Override
+    public void persist(Letter letter) {
+        em.persist(letter);
+    }
+
+    @Override
     public Letter getLetterForId(int id) {
         return em.find(Letter.class, id);
     }

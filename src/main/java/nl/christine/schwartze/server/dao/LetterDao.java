@@ -34,4 +34,6 @@ public interface LetterDao {
     Letter getNextLetter(int letterNumber);
 
     Letter getPreviousLetter(int letterNumber);
+
+    void persist(Letter letter);
 }

@@ -127,4 +127,23 @@ public class LocationDaoImpl implements LocationDao {
         entityManager.persist(location);
     }
 
+    @Override
+    public void persistIfNotExist(MyLocation location) {
+        if (location.getId() == 0) {
+            entityManager.persist(location);
+        }
+    }
+
+    @Override
+    public List<MyLocation> getLocations(List<Integer> ids) {
+
+        TypedQuery<MyLocation> query = entityManager.createQuery(
+                "select a from " + MyLocation.class.getSimpleName()
+                        + " a  where a.id in :ids ",
+                MyLocation.class);
+
+        List<MyLocation> result = query.setParameter("ids", ids).getResultList();
+        return result;
+    }
+
 }

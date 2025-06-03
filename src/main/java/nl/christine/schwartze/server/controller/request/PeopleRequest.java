@@ -7,12 +7,17 @@
 
 package nl.christine.schwartze.server.controller.request;
 
+import nl.christine.schwartze.server.controller.enums.PersonOrderEnum;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class PeopleRequest {
 
+    private int startNumber;
+    private int totalNumber;
     private List<Integer> ids = new ArrayList<>();
+    private PersonOrderEnum orderBy;
 
     public List<Integer> getIds() {
         return ids;
@@ -21,4 +26,28 @@ public class PeopleRequest {
     public void setIds(List<Integer> ids) {
         this.ids.addAll(ids);
     }
- }
+
+    public int getStartNumber() {
+        return startNumber;
+    }
+
+    public void setStartNumber(int startNumber) {
+        this.startNumber = startNumber;
+    }
+
+    public int getTotalNumber() {
+        return totalNumber;
+    }
+
+    public void setTotalNumber(int totalNumber) {
+        this.totalNumber = totalNumber;
+    }
+
+    public PersonOrderEnum getOrderBy() {
+        return orderBy;
+    }
+
+    public void setOrderBy(PersonOrderEnum orderBy) {
+        this.orderBy = orderBy;
+    }
+}

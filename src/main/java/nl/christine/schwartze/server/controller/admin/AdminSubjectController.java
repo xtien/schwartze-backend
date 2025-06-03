@@ -46,7 +46,7 @@ public class AdminSubjectController {
     }
 
     @PostMapping(value = "/removeSubject/")
-    public ResponseEntity<SubjectsResult> updateSubject(@RequestBody SubjectRequest request) {
+    public ResponseEntity<SubjectsResult> removeSubject(@RequestBody SubjectRequest request) {
 
         SubjectsResult result = new SubjectsResult();
 

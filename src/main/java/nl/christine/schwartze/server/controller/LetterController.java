@@ -8,6 +8,7 @@
 package nl.christine.schwartze.server.controller;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
+import nl.christine.schwartze.server.controller.enums.LettersOrderByEnum;
 import nl.christine.schwartze.server.controller.request.LetterRequest;
 import nl.christine.schwartze.server.controller.request.LettersRequest;
 import nl.christine.schwartze.server.controller.request.LocationLettersRequest;
@@ -163,26 +164,12 @@ public class LetterController {
         LettersResult result = new LettersResult();
 
         try {
-
-            List<Letter> letters = letterService.getLetters();
-            result.setLetters(letters);
-            result.setResult(ApiResult.OK);
-
-        } catch (Exception e) {
-            logger.error("get_letters exception ", e);
-        }
-
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
-
-    @PostMapping(value = "/getLettersByDate/")
-    public ResponseEntity<LettersResult> getLettersByDate(@RequestBody LettersRequest request) {
-
-        LettersResult result = new LettersResult();
-
-        try {
-
-            List<Letter> letters = letterService.getLettersByDate();
+            List<Letter> letters;
+            if (request.getOrderBy() == LettersOrderByEnum.NUMBER) {
+                letters = letterService.getLetters();
+            } else {
+                letters = letterService.getLettersByDate();
+            }
             result.setLetters(letters);
             result.setResult(ApiResult.OK);
 
@@ -194,7 +181,7 @@ public class LetterController {
     }
 
     @PostMapping(value = "/getLettersForLocation/")
-    public ResponseEntity<LettersResult> getLetters(@RequestBody LocationLettersRequest request) {
+    public ResponseEntity<LettersResult> getLettersForLocation(@RequestBody LocationLettersRequest request) {
 
         LettersResult result = new LettersResult();
 
@@ -218,7 +205,7 @@ public class LetterController {
 
         try {
 
-            List<Letter> letters = letterService.getLettersFromPerson(request.getFromId());
+            List<Letter> letters = letterService.getLettersForPerson(request.getId());
             result.setLetters(letters);
             result.setResult(ApiResult.OK);
 
@@ -228,22 +215,4 @@ public class LetterController {
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
-    @PostMapping(value = "/getLettersToPerson/")
-    public ResponseEntity<LettersResult> getLettersTo(@RequestBody LettersRequest request) {
-
-        LettersResult result = new LettersResult();
-
-        try {
-
-            List<Letter> letters = letterService.getLettersToPerson(request.toId);
-            result.setLetters(letters);
-            result.setResult(ApiResult.OK);
-
-        } catch (Exception e) {
-            logger.error("get_letters exception ", e);
-        }
-
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
-
 }

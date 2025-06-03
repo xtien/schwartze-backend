@@ -32,9 +32,8 @@ public interface LetterService {
 
     List<Letter> getLettersByDate();
 
-    List<Letter> getLettersToPerson(int toId);
+    List<Letter> getLettersForPerson(int id);
 
-    List<Letter> getLettersFromPerson(int fromId);
 
     Letter addLetter(Letter letter);
 

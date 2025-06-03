@@ -25,7 +25,7 @@ public class AdminLuceneIndexController {
     @Autowired
     private IndexFiles indexFiles;
 
-    @PostMapping(value = "/indexFiles/")
+    @PostMapping(value = "/createIndex/")
     public ResponseEntity<IndexResult> createIndex() {
 
         IndexResult result = new IndexResult();

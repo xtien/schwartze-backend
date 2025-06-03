@@ -14,33 +14,26 @@ public class PersonLettersRequest {
     @JsonProperty("requestCode")
     private int requestCode = 0;
 
-    @JsonProperty("fromId")
-    private int fromId;
+    @JsonProperty("toFrom")
+    private ToFrom  toFrom;
 
-    @JsonProperty("toId")
-    private int toId;
+    @JsonProperty("id")
+    private int id;
 
-    public int getRequestCode() {
-        return requestCode;
+
+    public int getId() {
+        return id;
     }
 
-    public void setRequestCode(int requestCode) {
-        this.requestCode = requestCode;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public int getFromId() {
-        return fromId;
+    public ToFrom getToFrom() {
+        return toFrom;
     }
 
-    public void setFromId(int fromId) {
-        this.fromId = fromId;
-    }
-
-    public int getToId() {
-        return toId;
-    }
-
-    public void setToId(int toId) {
-        this.toId = toId;
+    public void setToFrom(ToFrom toFrom) {
+        this.toFrom = toFrom;
     }
 }

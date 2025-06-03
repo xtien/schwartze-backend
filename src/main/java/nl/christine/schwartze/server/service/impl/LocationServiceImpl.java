@@ -145,6 +145,11 @@ public class LocationServiceImpl implements LocationService {
         return location;
     }
 
+    @Override
+    public List<MyLocation> getLocations(List<Integer> ids) {
+        return locationDao.getLocations(ids);
+    }
+
     private MyLocation merge(MyLocation location1, MyLocation location2) {
 
         locationDao.merge(location1);

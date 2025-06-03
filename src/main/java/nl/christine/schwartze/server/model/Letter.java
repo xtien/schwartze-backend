@@ -8,6 +8,7 @@
 package nl.christine.schwartze.server.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
@@ -16,6 +17,7 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.lang.NonNull;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -33,10 +35,10 @@ public class Letter {
 
     public static final String NUMBER = "number";
     public static final String DATE = "date";
-    public static final String SENDER = "senders";
-    public static final String RECIPIENT = "recipients";
-    public static final String FROM_LOCATION = "sender_location";
-    public static final String TO_LOCATION = "recipient_location";
+    public static final String SENDERS = "senders";
+    public static final String RECIPIENTS = "recipients";
+    public static final String FROM_LOCATION = "sender_locations";
+    public static final String TO_LOCATION = "recipient_locations";
     public static final String REMARKS = "remarks";
 
     @Id
@@ -53,7 +55,8 @@ public class Letter {
             joinColumns = @JoinColumn(name = "letter_id"),
             inverseJoinColumns = @JoinColumn(name = "sender_id")
     )
-    @JsonProperty(SENDER)
+    @JsonProperty(SENDERS)
+    @NonNull
     private List<Person> senders = new ArrayList<>();
 
     @LazyCollection(LazyCollectionOption.FALSE)
@@ -62,7 +65,8 @@ public class Letter {
             joinColumns = @JoinColumn(name = "letter_id"),
             inverseJoinColumns = @JoinColumn(name = "recipient_id")
     )
-    @JsonProperty(RECIPIENT)
+    @JsonProperty(RECIPIENTS)
+    @NonNull
     private List<Person> recipients = new ArrayList<>();
 
     @LazyCollection(LazyCollectionOption.FALSE)
@@ -72,6 +76,7 @@ public class Letter {
             inverseJoinColumns = @JoinColumn(name = "fromlocation_id")
     )
     @JsonProperty(FROM_LOCATION)
+    @NonNull
     private List<MyLocation> fromLocations = new ArrayList<>();
 
     @LazyCollection(LazyCollectionOption.FALSE)
@@ -81,6 +86,7 @@ public class Letter {
             inverseJoinColumns = @JoinColumn(name = "tolocation_id")
     )
     @JsonProperty(TO_LOCATION)
+    @NonNull
     private List<MyLocation> toLocations = new ArrayList<>();
 
     @Column(name = DATE)
@@ -112,10 +118,12 @@ public class Letter {
         this.number = number;
     }
 
+    @JsonIgnore
     public void setSender(Person fromPerson) {
         senders.add(fromPerson);
     }
 
+    @JsonIgnore
     public void setRecipient(Person toPerson) {
         recipients.add(toPerson);
     }

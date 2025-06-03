@@ -39,7 +39,9 @@ public class WebSecurityConfig  {
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers(HttpMethod.POST, "/**").permitAll()
                         .requestMatchers(HttpMethod.PUT, "/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/admin/**").hasAuthority("WRITE_PRIVILEGE")
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/admin/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/admin/**").hasAuthority("WRITE_PRIVILEGE")
                         .requestMatchers(HttpMethod.GET, "/**").permitAll()
                         // .requestMatchers(HttpMethod.DELETE, "/person/{id}").hasRole("ADMIN")
                         .anyRequest().authenticated()
