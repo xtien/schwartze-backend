@@ -61,6 +61,10 @@ public class PageReference {
         this.page = page;
     }
 
+    public Page getPage(){
+        return page;
+    }
+
     public int getId(){
         return id;
     }

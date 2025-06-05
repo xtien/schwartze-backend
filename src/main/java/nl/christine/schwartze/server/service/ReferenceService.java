@@ -17,7 +17,7 @@ public interface ReferenceService {
 
     References updateReferences(References references);
 
-    References removeReferenceLink(RemoveReferenceLinkRequest request);
+    void removeReferenceLink(RemoveReferenceLinkRequest request);
 
     References editLink(EditReferenceLinkRequest request);
 }

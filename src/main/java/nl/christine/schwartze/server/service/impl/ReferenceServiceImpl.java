@@ -43,18 +43,8 @@ public class ReferenceServiceImpl implements ReferenceService {
 
     @Override
     @Transactional("transactionManager")
-    public References removeReferenceLink(RemoveReferenceLinkRequest request) {
-        References existingReferences = referenceDao.getReferences(request.getType());
-        if (existingReferences != null) {
-            Optional<Link> l = existingReferences.getLinks().stream().filter(x -> x.getId() == request.getLinkId()).findFirst();
-            Link link = null;
-            if (l.isPresent()) {
-                link = l.get();
-            }
-            existingReferences.getLinks().removeIf(x -> x.getId() == request.getLinkId());
-            linkDao.remove(link);
-        }
-        return existingReferences;
+    public void removeReferenceLink(RemoveReferenceLinkRequest request) {
+        referenceDao.removeReference(String.valueOf(request.getLinkId()));
     }
 
     @Override

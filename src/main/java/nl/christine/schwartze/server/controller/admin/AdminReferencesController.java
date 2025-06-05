@@ -44,8 +44,7 @@ public class AdminReferencesController {
     public ResponseEntity<UpdateReferencesResult> removeReferenceLink(@RequestBody RemoveReferenceLinkRequest request) {
         UpdateReferencesResult result = new UpdateReferencesResult();
 
-        References references = referenceService.removeReferenceLink(request);
-        result.setReferences(references);
+        referenceService.removeReferenceLink(request);
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }

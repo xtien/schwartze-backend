@@ -13,11 +13,16 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import nl.christine.schwartze.server.dao.ReferenceDao;
 import nl.christine.schwartze.server.model.Link;
+import nl.christine.schwartze.server.model.PageReference;
 import nl.christine.schwartze.server.model.References;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component("referenceDao")
 public class ReferenceDaoImpl implements ReferenceDao {
+
+    Logger logger = LoggerFactory.getLogger(ReferenceDaoImpl.class);
 
     @PersistenceContext(unitName = "defaultPU")
     private EntityManager entityManager;
@@ -42,12 +47,12 @@ public class ReferenceDaoImpl implements ReferenceDao {
     @Override
     public References updateReferences(References references) {
 
-        if(references.getType() == null){
+        if (references.getType() == null) {
             return null;
         }
         References existingReferences = getReferences(references.getType());
         if (existingReferences == null) {
-            if(references.getId() == 0){
+            if (references.getId() == 0) {
                 entityManager.persist(references);
             } else {
                 entityManager.merge(references);
@@ -69,5 +74,23 @@ public class ReferenceDaoImpl implements ReferenceDao {
         }
 
         return existingReferences;
+    }
+
+    @Override
+    public PageReference getPageReference(String referenceId) {
+        try {
+            return entityManager.find(PageReference.class, referenceId);
+        }catch (Exception e){
+            logger.info(e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public void removeReference(String linkId) {
+
+        PageReference reference = getPageReference(linkId);
+        reference.getPage().getReferences().remove(reference);
+        entityManager.remove(reference);
     }
 }
