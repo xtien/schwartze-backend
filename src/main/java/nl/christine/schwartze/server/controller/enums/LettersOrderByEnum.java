@@ -8,5 +8,5 @@
 package nl.christine.schwartze.server.controller.enums;
 
 public enum LettersOrderByEnum {
-    DATE, NUMBER;
+    DATE, NUMBER, SENDER_LASTNAME, SENDER_FIRSTNAME;
 }

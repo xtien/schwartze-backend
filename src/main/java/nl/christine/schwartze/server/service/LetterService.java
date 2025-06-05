@@ -7,6 +7,7 @@
 
 package nl.christine.schwartze.server.service;
 
+import nl.christine.schwartze.server.controller.enums.LettersOrderByEnum;
 import nl.christine.schwartze.server.exception.LetterNotFoundException;
 import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.model.Text;
@@ -28,12 +29,9 @@ public interface LetterService {
 
     Letter getPreviousLetter(int i);
 
-    List<Letter> getLetters();
-
-    List<Letter> getLettersByDate();
+    List<Letter> getLetters(LettersOrderByEnum orderBy);
 
     List<Letter> getLettersForPerson(int id);
-
 
     Letter addLetter(Letter letter);
 

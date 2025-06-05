@@ -163,19 +163,11 @@ public class LetterController {
 
         LettersResult result = new LettersResult();
 
-        try {
-            List<Letter> letters;
-            if (request.getOrderBy() == LettersOrderByEnum.NUMBER) {
-                letters = letterService.getLetters();
-            } else {
-                letters = letterService.getLettersByDate();
-            }
-            result.setLetters(letters);
-            result.setResult(ApiResult.OK);
+        List<Letter> letters = letterService.getLetters(request.getOrderBy());
 
-        } catch (Exception e) {
-            logger.error("get_letters exception ", e);
-        }
+        result.setLetters(letters);
+        result.setResult(ApiResult.OK);
+
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
@@ -198,8 +190,8 @@ public class LetterController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/getLettersFromPerson/")
-    public ResponseEntity<LettersResult> getLettersFrom(@RequestBody PersonLettersRequest request) {
+    @PostMapping(value = "/getLettersForPerson/")
+    public ResponseEntity<LettersResult> getLettersForPerson(@RequestBody PersonLettersRequest request) {
 
         LettersResult result = new LettersResult();
 

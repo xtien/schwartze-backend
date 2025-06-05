@@ -7,6 +7,7 @@
 
 package nl.christine.schwartze.server.service.impl;
 
+import nl.christine.schwartze.server.controller.enums.LettersOrderByEnum;
 import nl.christine.schwartze.server.dao.CollectieDao;
 import nl.christine.schwartze.server.dao.LetterDao;
 import nl.christine.schwartze.server.dao.LocationDao;
@@ -33,6 +34,8 @@ public class LetterServiceImpl implements LetterService {
 
     private final Comparator<Letter> compareByDate;
     private final Comparator<Letter> compareByNumber;
+    private final Comparator<Letter> compareByFirstName;
+    private final Comparator<Letter> compareByLastName;
 
     Logger logger = LoggerFactory.getLogger(LetterServiceImpl.class);
 
@@ -53,18 +56,65 @@ public class LetterServiceImpl implements LetterService {
                 .comparing(Letter::getDate, Comparator.nullsFirst(Comparator.naturalOrder()));
         compareByNumber = Comparator
                 .comparing(Letter::getNumber, Comparator.nullsFirst(Comparator.naturalOrder()));
+        compareByFirstName = (o1, o2) -> {
+            if (o1.getSenders() == null || o1.getSenders().isEmpty()) {
+                return 1;
+            }
+            if (o2.getSenders() == null || o2.getSenders().isEmpty()) {
+                return -1;
+            }
+            if (o1.getSenders().get(0).getFirstName() == null) {
+                return 1;
+            }
+            if (o2.getSenders().get(0).getFirstName() == null) {
+                return -1;
+            }
+            if (o1.getSenders().get(0).getFirstName().equals(o2.getSenders().get(0).getFirstName())) {
+                return 0;
+            } else {
+                return o1.getSenders().get(0).getFirstName().compareTo(o2.getSenders().get(0).getFirstName());
+            }
+        };
+
+        compareByLastName = (o1, o2) -> {
+            if (o1.getSenders() == null || o1.getSenders().isEmpty()) {
+                return 1;
+            }
+            if (o2.getSenders() == null || o2.getSenders().isEmpty()) {
+                return -1;
+            }
+            if (o1.getSenders().get(0).getLastName() == null) {
+                return 1;
+            }
+            if (o2.getSenders().get(0).getLastName() == null) {
+                return -1;
+            }
+            if (o1.getSenders().get(0).getLastName().equals(o2.getSenders().get(0).getLastName())) {
+                return 0;
+            } else {
+                return o1.getSenders().get(0).getLastName().compareTo(o2.getSenders().get(0).getLastName());
+            }
+        };
     }
 
-    @Override
     @Transactional("transactionManager")
-    public List<Letter> getLetters() {
-        return Optional.ofNullable(letterDao.getLetters()).orElse(new ArrayList<>()).stream().sorted(compareByNumber).collect(Collectors.toList());
-    }
+    @Override
+    public List<Letter> getLetters(LettersOrderByEnum order) {
 
-    @Override
-    @Transactional("transactionManager")
-    public List<Letter> getLettersByDate() {
-        return Optional.ofNullable(letterDao.getLetters()).orElse(new ArrayList<>()).stream().sorted(compareByDate).collect(Collectors.toList());
+        Comparator<Letter> comparator;
+        switch (order) {
+            case DATE -> {
+                comparator = compareByDate;
+            }
+            case SENDER_FIRSTNAME -> {
+                comparator = compareByFirstName;
+            }
+            case SENDER_LASTNAME -> {
+                comparator = compareByLastName;
+            }
+            default -> comparator = compareByNumber;
+        }
+        return Optional.ofNullable(letterDao.getLetters()).orElse(new ArrayList<>()).stream().sorted(comparator).collect(Collectors.toList());
     }
 
     @Override
