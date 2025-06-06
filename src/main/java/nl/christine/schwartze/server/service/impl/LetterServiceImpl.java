@@ -75,7 +75,6 @@ public class LetterServiceImpl implements LetterService {
                 return o1.getSenders().get(0).getFirstName().compareTo(o2.getSenders().get(0).getFirstName());
             }
         };
-
         compareByLastName = (o1, o2) -> {
             if (o1.getSenders() == null || o1.getSenders().isEmpty()) {
                 return 1;

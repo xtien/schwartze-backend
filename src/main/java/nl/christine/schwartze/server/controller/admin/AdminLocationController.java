@@ -51,12 +51,12 @@ public class AdminLocationController {
 
 
     @PostMapping(value = "/getCombineLocation/")
-    public ResponseEntity<CombineLocationResult> getCombinePerson(@RequestBody CombineLocationRequest request) {
+    public ResponseEntity<CombineLocationResult> getCombineLocation(@RequestBody CombineLocationRequest request) {
         return new ResponseEntity<>(locationService.getCombineLocations(request.getId1(), request.getId2()), HttpStatus.OK);
     }
 
     @PostMapping(value = "/putCombineLocation/")
-    public ResponseEntity<CombineLocationResult> putCombinePerson(@RequestBody CombineLocationRequest request) {
+    public ResponseEntity<CombineLocationResult> putCombineLocation(@RequestBody CombineLocationRequest request) {
         return new ResponseEntity<>(locationService.putCombineLocations(request.getId1(), request.getId2()), HttpStatus.OK);
     }
 
