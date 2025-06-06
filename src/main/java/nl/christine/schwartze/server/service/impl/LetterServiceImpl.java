@@ -99,26 +99,13 @@ public class LetterServiceImpl implements LetterService {
     @Transactional("transactionManager")
     @Override
     public List<Letter> getLetters(LettersOrderByEnum order) {
-
-        Comparator<Letter> comparator;
-        switch (order) {
-            case DATE -> {
-                comparator = compareByDate;
-            }
-            case SENDER_FIRSTNAME -> {
-                comparator = compareByFirstName;
-            }
-            case SENDER_LASTNAME -> {
-                comparator = compareByLastName;
-            }
-            default -> comparator = compareByNumber;
-        }
+        Comparator<Letter> comparator = selectComparator(order);
         return Optional.ofNullable(letterDao.getLetters()).orElse(new ArrayList<>()).stream().sorted(comparator).collect(Collectors.toList());
     }
 
     @Override
     @Transactional("transactionManager")
-    public List<Letter> getLettersForPerson(int id) {
+    public List<Letter> getLettersForPerson(int id, LettersOrderByEnum orderBy) {
         return personDao.getLettersForPerson(id).stream().sorted(compareByDate).collect(Collectors.toList());
     }
 
@@ -463,5 +450,22 @@ public class LetterServiceImpl implements LetterService {
         person.noNulls();
 
         return person;
+    }
+
+    private Comparator<Letter> selectComparator(LettersOrderByEnum order) {
+        Comparator<Letter> comparator;
+        switch (order) {
+            case DATE -> {
+                comparator = compareByDate;
+            }
+            case SENDER_FIRSTNAME -> {
+                comparator = compareByFirstName;
+            }
+            case SENDER_LASTNAME -> {
+                comparator = compareByLastName;
+            }
+            default -> comparator = compareByNumber;
+        }
+        return comparator;
     }
 }

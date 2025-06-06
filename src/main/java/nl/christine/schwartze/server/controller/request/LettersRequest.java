@@ -13,6 +13,7 @@ import nl.christine.schwartze.server.controller.enums.LettersOrderByEnum;
 public class LettersRequest {
 
     private LettersOrderByEnum orderBy;
+
     @JsonProperty("toFrom")
     private ToFrom  toFrom;
 

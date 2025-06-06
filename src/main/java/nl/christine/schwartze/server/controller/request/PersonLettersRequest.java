@@ -8,6 +8,7 @@
 package nl.christine.schwartze.server.controller.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import nl.christine.schwartze.server.controller.enums.LettersOrderByEnum;
 
 public class PersonLettersRequest {
 
@@ -20,6 +21,8 @@ public class PersonLettersRequest {
     @JsonProperty("id")
     private int id;
 
+    @JsonProperty("orderBy")
+    private LettersOrderByEnum orderBy;
 
     public int getId() {
         return id;
@@ -35,5 +38,13 @@ public class PersonLettersRequest {
 
     public void setToFrom(ToFrom toFrom) {
         this.toFrom = toFrom;
+    }
+
+    public LettersOrderByEnum getOrderBy() {
+        return orderBy;
+    }
+
+    public void setOrderBy(LettersOrderByEnum orderBy) {
+        this.orderBy = orderBy;
     }
 }

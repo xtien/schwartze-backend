@@ -31,7 +31,7 @@ public interface LetterService {
 
     List<Letter> getLetters(LettersOrderByEnum orderBy);
 
-    List<Letter> getLettersForPerson(int id);
+    List<Letter> getLettersForPerson(int id, LettersOrderByEnum orderBy);
 
     Letter addLetter(Letter letter);
 

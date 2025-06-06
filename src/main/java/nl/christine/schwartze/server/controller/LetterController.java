@@ -197,7 +197,7 @@ public class LetterController {
 
         try {
 
-            List<Letter> letters = letterService.getLettersForPerson(request.getId());
+            List<Letter> letters = letterService.getLettersForPerson(request.getId(), request.getOrderBy());
             result.setLetters(letters);
             result.setResult(ApiResult.OK);
 
