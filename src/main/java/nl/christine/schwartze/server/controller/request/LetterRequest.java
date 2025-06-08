@@ -24,6 +24,9 @@ public class LetterRequest {
     @JsonProperty("date")
     private String date;
 
+    @JsonProperty("language")
+    private String language;
+
     public int getLetterNumber() {
         return letterNumber;
     }
@@ -54,5 +57,13 @@ public class LetterRequest {
 
     public void setLetter(Letter letter) {
         this.letter = letter;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
     }
 }

@@ -19,6 +19,7 @@ import nl.christine.schwartze.server.controller.result.LettersResult;
 import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.properties.SchwartzeProperties;
 import nl.christine.schwartze.server.service.LetterService;
+import nl.christine.schwartze.server.service.result.LetterTextResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,7 +71,7 @@ public class LetterController {
             if (letter != null) {
                 result.setLetter(letter);
                 if (canShowLetter(letter)) {
-                    result.setLetterText(getLetterText(letter.getNumber()));
+                    result.setLetterText(getLetterText(letter.getNumber(), request.getLanguage()));
                 }
                 result.setResult(ApiResult.OK);
             } else {
@@ -92,7 +93,7 @@ public class LetterController {
             if (letter != null) {
                 result.setLetter(letter);
                 if (canShowLetter(letter)) {
-                    result.setLetterText(getLetterText(letter.getNumber()));
+                    result.setLetterText(getLetterText(letter.getNumber(), request.getLanguage()));
                 }
                 result.setResult(ApiResult.OK);
             } else {
@@ -114,7 +115,7 @@ public class LetterController {
             if (letter != null) {
                 result.setLetter(letter);
                 if (canShowLetter(letter)) {
-                    result.setLetterText(getLetterText(letter.getNumber()));
+                    result.setLetterText(getLetterText(letter.getNumber(), request.getLanguage()));
                 }
                 result.setResult(ApiResult.OK);
             } else {
@@ -133,9 +134,14 @@ public class LetterController {
                 || !(letter.getSenders().stream().filter(l -> !l.getHideLetters()).collect(Collectors.toList()).isEmpty());
     }
 
-    private String getLetterText(int letterNumber) throws IOException {
+    private LetterTextResult getLetterText(int letterNumber, String language) throws IOException {
+        String langDir = (language == null || language == "nl" || language.isEmpty()) ? File.separator : (File.separator + language + File.separator);
+        String fileName = lettersDirectory + langDir + letterNumber + File.separator + textDocumentName;
 
-        String fileName = lettersDirectory + File.separator + letterNumber + File.separator + textDocumentName;
+        if (!new File(fileName).exists()) {
+            fileName = lettersDirectory + langDir + letterNumber + File.separator + textDocumentName;
+        }
+
         String result = "";
 
         if (new File(fileName).exists()) {
