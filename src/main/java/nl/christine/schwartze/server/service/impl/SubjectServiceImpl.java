@@ -9,6 +9,7 @@ package nl.christine.schwartze.server.service.impl;
 
 import nl.christine.schwartze.server.dao.SubjectDao;
 import nl.christine.schwartze.server.model.Subject;
+import nl.christine.schwartze.server.model.Text;
 import nl.christine.schwartze.server.model.Title;
 import nl.christine.schwartze.server.service.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,10 +37,9 @@ public class SubjectServiceImpl implements SubjectService {
 
     @Override
     @Transactional("transactionManager")
-    public List<Subject> addSubject(String name, String language) {
-        subjectDao.addSubject(name, language);
-        return convertText(subjectDao.getSubjects(), language);
-    }
+    public Subject addOrUpdateSubject(String name, Text text, String language) {
+        return subjectDao.addOrUpdateSubject(name, text, language);
+     }
 
     @Override
     @Transactional("transactionManager")

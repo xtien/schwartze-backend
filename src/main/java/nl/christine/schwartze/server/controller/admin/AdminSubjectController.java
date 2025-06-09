@@ -9,6 +9,7 @@ package nl.christine.schwartze.server.controller.admin;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import nl.christine.schwartze.server.controller.request.SubjectRequest;
+import nl.christine.schwartze.server.controller.result.SubjectResult;
 import nl.christine.schwartze.server.controller.result.SubjectsResult;
 import nl.christine.schwartze.server.service.SubjectService;
 import org.slf4j.Logger;
@@ -31,13 +32,13 @@ public class AdminSubjectController {
     @Autowired
     private SubjectService subjectService;
 
-    @PostMapping(value = "/addSubject/")
-    public ResponseEntity<SubjectsResult> addSubject(@RequestBody SubjectRequest request) {
+    @PostMapping(value = "/addOrUpdateSubject/")
+    public ResponseEntity<SubjectResult> addOrUpdateSubject(@RequestBody SubjectRequest request) {
 
-        SubjectsResult result = new SubjectsResult();
+        SubjectResult result = new SubjectResult();
 
         try {
-            result.setSubjects(subjectService.addSubject(request.getSubjectName(), request.getLanguage()));
+            result.setSubject(subjectService.addOrUpdateSubject(request.getSubjectName(), request.getSubjectText(), request.getLanguage()));
         } catch (Exception e) {
             logger.error("Error getting references", e);
         }

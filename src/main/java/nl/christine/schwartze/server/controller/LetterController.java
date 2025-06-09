@@ -71,7 +71,7 @@ public class LetterController {
             if (letter != null) {
                 result.setLetter(letter);
                 if (canShowLetter(letter)) {
-                    result.setLetterText(getLetterText(letter.getNumber(), request.getLanguage()));
+                    result.setLetterText(getLetterText(letter.getNumber(), request.getLanguage()).getText());
                 }
                 result.setResult(ApiResult.OK);
             } else {
@@ -93,7 +93,7 @@ public class LetterController {
             if (letter != null) {
                 result.setLetter(letter);
                 if (canShowLetter(letter)) {
-                    result.setLetterText(getLetterText(letter.getNumber(), request.getLanguage()));
+                    result.setLetterText(getLetterText(letter.getNumber(), request.getLanguage()).getText());
                 }
                 result.setResult(ApiResult.OK);
             } else {
@@ -115,7 +115,7 @@ public class LetterController {
             if (letter != null) {
                 result.setLetter(letter);
                 if (canShowLetter(letter)) {
-                    result.setLetterText(getLetterText(letter.getNumber(), request.getLanguage()));
+                    result.setLetterText(getLetterText(letter.getNumber(), request.getLanguage()).getText());
                 }
                 result.setResult(ApiResult.OK);
             } else {
@@ -161,7 +161,9 @@ public class LetterController {
         } else {
             result = "text file not found";
         }
-        return result;
+        LetterTextResult letterTextResult = new LetterTextResult();
+        letterTextResult.setText(result);
+        return letterTextResult;
     }
 
     @PostMapping(value = "/getLetters/")

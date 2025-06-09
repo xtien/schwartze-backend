@@ -8,6 +8,7 @@
 package nl.christine.schwartze.server.controller.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import nl.christine.schwartze.server.model.Text;
 
 public class SubjectRequest {
 
@@ -16,6 +17,9 @@ public class SubjectRequest {
 
     @JsonProperty("subject_name")
     private String subjectName;
+
+    @JsonProperty("subject_text")
+    private Text subjectText;
 
     @JsonProperty("language")
     private String language;
@@ -42,5 +46,13 @@ public class SubjectRequest {
 
     public void setLanguage(String language) {
         this.language = language;
+    }
+
+    public Text getSubjectText() {
+        return subjectText;
+    }
+
+    public void setSubjectText(Text subjectText) {
+        this.subjectText = subjectText;
     }
 }

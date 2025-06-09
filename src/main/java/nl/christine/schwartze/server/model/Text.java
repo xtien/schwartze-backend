@@ -15,7 +15,7 @@ import java.sql.Types;
 
 @Entity
 @Table(name = "text")
-public class Text {
+public class    Text {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -54,5 +54,13 @@ public class Text {
 
     public void setLanguage(String language) {
         this.language = language;
+    }
+
+    public String getTextTitle() {
+        return textTitle;
+    }
+
+    public void setTextTitle(String textTitle) {
+        this.textTitle = textTitle;
     }
 }

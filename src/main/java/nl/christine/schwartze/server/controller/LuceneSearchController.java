@@ -31,7 +31,7 @@ public class LuceneSearchController {
     private SearchFiles searchFiles;
 
     @PostMapping(value = "/searchLetters/")
-    public ResponseEntity<SearchResult> searchIndex(@RequestBody SearchRequest request) {
+    public ResponseEntity<SearchResult> searchLetters(@RequestBody SearchRequest request) {
 
         SearchResult result = new SearchResult();
         if (request.getSearchTerm().matches(PATTERN)) {
