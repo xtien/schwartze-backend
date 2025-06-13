@@ -36,7 +36,7 @@ public class TestGetAllPeople {
     @Test
     public void testGetPeople() {
 
-        List<Person> list = personService.getAllPeople();
+        List<Person> list = personService.getAllPeopleByFirstName();
 
         Person person1 = new Person();
         person1.setFirstName("Lizzy");
@@ -68,7 +68,7 @@ public class TestGetAllPeople {
         int id2 =  personService.addPerson(person2).getId();
         int id3 =  personService.addPerson(person3).getId();
 
-        List<Person> people = personService.getAllPeople();
+        List<Person> people = personService.getAllPeopleByFirstName();
 
         assertEquals(3+list.size(), people.size());
         assertEquals("Moes", people.get(0).getLastName());

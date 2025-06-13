@@ -7,6 +7,7 @@
 
 package nl.christine.schwartze.server.test.service;
 
+import nl.christine.schwartze.server.controller.enums.LettersOrderByEnum;
 import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.model.Person;
 import nl.christine.schwartze.server.service.LetterService;
@@ -59,7 +60,7 @@ public class TestAddPerson {
         person.addLetterWritten(letter4);
 
         int id1 = personService.addPerson(person).getId();
-        List<Letter> lettersFrom = letterservice.getLettersFromPerson(id1);
+        List<Letter> lettersFrom = letterservice.getLettersForPerson(id1, LettersOrderByEnum.DATE);
         assertEquals(4, lettersFrom.size());
     }
 }
