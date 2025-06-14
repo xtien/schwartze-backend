@@ -23,6 +23,7 @@ import nl.christine.schwartze.server.service.result.LetterTextResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -52,6 +53,9 @@ public class LetterController {
 
     @Autowired
     private LetterService letterService;
+
+    @Value("${defaultlanguage}")
+    private String defaultLanguage;
 
 
     @PostConstruct
@@ -135,11 +139,11 @@ public class LetterController {
     }
 
     private LetterTextResult getLetterText(int letterNumber, String language) throws IOException {
-        String langDir = (language == null || language == "nl" || language.isEmpty()) ? File.separator : (File.separator + language + File.separator);
-        String fileName = lettersDirectory + langDir + letterNumber + File.separator + textDocumentName;
+        String langDir = (language == null || language == defaultLanguage || language.isEmpty()) ? File.separator : (File.separator + language + File.separator);
 
+        String fileName = lettersDirectory + langDir + letterNumber + File.separator + textDocumentName;
         if (!new File(fileName).exists()) {
-            fileName = lettersDirectory + langDir + letterNumber + File.separator + textDocumentName;
+            fileName = lettersDirectory + File.separator + letterNumber + File.separator + textDocumentName;
         }
 
         String result = "";
