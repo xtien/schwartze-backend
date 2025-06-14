@@ -17,8 +17,8 @@ import nl.christine.schwartze.server.service.TextFileService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -26,6 +26,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -35,6 +36,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@AutoConfigureMockMvc(addFilters = false)
 @RunWith(SpringRunner.class)
 @WebMvcTest(AdminPageController.class)
 @ActiveProfiles("test")
@@ -47,10 +49,10 @@ public class TestPageController {
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
+    @MockitoBean
     private PageService pageService;
 
-    @MockBean
+    @MockitoBean
     private TextFileService textFileService;
 
     HttpSessionCsrfTokenRepository httpSessionCsrfTokenRepository = new HttpSessionCsrfTokenRepository();
@@ -69,12 +71,12 @@ public class TestPageController {
         String json = objectMapper.writeValueAsString(request);
         when(pageService.getPage(language, pageNumber, chapterNumber)).thenReturn(new Page());
 
-        MockHttpServletResponse response = this.mockMvc.perform(post("/admin/add_page/")
-                .sessionAttr(TOKEN_ATTR_NAME, csrfToken)
-                .param(csrfToken.getParameterName(), csrfToken.getToken())
-                .contentType(MediaType.APPLICATION_JSON)
-                .characterEncoding("UTF-8")
-                .content(json))
+        MockHttpServletResponse response = this.mockMvc.perform(post("/admin/addPage/")
+                        .sessionAttr(TOKEN_ATTR_NAME, csrfToken)
+                        .param(csrfToken.getParameterName(), csrfToken.getToken())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding("UTF-8")
+                        .content(json))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andReturn().getResponse();
@@ -95,12 +97,12 @@ public class TestPageController {
 
         when(pageService.getPage(language, pageNumber, chapterNumber)).thenReturn(new Page());
 
-        MockHttpServletResponse response = this.mockMvc.perform(post("/admin/remove_page/")
-                .sessionAttr(TOKEN_ATTR_NAME, csrfToken)
-                .param(csrfToken.getParameterName(), csrfToken.getToken())
-                .contentType(MediaType.APPLICATION_JSON)
-                .characterEncoding("UTF-8")
-                .content(json))
+        MockHttpServletResponse response = this.mockMvc.perform(post("/admin/removePage/")
+                        .sessionAttr(TOKEN_ATTR_NAME, csrfToken)
+                        .param(csrfToken.getParameterName(), csrfToken.getToken())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding("UTF-8")
+                        .content(json))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andReturn().getResponse();
@@ -122,12 +124,12 @@ public class TestPageController {
 
         when(pageService.getPage(language, pageNumber, chapterNumber)).thenReturn(new Page());
 
-        MockHttpServletResponse response = this.mockMvc.perform(post("/admin/add_page_reference/")
-                .sessionAttr(TOKEN_ATTR_NAME, csrfToken)
-                .param(csrfToken.getParameterName(), csrfToken.getToken())
-                .contentType(MediaType.APPLICATION_JSON)
-                .characterEncoding("UTF-8")
-                .content(json))
+        MockHttpServletResponse response = this.mockMvc.perform(post("/admin/addPageReference/")
+                        .sessionAttr(TOKEN_ATTR_NAME, csrfToken)
+                        .param(csrfToken.getParameterName(), csrfToken.getToken())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding("UTF-8")
+                        .content(json))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andReturn().getResponse();

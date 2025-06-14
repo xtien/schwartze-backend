@@ -8,7 +8,7 @@
 package nl.christine.schwartze.server.test.mock;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import nl.christine.schwartze.server.controller.admin.PersonUpdateController;
+import nl.christine.schwartze.server.controller.admin.AdminPersonController;
 import nl.christine.schwartze.server.controller.request.UpdatePersonRequest;
 import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.model.Person;
@@ -18,14 +18,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -46,15 +47,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * User: christine
  * Date: 1/21/19 2:32 PM
  */
+@AutoConfigureMockMvc(addFilters = false)
 @RunWith(SpringRunner.class)
-@WebMvcTest(PersonUpdateController.class)
+@WebMvcTest(AdminPersonController.class)
 @ActiveProfiles("test")
 public class WebMockUpdatePersonTest {
 
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
+    @MockitoBean
     private PersonService personService;
 
     HttpSessionCsrfTokenRepository httpSessionCsrfTokenRepository = new HttpSessionCsrfTokenRepository();
@@ -91,7 +93,7 @@ public class WebMockUpdatePersonTest {
 
         when(personService.updatePerson(person)).thenReturn(person);
 
-        this.mockMvc.perform(post("/admin/update_person_details/")
+        this.mockMvc.perform(post("/admin/updatePersonDetails/")
                 .sessionAttr(TOKEN_ATTR_NAME, csrfToken)
                 .param(csrfToken.getParameterName(), csrfToken.getToken())
                 .contentType(MediaType.APPLICATION_JSON)

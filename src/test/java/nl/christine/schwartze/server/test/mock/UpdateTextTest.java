@@ -18,14 +18,15 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -36,6 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@AutoConfigureMockMvc(addFilters = false)
 @RunWith(SpringRunner.class)
 @WebMvcTest(AdminTextController.class)
 @ActiveProfiles("test")
@@ -44,25 +46,25 @@ public class UpdateTextTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
+    @MockitoBean
     private PersonService personService;
 
-    @MockBean
+    @MockitoBean
     private TextDao textDao;
 
-    @MockBean
+    @MockitoBean
     private PersonDao personDao;
 
-    @MockBean
+    @MockitoBean
     private TextService textService;
 
-    @MockBean
+    @MockitoBean
     private LocationService locationService;
 
-    @MockBean
+    @MockitoBean
     private LetterService letterService;
 
-    @MockBean
+    @MockitoBean
     private SubjectService subjectService;
 
     HttpSessionCsrfTokenRepository httpSessionCsrfTokenRepository = new HttpSessionCsrfTokenRepository();
@@ -96,7 +98,7 @@ public class UpdateTextTest {
 
         when(textService.updateText(any(TextRequest.class))).thenReturn(text);
 
-        this.mockMvc.perform(post("/admin/update_text/")
+        this.mockMvc.perform(post("/admin/updateText/")
                 .sessionAttr(TOKEN_ATTR_NAME, csrfToken)
                 .param(csrfToken.getParameterName(), csrfToken.getToken())
                 .contentType(MediaType.APPLICATION_JSON)

@@ -8,8 +8,8 @@
 package nl.christine.schwartze.server.test.mock;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import nl.christine.schwartze.server.controller.admin.LetterUpdateCommentController;
-import nl.christine.schwartze.server.controller.admin.LetterUpdateController;
+import nl.christine.schwartze.server.controller.admin.AdminLetterController;
+import nl.christine.schwartze.server.controller.admin.AdminPersonController;
 import nl.christine.schwartze.server.controller.request.LetterRequest;
 import nl.christine.schwartze.server.controller.result.LetterResult;
 import nl.christine.schwartze.server.model.Letter;
@@ -17,10 +17,9 @@ import nl.christine.schwartze.server.model.Person;
 import nl.christine.schwartze.server.service.impl.LetterServiceImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -28,6 +27,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -42,18 +42,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * User: christine
  * Date: 12/29/18 12:17 PM
  */
+@AutoConfigureMockMvc(addFilters = false)
 @RunWith(SpringRunner.class)
-@WebMvcTest(LetterUpdateController.class)
+@WebMvcTest(AdminLetterController.class)
 @ActiveProfiles("test")
 public class TestLetterUpdateController {
 
     @Autowired
     private MockMvc mockMvc;
 
-    @InjectMocks
-    private LetterUpdateCommentController letterUpdateCommentController;
-
-    @MockBean
+    @MockitoBean
     private LetterServiceImpl letterService;
 
     HttpSessionCsrfTokenRepository httpSessionCsrfTokenRepository = new HttpSessionCsrfTokenRepository();
@@ -88,7 +86,7 @@ public class TestLetterUpdateController {
         request.setLetter(newLetter);
         String json = objectMapper.writeValueAsString(request);
 
-        MockHttpServletResponse response = this.mockMvc.perform(post("/admin/update_letter/")
+        MockHttpServletResponse response = this.mockMvc.perform(post("/admin/updateLetter/")
                 .sessionAttr(TOKEN_ATTR_NAME, csrfToken)
                 .param(csrfToken.getParameterName(), csrfToken.getToken())
                 .contentType(MediaType.APPLICATION_JSON)

@@ -8,6 +8,7 @@
 package nl.christine.schwartze.server.controller.admin;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
+import nl.christine.schwartze.server.controller.request.RemoveSubjectRequest;
 import nl.christine.schwartze.server.controller.request.SubjectRequest;
 import nl.christine.schwartze.server.controller.result.SubjectResult;
 import nl.christine.schwartze.server.controller.result.SubjectsResult;
@@ -33,12 +34,12 @@ public class AdminSubjectController {
     private SubjectService subjectService;
 
     @PostMapping(value = "/addOrUpdateSubject/")
-    public ResponseEntity<SubjectResult> addOrUpdateSubject(@RequestBody SubjectRequest request) {
+    public ResponseEntity<SubjectResult> addSubject(@RequestBody SubjectRequest request) {
 
         SubjectResult result = new SubjectResult();
 
         try {
-            result.setSubject(subjectService.addOrUpdateSubject(request.getSubjectName(), request.getSubjectText(), request.getLanguage()));
+            result.setSubject(subjectService.addSubject(request.getSubject()));
         } catch (Exception e) {
             logger.error("Error getting references", e);
         }
@@ -47,12 +48,12 @@ public class AdminSubjectController {
     }
 
     @PostMapping(value = "/removeSubject/")
-    public ResponseEntity<SubjectsResult> removeSubject(@RequestBody SubjectRequest request) {
+    public ResponseEntity<SubjectsResult> removeSubject(@RequestBody RemoveSubjectRequest request) {
 
         SubjectsResult result = new SubjectsResult();
 
         try {
-            result.setSubjects(subjectService.removeSubject(request.getSubjectId(), request.getLanguage()));
+            subjectService.removeSubject(request.getSubjectId());
         } catch (Exception e) {
             logger.error("Error getting references", e);
             result.setErrorText(e.getMessage());

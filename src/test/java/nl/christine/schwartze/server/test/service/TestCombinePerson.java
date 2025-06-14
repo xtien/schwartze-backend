@@ -7,6 +7,7 @@
 
 package nl.christine.schwartze.server.test.service;
 
+import nl.christine.schwartze.server.controller.enums.LettersOrderByEnum;
 import nl.christine.schwartze.server.controller.result.CombinePersonResult;
 import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.model.Person;
@@ -38,7 +39,7 @@ public class TestCombinePerson {
     @Test
     public void testCombine() {
 
-        List<Person> list = personService.getAllPeople();
+        List<Person> list = personService.getAllPeopleByFirstName();
 
         Person person1 = new Person();
         person1.setFirstName("Anna1");
@@ -77,6 +78,9 @@ public class TestCombinePerson {
         person3.setLastName(("Ansingh"));
         personService.addPerson(person3);
 
+        List<Person> allPeopleBefore = personService.getAllPeopleByFirstName();
+        assertEquals(3 + list.size(), allPeopleBefore.size());
+
         CombinePersonResult result = personService.getCombinePersons(id1, id2);
 
         assertEquals("Anna1", result.getPerson1().getFirstName());
@@ -87,10 +91,10 @@ public class TestCombinePerson {
         assertEquals("Anna1", result2.getPerson1().getFirstName());
         assertNull(result2.getPerson2());
 
-        List<Person> allPeople = personService.getAllPeople();
-        assertEquals(2+list.size(), allPeople.size());
+        List<Person> allPeopleAfter = personService.getAllPeopleByFirstName();
+        assertEquals(2 + list.size(), allPeopleAfter.size());
 
-        List<Letter> lettersFrom = letterservice.getLettersFromPerson(id1);
-        assertEquals(3, lettersFrom.size());
+        List<Letter> lettersForPerson = letterservice.getLettersForPerson(id1, LettersOrderByEnum.DATE);
+        assertEquals(4, lettersForPerson.size());
     }
 }

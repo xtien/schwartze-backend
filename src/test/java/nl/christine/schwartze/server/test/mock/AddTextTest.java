@@ -8,7 +8,7 @@
 package nl.christine.schwartze.server.test.mock;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import nl.christine.schwartze.server.controller.TextGetController;
+import nl.christine.schwartze.server.controller.TextController;
 import nl.christine.schwartze.server.controller.request.TextRequest;
 import nl.christine.schwartze.server.model.Text;
 import nl.christine.schwartze.server.service.LetterService;
@@ -19,14 +19,15 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -37,24 +38,25 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@AutoConfigureMockMvc(addFilters = false)
 @RunWith(SpringRunner.class)
-@WebMvcTest(TextGetController.class)
+@WebMvcTest(TextController.class)
 @ActiveProfiles("test")
 public class AddTextTest {
 
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
+    @MockitoBean
     private PersonService personService;
 
-    @MockBean
+    @MockitoBean
     private LocationService locationService;
 
-    @MockBean
+    @MockitoBean
     private SubjectService subjectService;
 
-    @MockBean
+    @MockitoBean
     private LetterService letterService;
 
     private int personId = 123;
@@ -63,9 +65,9 @@ public class AddTextTest {
     private Integer locationId = 4;
     private String textString = "string text string";
 
-    String TOKEN_ATTR_NAME = "org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository.CSRF_TOKEN";
-    HttpSessionCsrfTokenRepository httpSessionCsrfTokenRepository = new HttpSessionCsrfTokenRepository();
-    CsrfToken csrfToken = httpSessionCsrfTokenRepository.generateToken(new MockHttpServletRequest());
+//    String TOKEN_ATTR_NAME = "org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository.CSRF_TOKEN";
+//    HttpSessionCsrfTokenRepository httpSessionCsrfTokenRepository = new HttpSessionCsrfTokenRepository();
+//    CsrfToken csrfToken = httpSessionCsrfTokenRepository.generateToken(new MockHttpServletRequest());
 
     @Before
     public void setup() {
@@ -87,9 +89,9 @@ public class AddTextTest {
 
         when(personService.getText(personId)).thenReturn(text);
 
-        this.mockMvc.perform(post("/get_text/")
-                .sessionAttr(TOKEN_ATTR_NAME, csrfToken)
-                .param(csrfToken.getParameterName(), csrfToken.getToken())
+        this.mockMvc.perform(post("/getText/")
+//                .sessionAttr(TOKEN_ATTR_NAME, csrfToken)
+//                .param(csrfToken.getParameterName(), csrfToken.getToken())
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
                 .content(json))
@@ -113,9 +115,9 @@ public class AddTextTest {
 
         when(locationService.getText(locationId)).thenReturn(text);
 
-        this.mockMvc.perform(post("/get_text/")
-                .sessionAttr(TOKEN_ATTR_NAME, csrfToken)
-                .param(csrfToken.getParameterName(), csrfToken.getToken())
+        this.mockMvc.perform(post("/getText/")
+//                .sessionAttr(TOKEN_ATTR_NAME, csrfToken)
+//                .param(csrfToken.getParameterName(), csrfToken.getToken())
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
                 .content(json))

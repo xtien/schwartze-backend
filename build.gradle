@@ -8,13 +8,12 @@ group 'Schwartze'
 version '2.0.2-SNAPSHOT'
 
 ext {
-    springVersion = "5.3.14"
     springSecurityVersion = "6.4.5"
-    springBootVersion = "3.4.5"
+    springBootVersion = "3.5.0"
     commonsLoggingVersion = "1.2"
     log4j2Version = "2.14.1"
-    commonsLangVersion = "3.12.0"
-    commonsIOVersion = "2.11.0"
+    commonsLangVersion = "3.17.0"
+    commonsIOVersion = "2.19.0"
     postgresVersion = "42.7.5"
     dbcp2Version = "2.13.0"
     springDocVersion = "2.8.8"

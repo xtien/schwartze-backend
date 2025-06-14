@@ -8,7 +8,7 @@
 package nl.christine.schwartze.server.test.mock;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import nl.christine.schwartze.server.controller.admin.PersonCombineController;
+import nl.christine.schwartze.server.controller.admin.AdminPersonController;
 import nl.christine.schwartze.server.controller.request.CombinePersonRequest;
 import nl.christine.schwartze.server.controller.result.CombinePersonResult;
 import nl.christine.schwartze.server.model.Link;
@@ -18,14 +18,15 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -38,15 +39,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@AutoConfigureMockMvc(addFilters = false)
 @RunWith(SpringRunner.class)
-@WebMvcTest(PersonCombineController.class)
+@WebMvcTest(AdminPersonController.class)
 @ActiveProfiles("test")
 public class CombinePersonsTest {
 
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
+    @MockitoBean
     private PersonService personService;
 
     HttpSessionCsrfTokenRepository httpSessionCsrfTokenRepository = new HttpSessionCsrfTokenRepository();
@@ -95,7 +97,7 @@ public class CombinePersonsTest {
 
         String json = objectMapper.writeValueAsString(request);
 
-        String responseString = this.mockMvc.perform(post("/admin/get_combine_person/")
+        String responseString = this.mockMvc.perform(post("/admin/getCombinePerson/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .sessionAttr(TOKEN_ATTR_NAME, csrfToken)
                 .param(csrfToken.getParameterName(), csrfToken.getToken())
@@ -129,7 +131,7 @@ public class CombinePersonsTest {
 
         String json = objectMapper.writeValueAsString(request);
 
-        String responseString = this.mockMvc.perform(post("/admin/put_combine_person/")
+        String responseString = this.mockMvc.perform(post("/admin/putCombinePerson/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
                 .sessionAttr(TOKEN_ATTR_NAME, csrfToken)

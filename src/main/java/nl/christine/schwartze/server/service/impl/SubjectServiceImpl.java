@@ -8,10 +8,13 @@
 package nl.christine.schwartze.server.service.impl;
 
 import nl.christine.schwartze.server.dao.SubjectDao;
+import nl.christine.schwartze.server.dao.impl.SubjectDaoImpl;
 import nl.christine.schwartze.server.model.Subject;
 import nl.christine.schwartze.server.model.Text;
 import nl.christine.schwartze.server.model.Title;
 import nl.christine.schwartze.server.service.SubjectService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -22,6 +25,8 @@ import java.util.stream.Collectors;
 
 @Component("subjectService")
 public class SubjectServiceImpl implements SubjectService {
+
+    Logger logger = LoggerFactory.getLogger(SubjectServiceImpl.class);
 
     @Value("${defaultlanguage}")
     private String defaultLanguage;
@@ -37,21 +42,32 @@ public class SubjectServiceImpl implements SubjectService {
 
     @Override
     @Transactional("transactionManager")
-    public Subject addOrUpdateSubject(String name, Text text, String language) {
-        return subjectDao.addOrUpdateSubject(name, text, language);
-     }
-
-    @Override
-    @Transactional("transactionManager")
-    public Subject getSubjectById(Integer subjectId, String language) {
-        return getSubjectTextForLanguage(subjectDao.getSubjectById(subjectId), language);
+    public Subject addSubject(Subject subject) {
+        return subjectDao.addSubject(subject);
     }
 
     @Override
     @Transactional("transactionManager")
-    public List<Subject> removeSubject(Integer id, String language) {
+    public Subject updateSubject(Subject subject, Text text, String language) {
+        return subjectDao.updateSubject(subject,  text, language);
+    }
+
+    @Override
+    @Transactional("transactionManager")
+    public Subject getSubjectById(Integer subjectId, String language) {
+        Subject  subject = subjectDao.getSubjectById(subjectId);
+
+        if(subject == null){
+            return null;
+        }
+        return getSubjectTextForLanguage(subject, language);
+
+    }
+
+    @Override
+    @Transactional("transactionManager")
+    public void removeSubject(Integer id) {
         subjectDao.remove(id);
-        return getSubjects(language);
     }
 
     private List<Subject> convertText(List<Subject> subjects, String language) {
@@ -67,13 +83,6 @@ public class SubjectServiceImpl implements SubjectService {
             s.setText(s.getTexts().get(s.getTexts().values().toArray()[0]));
         }
 
-        if (s.getTitle().get(language) != null) {
-            s.setName(s.getTitle().get(language).getText());
-        } else if (s.getTitle().containsKey(defaultLanguage)) {
-            s.setName(s.getTitle().get(defaultLanguage).getText());
-        } else if (s.getTitle().size() > 0) {
-             s.setName(((Title) s.getTitle().values().toArray()[0]).getText());
-        }
         return s;
     }
 }

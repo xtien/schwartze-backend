@@ -8,26 +8,28 @@
 package nl.christine.schwartze.server.test.mock;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import nl.christine.schwartze.server.controller.admin.LinkEditController;
+import nl.christine.schwartze.server.controller.admin.AdminLinkController;
 import nl.christine.schwartze.server.controller.request.EditLinkRequest;
 import nl.christine.schwartze.server.controller.result.EditLinkResult;
 import nl.christine.schwartze.server.model.Link;
 import nl.christine.schwartze.server.model.MyLocation;
 import nl.christine.schwartze.server.model.Person;
+import nl.christine.schwartze.server.service.LinkService;
 import nl.christine.schwartze.server.service.LocationService;
 import nl.christine.schwartze.server.service.PersonService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -41,19 +43,23 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@AutoConfigureMockMvc(addFilters = false)
 @RunWith(SpringRunner.class)
-@WebMvcTest(LinkEditController.class)
+@WebMvcTest(AdminLinkController.class)
 @ActiveProfiles("test")
 public class EditLinkTest {
 
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
+    @MockitoBean
     private PersonService personService;
 
-    @MockBean
+    @MockitoBean
     private LocationService locationService;
+
+    @MockitoBean
+    private LinkService linkService;
 
     HttpSessionCsrfTokenRepository httpSessionCsrfTokenRepository = new HttpSessionCsrfTokenRepository();
     CsrfToken csrfToken = httpSessionCsrfTokenRepository.generateToken(new MockHttpServletRequest());
@@ -93,12 +99,12 @@ public class EditLinkTest {
         editLinkResult.setPerson(person);
         when(personService.editLink(any(EditLinkRequest.class))).thenReturn(editLinkResult);
 
-        this.mockMvc.perform(post("/admin/edit_link/")
-                .contentType(MediaType.APPLICATION_JSON)
-                .characterEncoding("UTF-8")
-                .sessionAttr(TOKEN_ATTR_NAME, csrfToken)
-                .param(csrfToken.getParameterName(), csrfToken.getToken())
-                .content(json))
+        this.mockMvc.perform(post("/admin/editLink/")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding("UTF-8")
+                        .sessionAttr(TOKEN_ATTR_NAME, csrfToken)
+                        .param(csrfToken.getParameterName(), csrfToken.getToken())
+                        .content(json))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.person.links[0].link_name").value(linkName1));
@@ -122,12 +128,12 @@ public class EditLinkTest {
         editLinkResult.setLocation(location);
         when(locationService.editLink(any(EditLinkRequest.class))).thenReturn(editLinkResult);
 
-        this.mockMvc.perform(post("/admin/edit_link/")
-                .contentType(MediaType.APPLICATION_JSON)
-                .sessionAttr(TOKEN_ATTR_NAME, csrfToken)
-                .param(csrfToken.getParameterName(), csrfToken.getToken())
-                .characterEncoding("UTF-8")
-                .content(json))
+        this.mockMvc.perform(post("/admin/editLink/")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .sessionAttr(TOKEN_ATTR_NAME, csrfToken)
+                        .param(csrfToken.getParameterName(), csrfToken.getToken())
+                        .characterEncoding("UTF-8")
+                        .content(json))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.location.links[0].link_name").value(linkName1));

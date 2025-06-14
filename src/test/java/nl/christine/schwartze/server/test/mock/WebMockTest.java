@@ -7,21 +7,28 @@
 
 package nl.christine.schwartze.server.test.mock;
 
-import nl.christine.schwartze.server.controller.LetterGetAllController;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import nl.christine.schwartze.server.controller.LetterController;
+import nl.christine.schwartze.server.controller.enums.LettersOrderByEnum;
+import nl.christine.schwartze.server.controller.request.LetterRequest;
+import nl.christine.schwartze.server.controller.request.PersonLettersRequest;
 import nl.christine.schwartze.server.model.Letter;
+import nl.christine.schwartze.server.properties.SchwartzeProperties;
 import nl.christine.schwartze.server.service.LetterService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -40,16 +47,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * User: christine
  * Date: 1/21/19 2:32 PM
  */
+@AutoConfigureMockMvc(addFilters = false)
 @RunWith(SpringRunner.class)
-@WebMvcTest(LetterGetAllController.class)
+@WebMvcTest(LetterController.class)
 @ActiveProfiles("test")
 public class WebMockTest {
 
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
+    @MockitoBean
     private LetterService service;
+
+    @MockitoBean
+    private SchwartzeProperties schwartzeProperties;
 
     HttpSessionCsrfTokenRepository httpSessionCsrfTokenRepository = new HttpSessionCsrfTokenRepository();
     CsrfToken csrfToken = httpSessionCsrfTokenRepository.generateToken(new MockHttpServletRequest());
@@ -58,11 +69,17 @@ public class WebMockTest {
     private List<Letter> letters = new LinkedList<>();
     private Letter letter1 = new Letter();
 
-    private String json = "{\"requestCode\":0}";
+    private PersonLettersRequest letterRequest = new PersonLettersRequest();
+
+    private String json = null;
     private String comment ="this my comment";
 
     @Before
-    public void setup() {
+    public void setup() throws JsonProcessingException {
+        letterRequest.setOrderBy(LettersOrderByEnum.DATE);
+        letterRequest.setId(0);
+        ObjectMapper objectMapper = new ObjectMapper();
+        json = objectMapper.writeValueAsString(letterRequest);
         letter1.setComment(comment);
         letters.add(letter1);
         letters.add(new Letter());
@@ -71,8 +88,10 @@ public class WebMockTest {
     @Test
     @WithMockUser(username = "user1", password = "pwd", roles = "ADMIN")
     public void greetingShouldReturnMessageFromService() throws Exception {
-        when(service.getLetters()).thenReturn(letters);
-        this.mockMvc.perform(post("/get_letters/")
+        when(schwartzeProperties.getProperty("letters_directory")).thenReturn("src/test/resources/letters");
+        when(schwartzeProperties.getProperty("text_document_name")).thenReturn("test.txt");
+        when(service.getLettersForPerson(0, LettersOrderByEnum.DATE)).thenReturn(letters);
+        this.mockMvc.perform(post("/getLettersForPerson/")
                 .sessionAttr(TOKEN_ATTR_NAME, csrfToken)
                 .param(csrfToken.getParameterName(), csrfToken.getToken())
                 .contentType(MediaType.APPLICATION_JSON)
@@ -82,6 +101,6 @@ public class WebMockTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString(comment)));
 
-        verify(service).getLetters();
+        verify(service).getLettersForPerson(0, LettersOrderByEnum.DATE);
     }
 }

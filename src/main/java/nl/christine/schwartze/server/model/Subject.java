@@ -76,17 +76,10 @@ public class Subject {
         this.texts = texts;
     }
 
-    public void setTitleText(String language, Title title) {
-        if (this.title == null) {
-            this.title = new HashMap<>();
-        }
-        this.title.put(language, title);
-    }
-
-    public void setTitle(Map<String, Title> title){
+    public void setTitles(Map<String, Title> title){
         this.title = title;
     }
-    public Map<String, Title> getTitle() {
+    public Map<String, Title> getTitles() {
         return title;
     }
- }
+}

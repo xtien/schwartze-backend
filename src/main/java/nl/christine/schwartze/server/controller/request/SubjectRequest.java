@@ -8,37 +8,20 @@
 package nl.christine.schwartze.server.controller.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import nl.christine.schwartze.server.model.Subject;
 import nl.christine.schwartze.server.model.Text;
+import nl.christine.schwartze.server.model.Title;
 
 public class SubjectRequest {
 
-    @JsonProperty("subject_id")
-    private Integer subjectId;
+    @JsonProperty("subject")
+    private Subject subject;
 
-    @JsonProperty("subject_name")
-    private String subjectName;
-
-    @JsonProperty("subject_text")
-    private Text subjectText;
+    @JsonProperty("text")
+    private Text text;
 
     @JsonProperty("language")
     private String language;
-
-    public Integer getSubjectId() {
-        return subjectId;
-    }
-
-    public void setSubjectId(Integer subjectId) {
-        this.subjectId = subjectId;
-    }
-
-    public String getSubjectName() {
-        return subjectName;
-    }
-
-    public void setSubjectName(String subjectName) {
-        this.subjectName = subjectName;
-    }
 
     public String getLanguage() {
         return language;
@@ -48,11 +31,19 @@ public class SubjectRequest {
         this.language = language;
     }
 
-    public Text getSubjectText() {
-        return subjectText;
+    public Subject getSubject() {
+        return subject;
     }
 
-    public void setSubjectText(Text subjectText) {
-        this.subjectText = subjectText;
+    public void setSubject(Subject subject) {
+        this.subject = subject;
+    }
+
+    public Text getText() {
+        return text;
+    }
+
+    public void setText(Text text) {
+        this.text = text;
     }
 }

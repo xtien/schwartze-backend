@@ -7,7 +7,7 @@
 
 package nl.christine.schwartze.server.test.mock;
 
-import nl.christine.schwartze.server.controller.admin.LocationUpdateController;
+import nl.christine.schwartze.server.controller.admin.AdminLocationController;
 import nl.christine.schwartze.server.controller.request.UpdateLocationRequest;
 import nl.christine.schwartze.server.controller.result.LocationResult;
 import nl.christine.schwartze.server.model.MyLocation;
@@ -17,6 +17,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -28,11 +29,12 @@ import static org.mockito.Mockito.when;
  * User: christine
  * Date: 12/29/18 12:17 PM
  */
+@AutoConfigureMockMvc(addFilters = false)
 @RunWith(SpringJUnit4ClassRunner.class)
 public class TestLocationUpdateController {
 
     @InjectMocks
-    private LocationUpdateController locationUpdateController;
+    private AdminLocationController locationUpdateController;
 
     @Mock
     private LocationService locationService;

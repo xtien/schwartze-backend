@@ -17,7 +17,9 @@ public interface SubjectDao {
 
     List<Subject> getSubjects();
 
-    Subject addOrUpdateSubject(String name, Text text, String language);
+    Subject addSubject(Subject subject);
+
+    Subject updateSubject(Subject subject, Text text, String language);
 
     Subject getSubjectById(Integer subjectId);
 

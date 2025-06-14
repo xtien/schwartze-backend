@@ -39,43 +39,64 @@ public class SubjectDaoImpl implements SubjectDao {
     }
 
     @Override
-    public Subject addOrUpdateSubject(String name, Text text, String language) {
+    public Subject addSubject(Subject subject) {
 
-        Subject subject;
+        Subject existingSubject = null;
 
         try {
-            subject = entityManager.createQuery("select a from " + Subject.class.getSimpleName()
-                            + " a where a.name = :name",
-                    Subject.class).setParameter(Subject.NAME, name).getSingleResult();
+            existingSubject = entityManager.createQuery("select a from " + Subject.class.getSimpleName()
+                            + " a where a.id = :id",
+                    Subject.class).setParameter(Subject.ID, subject.getId()).getSingleResult();
+            existingSubject.setName(subject.getName());
+            if (subject.getTexts() == null) {
+                existingSubject.getTexts().putAll(subject.getTexts());
+            }
+            if (subject.getTitles() != null) {
+                existingSubject.setTitles(subject.getTitles());
+            }
+            entityManager.merge(subject);
+        } catch (NoResultException nre) {
+            entityManager.persist(subject);
+            return subject;
+        }
+
+        return subject;
+    }
+
+    @Override
+    public Subject updateSubject(Subject subject, Text text, String language) {
+
+        Subject existingSubject = null;
+
+        try {
+            existingSubject = entityManager.createQuery("select a from " + Subject.class.getSimpleName()
+                            + " a where a.id = :id",
+                    Subject.class).setParameter(Subject.ID, subject.getId()).getSingleResult();
+
+            existingSubject.setName(subject.getName());
+            if (subject.getTexts() == null) {
+                existingSubject.getTexts().putAll(subject.getTexts());
+            }
+            if (subject.getTitles() != null) {
+                existingSubject.setTitles(subject.getTitles());
+            }
+            subject.getTexts().put(language, text);
+            entityManager.persist(text);
+            entityManager.merge(subject);
+
         } catch (NoResultException nre) {
             subject = new Subject();
             if (text != null) {
+                subject.getTexts().put(language, text);
                 subject.setText(text);
-            } else {
-                subject.setText(new Text());
+
             }
             entityManager.persist(subject.getText());
             entityManager.persist(subject);
+            entityManager.persist(subject.getTitles());
+            return existingSubject;
+        }
 
-            Title title = new Title(language, name);
-            subject.setTitleText(language, title);
-            entityManager.persist(title);
-        }
-        subject.setName(name);
-        if (subject.getText() != null) {
-            subject.getText().setTextString(text.getTextString());
-            subject.getText().setLanguage(text.getLanguage());
-            subject.getText().setTextTitle(text.getTextTitle());
-            entityManager.merge(subject.getText());
-        } else {
-            subject.setText(text);
-            entityManager.persist(text);
-            subject.setText(text);
-            entityManager.merge(subject);
-            Title title = new Title(language, name);
-            subject.setTitleText(language, title);
-            entityManager.persist(title);
-        }
         return subject;
     }
 
@@ -86,30 +107,12 @@ public class SubjectDaoImpl implements SubjectDao {
 
     @Override
     public void remove(Integer id) {
-        Subject subject = entityManager.find(Subject.class, id);
-        if (subject != null) {
-            if (subject.getTitle() != null && subject.getTitle().size() > 0) {
-                for (String key : subject.getTitle().keySet()) {
-                    Title title = subject.getTitle().get(key);
-                    if (title != null) {
-                        entityManager.remove(title);
-                    }
-                }
-            }
+        Subject  subject = entityManager.find(Subject.class, id);
+           if (subject != null) {
             if (subject.getTexts() != null && subject.getTexts().size() > 0) {
-                for (String key : subject.getTexts().keySet()) {
-                    Text text = subject.getTexts().get(key);
-                    if (text != null) {
-                        entityManager.remove(text);
-                    }
-                    subject.getTexts().remove(key);
-                    subject.setTexts(subject.getTexts());
-                    entityManager.merge(subject);
+                for(Text text : subject.getTexts().values()) {
+                    entityManager.remove(text);
                 }
-            }
-
-            if (subject.getText() != null) {
-                entityManager.remove(subject.getText());
             }
             entityManager.remove(subject);
         }
