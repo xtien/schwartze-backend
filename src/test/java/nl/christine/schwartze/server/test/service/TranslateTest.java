@@ -65,7 +65,7 @@ public class TranslateTest {
         when(textService.getLetterText(letterNumber, defaultLanguage)).thenReturn(letterTextResult);
         when(fileService.readFile(fileName1)).thenReturn(testText);
 
-        String result = translateService.translateLetter(letterNumber, language, testText);
+        String result = translateService.translateLetter(letterNumber, testText, language );
         assert result.equals(translatedText);
     }
 

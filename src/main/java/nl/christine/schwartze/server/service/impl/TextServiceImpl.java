@@ -141,14 +141,15 @@ public class TextServiceImpl implements TextService {
     @Override
     public LetterTextResult getLetterText(int letterNumber, String language) throws IOException, DeepLException, InterruptedException {
         String result = "";
+        String defaultFileName = lettersDirectory + File.separator + letterNumber + File.separator + textDocumentName;
 
         if (language == null || language.isEmpty() || language.equals(defaultLanguage)) {
-            result = fileService.readFile(lettersDirectory + File.separator + letterNumber + File.separator + textDocumentName);
+            result = fileService.readFile(defaultFileName);
         } else {
             String langDir = File.separator + language + File.separator;
             String fileName = lettersDirectory + langDir + letterNumber + File.separator + textDocumentName;
             if (!fileService.existsFile(fileName)) {
-                String t = getLetterText(letterNumber, defaultLanguage).getText();
+                String t = fileService.readFile(defaultFileName);
                 result = translateService.translateLetter(letterNumber, t, language);
                 writeLetterText(letterNumber, language, result);
             } else {

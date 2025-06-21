@@ -43,6 +43,7 @@ public class GetAndTranslateTest {
 
     String fileName1 = "/home/christine/Documents/Schwartze/es/17/tekst.txt";
     String fileName2 = "/home/christine/Documents/Schwartze/es/17/tekst.txt";
+    String defaultFileName = "/home/christine/Documents/Schwartze/17/tekst.txt";
 
     @Autowired
     private TextService textService;
@@ -52,9 +53,6 @@ public class GetAndTranslateTest {
 
     @MockitoBean
     private FileService fileService;
-
-    @Autowired
-    LetterService letterService;
 
     @Test
     public void testGetAndTranslate() throws DeepLException, IOException, InterruptedException {
@@ -66,10 +64,10 @@ public class GetAndTranslateTest {
         defaultLanguageResult.setLanguage(defaultLanguage);
 
         when(fileService.existsFile(fileName1)).thenReturn(false);
-        when(translateService.translateLetter(letterNumber,language, testText)).thenReturn(translatedText);
+        when(fileService.readFile(defaultFileName)).thenReturn(testText);
+        when(translateService.translateLetter(letterNumber, testText,language)).thenReturn(translatedText);
 
         LetterTextResult result = textService.getLetterText(letterNumber, language);
         assert result.getText().equals(testText);
     }
-
 }
