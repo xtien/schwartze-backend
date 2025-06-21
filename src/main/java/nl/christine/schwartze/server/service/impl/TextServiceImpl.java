@@ -7,17 +7,42 @@
 
 package nl.christine.schwartze.server.service.impl;
 
+import com.deepl.api.DeepLException;
 import nl.christine.schwartze.server.controller.request.TextRequest;
 import nl.christine.schwartze.server.dao.*;
 import nl.christine.schwartze.server.model.*;
+import nl.christine.schwartze.server.properties.SchwartzeProperties;
+import nl.christine.schwartze.server.service.FileService;
 import nl.christine.schwartze.server.service.TextService;
+import nl.christine.schwartze.server.service.TranslateService;
+import nl.christine.schwartze.server.service.result.LetterTextResult;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.PostConstruct;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+
 @Component("textService")
 public class TextServiceImpl implements TextService {
+
+    Logger logger = LoggerFactory.getLogger(TextServiceImpl.class);
+
+    private String lettersDirectory;
+    private String textDocumentName;
+
+    @Autowired
+    private TranslateService translateService;
+
+    @Autowired
+    private FileService fileService;
 
     @Autowired
     private TextDao textDao;
@@ -33,6 +58,19 @@ public class TextServiceImpl implements TextService {
 
     @Autowired
     private SubjectDao subjectDao;
+
+    @Autowired
+    private SchwartzeProperties properties;
+
+    @Value("${defaultlanguage}")
+    private String defaultLanguage;
+
+    @PostConstruct
+    public void init() {
+        lettersDirectory = properties.getProperty("letters_directory");
+        textDocumentName = properties.getProperty("text_document_name");
+    }
+
 
     @Override
     @Transactional("transactionManager")
@@ -99,4 +137,48 @@ public class TextServiceImpl implements TextService {
     public Text getText(Integer id) {
         return textDao.getText(id);
     }
+
+    @Override
+    public LetterTextResult getLetterText(int letterNumber, String language) throws IOException, DeepLException, InterruptedException {
+        String result = "";
+
+        if (language == null || language.isEmpty() || language.equals(defaultLanguage)) {
+            result = fileService.readFile(lettersDirectory + File.separator + letterNumber + File.separator + textDocumentName);
+        } else {
+            String langDir = File.separator + language + File.separator;
+            String fileName = lettersDirectory + langDir + letterNumber + File.separator + textDocumentName;
+            if (!fileService.existsFile(fileName)) {
+                String t = getLetterText(letterNumber, defaultLanguage).getText();
+                result = translateService.translateLetter(letterNumber, t, language);
+                writeLetterText(letterNumber, language, result);
+            } else {
+                result = fileService.readFile(fileName);
+            }
+        }
+
+        LetterTextResult letterTextResult = new LetterTextResult();
+        letterTextResult.setText(result);
+        return letterTextResult;
+    }
+
+    @Override
+    public void writeLetterText(int letterNumber, String language, String text) throws IOException {
+        if (language == null || language.isEmpty()) {
+            return;
+        }
+        String langDir = lettersDirectory + (File.separator + language + File.separator);
+        if (!new File(langDir).exists()) {
+            new File(langDir).createNewFile();
+        }
+
+        String fileName = langDir + letterNumber + File.separator + "tekst.txt";
+        File file = new File(fileName);
+        if (!file.exists()) {
+            file.getParentFile().mkdirs();
+            file.createNewFile();
+            FileOutputStream fos = new FileOutputStream(fileName);
+            fos.write(text.getBytes(StandardCharsets.UTF_8));
+        }
+    }
+
 }

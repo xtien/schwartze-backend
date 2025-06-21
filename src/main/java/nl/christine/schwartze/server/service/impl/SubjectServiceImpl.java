@@ -8,10 +8,8 @@
 package nl.christine.schwartze.server.service.impl;
 
 import nl.christine.schwartze.server.dao.SubjectDao;
-import nl.christine.schwartze.server.dao.impl.SubjectDaoImpl;
 import nl.christine.schwartze.server.model.Subject;
 import nl.christine.schwartze.server.model.Text;
-import nl.christine.schwartze.server.model.Title;
 import nl.christine.schwartze.server.service.SubjectService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

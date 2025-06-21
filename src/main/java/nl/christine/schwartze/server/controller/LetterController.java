@@ -8,7 +8,6 @@
 package nl.christine.schwartze.server.controller;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
-import nl.christine.schwartze.server.controller.enums.LettersOrderByEnum;
 import nl.christine.schwartze.server.controller.request.LetterRequest;
 import nl.christine.schwartze.server.controller.request.LettersRequest;
 import nl.christine.schwartze.server.controller.request.LocationLettersRequest;
@@ -17,25 +16,18 @@ import nl.christine.schwartze.server.controller.result.ApiResult;
 import nl.christine.schwartze.server.controller.result.LetterResult;
 import nl.christine.schwartze.server.controller.result.LettersResult;
 import nl.christine.schwartze.server.model.Letter;
-import nl.christine.schwartze.server.properties.SchwartzeProperties;
 import nl.christine.schwartze.server.service.LetterService;
-import nl.christine.schwartze.server.service.result.LetterTextResult;
+import nl.christine.schwartze.server.service.TextService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.PostConstruct;
-import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,24 +37,11 @@ public class LetterController {
 
     Logger logger = LoggerFactory.getLogger(LetterController.class);
 
-    private String lettersDirectory;
-    private String textDocumentName;
-
-    @Autowired
-    private SchwartzeProperties properties;
-
     @Autowired
     private LetterService letterService;
 
-    @Value("${defaultlanguage}")
-    private String defaultLanguage;
-
-
-    @PostConstruct
-    public void init() {
-        lettersDirectory = properties.getProperty("letters_directory");
-        textDocumentName = properties.getProperty("text_document_name");
-    }
+    @Autowired
+    private TextService textService;
 
     @PostMapping(value = "/getLetter/")
     public ResponseEntity<LetterResult> getLetter(@RequestBody LetterRequest request) throws IOException {
@@ -75,7 +54,7 @@ public class LetterController {
             if (letter != null) {
                 result.setLetter(letter);
                 if (canShowLetter(letter)) {
-                    result.setLetterText(getLetterText(letter.getNumber(), request.getLanguage()).getText());
+                    result.setLetterText(textService.getLetterText(letter.getNumber(), request.getLanguage()).getText());
                 }
                 result.setResult(ApiResult.OK);
             } else {
@@ -97,7 +76,7 @@ public class LetterController {
             if (letter != null) {
                 result.setLetter(letter);
                 if (canShowLetter(letter)) {
-                    result.setLetterText(getLetterText(letter.getNumber(), request.getLanguage()).getText());
+                    result.setLetterText(textService.getLetterText(letter.getNumber(), request.getLanguage()).getText());
                 }
                 result.setResult(ApiResult.OK);
             } else {
@@ -119,7 +98,7 @@ public class LetterController {
             if (letter != null) {
                 result.setLetter(letter);
                 if (canShowLetter(letter)) {
-                    result.setLetterText(getLetterText(letter.getNumber(), request.getLanguage()).getText());
+                    result.setLetterText(textService.getLetterText(letter.getNumber(), request.getLanguage()).getText());
                 }
                 result.setResult(ApiResult.OK);
             } else {
@@ -138,37 +117,6 @@ public class LetterController {
                 || !(letter.getSenders().stream().filter(l -> !l.getHideLetters()).collect(Collectors.toList()).isEmpty());
     }
 
-    private LetterTextResult getLetterText(int letterNumber, String language) throws IOException {
-        String langDir = (language == null || language == defaultLanguage || language.isEmpty()) ? File.separator : (File.separator + language + File.separator);
-
-        String fileName = lettersDirectory + langDir + letterNumber + File.separator + textDocumentName;
-        if (!new File(fileName).exists()) {
-            fileName = lettersDirectory + File.separator + letterNumber + File.separator + textDocumentName;
-        }
-
-        String result = "";
-
-        if (new File(fileName).exists()) {
-
-            try (BufferedReader rd = new BufferedReader(new InputStreamReader(java.nio.file.Files.newInputStream(Paths.get(fileName))))) {
-                String line = "";
-                while ((line = rd.readLine()) != null) {
-                    result += "<BR>" + line;
-                }
-                int i = 1;
-                result = result.replace("    ", "&nbsp&nbsp&nbsp&nbsp;");
-                result = result.replace("<BR>/<BR>", "<BR><BR>-----<BR><BR>");
-            } catch (Exception e) {
-                logger.error("Error getting letter text", e);
-                result = "text file not found";
-            }
-        } else {
-            result = "text file not found";
-        }
-        LetterTextResult letterTextResult = new LetterTextResult();
-        letterTextResult.setText(result);
-        return letterTextResult;
-    }
 
     @PostMapping(value = "/getLetters/")
     public ResponseEntity<LettersResult> getLetters(@RequestBody LettersRequest request) {

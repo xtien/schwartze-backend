@@ -12,11 +12,13 @@ import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.model.Person;
 import nl.christine.schwartze.server.service.LetterService;
 import nl.christine.schwartze.server.service.PersonService;
+import nl.christine.schwartze.server.service.TextService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import static org.junit.Assert.assertNotNull;
@@ -33,6 +35,9 @@ public class TestDeleteLetter {
 
     @Autowired
     private PersonService personService;
+
+    @Autowired
+    private TextService textService;
 
     @Test
     public void testDeleteLetter() throws LetterNotFoundException {

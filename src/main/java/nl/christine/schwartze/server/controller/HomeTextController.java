@@ -11,7 +11,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import nl.christine.schwartze.server.controller.request.HomeTextRequest;
 import nl.christine.schwartze.server.controller.request.PageTextRequest;
 import nl.christine.schwartze.server.controller.result.HomeTextResult;
-import nl.christine.schwartze.server.controller.result.PageResult;
 import nl.christine.schwartze.server.controller.result.PageTextResult;
 import nl.christine.schwartze.server.service.PageService;
 import nl.christine.schwartze.server.service.TextFileService;

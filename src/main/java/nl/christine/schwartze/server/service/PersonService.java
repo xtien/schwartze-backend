@@ -12,7 +12,6 @@ import nl.christine.schwartze.server.controller.result.CombinePersonResult;
 import nl.christine.schwartze.server.controller.result.EditLinkResult;
 import nl.christine.schwartze.server.model.Person;
 import nl.christine.schwartze.server.model.Text;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 

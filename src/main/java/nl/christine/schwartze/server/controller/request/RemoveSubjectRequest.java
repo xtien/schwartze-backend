@@ -8,7 +8,6 @@
 package nl.christine.schwartze.server.controller.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import nl.christine.schwartze.server.model.Subject;
 import nl.christine.schwartze.server.model.Text;
 
 public class RemoveSubjectRequest {

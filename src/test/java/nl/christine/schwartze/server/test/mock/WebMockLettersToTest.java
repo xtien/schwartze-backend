@@ -15,6 +15,7 @@ import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.model.Person;
 import nl.christine.schwartze.server.properties.SchwartzeProperties;
 import nl.christine.schwartze.server.service.LetterService;
+import nl.christine.schwartze.server.service.TextService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -59,6 +60,9 @@ public class WebMockLettersToTest {
 
     @MockitoBean
     private SchwartzeProperties schwartzeProperties;
+
+    @MockitoBean
+    private TextService textService;
 
     HttpSessionCsrfTokenRepository httpSessionCsrfTokenRepository = new HttpSessionCsrfTokenRepository();
     CsrfToken csrfToken = httpSessionCsrfTokenRepository.generateToken(new MockHttpServletRequest());

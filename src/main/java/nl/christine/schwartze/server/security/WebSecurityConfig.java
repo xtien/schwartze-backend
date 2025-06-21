@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -21,9 +20,6 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.firewall.StrictHttpFirewall;
-
-import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -44,6 +40,7 @@ public class WebSecurityConfig  {
                         .requestMatchers(HttpMethod.POST, "/**").permitAll()
                         .requestMatchers(HttpMethod.PUT, "/**").permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/translate/**").hasAuthority("WRITE_PRIVILEGE")
                         .requestMatchers(HttpMethod.POST, "/admin/**").hasAuthority("WRITE_PRIVILEGE")
                         .requestMatchers(HttpMethod.GET, "/admin/**").hasAuthority("WRITE_PRIVILEGE")
                         .requestMatchers(HttpMethod.GET, "/**").permitAll()
@@ -64,10 +61,10 @@ public class WebSecurityConfig  {
         return config.getAuthenticationManager();
     }
 
-    @Bean
-    public StrictHttpFirewall httpFirewall() {
-        StrictHttpFirewall firewall = new StrictHttpFirewall();
-        firewall.setAllowedHttpMethods(Arrays.asList("GET", "POST"));
-        return firewall;
-    }
+//    @Bean
+//    public StrictHttpFirewall httpFirewall() {
+//        StrictHttpFirewall firewall = new StrictHttpFirewall();
+//        firewall.setAllowedHttpMethods(Arrays.asList("GET", "POST"));
+//        return firewall;
+//    }
 }

@@ -10,8 +10,6 @@ package nl.christine.schwartze.server.dao;
 import nl.christine.schwartze.server.model.PageReference;
 import nl.christine.schwartze.server.model.References;
 
-import java.util.List;
-
 public interface ReferenceDao {
 
     References getReferences(String type);

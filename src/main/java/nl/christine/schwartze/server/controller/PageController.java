@@ -9,13 +9,10 @@ package nl.christine.schwartze.server.controller;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import nl.christine.schwartze.server.controller.request.PageTextRequest;
-import nl.christine.schwartze.server.controller.request.TextRequest;
 import nl.christine.schwartze.server.controller.result.PageResult;
 import nl.christine.schwartze.server.controller.result.PageTextResult;
-import nl.christine.schwartze.server.controller.result.TextResult;
-import nl.christine.schwartze.server.service.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import nl.christine.schwartze.server.service.PageService;
+import nl.christine.schwartze.server.service.TextFileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

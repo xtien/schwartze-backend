@@ -16,6 +16,7 @@ import nl.christine.schwartze.server.controller.request.PersonLettersRequest;
 import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.properties.SchwartzeProperties;
 import nl.christine.schwartze.server.service.LetterService;
+import nl.christine.schwartze.server.service.TextService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -58,6 +59,9 @@ public class WebMockTest {
 
     @MockitoBean
     private LetterService service;
+
+    @MockitoBean
+    private TextService textService;
 
     @MockitoBean
     private SchwartzeProperties schwartzeProperties;

@@ -9,7 +9,6 @@ package nl.christine.schwartze.server.service;
 
 import nl.christine.schwartze.server.model.Subject;
 import nl.christine.schwartze.server.model.Text;
-import nl.christine.schwartze.server.model.Title;
 
 import java.util.List;
 

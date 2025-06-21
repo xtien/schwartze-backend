@@ -7,13 +7,11 @@
 
 package nl.christine.schwartze.server.dao;
 
-import nl.christine.schwartze.server.controller.request.ToFrom;
 import nl.christine.schwartze.server.model.Letter;
 import nl.christine.schwartze.server.model.Person;
 import nl.christine.schwartze.server.model.Text;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface PersonDao {
 

@@ -34,7 +34,7 @@ public class AdminSubjectController {
     private SubjectService subjectService;
 
     @PostMapping(value = "/addOrUpdateSubject/")
-    public ResponseEntity<SubjectResult> addSubject(@RequestBody SubjectRequest request) {
+    public ResponseEntity<SubjectResult> addOrUpdateSubject(@RequestBody SubjectRequest request) {
 
         SubjectResult result = new SubjectResult();
 
