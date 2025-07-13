@@ -74,6 +74,9 @@ public class SubjectServiceImpl implements SubjectService {
     private Subject convertSubjectTextForLanguage(Subject s, String language) {
         if (s.getTexts().get(language) != null) {
             s.setText(s.getTexts().get(language));
+            if (s.getTitle() != null && s.getTitle().get(language) != null) {
+                s.setName(s.getTitle().get(language).getText());
+            }
         } else if (s.getTexts().containsKey(defaultLanguage)) {
             s.setText(s.getTexts().get(defaultLanguage));
         } else if (s.getTexts().size() > 0) {

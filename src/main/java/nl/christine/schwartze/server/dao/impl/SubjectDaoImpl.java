@@ -14,8 +14,6 @@ import nl.christine.schwartze.server.dao.SubjectDao;
 import nl.christine.schwartze.server.model.Subject;
 import nl.christine.schwartze.server.model.Text;
 import nl.christine.schwartze.server.model.Title;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -54,17 +52,14 @@ public class SubjectDaoImpl implements SubjectDao {
                     }
                 }
             }
-            if (subject.getTitles() != null && subject.getTitles().size() > 0) {
-                for (Title title : subject.getTitles().values()) {
-                    if (existingSubject.getTitles().containsKey(title.getLanguage())) {
-                        existingSubject.getTitles().get(title.getLanguage()).setText(title.getText());
+            if (subject.getTitle() != null && subject.getTitle().size() > 0) {
+                for (Title title : subject.getTitle().values()) {
+                    if (existingSubject.getTitle().containsKey(title.getLanguage())) {
+                        existingSubject.getTitle().get(title.getLanguage()).setText(title.getText());
                     } else {
-                        existingSubject.getTitles().put(title.getLanguage(), title);
+                        existingSubject.getTitle().put(title.getLanguage(), title);
                     }
                 }
-            }
-            if (subject.getTitles() != null && subject.getTitles().size() > 0) {
-                existingSubject.getTitles().putAll(subject.getTitles());
             }
         } catch (NoResultException nre) {
             if (subject.getText() != null) {
@@ -96,8 +91,8 @@ public class SubjectDaoImpl implements SubjectDao {
             if (subject.getTexts() != null) {
                 existingSubject.getTexts().putAll(subject.getTexts());
             }
-            if (subject.getTitles() != null) {
-                existingSubject.setTitles(subject.getTitles());
+            if (subject.getTitle() != null) {
+                existingSubject.setTitle(subject.getTitle());
             }
             subject.getTexts().put(language, text);
             entityManager.persist(text);
@@ -111,7 +106,7 @@ public class SubjectDaoImpl implements SubjectDao {
             }
             entityManager.persist(subject.getText());
             entityManager.persist(subject);
-            entityManager.persist(subject.getTitles());
+            entityManager.persist(subject.getTitle());
             return existingSubject;
         }
 

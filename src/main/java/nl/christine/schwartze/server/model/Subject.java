@@ -76,10 +76,10 @@ public class Subject {
         this.texts = texts;
     }
 
-    public void setTitles(Map<String, Title> title){
+    public void setTitle(Map<String, Title> title){
         this.title = title;
     }
-    public Map<String, Title> getTitles() {
+    public Map<String, Title> getTitle() {
         return title;
     }
 }
