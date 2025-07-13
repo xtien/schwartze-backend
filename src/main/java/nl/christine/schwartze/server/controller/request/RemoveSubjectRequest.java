@@ -12,7 +12,7 @@ import nl.christine.schwartze.server.model.Text;
 
 public class RemoveSubjectRequest {
 
-    @JsonProperty("subject")
+    @JsonProperty("subject_id")
     private int subjectId;
 
     @JsonProperty("subject_text")

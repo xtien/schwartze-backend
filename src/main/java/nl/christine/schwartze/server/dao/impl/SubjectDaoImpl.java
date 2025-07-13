@@ -26,41 +26,56 @@ public class SubjectDaoImpl implements SubjectDao {
     @PersistenceContext(unitName = "defaultPU")
     private EntityManager entityManager;
 
-    Logger logger = LoggerFactory.getLogger(SubjectDaoImpl.class);
-
     @Override
     public List<Subject> getSubjects() {
         List<Subject> subjects = entityManager.createQuery(
                 "select a from " + Subject.class.getSimpleName()
                         + " a order by a.name",
                 Subject.class).getResultList();
-
         return subjects;
     }
 
     @Override
     public Subject addSubject(Subject subject) {
 
-        Subject existingSubject = null;
+        Subject existingSubject;
 
         try {
             existingSubject = entityManager.createQuery("select a from " + Subject.class.getSimpleName()
                             + " a where a.id = :id",
                     Subject.class).setParameter(Subject.ID, subject.getId()).getSingleResult();
             existingSubject.setName(subject.getName());
-            if (subject.getTexts() == null) {
-                existingSubject.getTexts().putAll(subject.getTexts());
+            if (subject.getTexts() != null && subject.getTexts().size() > 0) {
+                for (Text text : subject.getTexts().values()) {
+                    if (existingSubject.getTexts().containsKey(text.getLanguage())) {
+                        existingSubject.getTexts().get(text.getLanguage()).setTextString(text.getTextString());
+                    } else {
+                        existingSubject.getTexts().put(text.getLanguage(), text);
+                    }
+                }
             }
-            if (subject.getTitles() != null) {
-                existingSubject.setTitles(subject.getTitles());
+            if (subject.getTitles() != null && subject.getTitles().size() > 0) {
+                for (Title title : subject.getTitles().values()) {
+                    if (existingSubject.getTitles().containsKey(title.getLanguage())) {
+                        existingSubject.getTitles().get(title.getLanguage()).setText(title.getText());
+                    } else {
+                        existingSubject.getTitles().put(title.getLanguage(), title);
+                    }
+                }
             }
-            entityManager.merge(subject);
+            if (subject.getTitles() != null && subject.getTitles().size() > 0) {
+                existingSubject.getTitles().putAll(subject.getTitles());
+            }
         } catch (NoResultException nre) {
+            if (subject.getText() != null) {
+                entityManager.persist(subject.getText().clone());
+                subject.getTexts().put(subject.getText().getLanguage(), subject.getText());
+            }
             entityManager.persist(subject);
             return subject;
         }
 
-        return subject;
+        return existingSubject;
     }
 
     @Override
@@ -73,8 +88,12 @@ public class SubjectDaoImpl implements SubjectDao {
                             + " a where a.id = :id",
                     Subject.class).setParameter(Subject.ID, subject.getId()).getSingleResult();
 
+            if (existingSubject.getText() != null) {
+                existingSubject.getTexts().put(existingSubject.getText().getLanguage(), existingSubject.getText());
+                existingSubject.setText(null);
+            }
             existingSubject.setName(subject.getName());
-            if (subject.getTexts() == null) {
+            if (subject.getTexts() != null) {
                 existingSubject.getTexts().putAll(subject.getTexts());
             }
             if (subject.getTitles() != null) {
@@ -89,7 +108,6 @@ public class SubjectDaoImpl implements SubjectDao {
             if (text != null) {
                 subject.getTexts().put(language, text);
                 subject.setText(text);
-
             }
             entityManager.persist(subject.getText());
             entityManager.persist(subject);
@@ -107,12 +125,17 @@ public class SubjectDaoImpl implements SubjectDao {
 
     @Override
     public void remove(Integer id) {
-        Subject  subject = entityManager.find(Subject.class, id);
-           if (subject != null) {
+        Subject subject = entityManager.find(Subject.class, id);
+        if (subject != null) {
             if (subject.getTexts() != null && subject.getTexts().size() > 0) {
-                for(Text text : subject.getTexts().values()) {
+                for (Text text : subject.getTexts().values()) {
                     entityManager.remove(text);
                 }
+                subject.setTexts(null);
+            }
+            if (subject.getText() != null) {
+                entityManager.remove(subject.getText());
+                subject.setText(null);
             }
             entityManager.remove(subject);
         }

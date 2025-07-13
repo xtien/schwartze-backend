@@ -39,7 +39,7 @@ public class AdminSubjectController {
         SubjectResult result = new SubjectResult();
 
         try {
-            result.setSubject(subjectService.addSubject(request.getSubject()));
+            result.setSubject(subjectService.addOrUpdate(request.getSubject(), request.getLanguage()));
         } catch (Exception e) {
             logger.error("Error getting references", e);
         }

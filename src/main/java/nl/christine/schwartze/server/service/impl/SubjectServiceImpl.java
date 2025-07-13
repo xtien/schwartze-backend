@@ -40,26 +40,25 @@ public class SubjectServiceImpl implements SubjectService {
 
     @Override
     @Transactional("transactionManager")
-    public Subject addSubject(Subject subject) {
+    public Subject addOrUpdate(Subject subject, String language) {
+        subject.getTexts().put(language, subject.getText());
         return subjectDao.addSubject(subject);
     }
 
     @Override
     @Transactional("transactionManager")
     public Subject updateSubject(Subject subject, Text text, String language) {
-        return subjectDao.updateSubject(subject,  text, language);
+        return subjectDao.updateSubject(subject, text, language);
     }
 
     @Override
     @Transactional("transactionManager")
     public Subject getSubjectById(Integer subjectId, String language) {
-        Subject  subject = subjectDao.getSubjectById(subjectId);
-
-        if(subject == null){
+        Subject subject = subjectDao.getSubjectById(subjectId);
+        if (subject == null) {
             return null;
         }
-        return getSubjectTextForLanguage(subject, language);
-
+        return convertSubjectTextForLanguage(subject, language);
     }
 
     @Override
@@ -69,18 +68,17 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     private List<Subject> convertText(List<Subject> subjects, String language) {
-        return subjects.stream().map(s -> getSubjectTextForLanguage(s, language)).collect(Collectors.toList());
+        return subjects.stream().map(s -> convertSubjectTextForLanguage(s, language)).collect(Collectors.toList());
     }
 
-    private Subject getSubjectTextForLanguage(Subject s, String language) {
+    private Subject convertSubjectTextForLanguage(Subject s, String language) {
         if (s.getTexts().get(language) != null) {
             s.setText(s.getTexts().get(language));
-        } else if(s.getTexts().containsKey(defaultLanguage)) {
+        } else if (s.getTexts().containsKey(defaultLanguage)) {
             s.setText(s.getTexts().get(defaultLanguage));
-        } else if(s.getTexts().size()>0){
+        } else if (s.getTexts().size() > 0) {
             s.setText(s.getTexts().get(s.getTexts().values().toArray()[0]));
         }
-
         return s;
     }
 }

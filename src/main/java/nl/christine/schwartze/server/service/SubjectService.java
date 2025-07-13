@@ -16,7 +16,7 @@ public interface SubjectService {
 
     List<Subject> getSubjects(String language);
 
-    Subject addSubject(Subject subject);
+    Subject addOrUpdate(Subject subject, String language);
 
     Subject updateSubject(Subject subject, Text text, String language);
 

@@ -15,7 +15,7 @@ import java.sql.Types;
 
 @Entity
 @Table(name = "text")
-public class    Text {
+public class Text {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,11 +32,20 @@ public class    Text {
     @JsonProperty("language")
     private String language;
 
+    public Text() {
+    }
+
+    public Text(String textTitle, String textString, String language) {
+        this.textTitle = textTitle;
+        this.textString = textString;
+        this.language = language;
+    }
+
     public int getId() {
         return id;
     }
 
-    public void setId(int id){
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -62,5 +71,14 @@ public class    Text {
 
     public void setTextTitle(String textTitle) {
         this.textTitle = textTitle;
+    }
+
+    @Override
+    public Text clone() {
+        try {
+            return (Text) super.clone();
+        } catch (CloneNotSupportedException e) {
+            return new Text(this.textTitle, this.textString, this.language);
+        }
     }
 }

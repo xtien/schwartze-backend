@@ -9,9 +9,7 @@ package nl.christine.schwartze.server.test.service;
 
 import nl.christine.schwartze.server.model.Subject;
 import nl.christine.schwartze.server.model.Text;
-import nl.christine.schwartze.server.model.Title;
 import nl.christine.schwartze.server.service.SubjectService;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +28,7 @@ public class TestSubject {
     private SubjectService subjectService;
 
     Subject subject = new Subject();
-
+    String defaultLanguage = "en";
     String subjectName = "test subject";
     String textTitle = "test title";
     String textString = "test text1";
@@ -39,9 +37,9 @@ public class TestSubject {
     @Test
     public void testAddSubject() {
         subject = createSubject();
-        subjectService.addSubject(subject);
+        subjectService.addOrUpdate(subject, defaultLanguage);
 
-        Subject result = subjectService.getSubjectById(subject.getId(), "en");
+        Subject result = subjectService.getSubjectById(subject.getId(), defaultLanguage);
         assertNotNull(result);
         assertEquals(textString, result.getTexts().get(language).getTextString());
     }
@@ -52,7 +50,7 @@ public class TestSubject {
         Text text = new Text();
         text.setTextString(textString);
         subject.getTexts().put("es", text);
-        subjectService.addSubject(subject);
+        subjectService.addOrUpdate(subject, defaultLanguage);
         subjectService.removeSubject(subject.getId());
 
         Subject result = subjectService.getSubjectById(subject.getId(), "en");
@@ -63,7 +61,7 @@ public class TestSubject {
     @Test
     public void testUpdateSubject() {
         subject = createSubject();
-        subjectService.addSubject(subject);
+        subjectService.addOrUpdate(subject, defaultLanguage);
 
         Text text = new Text();
         text.setTextTitle("new title");
@@ -80,7 +78,7 @@ public class TestSubject {
     @Test
     public void testAddText() {
         subject = createSubject();
-        subjectService.addSubject(subject);
+        subjectService.addOrUpdate(subject, defaultLanguage);
 
         Subject result = subjectService.getSubjectById(subject.getId(), "es");
         assertNotNull(result);
@@ -98,7 +96,7 @@ public class TestSubject {
     @Test
     public void testUpdateText() {
         subject = createSubject();
-        subjectService.addSubject(subject);
+        subjectService.addOrUpdate(subject, defaultLanguage);
         Subject result = subjectService.getSubjectById(subject.getId(), "es");
         assertNotNull(result);
         assertEquals(1, result.getTexts().size());
