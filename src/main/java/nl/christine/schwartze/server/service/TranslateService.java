@@ -14,4 +14,6 @@ import java.io.IOException;
 public interface TranslateService {
 
     public String translateLetter(int letterNumber,String text, String language) throws IOException, DeepLException, InterruptedException;
+
+    String translate(String text, String language) throws DeepLException, InterruptedException;
 }

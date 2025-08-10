@@ -7,6 +7,7 @@
 
 package nl.christine.schwartze.server.service;
 
+import com.deepl.api.DeepLException;
 import nl.christine.schwartze.server.model.Subject;
 import nl.christine.schwartze.server.model.Text;
 
@@ -14,13 +15,13 @@ import java.util.List;
 
 public interface SubjectService {
 
-    List<Subject> getSubjects(String language);
+    List<Subject> getSubjects(String language) throws DeepLException, InterruptedException;
 
     Subject addOrUpdate(Subject subject, String language);
 
     Subject updateSubject(Subject subject, Text text, String language);
 
-    Subject getSubjectById(Integer subjectId, String language);
+    Subject getSubjectById(Integer subjectId, String language) throws DeepLException, InterruptedException;
 
     void removeSubject(Integer id);
 }

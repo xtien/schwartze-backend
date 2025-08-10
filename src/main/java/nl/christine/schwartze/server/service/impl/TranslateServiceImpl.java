@@ -44,9 +44,11 @@ public class TranslateServiceImpl implements TranslateService {
         return translatedLetter;
     }
 
-    private String translate(String text, String language) throws DeepLException, InterruptedException {
+    @Override
+    public String translate(String text, String language) throws DeepLException, InterruptedException {
+        String deepLanguage = language.equals("en") ? "en-US" : language;
         Translator translator = new Translator(deeplKey);
-        TextResult result = translator.translateText(text, defaultLanguage, language);
+        TextResult result = translator.translateText(text, defaultLanguage, deepLanguage);
         return result.getText();
     }
 
